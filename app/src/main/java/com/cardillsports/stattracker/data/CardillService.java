@@ -8,5 +8,5 @@ import retrofit2.http.Path;
 public interface CardillService {
 
     @GET("league/players/{leagueID}")
-    Observable<ResponseBody> getPlayersForLeague(@Path("leagueID") String leagueId);
+    Observable<LeaguePlayersResponse> getPlayersForLeague(@Path("leagueID") String leagueId);
 }

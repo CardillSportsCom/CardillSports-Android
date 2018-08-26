@@ -3,6 +3,7 @@ package com.cardillsports.stattracker.businesslogic;
 import android.util.Log;
 
 import com.cardillsports.stattracker.data.CardillService;
+import com.cardillsports.stattracker.data.LeaguePlayersResponse;
 import com.cardillsports.stattracker.ui.CardillViewBinder;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -48,16 +49,16 @@ public class CardillPresenter {
         mDisposable = mCardillService.getPlayersForLeague(LEAGUE_ID)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .map(new Function<ResponseBody, String>() {
+                .subscribe(new Consumer<LeaguePlayersResponse>() {
                     @Override
-                    public String apply(ResponseBody responseBody) throws Exception {
-                        return responseBody.string();
+                    public void accept(LeaguePlayersResponse s) throws Exception {
+                        //TODO (vithushan) you just got it working with a string and now trying to deserialize json into a league player response
+                        Log.d(TAG, s.toString());
                     }
-                })
-                .subscribe(new Consumer<String>() {
+                }, new Consumer<Throwable>() {
                     @Override
-                    public void accept(String s) throws Exception {
-                        Log.d(TAG, s);
+                    public void accept(Throwable throwable) throws Exception {
+                        Log.e(TAG, throwable.getLocalizedMessage());
                     }
                 });
     }
