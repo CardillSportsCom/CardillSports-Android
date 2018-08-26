@@ -4,9 +4,12 @@ import android.util.Log;
 
 import com.cardillsports.stattracker.data.CardillService;
 import com.cardillsports.stattracker.data.LeaguePlayersResponse;
+import com.cardillsports.stattracker.data.Player;
 import com.cardillsports.stattracker.ui.CardillViewBinder;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -47,20 +50,15 @@ public class CardillPresenter {
 
     public void onStart() {
         mDisposable = mCardillService.getPlayersForLeague(LEAGUE_ID)
+                .map(resp -> resp.players)
+                .flatMapIterable(list -> list)
+                .map(item -> item.player)
+                .toList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<LeaguePlayersResponse>() {
-                    @Override
-                    public void accept(LeaguePlayersResponse s) throws Exception {
-                        //TODO (vithushan) you just got it working with a string and now trying to deserialize json into a league player response
-                        Log.d(TAG, s.toString());
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        Log.e(TAG, throwable.getLocalizedMessage());
-                    }
-                });
+                .subscribe(
+                        mViewBinder::loadPlayers,
+                        throwable -> Log.e(TAG, throwable.getLocalizedMessage()));
     }
 
     public void onStop() {
