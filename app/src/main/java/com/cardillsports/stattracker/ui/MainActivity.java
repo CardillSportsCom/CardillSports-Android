@@ -20,7 +20,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements CardillViewBinder {
 
-    private static final String GAME_DATA = "game-data-key";
+    public static final String GAME_DATA = "game-data-key";
     private CardillPresenter mPresenter;
     private RecyclerView mRecyclerView;
     private PlayerAdapter adapter;
