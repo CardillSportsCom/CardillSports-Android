@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.cardillsports.stattracker.R;
+import com.cardillsports.stattracker.businesslogic.GamePlayerAdapter;
 import com.cardillsports.stattracker.businesslogic.PlayerAdapter;
 import com.cardillsports.stattracker.data.GameData;
 
@@ -24,11 +25,11 @@ public class GameActivity extends AppCompatActivity {
 
         RecyclerView teamOneRecyclerView = findViewById(R.id.team_1_recycler_view);
         teamOneRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        teamOneRecyclerView.setAdapter(new PlayerAdapter(gameData.teamOnePlayers()));
+        teamOneRecyclerView.setAdapter(new GamePlayerAdapter(gameData.teamOnePlayers()));
 
         RecyclerView teamTwoRecyclerView = findViewById(R.id.team_2_recycler_view);
         teamTwoRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        teamTwoRecyclerView.setAdapter(new PlayerAdapter(gameData.teamTwoPlayers()));
+        teamTwoRecyclerView.setAdapter(new GamePlayerAdapter(gameData.teamTwoPlayers()));
 
 
 
