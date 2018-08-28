@@ -33,6 +33,8 @@ public class MainActivity extends AppCompatActivity implements CardillViewBinder
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
 
         itemTouchHelper.attachToRecyclerView(mRecyclerView);
+
+        getSupportActionBar().setTitle("Select Team 1");
     }
 
     @Override

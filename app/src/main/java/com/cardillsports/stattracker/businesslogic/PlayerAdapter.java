@@ -5,7 +5,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckedTextView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cardillsports.stattracker.R;
 import com.cardillsports.stattracker.data.Player;
@@ -35,6 +37,29 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
     @Override
     public void onBindViewHolder(@NonNull PlayerViewHolder holder, int position) {
         holder.getNameTextView().setText(mPlayers.get(position).firstName);
+
+        // perform on Click Event Listener on CheckedTextView
+        holder.getNameTextView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Boolean value = holder.getNameTextView().isChecked();
+                if (value) {
+                    // set check mark drawable and set checked property to false
+
+                    holder.getNameTextView().setCheckMarkDrawable(android.R.drawable.checkbox_off_background);
+                    holder.getNameTextView().setChecked(false);
+                    //Toast.makeText(context, "un-Checked", Toast.LENGTH_LONG).show();
+                } else {
+                    // set check mark drawable and set checked property to true
+
+                    holder.getNameTextView().setCheckMarkDrawable(android.R.drawable.checkbox_on_background);
+                    holder.getNameTextView().setChecked(true);
+                    //Toast.makeText(context, "Checked", Toast.LENGTH_LONG).show();
+                }
+
+            }
+        });
+
     }
 
     @Override
@@ -43,14 +68,14 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
     }
 
     public class PlayerViewHolder extends RecyclerView.ViewHolder {
-        private final TextView mNameTextView;
+        private final CheckedTextView mNameTextView;
 
         public PlayerViewHolder(View itemView) {
             super(itemView);
             mNameTextView = itemView.findViewById(R.id.name_text_view);
         }
 
-        public TextView getNameTextView() {
+        public CheckedTextView getNameTextView() {
             return mNameTextView;
         }
     }
