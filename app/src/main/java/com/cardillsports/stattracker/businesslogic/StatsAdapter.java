@@ -5,29 +5,33 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.cardillsports.stattracker.R;
-import com.cardillsports.stattracker.data.Player;
+import com.cardillsports.stattracker.data.GameRepository;
+import com.cardillsports.stattracker.data.Stat;
+import com.cardillsports.stattracker.data.StatType;
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashMap;
+
+import io.reactivex.Observable;
+import io.reactivex.subjects.PublishSubject;
 
 public class StatsAdapter extends RecyclerView.Adapter<StatsAdapter.StatsButtonViewHolder> {
-    private List<String> mItems;
+    public static final String TWO_PT_MADE = "2PT MADE";
+    public static final String THREE_PT_MADE = "3PT MADE";
+    public static final String FG_MISSED = "FG Missed";
+    public static final String REBOUNDS = "Rebounds";
+    public static final String BLOCKS = "Blocks";
+    public static final String STEALS = "Steals";
+    public static final String TURNVOVERS = "Turnvovers";
+
+    private PublishSubject<Stat> publishSubject;
 
     public StatsAdapter() {
-        mItems = new ArrayList<>();
-        mItems.add("2PT MADE");
-        mItems.add("3PT MADE");
-        mItems.add("FG Missed");
-
-        mItems.add("Rebounds");
-        mItems.add("Blocks");
-        mItems.add("Steals");
-        mItems.add("Turnvovers");
+        publishSubject = PublishSubject.create();
     }
 
     @Override
@@ -47,12 +51,22 @@ public class StatsAdapter extends RecyclerView.Adapter<StatsAdapter.StatsButtonV
 
     @Override
     public void onBindViewHolder(@NonNull StatsButtonViewHolder holder, int position) {
-        holder.getTextView().setText(mItems.get(position));
+        StatType statType = StatType.values()[position];
+
+        holder.getTextView().setText(statType.name());
+
+        holder.getStatButton().setOnValueChangeListener(
+                (view, oldValue, newValue) ->
+                        publishSubject.onNext(new Stat(statType, newValue)));
     }
 
     @Override
     public int getItemCount() {
-        return mItems.size();
+        return StatType.values().length;
+    }
+
+    public Observable<Stat> getPublishSubject() {
+        return publishSubject;
     }
 
     public class StatsButtonViewHolder extends RecyclerView.ViewHolder {

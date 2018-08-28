@@ -2,4 +2,7 @@
     <string name="app_name">Stat Tracker</string>
     <string name="team_1">Team 1</string>
     <string name="team_2">Team 2</string>
+    <string name="field_goal_missed">Field Goal Missed</string>
+    <string name="three_point_made">Three Point Made</string>
+    <string name="two_point_made">Two Point Made</string>
 </resources>
