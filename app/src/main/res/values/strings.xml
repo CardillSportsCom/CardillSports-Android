@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Stat Tracker</string>
+    <string name="team_1">Team 1</string>
+    <string name="team_2">Team 2</string>
 </resources>

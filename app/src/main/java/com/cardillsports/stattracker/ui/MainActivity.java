@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 
 import com.cardillsports.stattracker.R;
@@ -34,7 +36,19 @@ public class MainActivity extends AppCompatActivity implements CardillViewBinder
 
         itemTouchHelper.attachToRecyclerView(mRecyclerView);
 
-        getSupportActionBar().setTitle("Select Team 1");
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.player_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
