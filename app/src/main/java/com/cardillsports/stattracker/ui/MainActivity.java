@@ -1,5 +1,6 @@
 package com.cardillsports.stattracker.ui;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,14 +13,17 @@ import android.widget.ArrayAdapter;
 import com.cardillsports.stattracker.R;
 import com.cardillsports.stattracker.businesslogic.CardillPresenter;
 import com.cardillsports.stattracker.businesslogic.PlayerAdapter;
+import com.cardillsports.stattracker.data.GameData;
 import com.cardillsports.stattracker.data.Player;
 
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements CardillViewBinder {
 
+    private static final String GAME_DATA = "game-data-key";
     private CardillPresenter mPresenter;
     private RecyclerView mRecyclerView;
+    private PlayerAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,12 +34,6 @@ public class MainActivity extends AppCompatActivity implements CardillViewBinder
 
         mRecyclerView = findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        PlayerItemTouchHelperCallback callback = new PlayerItemTouchHelperCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
-
-        itemTouchHelper.attachToRecyclerView(mRecyclerView);
-
     }
 
     @Override
@@ -47,6 +45,16 @@ public class MainActivity extends AppCompatActivity implements CardillViewBinder
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
+        if (item.getItemId() == R.id.action_next) {
+            List<Player> teamOnePlayers = adapter.getTeamOnePlayers();
+            List<Player> teamTwoPlayers = adapter.getTeamTwoPlayers();
+
+            Intent intent = new Intent(this, GameActivity.class);
+            GameData gameData = GameData.create(teamOnePlayers, teamTwoPlayers);
+            intent.putExtra(GAME_DATA, gameData);
+            startActivity(intent);
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -65,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements CardillViewBinder
 
     @Override
     public void loadPlayers(List<Player> players) {
-        mRecyclerView.setAdapter(new PlayerAdapter(players));
+        adapter = new PlayerAdapter(players);
+        mRecyclerView.setAdapter(adapter);
     }
 }

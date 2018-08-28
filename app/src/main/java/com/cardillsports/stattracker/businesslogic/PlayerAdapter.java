@@ -5,20 +5,27 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.CheckedTextView;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cardillsports.stattracker.R;
 import com.cardillsports.stattracker.data.Player;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerViewHolder> {
     private final List<Player> mPlayers;
+    private List<Player> mTeamOne;
+    private List<Player> mTeamTwo;
 
     public PlayerAdapter(List<Player> players) {
         mPlayers = players;
+        mTeamOne = new ArrayList<>();
+        mTeamTwo = new ArrayList<>();
     }
 
     @Override
@@ -36,7 +43,22 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
 
     @Override
     public void onBindViewHolder(@NonNull PlayerViewHolder holder, int position) {
-        holder.getNameTextView().setText(mPlayers.get(position).firstName);
+        holder.getNameTextView().setText(mPlayers.get(position).firstName());
+        holder.getTeamOneCheckbox().setOnCheckedChangeListener((compoundButton, b) -> {
+            if (b == true) {
+                mTeamOne.add(mPlayers.get(position));
+            } else {
+                mTeamOne.remove(mPlayers.get(position));
+            }
+        });
+
+        holder.getTeamTwoCheckbox().setOnCheckedChangeListener((compoundButton, b) -> {
+            if (b == true) {
+                mTeamTwo.add(mPlayers.get(position));
+            } else {
+                mTeamTwo.remove(mPlayers.get(position));
+            }
+        });
     }
 
     @Override
@@ -44,16 +66,36 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
         return mPlayers.size();
     }
 
+    public List<Player> getTeamOnePlayers() {
+        return mTeamOne;
+    }
+
+    public List<Player> getTeamTwoPlayers() {
+        return mTeamTwo;
+    }
+
     public class PlayerViewHolder extends RecyclerView.ViewHolder {
         private final TextView mNameTextView;
+        private final CheckBox mTeamOneCheckbox;
+        private final CheckBox mTeamTwoCheckbox;
 
         public PlayerViewHolder(View itemView) {
             super(itemView);
             mNameTextView = itemView.findViewById(R.id.name_text_view);
+            mTeamOneCheckbox = itemView.findViewById(R.id.team_1_checkbox);
+            mTeamTwoCheckbox = itemView.findViewById(R.id.team_2_checkbox);
         }
 
         public TextView getNameTextView() {
             return mNameTextView;
+        }
+
+        public CheckBox getTeamOneCheckbox() {
+            return mTeamOneCheckbox;
+        }
+
+        public CheckBox getTeamTwoCheckbox() {
+            return mTeamTwoCheckbox;
         }
     }
 }

@@ -53,6 +53,7 @@ public class CardillPresenter {
                 .map(resp -> resp.players)
                 .flatMapIterable(list -> list)
                 .map(item -> item.player)
+                .map(player -> Player.create(player.firstName, player.lastName))
                 .toList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
