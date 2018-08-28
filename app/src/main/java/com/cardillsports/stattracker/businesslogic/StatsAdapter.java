@@ -6,9 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.cardillsports.stattracker.R;
 import com.cardillsports.stattracker.data.Player;
+import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +47,7 @@ public class StatsAdapter extends RecyclerView.Adapter<StatsAdapter.StatsButtonV
 
     @Override
     public void onBindViewHolder(@NonNull StatsButtonViewHolder holder, int position) {
-        holder.getmButton().setText(mItems.get(position));
+        holder.getTextView().setText(mItems.get(position));
     }
 
     @Override
@@ -54,16 +56,22 @@ public class StatsAdapter extends RecyclerView.Adapter<StatsAdapter.StatsButtonV
     }
 
     public class StatsButtonViewHolder extends RecyclerView.ViewHolder {
-        private final Button mButton;
+        private final TextView mTextView;
+        private final ElegantNumberButton mStatButton;
 
         public StatsButtonViewHolder(View view) {
             super(view);
 
-            mButton = view.findViewById(R.id.stat_button);
+            mTextView = view.findViewById(R.id.stat_label);
+            mStatButton = view.findViewById(R.id.stat_button);
         }
 
-        public Button getmButton() {
-            return mButton;
+        public TextView getTextView() {
+            return mTextView;
+        }
+
+        public ElegantNumberButton getStatButton() {
+            return mStatButton;
         }
     }
 }

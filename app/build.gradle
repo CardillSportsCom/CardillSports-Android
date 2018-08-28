@@ -47,4 +47,6 @@ dependencies {
     implementation 'com.ryanharter.auto.value:auto-value-parcel-adapter:0.2.6'
 
     annotationProcessor 'com.ryanharter.auto.value:auto-value-parcel:0.2.6'
+
+    implementation 'com.cepheuen.elegant-number-button:lib:1.0.2'
 }
