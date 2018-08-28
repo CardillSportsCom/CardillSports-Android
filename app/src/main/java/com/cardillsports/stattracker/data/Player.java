@@ -14,8 +14,7 @@ public abstract class Player implements Parcelable{
     public abstract String firstName();
     public abstract String lastName();
 
-    public abstract int twoPointMade();
-    public abstract int threePointMade();
+    public abstract int fieldGoalMade();
     public abstract int fieldGoalMissed();
     public abstract int assists();
     public abstract int rebounds();
@@ -29,8 +28,7 @@ public abstract class Player implements Parcelable{
                 .id(id)
                 .firstName(firstName)
                 .lastName(lastName)
-                .twoPointMade(0)
-                .threePointMade(0)
+                .fieldGoalMade(0)
                 .fieldGoalMissed(0)
                 .assists(0)
                 .rebounds(0)
@@ -52,9 +50,7 @@ public abstract class Player implements Parcelable{
 
         public abstract Builder lastName(String lastName);
 
-        public abstract Builder twoPointMade(int twoPointMade);
-
-        public abstract Builder threePointMade(int threePointMade);
+        public abstract Builder fieldGoalMade(int fieldGoalMade);
 
         public abstract Builder fieldGoalMissed(int fieldGoalMissed);
 

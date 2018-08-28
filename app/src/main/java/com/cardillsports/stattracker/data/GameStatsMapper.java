@@ -38,11 +38,12 @@ public class GameStatsMapper {
             jsonPlayerStats.assists = player.assists();
             jsonPlayerStats.blocks = player.blocks();
             jsonPlayerStats.fga = player.fieldGoalMissed();
-            jsonPlayerStats.fgm = player.twoPointMade();
+            jsonPlayerStats.fgm = player.fieldGoalMade();
             jsonPlayerStats.playerId = player.id();
             jsonPlayerStats.rebounds = player.rebounds();
             jsonPlayerStats.steals = player.steals();
             jsonPlayerStats.blocks = player.blocks();
+            jsonPlayerStats.turnovers = player.turnovers();
 
             result.add(jsonPlayerStats);
         }

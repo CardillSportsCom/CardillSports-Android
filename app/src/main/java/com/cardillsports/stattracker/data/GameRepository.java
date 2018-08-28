@@ -22,23 +22,21 @@ public class GameRepository {
         updateTeamStats(playerId, statKey, newValue, teamTwoPlayers);
     }
 
-    private void updateTeamStats(String playerId, StatType statKey, int newValue, List<Player> teamOnePlayers) {
-        for (int i=0; i<teamOnePlayers.size(); i++) {
-            Player player = teamOnePlayers.get(i);
+    private void updateTeamStats(String playerId, StatType statKey, int newValue, List<Player> playerList) {
+        for (int i=0; i<playerList.size(); i++) {
+            Player player = playerList.get(i);
 
             if (player.id().equals(playerId)) {
                 Player newPlayer = updatePlayerStat(statKey, newValue, player);
-                teamOnePlayers.set(i, newPlayer);
+                playerList.set(i, newPlayer);
             }
         }
     }
 
     private Player updatePlayerStat(StatType statKey, int newValue, Player player) {
         switch (statKey) {
-            case TWO_POINT_MADE:
-                return player.toBuilder().twoPointMade(newValue).build();
-            case THREE_POINT_MADE:
-                return player.toBuilder().threePointMade(newValue).build();
+            case FIELD_GOAL_MADE:
+                return player.toBuilder().fieldGoalMade(newValue).build();
             case FIELD_GOAL_MISSED:
                 return player.toBuilder().fieldGoalMissed(newValue).build();
             case ASSISTS:

@@ -20,13 +20,6 @@ import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 
 public class StatsAdapter extends RecyclerView.Adapter<StatsAdapter.StatsButtonViewHolder> {
-    public static final String TWO_PT_MADE = "2PT MADE";
-    public static final String THREE_PT_MADE = "3PT MADE";
-    public static final String FG_MISSED = "FG Missed";
-    public static final String REBOUNDS = "Rebounds";
-    public static final String BLOCKS = "Blocks";
-    public static final String STEALS = "Steals";
-    public static final String TURNVOVERS = "Turnvovers";
 
     private PublishSubject<Stat> publishSubject;
 
