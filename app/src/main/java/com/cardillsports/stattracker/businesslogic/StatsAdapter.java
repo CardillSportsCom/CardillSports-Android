@@ -13,7 +13,7 @@ import com.cardillsports.stattracker.data.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StatsAdapter extends RecyclerView.Adapter {
+public class StatsAdapter extends RecyclerView.Adapter<StatsAdapter.StatsButtonViewHolder> {
     private List<String> mItems;
 
     public StatsAdapter() {
@@ -30,34 +30,36 @@ public class StatsAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemViewType(int position) {
-        return R.layout.player_game_item;
+        return R.layout.stat_item;
     }
+
 
     @NonNull
     @Override
-    public StatsAdapter.StatsButtonViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        final Button view = new Button(parent.getContext());
-        return new StatsAdapter.StatsButtonViewHolder(view);
+    public StatsButtonViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        final View view = LayoutInflater.from(parent.getContext())
+                .inflate(viewType, parent, false);
+
+        return new StatsButtonViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof StatsButtonViewHolder) {
-            ((StatsButtonViewHolder) holder).getmButton().setText(mItems.get(position));
-        }
+    public void onBindViewHolder(@NonNull StatsButtonViewHolder holder, int position) {
+        holder.getmButton().setText(mItems.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mItems.size();
     }
 
     public class StatsButtonViewHolder extends RecyclerView.ViewHolder {
         private final Button mButton;
 
-        public StatsButtonViewHolder(Button view) {
+        public StatsButtonViewHolder(View view) {
             super(view);
-            mButton = view;
+
+            mButton = view.findViewById(R.id.stat_button);
         }
 
         public Button getmButton() {

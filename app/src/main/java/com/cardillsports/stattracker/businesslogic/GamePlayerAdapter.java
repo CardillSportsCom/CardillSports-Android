@@ -1,6 +1,7 @@
 package com.cardillsports.stattracker.businesslogic;
 
 import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,15 +15,11 @@ import com.cardillsports.stattracker.data.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GamePlayerAdapter extends RecyclerView.Adapter<GamePlayerAdapter.PlayerViewHolder> {
+public class GamePlayerAdapter extends RecyclerView.Adapter<GamePlayerAdapter.GamePlayerViewHolder> {
     private final List<Player> mPlayers;
-    private List<Player> mTeamOne;
-    private List<Player> mTeamTwo;
 
     public GamePlayerAdapter(List<Player> players) {
         mPlayers = players;
-        mTeamOne = new ArrayList<>();
-        mTeamTwo = new ArrayList<>();
     }
 
     @Override
@@ -32,14 +29,14 @@ public class GamePlayerAdapter extends RecyclerView.Adapter<GamePlayerAdapter.Pl
 
     @NonNull
     @Override
-    public PlayerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public GamePlayerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         final View view = LayoutInflater.from(parent.getContext())
                 .inflate(viewType, parent, false);
-        return new PlayerViewHolder(view);
+        return new GamePlayerViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PlayerViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull GamePlayerViewHolder holder, int position) {
         holder.getNameTextView().setText(mPlayers.get(position).firstName());
     }
 
@@ -48,17 +45,26 @@ public class GamePlayerAdapter extends RecyclerView.Adapter<GamePlayerAdapter.Pl
         return mPlayers.size();
     }
 
-    public class PlayerViewHolder extends RecyclerView.ViewHolder {
+    public class GamePlayerViewHolder extends RecyclerView.ViewHolder {
         private final TextView mNameTextView;
+        private final RecyclerView mRecyclerView;
 
-        public PlayerViewHolder(View itemView) {
+        public GamePlayerViewHolder(View itemView) {
             super(itemView);
             mNameTextView = itemView.findViewById(R.id.name_text_view);
+            mRecyclerView = itemView.findViewById(R.id.stats_recycler_view);
+
+            LinearLayoutManager layoutManager = new LinearLayoutManager(itemView.getContext(), LinearLayoutManager.HORIZONTAL, false);
+            mRecyclerView.setLayoutManager(layoutManager);
+            mRecyclerView.setAdapter(new StatsAdapter());
         }
 
         public TextView getNameTextView() {
             return mNameTextView;
         }
 
+        public RecyclerView getRecyclerView() {
+            return mRecyclerView;
+        }
     }
 }
