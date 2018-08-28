@@ -1,7 +1,5 @@
 package com.cardillsports.stattracker.data;
 
-import android.util.Log;
-
 import java.util.List;
 
 public class GameRepository {
@@ -17,9 +15,14 @@ public class GameRepository {
     }
 
     public void updateStats(String playerId, StatType statKey, int newValue) {
-        Log.d("VITHUSHAN", playerId + " : " + statKey.name() + " : " + newValue);
-
         List<Player> teamOnePlayers = gameData.teamOnePlayers();
+        updateTeamStats(playerId, statKey, newValue, teamOnePlayers);
+
+        List<Player> teamTwoPlayers = gameData.teamTwoPlayers();
+        updateTeamStats(playerId, statKey, newValue, teamTwoPlayers);
+    }
+
+    private void updateTeamStats(String playerId, StatType statKey, int newValue, List<Player> teamOnePlayers) {
         for (int i=0; i<teamOnePlayers.size(); i++) {
             Player player = teamOnePlayers.get(i);
 
@@ -28,8 +31,6 @@ public class GameRepository {
                 teamOnePlayers.set(i, newPlayer);
             }
         }
-
-        Log.d("VITHUSHAN", gameData.toString());
     }
 
     private Player updatePlayerStat(StatType statKey, int newValue, Player player) {
