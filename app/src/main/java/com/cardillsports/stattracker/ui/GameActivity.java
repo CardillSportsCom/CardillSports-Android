@@ -10,12 +10,21 @@ import android.view.MenuItem;
 import com.cardillsports.stattracker.R;
 import com.cardillsports.stattracker.businesslogic.GamePlayerAdapter;
 import com.cardillsports.stattracker.businesslogic.GamePresenter;
+import com.cardillsports.stattracker.data.CardillService;
 import com.cardillsports.stattracker.data.GameData;
 import com.cardillsports.stattracker.data.GameRepository;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.cardillsports.stattracker.ui.MainActivity.GAME_DATA;
 
 public class GameActivity extends AppCompatActivity {
+
+    public static final String BASE_URL = "https://api-cardillsports-st.herokuapp.com";
 
     private GamePresenter mPresenter;
     private GamePlayerAdapter teamOneAdapter;
@@ -41,7 +50,19 @@ public class GameActivity extends AppCompatActivity {
         teamTwoAdapter = new GamePlayerAdapter(gameData.teamTwoPlayers(), gameRepository);
         teamTwoRecyclerView.setAdapter(teamTwoAdapter);
 
-        mPresenter = new GamePresenter(gameRepository);
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+
+        CardillService cardillService = retrofit.create(CardillService.class);
+
+        mPresenter = new GamePresenter(gameRepository, cardillService);
     }
 
     @Override
@@ -64,5 +85,4 @@ public class GameActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
 }

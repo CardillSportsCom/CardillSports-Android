@@ -3,27 +3,15 @@ package com.cardillsports.stattracker.businesslogic;
 import android.util.Log;
 
 import com.cardillsports.stattracker.data.CardillService;
-import com.cardillsports.stattracker.data.LeaguePlayersResponse;
 import com.cardillsports.stattracker.data.Player;
 import com.cardillsports.stattracker.ui.CardillViewBinder;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
-import okhttp3.ResponseBody;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CardillPresenter {
 
-    public static final String BASE_URL = "https://api-cardillsports-st.herokuapp.com";
     private static final String LEAGUE_ID = "5ac6aaefe8da8276a88ffc07";
     private static final String TAG = "Vithushan";
 
@@ -31,21 +19,9 @@ public class CardillPresenter {
     private final CardillService mCardillService;
     private Disposable mDisposable;
 
-    public CardillPresenter(CardillViewBinder viewBinder) {
+    public CardillPresenter(CardillViewBinder viewBinder, CardillService cardillService) {
         mViewBinder = viewBinder;
-
-        Gson gson = new GsonBuilder()
-                .setLenient()
-                .create();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
-
-        mCardillService = retrofit.create(CardillService.class);
-
+        mCardillService = cardillService;
     }
 
     public void onStart() {
