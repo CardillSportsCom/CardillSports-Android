@@ -1,4 +1,4 @@
-package com.cardillsports.stattracker.data;
+package com.cardillsports.stattracker.game.data;
 
 public enum StatType {
     FIELD_GOAL_MADE,

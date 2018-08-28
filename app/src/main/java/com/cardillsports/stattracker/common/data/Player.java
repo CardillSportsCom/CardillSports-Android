@@ -1,10 +1,8 @@
-package com.cardillsports.stattracker.data;
+package com.cardillsports.stattracker.common.data;
 
 import android.os.Parcelable;
 
 import com.google.auto.value.AutoValue;
-
-import java.util.List;
 
 @AutoValue
 public abstract class Player implements Parcelable{
@@ -43,7 +41,7 @@ public abstract class Player implements Parcelable{
     }
 
     @AutoValue.Builder
-    abstract static class Builder {
+    public abstract static class Builder {
         public abstract Builder id(String id);
 
         public abstract Builder firstName(String firstName);
@@ -64,6 +62,6 @@ public abstract class Player implements Parcelable{
 
         public abstract Builder turnovers(int turnovers);
 
-        abstract Player build();
+        public abstract Player build();
     }
 }

@@ -1,4 +1,6 @@
-package com.cardillsports.stattracker.data;
+package com.cardillsports.stattracker.game.data;
+
+import com.cardillsports.stattracker.common.data.Player;
 
 import java.util.List;
 

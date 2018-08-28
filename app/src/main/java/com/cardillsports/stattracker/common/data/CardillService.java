@@ -1,4 +1,6 @@
-package com.cardillsports.stattracker.data;
+package com.cardillsports.stattracker.common.data;
+
+import com.cardillsports.stattracker.game.data.JSONGameStats;
 
 import io.reactivex.Observable;
 import okhttp3.ResponseBody;

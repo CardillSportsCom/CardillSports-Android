@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name="com.cardillsports.stattracker.ui.MainActivity">
+        <activity android:name=".main.ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.cardillsports.stattracker.ui.GameActivity"/>
+        <activity android:name="com.cardillsports.stattracker.game.ui.GameActivity"/>
     </application>
 
 </manifest>

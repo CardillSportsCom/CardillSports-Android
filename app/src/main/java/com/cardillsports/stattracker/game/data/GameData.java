@@ -1,7 +1,8 @@
-package com.cardillsports.stattracker.data;
+package com.cardillsports.stattracker.game.data;
 
 import android.os.Parcelable;
 
+import com.cardillsports.stattracker.common.data.Player;
 import com.google.auto.value.AutoValue;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.cardillsports.stattracker.businesslogic;
+package com.cardillsports.stattracker.game.businesslogic;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,15 +9,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.cardillsports.stattracker.R;
-import com.cardillsports.stattracker.data.GameRepository;
-import com.cardillsports.stattracker.data.Player;
-import com.cardillsports.stattracker.data.Stat;
+import com.cardillsports.stattracker.game.data.GameRepository;
+import com.cardillsports.stattracker.common.data.Player;
 
 import java.util.List;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 
 public class GamePlayerAdapter extends RecyclerView.Adapter<GamePlayerAdapter.GamePlayerViewHolder> {
     private final List<Player> mPlayers;

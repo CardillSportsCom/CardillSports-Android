@@ -1,4 +1,4 @@
-package com.cardillsports.stattracker.data;
+package com.cardillsports.stattracker.game.data;
 
 public class JSONPlayer {
     public String _id;

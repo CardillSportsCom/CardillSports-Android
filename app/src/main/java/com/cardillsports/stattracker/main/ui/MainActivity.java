@@ -1,4 +1,4 @@
-package com.cardillsports.stattracker.ui;
+package com.cardillsports.stattracker.main.ui;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -9,11 +9,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.cardillsports.stattracker.R;
-import com.cardillsports.stattracker.businesslogic.CardillPresenter;
-import com.cardillsports.stattracker.businesslogic.PlayerAdapter;
-import com.cardillsports.stattracker.data.CardillService;
-import com.cardillsports.stattracker.data.GameData;
-import com.cardillsports.stattracker.data.Player;
+import com.cardillsports.stattracker.main.businesslogic.MainPresenter;
+import com.cardillsports.stattracker.main.businesslogic.PlayerAdapter;
+import com.cardillsports.stattracker.common.data.CardillService;
+import com.cardillsports.stattracker.game.data.GameData;
+import com.cardillsports.stattracker.common.data.Player;
+import com.cardillsports.stattracker.game.ui.GameActivity;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -23,12 +24,12 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends AppCompatActivity implements CardillViewBinder {
+public class MainActivity extends AppCompatActivity implements MainViewBinder {
 
     public static final String BASE_URL = "https://api-cardillsports-st.herokuapp.com";
-
     public static final String GAME_DATA = "game-data-key";
-    private CardillPresenter mPresenter;
+
+    private MainPresenter mPresenter;
     private RecyclerView mRecyclerView;
     private PlayerAdapter adapter;
 
@@ -50,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements CardillViewBinder
 
         CardillService cardillService = retrofit.create(CardillService.class);
 
-        mPresenter = new CardillPresenter(this, cardillService);
+        mPresenter = new MainPresenter(this, cardillService);
 
         mRecyclerView = findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -66,13 +67,7 @@ public class MainActivity extends AppCompatActivity implements CardillViewBinder
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (item.getItemId() == R.id.action_next) {
-            List<Player> teamOnePlayers = adapter.getTeamOnePlayers();
-            List<Player> teamTwoPlayers = adapter.getTeamTwoPlayers();
-
-            Intent intent = new Intent(this, GameActivity.class);
-            GameData gameData = GameData.create(teamOnePlayers, teamTwoPlayers);
-            intent.putExtra(GAME_DATA, gameData);
-            startActivity(intent);
+            mPresenter.onTeamsSelected();
             return true;
         }
 
@@ -95,5 +90,16 @@ public class MainActivity extends AppCompatActivity implements CardillViewBinder
     public void loadPlayers(List<Player> players) {
         adapter = new PlayerAdapter(players);
         mRecyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void navigateToGameScreen() {
+        List<Player> teamOnePlayers = adapter.getTeamOnePlayers();
+        List<Player> teamTwoPlayers = adapter.getTeamTwoPlayers();
+
+        Intent intent = new Intent(this, GameActivity.class);
+        GameData gameData = GameData.create(teamOnePlayers, teamTwoPlayers);
+        intent.putExtra(GAME_DATA, gameData);
+        startActivity(intent);
     }
 }

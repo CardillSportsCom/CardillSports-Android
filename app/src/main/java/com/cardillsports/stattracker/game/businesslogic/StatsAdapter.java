@@ -1,4 +1,4 @@
-package com.cardillsports.stattracker.businesslogic;
+package com.cardillsports.stattracker.game.businesslogic;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -8,13 +8,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.cardillsports.stattracker.R;
-import com.cardillsports.stattracker.data.GameRepository;
-import com.cardillsports.stattracker.data.Stat;
-import com.cardillsports.stattracker.data.StatType;
+import com.cardillsports.stattracker.game.data.Stat;
+import com.cardillsports.stattracker.game.data.StatType;
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
-
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;

@@ -1,25 +1,25 @@
-package com.cardillsports.stattracker.businesslogic;
+package com.cardillsports.stattracker.main.businesslogic;
 
 import android.util.Log;
 
-import com.cardillsports.stattracker.data.CardillService;
-import com.cardillsports.stattracker.data.Player;
-import com.cardillsports.stattracker.ui.CardillViewBinder;
+import com.cardillsports.stattracker.common.data.CardillService;
+import com.cardillsports.stattracker.common.data.Player;
+import com.cardillsports.stattracker.main.ui.MainViewBinder;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class CardillPresenter {
+public class MainPresenter {
 
     private static final String LEAGUE_ID = "5ac6aaefe8da8276a88ffc07";
     private static final String TAG = "Vithushan";
 
-    private final CardillViewBinder mViewBinder;
+    private final MainViewBinder mViewBinder;
     private final CardillService mCardillService;
     private Disposable mDisposable;
 
-    public CardillPresenter(CardillViewBinder viewBinder, CardillService cardillService) {
+    public MainPresenter(MainViewBinder viewBinder, CardillService cardillService) {
         mViewBinder = viewBinder;
         mCardillService = cardillService;
     }
@@ -42,5 +42,9 @@ public class CardillPresenter {
         if (!mDisposable.isDisposed()) {
             mDisposable.dispose();
         }
+    }
+
+    public void onTeamsSelected() {
+        mViewBinder.navigateToGameScreen();
     }
 }
