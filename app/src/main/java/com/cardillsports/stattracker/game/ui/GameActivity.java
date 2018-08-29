@@ -10,8 +10,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.cardillsports.stattracker.R;
+import com.cardillsports.stattracker.common.data.Player;
 import com.cardillsports.stattracker.game.businesslogic.GameEvent;
 import com.cardillsports.stattracker.game.businesslogic.GamePresenter;
 import com.cardillsports.stattracker.common.data.CardillService;
@@ -31,7 +33,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.cardillsports.stattracker.main.ui.MainActivity.GAME_DATA;
 
-public class GameActivity extends AppCompatActivity {
+public class GameActivity extends AppCompatActivity implements GameViewBinder {
 
     public static final String BASE_URL = "https://api-cardillsports-st.herokuapp.com";
 
@@ -155,7 +157,7 @@ public class GameActivity extends AppCompatActivity {
                 teamOneAdapter.getPlayerSelectedEvents(),
                 teamTwoAdapter.getPlayerSelectedEvents());
 
-        mPresenter = new GamePresenter(gameRepository, cardillService, model, clickObservable);
+        mPresenter = new GamePresenter(this, gameRepository, cardillService, model, clickObservable);
         model.getGameState().observe(this, this::renderUI);
     }
 
@@ -257,5 +259,11 @@ public class GameActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void showStatConfirmation(Player player, String stat) {
+        String message = player.firstName() + " " + stat;
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }

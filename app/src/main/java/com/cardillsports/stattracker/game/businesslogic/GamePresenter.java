@@ -8,6 +8,7 @@ import com.cardillsports.stattracker.game.data.GameData;
 import com.cardillsports.stattracker.game.data.GameRepository;
 import com.cardillsports.stattracker.game.data.GameStatsMapper;
 import com.cardillsports.stattracker.game.data.JSONGameStats;
+import com.cardillsports.stattracker.game.ui.GameViewBinder;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -16,15 +17,18 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 public class GamePresenter {
+    private final GameViewBinder viewBinder;
     private final GameRepository gameRepository;
     private final CardillService mCardillService;
     private final GameViewModel viewModel;
     private final Observable<GameEvent> eventObservable;
 
-    public GamePresenter(GameRepository gameRepository,
+    public GamePresenter(GameViewBinder viewBinder,
+                         GameRepository gameRepository,
                          CardillService cardillService,
                          GameViewModel viewModel,
                          Observable<GameEvent> eventObservable) {
+        this.viewBinder = viewBinder;
 
         this.gameRepository = gameRepository;
         mCardillService = cardillService;
@@ -43,14 +47,18 @@ public class GamePresenter {
                             viewModel.setGameState(GameState.MAKE_REQUESTED);
                         } else if (gameEvent instanceof GameEvent.PlayerSelected) {
                             GameEvent.PlayerSelected playerSelectedEvent = (GameEvent.PlayerSelected) gameEvent;
+
                             Player player = playerSelectedEvent.getPlayer();
-                            if (viewModel.getGameState().getValue() == GameState.MAKE_REQUESTED) {
-                                viewModel.setGameState(GameState.DETERMINE_MAKE_EXTRAS);
-                            } else if (viewModel.getGameState().getValue() == GameState.ASSIST_REQUESTED
+                            String statName = getStatName(viewModel.getGameState().getValue());
+                            viewBinder.showStatConfirmation(player, statName);
+
+                            if (viewModel.getGameState().getValue() == GameState.ASSIST_REQUESTED
                                     || viewModel.getGameState().getValue() == GameState.REBOUND_REQUESTED
                                     || viewModel.getGameState().getValue() == GameState.BLOCK_REQUESTED
                                     || viewModel.getGameState().getValue() == GameState.STEAL_REQUESTED) {
                                 viewModel.setGameState(GameState.MAIN);
+                            } else if (viewModel.getGameState().getValue() == GameState.MAKE_REQUESTED) {
+                                viewModel.setGameState(GameState.DETERMINE_MAKE_EXTRAS);
                             } else if (viewModel.getGameState().getValue() == GameState.MISS_REQUESTED) {
                                 viewModel.setGameState(GameState.DETERMINE_MISS_EXTRAS);
                             } else if (viewModel.getGameState().getValue() == GameState.TURNOVER_REQUESTED) {
@@ -77,6 +85,28 @@ public class GamePresenter {
                         }
                     }
                 });
+    }
+
+    private String getStatName(GameState value) {
+        switch (value) {
+            case ASSIST_REQUESTED:
+                return "ASSIST";
+            case MAKE_REQUESTED:
+                return "MADE";
+            case MISS_REQUESTED:
+                return "MISS";
+            case BLOCK_REQUESTED:
+                return "BLOCK";
+            case STEAL_REQUESTED:
+                return "STEAL";
+            case REBOUND_REQUESTED:
+                return "REBOUND";
+            case TURNOVER_REQUESTED:
+                return "TURNOVER";
+            default:
+                return "ERROR";
+
+        }
     }
 
     public void submitGameStats() {
