@@ -2,14 +2,18 @@ package com.cardillsports.stattracker.game.data;
 
 import com.cardillsports.stattracker.common.data.Player;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 public class GameRepository {
 
-    GameData gameData;
+    private GameData gameData;
+    private Queue<PendingStat> queue;
 
     public GameRepository(GameData gameData) {
         this.gameData = gameData;
+        queue = new LinkedList<>();
     }
 
     public GameData getGameStats() {
@@ -96,5 +100,16 @@ public class GameRepository {
             default:
                 return player;
         }
+    }
+
+    public void incrementPendingStat(Player player, StatType statType) {
+        if (queue.size() > 0) {
+            queue.poll();
+        }
+        queue.offer(new PendingStat(player, statType));
+    }
+
+    public PendingStat getLatestPendingStat() {
+        return queue.poll();
     }
 }

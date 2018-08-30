@@ -7,13 +7,19 @@ public interface GameEvent {
 
     class PlayerSelected implements GameEvent {
         private final Player player;
+        private final Team team;
 
-        PlayerSelected(Player player) {
+        PlayerSelected(Team team, Player player) {
+            this.team = team;
             this.player = player;
         }
 
         public Player getPlayer() {
             return player;
+        }
+
+        public Team getTeam() {
+            return team;
         }
     }
 
@@ -28,4 +34,6 @@ public interface GameEvent {
 
     class StealRequested implements GameEvent {}
     class NoStealRequested implements GameEvent {}
+
+    class BackRequested implements GameEvent {}
 }

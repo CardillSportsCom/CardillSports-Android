@@ -8,7 +8,9 @@ import com.cardillsports.stattracker.game.data.GameData;
 import com.cardillsports.stattracker.game.data.GameRepository;
 import com.cardillsports.stattracker.game.data.GameStatsMapper;
 import com.cardillsports.stattracker.game.data.JSONGameStats;
+import com.cardillsports.stattracker.game.data.PendingStat;
 import com.cardillsports.stattracker.game.data.StatType;
+import com.cardillsports.stattracker.game.ui.GameActivity;
 import com.cardillsports.stattracker.game.ui.GameViewBinder;
 
 import io.reactivex.Observable;
@@ -41,54 +43,110 @@ public class GamePresenter {
 
     private void init(GameViewModel viewModel, Observable<GameEvent> eventObservable) {
         Disposable subscribe = eventObservable
-                .subscribe(new Consumer<GameEvent>() {
-                    @Override
-                    public void accept(GameEvent gameEvent) throws Exception {
-                        if (gameEvent instanceof GameEvent.MakeRequested) {
-                            viewModel.setGameState(GameState.MAKE_REQUESTED);
-                        } else if (gameEvent instanceof GameEvent.PlayerSelected) {
-                            GameEvent.PlayerSelected playerSelectedEvent = (GameEvent.PlayerSelected) gameEvent;
+                .subscribe(gameEvent -> {
+                    if (gameEvent instanceof GameEvent.MakeRequested) {
+                        viewModel.setGameState(GameState.MAKE_REQUESTED);
+                    } else if (gameEvent instanceof GameEvent.PlayerSelected) {
+                        GameEvent.PlayerSelected playerSelectedEvent = (GameEvent.PlayerSelected) gameEvent;
 
-                            Player player = playerSelectedEvent.getPlayer();
+                        Player player = playerSelectedEvent.getPlayer();
 
-                            GameState gameState = viewModel.getGameState().getValue();
-                            if (gameState == null) return;
+                        viewModel.setCurrentTeam(playerSelectedEvent.getTeam());
 
-                            StatType statType = getStatKey(gameState);
+                        GameState gameState = viewModel.getGameState().getValue();
+                        if (gameState == null) return;
 
-                            gameRepository.incrementStat(player.id(), statType);
-                            viewBinder.showStatConfirmation(player, statType.name());
+                        StatType statType = getStatKey(gameState);
 
-                            if (gameState == GameState.ASSIST_REQUESTED
-                                    || gameState == GameState.REBOUND_REQUESTED
-                                    || gameState == GameState.BLOCK_REQUESTED
-                                    || gameState == GameState.STEAL_REQUESTED) {
-                                viewModel.setGameState(GameState.MAIN);
-                            } else if (gameState == GameState.MAKE_REQUESTED) {
-                                viewModel.setGameState(GameState.DETERMINE_MAKE_EXTRAS);
-                            } else if (gameState == GameState.MISS_REQUESTED) {
-                                viewModel.setGameState(GameState.DETERMINE_MISS_EXTRAS);
-                            } else if (gameState == GameState.TURNOVER_REQUESTED) {
-                                viewModel.setGameState(GameState.DETERMINE_TURNOVER_EXTRAS);
+                        //gameRepository.incrementStat(player.id(), statType);
+                        //viewBinder.showStatConfirmation(player, statType.name());
+
+                        if (gameState == GameState.ASSIST_REQUESTED
+                                || gameState == GameState.REBOUND_REQUESTED
+                                || gameState == GameState.BLOCK_REQUESTED
+                                || gameState == GameState.STEAL_REQUESTED) {
+                            if (gameState == GameState.ASSIST_REQUESTED) {
+                                PendingStat latestPendingStat = gameRepository.getLatestPendingStat();
+                                gameRepository.incrementStat(latestPendingStat.getPlayer().id(), latestPendingStat.getStatType());
+                                viewBinder.showStatConfirmation(player.firstName() + " assists to " + latestPendingStat.getPlayer().firstName());
+                            } else if (gameState == GameState.REBOUND_REQUESTED) {
+                                PendingStat latestPendingStat = gameRepository.getLatestPendingStat();
+                                gameRepository.incrementStat(latestPendingStat.getPlayer().id(), latestPendingStat.getStatType());
+                                viewBinder.showStatConfirmation(player.firstName() + " rebounded " + latestPendingStat.getPlayer().firstName() + "'s missed shot");
+                            } else if (gameState == GameState.BLOCK_REQUESTED) {
+                                PendingStat latestPendingStat = gameRepository.getLatestPendingStat();
+                                gameRepository.incrementStat(latestPendingStat.getPlayer().id(), latestPendingStat.getStatType());
+                                viewBinder.showStatConfirmation(player.firstName() + " blocked " + latestPendingStat.getPlayer().firstName());
+                            } else if (gameState == GameState.STEAL_REQUESTED) {
+                                PendingStat latestPendingStat = gameRepository.getLatestPendingStat();
+                                gameRepository.incrementStat(latestPendingStat.getPlayer().id(), latestPendingStat.getStatType());
+                                viewBinder.showStatConfirmation(player.firstName() + " stole from " + latestPendingStat.getPlayer().firstName());
                             }
-                        } else if (gameEvent instanceof GameEvent.AssistRequested) {
-                            viewModel.setGameState(GameState.ASSIST_REQUESTED);
-                        } else if (gameEvent instanceof GameEvent.NoAssistRequested) {
                             viewModel.setGameState(GameState.MAIN);
-                        } else if (gameEvent instanceof GameEvent.MissRequested) {
+                        } else if (gameState == GameState.MAKE_REQUESTED) {
+                            gameRepository.incrementPendingStat(player, statType);
+                            viewModel.setGameState(GameState.DETERMINE_MAKE_EXTRAS);
+                        } else if (gameState == GameState.MISS_REQUESTED) {
+                            gameRepository.incrementPendingStat(player, statType);
+                            viewModel.setGameState(GameState.DETERMINE_MISS_EXTRAS);
+                        } else if (gameState == GameState.TURNOVER_REQUESTED) {
+                            gameRepository.incrementPendingStat(player, statType);
+                            viewModel.setGameState(GameState.DETERMINE_TURNOVER_EXTRAS);
+                        }
+                    } else if (gameEvent instanceof GameEvent.AssistRequested) {
+                        viewModel.setGameState(GameState.ASSIST_REQUESTED);
+                    } else if (gameEvent instanceof GameEvent.NoAssistRequested) {
+                        PendingStat latestPendingStat = gameRepository.getLatestPendingStat();
+                        gameRepository.incrementStat(latestPendingStat.getPlayer().id(), latestPendingStat.getStatType());
+                        viewBinder.showStatConfirmation(latestPendingStat.getPlayer().firstName() + " made shot");
+                        viewModel.setGameState(GameState.MAIN);
+                    } else if (gameEvent instanceof GameEvent.MissRequested) {
+                        viewModel.setGameState(GameState.MISS_REQUESTED);
+                    } else if (gameEvent instanceof GameEvent.BlockRequested) {
+                        viewModel.setGameState(GameState.BLOCK_REQUESTED);
+                    } else if (gameEvent instanceof GameEvent.ReboundRequested) {
+                        viewModel.setGameState(GameState.REBOUND_REQUESTED);
+                    } else if (gameEvent instanceof GameEvent.NeitherRequested) {
+                        PendingStat latestPendingStat = gameRepository.getLatestPendingStat();
+                        gameRepository.incrementStat(latestPendingStat.getPlayer().id(), latestPendingStat.getStatType());
+                        viewBinder.showStatConfirmation(latestPendingStat.getPlayer().firstName() + " missed shot");
+                        viewModel.setGameState(GameState.MAIN);
+                    } else if (gameEvent instanceof GameEvent.TurnoverRequested) {
+                        viewModel.setGameState(GameState.TURNOVER_REQUESTED);
+                    } else if (gameEvent instanceof GameEvent.StealRequested) {
+                        viewModel.setGameState(GameState.STEAL_REQUESTED);
+                    } else if (gameEvent instanceof GameEvent.NoStealRequested) {
+
+                        PendingStat latestPendingStat = gameRepository.getLatestPendingStat();
+                        gameRepository.incrementStat(latestPendingStat.getPlayer().id(), latestPendingStat.getStatType());
+                        viewBinder.showStatConfirmation(latestPendingStat.getPlayer().firstName() + " turnover");
+
+                        viewModel.setGameState(GameState.MAIN);
+                    } else if (gameEvent instanceof GameEvent.BackRequested) {
+                        if (viewModel.getGameState().getValue() == GameState.MAKE_REQUESTED) {
+                            viewModel.setGameState(GameState.MAIN);
+                        } else if (viewModel.getGameState().getValue() == GameState.DETERMINE_MAKE_EXTRAS) {
+                            viewModel.setGameState(GameState.MAKE_REQUESTED);
+                        } else if (viewModel.getGameState().getValue() == GameState.ASSIST_REQUESTED) {
+                            viewModel.setGameState(GameState.DETERMINE_MAKE_EXTRAS);
+                        } else if (viewModel.getGameState().getValue() == GameState.MISS_REQUESTED) {
+                            viewModel.setGameState(GameState.MAIN);
+                        } else if (viewModel.getGameState().getValue() == GameState.DETERMINE_MISS_EXTRAS) {
                             viewModel.setGameState(GameState.MISS_REQUESTED);
-                        } else if (gameEvent instanceof GameEvent.BlockRequested) {
-                            viewModel.setGameState(GameState.BLOCK_REQUESTED);
-                        } else if (gameEvent instanceof GameEvent.ReboundRequested) {
-                            viewModel.setGameState(GameState.REBOUND_REQUESTED);
-                        } else if (gameEvent instanceof GameEvent.NeitherRequested) {
+                        } else if (viewModel.getGameState().getValue() == GameState.DETERMINE_MISS_EXTRAS) {
+                            viewModel.setGameState(GameState.MISS_REQUESTED);
+                        } else if (viewModel.getGameState().getValue() == GameState.REBOUND_REQUESTED) {
+                            viewModel.setGameState(GameState.DETERMINE_MISS_EXTRAS);
+                        } else if (viewModel.getGameState().getValue() == GameState.BLOCK_REQUESTED) {
+                            viewModel.setGameState(GameState.DETERMINE_MISS_EXTRAS);
+                        } else if (viewModel.getGameState().getValue() == GameState.TURNOVER_REQUESTED) {
                             viewModel.setGameState(GameState.MAIN);
-                        }  else if (gameEvent instanceof GameEvent.TurnoverRequested) {
+                        } else if (viewModel.getGameState().getValue() == GameState.DETERMINE_TURNOVER_EXTRAS) {
                             viewModel.setGameState(GameState.TURNOVER_REQUESTED);
-                        } else if (gameEvent instanceof GameEvent.StealRequested) {
-                            viewModel.setGameState(GameState.STEAL_REQUESTED);
-                        } else if (gameEvent instanceof GameEvent.NoStealRequested) {
-                            viewModel.setGameState(GameState.MAIN);
+                        } else if (viewModel.getGameState().getValue() == GameState.STEAL_REQUESTED) {
+                            viewModel.setGameState(GameState.DETERMINE_TURNOVER_EXTRAS);
+                        } else if (viewModel.getGameState().getValue() == GameState.MAIN) {
+                            viewBinder.showExitConfirmation();
                         }
                     }
                 });

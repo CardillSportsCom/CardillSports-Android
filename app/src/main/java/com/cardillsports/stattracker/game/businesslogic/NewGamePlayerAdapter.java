@@ -6,14 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.TextView;
 
 import com.cardillsports.stattracker.R;
 import com.cardillsports.stattracker.common.data.Player;
 import com.jakewharton.rxbinding2.view.RxView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -22,10 +19,12 @@ import io.reactivex.subjects.PublishSubject;
 
 public class NewGamePlayerAdapter extends RecyclerView.Adapter<NewGamePlayerAdapter.PlayerViewHolder> {
     private final List<Player> mPlayers;
-    private PublishSubject<GameEvent> mPublishSubject;
+    private PublishSubject<GameEvent.PlayerSelected> mPublishSubject;
+    private Team team;
 
-    public NewGamePlayerAdapter(List<Player> players) {
+    public NewGamePlayerAdapter(List<Player> players, Team team) {
         mPlayers = players;
+        this.team = team;
         mPublishSubject = PublishSubject.create();
     }
 
@@ -47,10 +46,10 @@ public class NewGamePlayerAdapter extends RecyclerView.Adapter<NewGamePlayerAdap
         Player player = mPlayers.get(position);
         holder.getNameTextView().setText(player.firstName());
         Disposable subscribe = RxView.clicks(holder.getNameTextView())
-                .subscribe(x -> mPublishSubject.onNext(new GameEvent.PlayerSelected(player)));
+                .subscribe(x -> mPublishSubject.onNext(new GameEvent.PlayerSelected(team, player)));
     }
 
-    public Observable<GameEvent> getPlayerSelectedEvents() {
+    public Observable<GameEvent.PlayerSelected> getPlayerSelectedEvents() {
         return mPublishSubject;
     }
 

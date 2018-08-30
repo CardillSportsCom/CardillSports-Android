@@ -1,7 +1,9 @@
 package com.cardillsports.stattracker.game.ui;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,13 +22,16 @@ import com.cardillsports.stattracker.common.data.CardillService;
 import com.cardillsports.stattracker.game.businesslogic.GameState;
 import com.cardillsports.stattracker.game.businesslogic.GameViewModel;
 import com.cardillsports.stattracker.game.businesslogic.NewGamePlayerAdapter;
+import com.cardillsports.stattracker.game.businesslogic.Team;
 import com.cardillsports.stattracker.game.data.GameData;
 import com.cardillsports.stattracker.game.data.GameRepository;
+import com.cardillsports.stattracker.main.ui.MainActivity;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import io.reactivex.Observable;
+import io.reactivex.subjects.PublishSubject;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -52,6 +57,8 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
     private View neitherButton;
     private View stealButton;
     private View noStealButton;
+    private GameViewModel gameViewModel;
+    private PublishSubject<GameEvent> mBackButtonPublishSubject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,14 +88,14 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
         teamOneRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         teamOneRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         //GamePlayerAdapter teamOneAdapter = new GamePlayerAdapter(gameData.teamOnePlayers(), gameRepository);
-        NewGamePlayerAdapter teamOneAdapter = new NewGamePlayerAdapter(gameData.teamOnePlayers());
+        NewGamePlayerAdapter teamOneAdapter = new NewGamePlayerAdapter(gameData.teamOnePlayers(), Team.TEAM_ONE);
         teamOneRecyclerView.setAdapter(teamOneAdapter);
 
         teamTwoRecyclerView = findViewById(R.id.team_2_recycler_view);
         teamTwoRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         teamTwoRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         //GamePlayerAdapter teamTwoAdapter = new GamePlayerAdapter(gameData.teamTwoPlayers(), gameRepository);
-        NewGamePlayerAdapter teamTwoAdapter = new NewGamePlayerAdapter(gameData.teamTwoPlayers());
+        NewGamePlayerAdapter teamTwoAdapter = new NewGamePlayerAdapter(gameData.teamTwoPlayers(), Team.TEAM_TWO);
         teamTwoRecyclerView.setAdapter(teamTwoAdapter);
 
         makeButton = findViewById(R.id.make);
@@ -121,7 +128,7 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
         noStealButton = findViewById(R.id.no_steal);
         Observable<GameEvent> noStealClicks = RxView.clicks(noStealButton).map(x -> new GameEvent.NoStealRequested());
 
-        GameViewModel model = ViewModelProviders.of(this).get(GameViewModel.class);
+        gameViewModel = ViewModelProviders.of(this).get(GameViewModel.class);
 
         Observable<GameEvent> mainButtonClicks = Observable.merge(
                 makeClicks,
@@ -152,13 +159,21 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
                 turnoverButtonClicks
         );
 
+        mBackButtonPublishSubject = PublishSubject.create();
+
         Observable<GameEvent> clickObservable = Observable.merge(
                 clicks,
+                mBackButtonPublishSubject,
                 teamOneAdapter.getPlayerSelectedEvents(),
                 teamTwoAdapter.getPlayerSelectedEvents());
 
-        mPresenter = new GamePresenter(this, gameRepository, cardillService, model, clickObservable);
-        model.getGameState().observe(this, this::renderUI);
+        mPresenter = new GamePresenter(this, gameRepository, cardillService, gameViewModel, clickObservable);
+        gameViewModel.getGameState().observe(this, this::renderUI);
+    }
+
+    @Override
+    public void onBackPressed() {
+        mBackButtonPublishSubject.onNext(new GameEvent.BackRequested());
     }
 
     private void setMainButtonsVisibility(int visibility) {
@@ -172,6 +187,22 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
         teamTwoRecyclerView.setVisibility(visibility);
         team1TextView.setVisibility(visibility);
         team2TextView.setVisibility(visibility);
+    }
+
+    private void setTeamVisibility(Team team) {
+        if (team == Team.TEAM_ONE) {
+            teamOneRecyclerView.setVisibility(View.VISIBLE);
+            teamTwoRecyclerView.setVisibility(View.GONE);
+
+            team1TextView.setVisibility(View.VISIBLE);
+            team2TextView.setVisibility(View.GONE);
+        } else {
+            teamOneRecyclerView.setVisibility(View.GONE);
+            teamTwoRecyclerView.setVisibility(View.VISIBLE);
+
+            team1TextView.setVisibility(View.GONE);
+            team2TextView.setVisibility(View.VISIBLE);
+        }
     }
 
     private void setAssistButtonVisibility(int visibility) {
@@ -195,11 +226,8 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
         switch (gameState) {
             case MAKE_REQUESTED:
             case MISS_REQUESTED:
-            case ASSIST_REQUESTED:
-            case BLOCK_REQUESTED:
             case REBOUND_REQUESTED:
             case TURNOVER_REQUESTED:
-            case STEAL_REQUESTED:
                 setMainButtonsVisibility(View.GONE);
                 setPlayerListVisibility(View.VISIBLE);
                 setAssistButtonVisibility(View.GONE);
@@ -238,6 +266,23 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
                 setMissExtrasButtonVisibility(View.GONE);
                 setTurnoverExtraButtonVisibility(View.VISIBLE);
                 return;
+            case ASSIST_REQUESTED:
+                setMainButtonsVisibility(View.GONE);
+                setTeamVisibility(gameViewModel.getCurrentTeam());
+                setAssistButtonVisibility(View.GONE);
+                setMissExtrasButtonVisibility(View.GONE);
+                setTurnoverExtraButtonVisibility(View.GONE);
+                return;
+            case BLOCK_REQUESTED:
+            case STEAL_REQUESTED:
+                setMainButtonsVisibility(View.GONE);
+                Team currentTeam = gameViewModel.getCurrentTeam();
+                Team otherTeam = currentTeam == Team.TEAM_ONE ? Team.TEAM_TWO : Team.TEAM_ONE;
+                setTeamVisibility(otherTeam);
+                setAssistButtonVisibility(View.GONE);
+                setMissExtrasButtonVisibility(View.GONE);
+                setTurnoverExtraButtonVisibility(View.GONE);
+                return;
             default:
                 return;
         }
@@ -262,8 +307,17 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
     }
 
     @Override
-    public void showStatConfirmation(Player player, String stat) {
-        String message = player.firstName() + " " + stat;
+    public void showStatConfirmation(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showExitConfirmation() {
+        new AlertDialog.Builder(this)
+                .setTitle("Leave Game?")
+                .setMessage("Do you really want to leave this game? You will lose any stats that you have already recorded.")
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton(android.R.string.yes, (dialog, whichButton) -> GameActivity.this.finish())
+                .setNegativeButton(android.R.string.no, null).show();
     }
 }

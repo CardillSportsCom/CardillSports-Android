@@ -8,10 +8,12 @@ import android.arch.lifecycle.ViewModel;
 public class GameViewModel extends ViewModel {
 
     private MutableLiveData<GameState> mGameState;
+    private Team currentTeam;
 
     public GameViewModel() {
         this.mGameState = new MutableLiveData<>();
         mGameState.setValue(GameState.MAIN);
+        currentTeam = Team.TEAM_ONE;
     }
 
     public LiveData<GameState> getGameState() {
@@ -20,5 +22,13 @@ public class GameViewModel extends ViewModel {
 
     public void setGameState(GameState gameState) {
         mGameState.setValue(gameState);
+    }
+
+    public void setCurrentTeam(Team currentTeam) {
+        this.currentTeam = currentTeam;
+    }
+
+    public Team getCurrentTeam() {
+        return currentTeam;
     }
 }
