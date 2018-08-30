@@ -8,6 +8,7 @@ import com.cardillsports.stattracker.game.data.GameData;
 import com.cardillsports.stattracker.game.data.GameRepository;
 import com.cardillsports.stattracker.game.data.GameStatsMapper;
 import com.cardillsports.stattracker.game.data.JSONGameStats;
+import com.cardillsports.stattracker.game.data.StatType;
 import com.cardillsports.stattracker.game.ui.GameViewBinder;
 
 import io.reactivex.Observable;
@@ -49,19 +50,25 @@ public class GamePresenter {
                             GameEvent.PlayerSelected playerSelectedEvent = (GameEvent.PlayerSelected) gameEvent;
 
                             Player player = playerSelectedEvent.getPlayer();
-                            String statName = getStatName(viewModel.getGameState().getValue());
-                            viewBinder.showStatConfirmation(player, statName);
 
-                            if (viewModel.getGameState().getValue() == GameState.ASSIST_REQUESTED
-                                    || viewModel.getGameState().getValue() == GameState.REBOUND_REQUESTED
-                                    || viewModel.getGameState().getValue() == GameState.BLOCK_REQUESTED
-                                    || viewModel.getGameState().getValue() == GameState.STEAL_REQUESTED) {
+                            GameState gameState = viewModel.getGameState().getValue();
+                            if (gameState == null) return;
+
+                            StatType statType = getStatKey(gameState);
+
+                            gameRepository.incrementStat(player.id(), statType);
+                            viewBinder.showStatConfirmation(player, statType.name());
+
+                            if (gameState == GameState.ASSIST_REQUESTED
+                                    || gameState == GameState.REBOUND_REQUESTED
+                                    || gameState == GameState.BLOCK_REQUESTED
+                                    || gameState == GameState.STEAL_REQUESTED) {
                                 viewModel.setGameState(GameState.MAIN);
-                            } else if (viewModel.getGameState().getValue() == GameState.MAKE_REQUESTED) {
+                            } else if (gameState == GameState.MAKE_REQUESTED) {
                                 viewModel.setGameState(GameState.DETERMINE_MAKE_EXTRAS);
-                            } else if (viewModel.getGameState().getValue() == GameState.MISS_REQUESTED) {
+                            } else if (gameState == GameState.MISS_REQUESTED) {
                                 viewModel.setGameState(GameState.DETERMINE_MISS_EXTRAS);
-                            } else if (viewModel.getGameState().getValue() == GameState.TURNOVER_REQUESTED) {
+                            } else if (gameState == GameState.TURNOVER_REQUESTED) {
                                 viewModel.setGameState(GameState.DETERMINE_TURNOVER_EXTRAS);
                             }
                         } else if (gameEvent instanceof GameEvent.AssistRequested) {
@@ -87,26 +94,25 @@ public class GamePresenter {
                 });
     }
 
-    private String getStatName(GameState value) {
+    private StatType getStatKey(GameState value) {
         switch (value) {
             case ASSIST_REQUESTED:
-                return "ASSIST";
+                return StatType.ASSISTS;
             case MAKE_REQUESTED:
-                return "MADE";
+                return StatType.FIELD_GOAL_MADE;
             case MISS_REQUESTED:
-                return "MISS";
+                return StatType.FIELD_GOAL_MISSED;
             case BLOCK_REQUESTED:
-                return "BLOCK";
+                return StatType.BLOCKS;
             case STEAL_REQUESTED:
-                return "STEAL";
+                return StatType.STEALS;
             case REBOUND_REQUESTED:
-                return "REBOUND";
+                return StatType.REBOUNDS;
             case TURNOVER_REQUESTED:
-                return "TURNOVER";
-            default:
-                return "ERROR";
-
+                return StatType.TURNOVERS;
         }
+
+        throw new IllegalStateException("Invalid game state");
     }
 
     public void submitGameStats() {
