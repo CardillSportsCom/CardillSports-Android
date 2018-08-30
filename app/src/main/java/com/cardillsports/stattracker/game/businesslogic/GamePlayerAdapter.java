@@ -47,6 +47,7 @@ public class GamePlayerAdapter extends RecyclerView.Adapter<GamePlayerAdapter.Ga
     public void onBindViewHolder(@NonNull GamePlayerViewHolder holder, int position) {
         holder.getNameTextView().setText(mPlayers.get(position).firstName());
         StatsAdapter adapter = (StatsAdapter) holder.getRecyclerView().getAdapter();
+        adapter.setPlayer(mPlayers.get(position));
         Disposable subscribe = adapter.getPublishSubject()
                 .subscribe(stat -> gameRepository.updateStats(
                         mPlayers.get(position).id(),
@@ -85,7 +86,7 @@ public class GamePlayerAdapter extends RecyclerView.Adapter<GamePlayerAdapter.Ga
 
             LinearLayoutManager layoutManager = new LinearLayoutManager(itemView.getContext(), LinearLayoutManager.HORIZONTAL, false);
             mRecyclerView.setLayoutManager(layoutManager);
-            StatsAdapter adapter = new StatsAdapter();
+            StatsAdapter adapter = new StatsAdapter(gameRepository);
             mRecyclerView.setAdapter(adapter);
 
         }

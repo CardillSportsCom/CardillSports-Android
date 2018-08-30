@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.cardillsports.stattracker.R;
+import com.cardillsports.stattracker.common.data.Player;
+import com.cardillsports.stattracker.game.data.GameRepository;
 import com.cardillsports.stattracker.game.data.Stat;
 import com.cardillsports.stattracker.game.data.StatType;
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
@@ -17,9 +19,12 @@ import io.reactivex.subjects.PublishSubject;
 
 public class StatsAdapter extends RecyclerView.Adapter<StatsAdapter.StatsButtonViewHolder> {
 
+    private final GameRepository gameRepository;
     private PublishSubject<Stat> publishSubject;
+    private Player player;
 
-    public StatsAdapter() {
+    public StatsAdapter(GameRepository gameRepository) {
+        this.gameRepository = gameRepository;
         publishSubject = PublishSubject.create();
     }
 
@@ -42,6 +47,8 @@ public class StatsAdapter extends RecyclerView.Adapter<StatsAdapter.StatsButtonV
     public void onBindViewHolder(@NonNull StatsButtonViewHolder holder, int position) {
         StatType statType = StatType.values()[position];
 
+        int currentVal = gameRepository.getGameStat(player, statType);
+        holder.getStatButton().setNumber(String.valueOf(currentVal));
         holder.getTextView().setText(statType.name());
 
         holder.getStatButton().setOnValueChangeListener(
@@ -56,6 +63,10 @@ public class StatsAdapter extends RecyclerView.Adapter<StatsAdapter.StatsButtonV
 
     public Observable<Stat> getPublishSubject() {
         return publishSubject;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 
     public class StatsButtonViewHolder extends RecyclerView.ViewHolder {

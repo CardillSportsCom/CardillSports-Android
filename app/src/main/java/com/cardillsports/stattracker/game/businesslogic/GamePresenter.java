@@ -65,18 +65,22 @@ public class GamePresenter {
                             if (gameState == GameState.ASSIST_REQUESTED) {
                                 PendingStat latestPendingStat = gameRepository.getLatestPendingStat();
                                 gameRepository.incrementStat(latestPendingStat.getPlayer().id(), latestPendingStat.getStatType());
+                                gameRepository.incrementStat(player.id(), statType);
                                 viewBinder.showStatConfirmation(player.firstName() + " assists to " + latestPendingStat.getPlayer().firstName());
                             } else if (gameState == GameState.REBOUND_REQUESTED) {
                                 PendingStat latestPendingStat = gameRepository.getLatestPendingStat();
                                 gameRepository.incrementStat(latestPendingStat.getPlayer().id(), latestPendingStat.getStatType());
+                                gameRepository.incrementStat(player.id(), statType);
                                 viewBinder.showStatConfirmation(player.firstName() + " rebounded " + latestPendingStat.getPlayer().firstName() + "'s missed shot");
                             } else if (gameState == GameState.BLOCK_REQUESTED) {
                                 PendingStat latestPendingStat = gameRepository.getLatestPendingStat();
                                 gameRepository.incrementStat(latestPendingStat.getPlayer().id(), latestPendingStat.getStatType());
+                                gameRepository.incrementStat(player.id(), statType);
                                 viewBinder.showStatConfirmation(player.firstName() + " blocked " + latestPendingStat.getPlayer().firstName());
                             } else if (gameState == GameState.STEAL_REQUESTED) {
                                 PendingStat latestPendingStat = gameRepository.getLatestPendingStat();
                                 gameRepository.incrementStat(latestPendingStat.getPlayer().id(), latestPendingStat.getStatType());
+                                gameRepository.incrementStat(player.id(), statType);
                                 viewBinder.showStatConfirmation(player.firstName() + " stole from " + latestPendingStat.getPlayer().firstName());
                             }
                             viewModel.setGameState(GameState.MAIN);
@@ -180,4 +184,7 @@ public class GamePresenter {
                         x -> Log.e("VITHUSHAN", x.getLocalizedMessage()));
     }
 
+    public void detailsRequested() {
+        viewBinder.showDetails();
+    }
 }

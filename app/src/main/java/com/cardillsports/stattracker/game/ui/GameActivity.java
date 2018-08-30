@@ -1,6 +1,7 @@
 package com.cardillsports.stattracker.game.ui;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -285,6 +286,8 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
             mPresenter.submitGameStats();
             finish();
             return true;
+        } else if (item.getItemId() == R.id.action_details) {
+            mPresenter.detailsRequested();
         }
 
         return super.onOptionsItemSelected(item);
@@ -303,5 +306,11 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setPositiveButton(android.R.string.yes, (dialog, whichButton) -> GameActivity.this.finish())
                 .setNegativeButton(android.R.string.no, null).show();
+    }
+
+    @Override
+    public void showDetails() {
+        Intent intent = new Intent(this, DetailsActivity.class);
+        startActivity(intent);
     }
 }

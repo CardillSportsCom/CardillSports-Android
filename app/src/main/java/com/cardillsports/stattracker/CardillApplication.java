@@ -3,6 +3,8 @@ package com.cardillsports.stattracker;
 import android.app.Activity;
 import android.app.Application;
 
+import com.cardillsports.stattracker.game.data.GameRepository;
+
 import javax.inject.Inject;
 
 import dagger.android.AndroidInjector;
@@ -14,6 +16,9 @@ public class CardillApplication extends Application implements HasActivityInject
     @Inject
     DispatchingAndroidInjector<Activity> dispatchingAndroidInjector;
 
+    @Inject
+    GameRepository gameRepository;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -21,7 +26,7 @@ public class CardillApplication extends Application implements HasActivityInject
     }
 
     @Override
-    public DispatchingAndroidInjector<Activity> activityInjector() {
+    public AndroidInjector<Activity> activityInjector() {
         return dispatchingAndroidInjector;
     }
 }

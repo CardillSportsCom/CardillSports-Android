@@ -21,6 +21,7 @@
         </activity>
 
         <activity android:name="com.cardillsports.stattracker.game.ui.GameActivity"/>
+        <activity android:name="com.cardillsports.stattracker.game.ui.DetailsActivity"/>
     </application>
 
 </manifest>

@@ -8,7 +8,9 @@ import java.util.Queue;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
+@Singleton
 public class GameRepository {
 
     private GameData gameData;
@@ -119,5 +121,54 @@ public class GameRepository {
 
     public PendingStat getLatestPendingStat() {
         return queue.poll();
+    }
+
+    public int getGameStat(Player player, StatType statType) {
+        List<Player> teamOnePlayers = gameData.teamOnePlayers();
+        for (Player p1 : teamOnePlayers) {
+            if (p1.id().equals(player.id())) {
+                switch (statType) {
+                    case TURNOVERS:
+                        return p1.turnovers();
+                    case REBOUNDS:
+                        return p1.rebounds();
+                    case STEALS:
+                        return p1.steals();
+                    case ASSISTS:
+                        return p1.assists();
+                    case FIELD_GOAL_MISSED:
+                        return p1.fieldGoalMissed();
+                    case FIELD_GOAL_MADE:
+                        return p1.fieldGoalMade();
+                    case BLOCKS:
+                        return p1.blocks();
+                }
+            }
+        }
+
+
+        List<Player> teamTwoPlayers = gameData.teamTwoPlayers();
+        for (Player p2 : teamTwoPlayers) {
+            if (p2.id().equals(player.id())) {
+                switch (statType) {
+                    case TURNOVERS:
+                        return p2.turnovers();
+                    case REBOUNDS:
+                        return p2.rebounds();
+                    case STEALS:
+                        return p2.steals();
+                    case ASSISTS:
+                        return p2.assists();
+                    case FIELD_GOAL_MISSED:
+                        return p2.fieldGoalMissed();
+                    case FIELD_GOAL_MADE:
+                        return p2.fieldGoalMade();
+                    case BLOCKS:
+                        return p2.blocks();
+                }
+            }
+        }
+
+        throw new IllegalStateException("Stat not found");
     }
 }

@@ -1,9 +1,13 @@
 package com.cardillsports.stattracker;
 
 import com.cardillsports.stattracker.common.data.CardillService;
+import com.cardillsports.stattracker.game.data.GameRepository;
+import com.cardillsports.stattracker.game.ui.DetailsActivity;
 import com.cardillsports.stattracker.game.ui.GameActivity;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
@@ -16,7 +20,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public abstract class ApplicationModule {
 
     @ContributesAndroidInjector
-    abstract GameActivity contributeActivityInjector();
+    abstract GameActivity contributeGameActivityInjector();
+
+    @ContributesAndroidInjector
+    abstract DetailsActivity contributeDetailsActivityInjector();
 
     @Provides
     static CardillService provideCardillService(){

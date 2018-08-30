@@ -7,4 +7,6 @@ public interface GameViewBinder {
     void showStatConfirmation(String message);
 
     void showExitConfirmation();
+
+    void showDetails();
 }
