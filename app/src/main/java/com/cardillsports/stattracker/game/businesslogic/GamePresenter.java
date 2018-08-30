@@ -58,9 +58,6 @@ public class GamePresenter {
 
                         StatType statType = getStatKey(gameState);
 
-                        //gameRepository.incrementStat(player.id(), statType);
-                        //viewBinder.showStatConfirmation(player, statType.name());
-
                         if (gameState == GameState.ASSIST_REQUESTED
                                 || gameState == GameState.REBOUND_REQUESTED
                                 || gameState == GameState.BLOCK_REQUESTED

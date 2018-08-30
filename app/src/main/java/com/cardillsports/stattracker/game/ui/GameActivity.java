@@ -1,7 +1,6 @@
 package com.cardillsports.stattracker.game.ui;
 
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -15,7 +14,6 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.cardillsports.stattracker.R;
-import com.cardillsports.stattracker.common.data.Player;
 import com.cardillsports.stattracker.game.businesslogic.GameEvent;
 import com.cardillsports.stattracker.game.businesslogic.GamePresenter;
 import com.cardillsports.stattracker.common.data.CardillService;
@@ -25,11 +23,13 @@ import com.cardillsports.stattracker.game.businesslogic.NewGamePlayerAdapter;
 import com.cardillsports.stattracker.game.businesslogic.Team;
 import com.cardillsports.stattracker.game.data.GameData;
 import com.cardillsports.stattracker.game.data.GameRepository;
-import com.cardillsports.stattracker.main.ui.MainActivity;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.jakewharton.rxbinding2.view.RxView;
 
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjection;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 import retrofit2.Retrofit;
@@ -39,8 +39,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import static com.cardillsports.stattracker.main.ui.MainActivity.GAME_DATA;
 
 public class GameActivity extends AppCompatActivity implements GameViewBinder {
-
-    public static final String BASE_URL = "https://api-cardillsports-st.herokuapp.com";
 
     private GamePresenter mPresenter;
     private Button makeButton;
@@ -60,26 +58,19 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
     private GameViewModel gameViewModel;
     private PublishSubject<GameEvent> mBackButtonPublishSubject;
 
+    @Inject GameRepository gameRepository;
+    @Inject CardillService cardillService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_game);
-
-        Gson gson = new GsonBuilder()
-                .setLenient()
-                .create();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
-
-        CardillService cardillService = retrofit.create(CardillService.class);
 
         GameData gameData = getIntent().getParcelableExtra(GAME_DATA);
 
-        GameRepository gameRepository = new GameRepository(gameData);
+        gameRepository.setGameData(gameData);
 
         team1TextView = findViewById(R.id.team_1_textview);
         team2TextView = findViewById(R.id.team_2_textview);
@@ -87,48 +78,52 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
         teamOneRecyclerView = findViewById(R.id.team_1_recycler_view);
         teamOneRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         teamOneRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        //GamePlayerAdapter teamOneAdapter = new GamePlayerAdapter(gameData.teamOnePlayers(), gameRepository);
         NewGamePlayerAdapter teamOneAdapter = new NewGamePlayerAdapter(gameData.teamOnePlayers(), Team.TEAM_ONE);
         teamOneRecyclerView.setAdapter(teamOneAdapter);
 
         teamTwoRecyclerView = findViewById(R.id.team_2_recycler_view);
         teamTwoRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         teamTwoRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        //GamePlayerAdapter teamTwoAdapter = new GamePlayerAdapter(gameData.teamTwoPlayers(), gameRepository);
         NewGamePlayerAdapter teamTwoAdapter = new NewGamePlayerAdapter(gameData.teamTwoPlayers(), Team.TEAM_TWO);
         teamTwoRecyclerView.setAdapter(teamTwoAdapter);
 
         makeButton = findViewById(R.id.make);
-        Observable<GameEvent> makeClicks = RxView.clicks(makeButton).map(x -> new GameEvent.MakeRequested());
-
         missButton = findViewById(R.id.misses);
-        Observable<GameEvent> missClicks = RxView.clicks(missButton).map(x -> new GameEvent.MissRequested());
-
         turnoverButton = findViewById(R.id.turnover);
-        Observable<GameEvent> turnoverClicks = RxView.clicks(turnoverButton).map(x -> new GameEvent.TurnoverRequested());
-
         assistButton = findViewById(R.id.assist);
-        Observable<GameEvent> assistClicks = RxView.clicks(assistButton).map(x -> new GameEvent.AssistRequested());
-
         noAssistButton = findViewById(R.id.no_assist);
-        Observable<GameEvent> noAssistClicks = RxView.clicks(noAssistButton).map(x -> new GameEvent.NoAssistRequested());
-
         reboundButton = findViewById(R.id.rebound);
-        Observable<GameEvent> reboundClicks = RxView.clicks(reboundButton).map(x -> new GameEvent.ReboundRequested());
-
         neitherButton = findViewById(R.id.neither);
-        Observable<GameEvent> neitherClicks = RxView.clicks(neitherButton).map(x -> new GameEvent.NeitherRequested());
-
         blockButton = findViewById(R.id.block);
-        Observable<GameEvent> blockClicks = RxView.clicks(blockButton).map(x -> new GameEvent.BlockRequested());
-
         stealButton = findViewById(R.id.steal);
-        Observable<GameEvent> stealClicks = RxView.clicks(stealButton).map(x -> new GameEvent.StealRequested());
-
         noStealButton = findViewById(R.id.no_steal);
-        Observable<GameEvent> noStealClicks = RxView.clicks(noStealButton).map(x -> new GameEvent.NoStealRequested());
 
         gameViewModel = ViewModelProviders.of(this).get(GameViewModel.class);
+
+        Observable<GameEvent> clicks = getGameEventObservable();
+        mBackButtonPublishSubject = PublishSubject.create();
+
+        Observable<GameEvent> clickObservable = Observable.merge(
+                clicks,
+                mBackButtonPublishSubject,
+                teamOneAdapter.getPlayerSelectedEvents(),
+                teamTwoAdapter.getPlayerSelectedEvents());
+
+        mPresenter = new GamePresenter(this, gameRepository, cardillService, gameViewModel, clickObservable);
+        gameViewModel.getGameState().observe(this, this::renderUI);
+    }
+
+    private Observable<GameEvent> getGameEventObservable() {
+        Observable<GameEvent> makeClicks = RxView.clicks(makeButton).map(x -> new GameEvent.MakeRequested());
+        Observable<GameEvent> missClicks = RxView.clicks(missButton).map(x -> new GameEvent.MissRequested());
+        Observable<GameEvent> turnoverClicks = RxView.clicks(turnoverButton).map(x -> new GameEvent.TurnoverRequested());
+        Observable<GameEvent> assistClicks = RxView.clicks(assistButton).map(x -> new GameEvent.AssistRequested());
+        Observable<GameEvent> noAssistClicks = RxView.clicks(noAssistButton).map(x -> new GameEvent.NoAssistRequested());
+        Observable<GameEvent> reboundClicks = RxView.clicks(reboundButton).map(x -> new GameEvent.ReboundRequested());
+        Observable<GameEvent> neitherClicks = RxView.clicks(neitherButton).map(x -> new GameEvent.NeitherRequested());
+        Observable<GameEvent> blockClicks = RxView.clicks(blockButton).map(x -> new GameEvent.BlockRequested());
+        Observable<GameEvent> stealClicks = RxView.clicks(stealButton).map(x -> new GameEvent.StealRequested());
+        Observable<GameEvent> noStealClicks = RxView.clicks(noStealButton).map(x -> new GameEvent.NoStealRequested());
 
         Observable<GameEvent> mainButtonClicks = Observable.merge(
                 makeClicks,
@@ -152,23 +147,12 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
                 noStealClicks
         );
 
-        Observable<GameEvent> clicks = Observable.merge(
+        return Observable.merge(
                 mainButtonClicks,
                 makeButtonClicks,
                 missButtonClicks,
                 turnoverButtonClicks
         );
-
-        mBackButtonPublishSubject = PublishSubject.create();
-
-        Observable<GameEvent> clickObservable = Observable.merge(
-                clicks,
-                mBackButtonPublishSubject,
-                teamOneAdapter.getPlayerSelectedEvents(),
-                teamTwoAdapter.getPlayerSelectedEvents());
-
-        mPresenter = new GamePresenter(this, gameRepository, cardillService, gameViewModel, clickObservable);
-        gameViewModel.getGameState().observe(this, this::renderUI);
     }
 
     @Override

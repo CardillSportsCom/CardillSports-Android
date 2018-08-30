@@ -6,16 +6,24 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
+import javax.annotation.Nullable;
+import javax.inject.Inject;
+
 public class GameRepository {
 
     private GameData gameData;
     private Queue<PendingStat> queue;
 
-    public GameRepository(GameData gameData) {
-        this.gameData = gameData;
+    @Inject
+    public GameRepository() {
         queue = new LinkedList<>();
     }
 
+    public void setGameData(GameData gameData) {
+        this.gameData = gameData;
+    }
+
+    @Nullable
     public GameData getGameStats() {
         return gameData;
     }
