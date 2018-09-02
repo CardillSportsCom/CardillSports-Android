@@ -63,4 +63,5 @@ dependencies {
     implementation 'com.google.dagger:dagger-android-support:2.11' // if you use the support libraries
     annotationProcessor 'com.google.dagger:dagger-android-processor:2.11'
 
+    implementation 'com.evrencoskun.library:tableview:0.8.8'
 }
