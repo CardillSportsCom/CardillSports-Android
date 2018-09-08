@@ -5,6 +5,8 @@ import android.util.Log;
 import com.cardillsports.stattracker.common.data.CardillService;
 import com.cardillsports.stattracker.common.data.Player;
 import com.cardillsports.stattracker.main.ui.MainViewBinder;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -25,6 +27,7 @@ public class MainPresenter {
     }
 
     public void onStart() {
+
         mDisposable = mCardillService.getPlayersForLeague(LEAGUE_ID)
                 .map(resp -> resp.players)
                 .flatMapIterable(list -> list)

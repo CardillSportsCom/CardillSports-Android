@@ -20,6 +20,9 @@ import com.google.gson.GsonBuilder;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjection;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -32,24 +35,14 @@ public class MainActivity extends AppCompatActivity implements MainViewBinder {
     private MainPresenter mPresenter;
     private RecyclerView mRecyclerView;
     private PlayerAdapter adapter;
+    @Inject CardillService cardillService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AndroidInjection.inject(this);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        // TODO (vithushan) use dagger so you're not creating this twice
-        Gson gson = new GsonBuilder()
-                .setLenient()
-                .create();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
-
-        CardillService cardillService = retrofit.create(CardillService.class);
 
         mPresenter = new MainPresenter(this, cardillService);
 
