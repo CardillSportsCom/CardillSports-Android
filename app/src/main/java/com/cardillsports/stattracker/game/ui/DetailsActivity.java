@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.cardillsports.stattracker.R;
+import com.cardillsports.stattracker.common.data.MockData;
 import com.cardillsports.stattracker.details.businesslogic.StatsTableAdapter;
 import com.cardillsports.stattracker.game.businesslogic.GamePlayerAdapter;
 import com.cardillsports.stattracker.game.data.GameData;
@@ -13,6 +14,8 @@ import com.cardillsports.stattracker.game.data.GameRepository;
 import com.cardillsports.stattracker.game.data.Stat;
 import com.cardillsports.stattracker.game.data.StatType;
 import com.evrencoskun.tableview.TableView;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,7 +40,9 @@ public class DetailsActivity extends AppCompatActivity {
 
         GameData gameData = gameRepository.getGameStats();
 
-        TableView tableView =findViewById(R.id.team_1_table_view);
+        gameData = MockData.mockGameData();
+
+        TableView tableView = findViewById(R.id.team_1_table_view);
 
         // Create our custom TableView Adapter
         StatsTableAdapter adapter = new StatsTableAdapter(this);

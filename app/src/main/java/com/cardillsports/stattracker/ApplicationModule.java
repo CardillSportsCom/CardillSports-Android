@@ -35,7 +35,7 @@ public abstract class ApplicationModule {
     static CardillService provideCardillService(){
 
         //TODO (vithushan) make this a build config or something better than a local var
-        boolean online = true;
+        boolean online = false;
 
         if (online) {
             Gson gson = new GsonBuilder()

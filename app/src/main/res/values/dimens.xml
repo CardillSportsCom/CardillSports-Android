@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="game_stat_button_size">24dp</dimen>
-    <dimen name="column_header_height">24dp</dimen>
+    <dimen name="column_header_height">32dp</dimen>
     <dimen name="row_header_width">128dp</dimen>
 </resources>

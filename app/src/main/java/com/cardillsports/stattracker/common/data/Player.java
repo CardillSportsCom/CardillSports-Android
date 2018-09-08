@@ -37,7 +37,14 @@ public abstract class Player implements Parcelable{
     }
 
     static Builder builder() {
-        return new AutoValue_Player.Builder();
+        return new AutoValue_Player.Builder()
+                .fieldGoalMade(0)
+                .fieldGoalMissed(0)
+                .assists(0)
+                .rebounds(0)
+                .blocks(0)
+                .steals(0)
+                .turnovers(0);
     }
 
     @AutoValue.Builder
