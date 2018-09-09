@@ -3,21 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="@dimen/game_stat_button_size"
+    android:background="@color/colorAccent"
+    android:layout_gravity="center"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/stat_label"
-        android:text="hello"
-        android:layout_gravity="center_horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <com.cepheuen.elegantnumberbutton.view.ElegantNumberButton
+    <NumberPicker
         android:id="@+id/stat_button"
-        app:initialNumber="0"
-        app:backGroundColor="@color/colorPrimaryDark"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
 </LinearLayout>

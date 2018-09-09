@@ -2,6 +2,8 @@
 <LinearLayout
 xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/container"
+    android:gravity="center"
+    android:background="@color/colorPrimary"
     android:layout_gravity="center"
     android:layout_width="wrap_content"
 android:layout_height="match_parent">
@@ -9,6 +11,7 @@ android:layout_height="match_parent">
     <TextView
         android:id="@+id/stat_label"
         android:text="hello"
+        android:padding="16dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 </LinearLayout>
