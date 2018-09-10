@@ -1,8 +1,10 @@
 package com.cardillsports.stattracker.main.businesslogic;
 
+import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.TouchDelegate;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -81,6 +83,21 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
             mNameTextView = itemView.findViewById(R.id.name_text_view);
             mTeamOneCheckbox = itemView.findViewById(R.id.team_1_checkbox);
             mTeamTwoCheckbox = itemView.findViewById(R.id.team_2_checkbox);
+
+            //Make checkbox easier to click
+            itemView.post( new Runnable() {
+                // Post in the parent's message queue to make sure the parent
+                // lays out its children before we call getHitRect()
+                public void run() {
+                    final Rect r = new Rect();
+                    mTeamOneCheckbox.getHitRect(r);
+                    mTeamTwoCheckbox.getHitRect(r);
+                    r.top -= 4;
+                    r.bottom += 4;
+                    itemView.setTouchDelegate( new TouchDelegate( r , mTeamOneCheckbox));
+                    itemView.setTouchDelegate( new TouchDelegate( r , mTeamTwoCheckbox));
+                }
+            });
         }
 
         public TextView getNameTextView() {

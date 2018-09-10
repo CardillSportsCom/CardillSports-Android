@@ -2,6 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:background="@color/colorPrimaryDark"
     android:layout_height="wrap_content">
 
         <com.evrencoskun.tableview.TableView
@@ -11,7 +12,7 @@
 
             app:column_header_height="@dimen/column_header_height"
             app:row_header_width="@dimen/row_header_width"
-            app:selected_color="@color/colorPrimaryDark"
+            app:selected_color="@color/colorAccent"
             app:shadow_color="@color/colorPrimaryDark"
             app:unselected_color="@color/colorPrimary" />
 

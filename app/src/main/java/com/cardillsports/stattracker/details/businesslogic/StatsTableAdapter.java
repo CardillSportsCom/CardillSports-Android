@@ -4,9 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.cardillsports.stattracker.R;
@@ -33,11 +31,11 @@ public class StatsTableAdapter extends AbstractTableAdapter<StatType, Player, St
      */
     class MyCellViewHolder extends AbstractViewHolder {
 
-        public final ElegantNumberButton editText;
+        public final ElegantNumberButton numberButton;
 
         public MyCellViewHolder(View itemView) {
             super(itemView);
-            editText = itemView.findViewById(R.id.stat_button);
+            numberButton = itemView.findViewById(R.id.stat_button);
         }
     }
 
@@ -52,10 +50,8 @@ public class StatsTableAdapter extends AbstractTableAdapter<StatType, Player, St
      */
     @Override
     public AbstractViewHolder onCreateCellViewHolder(ViewGroup parent, int viewType) {
-        // Get cell xml layout
         View layout = LayoutInflater.from(context).inflate(R.layout.stat_item,
                 parent, false);
-        // Create a Custom ViewHolder for a Cell item.
         return new MyCellViewHolder(layout);
     }
 
@@ -81,14 +77,20 @@ public class StatsTableAdapter extends AbstractTableAdapter<StatType, Player, St
         // Get the holder to update cell item text
         MyCellViewHolder viewHolder = (MyCellViewHolder) holder;
 
-        viewHolder.editText.setNumber(String.valueOf(cell.getCount()));
+        viewHolder.numberButton.setNumber(String.valueOf(cell.getCount()));
 
+        viewHolder.numberButton.setOnValueChangeListener(new ElegantNumberButton.OnValueChangeListener() {
+            @Override
+            public void onValueChange(ElegantNumberButton view, int oldValue, int newValue) {
+                //TODO update gameRepo
+            }
+        });
         // If your TableView should have auto resize for cells & columns.
         // Then you should consider the below lines. Otherwise, you can ignore them.
 
         // It is necessary to remeasure itself.
         viewHolder.itemView.getLayoutParams().width = LinearLayout.LayoutParams.WRAP_CONTENT;
-        viewHolder.editText.requestLayout();
+        viewHolder.numberButton.requestLayout();
     }
 
 

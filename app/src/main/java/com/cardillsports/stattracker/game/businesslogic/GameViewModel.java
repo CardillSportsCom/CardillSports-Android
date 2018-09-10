@@ -20,7 +20,7 @@ public class GameViewModel extends ViewModel {
         teamOneScore = 0;
         teamTwoScore = 0;
         this.scoreString = new MutableLiveData<>();
-        scoreString.setValue("Score: 0 - 0");
+        scoreString.setValue("0 - 0");
     }
 
     public LiveData<GameState> getGameState() {
@@ -49,6 +49,6 @@ public class GameViewModel extends ViewModel {
         } else {
             teamTwoScore++;
         }
-        scoreString.setValue("Score: " + teamOneScore + " - " + teamTwoScore);
+        scoreString.setValue(teamOneScore + " - " + teamTwoScore);
     }
 }

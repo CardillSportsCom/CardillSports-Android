@@ -2,6 +2,8 @@ package com.cardillsports.stattracker.game.ui;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.cardillsports.stattracker.R;
 import com.cardillsports.stattracker.common.data.MockData;
@@ -33,9 +35,10 @@ public class DetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_details);
 
         GameData gameData = gameRepository.getGameStats();
-
+//TODO paginate this table
         List<Player> players = new ArrayList<>();
         players.addAll(gameData.teamOnePlayers());
+        players.add(Player.create("team", "team", "team"));
         players.addAll(gameData.teamTwoPlayers());
 
         TableView tableView = findViewById(R.id.team_1_table_view);
@@ -70,6 +73,23 @@ public class DetailsActivity extends AppCompatActivity {
         }
 
         adapter.setAllItems(columnHeaderItems, players, mCellList);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.details_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == R.id.action_done) {
+            finish();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
 

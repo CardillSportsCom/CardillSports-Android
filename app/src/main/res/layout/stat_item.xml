@@ -11,6 +11,7 @@
     <com.cepheuen.elegantnumberbutton.view.ElegantNumberButton
         android:id="@+id/stat_button"
         android:gravity="center"
+        app:textColor="#000000"
         android:layout_width="128dp"
         android:layout_height="wrap_content" />
 

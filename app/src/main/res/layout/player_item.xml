@@ -8,7 +8,7 @@
         android:id="@+id/team_1_checkbox"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:padding="@dimen/game_stat_button_size"
+        android:padding="64dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
