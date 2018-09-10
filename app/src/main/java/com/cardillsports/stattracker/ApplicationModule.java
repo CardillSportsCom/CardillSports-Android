@@ -2,14 +2,11 @@ package com.cardillsports.stattracker;
 
 import com.cardillsports.stattracker.common.data.CardillService;
 import com.cardillsports.stattracker.common.data.MockCardillService;
-import com.cardillsports.stattracker.game.data.GameRepository;
 import com.cardillsports.stattracker.game.ui.DetailsActivity;
 import com.cardillsports.stattracker.game.ui.GameActivity;
 import com.cardillsports.stattracker.main.ui.MainActivity;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
-import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
@@ -35,7 +32,7 @@ public abstract class ApplicationModule {
     static CardillService provideCardillService(){
 
         //TODO (vithushan) make this a build config or something better than a local var
-        boolean online = false;
+        boolean online = true;
 
         if (online) {
             Gson gson = new GsonBuilder()

@@ -1,58 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="wrap_content">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:orientation="vertical"
+        <com.evrencoskun.tableview.TableView
+            android:id="@+id/team_1_table_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/team_1"
-                android:padding="16dp"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"/>
+            app:column_header_height="@dimen/column_header_height"
+            app:row_header_width="@dimen/row_header_width"
+            app:selected_color="@color/colorPrimaryDark"
+            app:shadow_color="@color/colorPrimaryDark"
+            app:unselected_color="@color/colorPrimary" />
 
-            <com.evrencoskun.tableview.TableView
-                android:id="@+id/team_1_table_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                app:column_header_height="@dimen/column_header_height"
-                app:row_header_width="@dimen/row_header_width"
-                app:selected_color="@color/selected_background_color"
-                app:shadow_color="@color/shadow_background_color"
-                app:unselected_color="@color/unselected_background_color"
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/team_2"
-                android:padding="16dp"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"/>
-
-            <com.evrencoskun.tableview.TableView
-                android:id="@+id/team_2_table_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                app:column_header_height="@dimen/column_header_height"
-                app:row_header_width="@dimen/row_header_width"
-                app:selected_color="@color/selected_background_color"
-                app:shadow_color="@color/shadow_background_color"
-                app:unselected_color="@color/unselected_background_color"
-                />
-        </LinearLayout>
-
-    </ScrollView>
 
 </FrameLayout>

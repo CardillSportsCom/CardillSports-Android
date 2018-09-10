@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cardillsports.stattracker.R;
@@ -110,8 +111,11 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
                 teamOneAdapter.getPlayerSelectedEvents(),
                 teamTwoAdapter.getPlayerSelectedEvents());
 
+        TextView scoreText = findViewById(R.id.score_textview);
+
         mPresenter = new GamePresenter(this, gameRepository, cardillService, gameViewModel, clickObservable);
         gameViewModel.getGameState().observe(this, this::renderUI);
+        gameViewModel.getCurrentScore().observe(this, scoreText::setText);
     }
 
     private Observable<GameEvent> getGameEventObservable() {
@@ -284,6 +288,7 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
 
         if (item.getItemId() == R.id.action_save) {
             mPresenter.submitGameStats();
+            mPresenter.detailsRequested();
             finish();
             return true;
         } else if (item.getItemId() == R.id.action_details) {

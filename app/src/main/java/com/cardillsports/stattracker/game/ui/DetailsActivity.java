@@ -2,23 +2,16 @@ package com.cardillsports.stattracker.game.ui;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.MotionEvent;
-import android.view.View;
 
 import com.cardillsports.stattracker.R;
 import com.cardillsports.stattracker.common.data.MockData;
 import com.cardillsports.stattracker.common.data.Player;
 import com.cardillsports.stattracker.details.businesslogic.StatsTableAdapter;
-import com.cardillsports.stattracker.game.businesslogic.GamePlayerAdapter;
 import com.cardillsports.stattracker.game.data.GameData;
 import com.cardillsports.stattracker.game.data.GameRepository;
 import com.cardillsports.stattracker.game.data.Stat;
 import com.cardillsports.stattracker.game.data.StatType;
 import com.evrencoskun.tableview.TableView;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,8 +20,6 @@ import java.util.List;
 import javax.inject.Inject;
 
 import dagger.android.AndroidInjection;
-
-import static java.security.AccessController.getContext;
 
 public class DetailsActivity extends AppCompatActivity {
 
@@ -43,13 +34,17 @@ public class DetailsActivity extends AppCompatActivity {
 
         GameData gameData = gameRepository.getGameStats();
 
-        gameData = MockData.mockGameData();
+        List<Player> players = new ArrayList<>();
+        players.addAll(gameData.teamOnePlayers());
+        players.addAll(gameData.teamTwoPlayers());
 
         TableView tableView = findViewById(R.id.team_1_table_view);
-        tableView.setIgnoreSelectionColors(true);
-        tableView.setFocusableInTouchMode(true);
-        tableView.setTouchscreenBlocksFocus(true);
 
+
+        initRecyclerView(tableView, players);
+    }
+
+    private void initRecyclerView(TableView tableView, List<Player> players) {
         tableView.getCellRecyclerView().setMotionEventSplittingEnabled(true);
         // Create our custom TableView Adapter
         StatsTableAdapter adapter = new StatsTableAdapter(this);
@@ -62,7 +57,7 @@ public class DetailsActivity extends AppCompatActivity {
 
         List<List<Stat>> mCellList = new ArrayList<>();
 
-        for (Player player : gameData.teamOnePlayers()) {
+        for (Player player : players) {
             List<Stat> statList = new ArrayList<>(8);
             statList.add(new Stat(StatType.FIELD_GOAL_MADE, player.fieldGoalMade()));
             statList.add(new Stat(StatType.FIELD_GOAL_MISSED, player.fieldGoalMissed()));
@@ -74,7 +69,7 @@ public class DetailsActivity extends AppCompatActivity {
             mCellList.add(statList);
         }
 
-        adapter.setAllItems(columnHeaderItems, gameData.teamOnePlayers(), mCellList);
+        adapter.setAllItems(columnHeaderItems, players, mCellList);
     }
 }
 

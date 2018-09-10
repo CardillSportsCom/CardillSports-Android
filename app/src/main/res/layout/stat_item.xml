@@ -2,15 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:padding="@dimen/game_stat_button_size"
     android:background="@color/colorAccent"
     android:layout_gravity="center"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/row_height">
 
-    <NumberPicker
+    <com.cepheuen.elegantnumberbutton.view.ElegantNumberButton
         android:id="@+id/stat_button"
-        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_width="128dp"
         android:layout_height="wrap_content" />
 
 </LinearLayout>

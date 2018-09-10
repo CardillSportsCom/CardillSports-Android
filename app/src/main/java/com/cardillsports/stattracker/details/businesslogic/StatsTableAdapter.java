@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
@@ -12,6 +13,7 @@ import com.cardillsports.stattracker.R;
 import com.cardillsports.stattracker.common.data.Player;
 import com.cardillsports.stattracker.game.data.Stat;
 import com.cardillsports.stattracker.game.data.StatType;
+import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.evrencoskun.tableview.adapter.AbstractTableAdapter;
 import com.evrencoskun.tableview.adapter.recyclerview.holder.AbstractViewHolder;
 
@@ -31,14 +33,13 @@ public class StatsTableAdapter extends AbstractTableAdapter<StatType, Player, St
      */
     class MyCellViewHolder extends AbstractViewHolder {
 
-        public final NumberPicker numberPicker;
+        public final ElegantNumberButton editText;
 
         public MyCellViewHolder(View itemView) {
             super(itemView);
-            numberPicker = itemView.findViewById(R.id.stat_button);
+            editText = itemView.findViewById(R.id.stat_button);
         }
     }
-
 
     /**
      * This is where you create your custom Cell ViewHolder. This method is called when Cell
@@ -79,16 +80,15 @@ public class StatsTableAdapter extends AbstractTableAdapter<StatType, Player, St
 
         // Get the holder to update cell item text
         MyCellViewHolder viewHolder = (MyCellViewHolder) holder;
-        viewHolder.numberPicker.setValue(cell.getCount());
-        viewHolder.numberPicker.setMinValue(0);
-        viewHolder.numberPicker.setMaxValue(100);
+
+        viewHolder.editText.setNumber(String.valueOf(cell.getCount()));
 
         // If your TableView should have auto resize for cells & columns.
         // Then you should consider the below lines. Otherwise, you can ignore them.
 
         // It is necessary to remeasure itself.
         viewHolder.itemView.getLayoutParams().width = LinearLayout.LayoutParams.WRAP_CONTENT;
-        viewHolder.numberPicker.requestLayout();
+        viewHolder.editText.requestLayout();
     }
 
 

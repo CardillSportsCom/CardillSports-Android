@@ -9,11 +9,18 @@ public class GameViewModel extends ViewModel {
 
     private MutableLiveData<GameState> mGameState;
     private Team currentTeam;
+    private int teamTwoScore;
+    private int teamOneScore;
+    private MutableLiveData<String> scoreString;
 
     public GameViewModel() {
         this.mGameState = new MutableLiveData<>();
         mGameState.setValue(GameState.MAIN);
         currentTeam = Team.TEAM_ONE;
+        teamOneScore = 0;
+        teamTwoScore = 0;
+        this.scoreString = new MutableLiveData<>();
+        scoreString.setValue("Score: 0 - 0");
     }
 
     public LiveData<GameState> getGameState() {
@@ -30,5 +37,18 @@ public class GameViewModel extends ViewModel {
 
     public Team getCurrentTeam() {
         return currentTeam;
+    }
+
+    public LiveData<String> getCurrentScore() {
+        return scoreString;
+    }
+
+    public void recordScore() {
+        if (currentTeam == Team.TEAM_ONE) {
+            teamOneScore++;
+        } else {
+            teamTwoScore++;
+        }
+        scoreString.setValue("Score: " + teamOneScore + " - " + teamTwoScore);
     }
 }
