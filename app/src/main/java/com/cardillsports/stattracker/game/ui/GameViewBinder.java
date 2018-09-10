@@ -9,4 +9,6 @@ public interface GameViewBinder {
     void showExitConfirmation();
 
     void showDetails();
+
+    void showBoxScore();
 }

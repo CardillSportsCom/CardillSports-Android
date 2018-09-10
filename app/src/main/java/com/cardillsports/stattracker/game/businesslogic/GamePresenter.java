@@ -189,4 +189,8 @@ public class GamePresenter {
     public void detailsRequested() {
         viewBinder.showDetails();
     }
+
+    public void boxScoreRequested() {
+        viewBinder.showBoxScore();
+    }
 }

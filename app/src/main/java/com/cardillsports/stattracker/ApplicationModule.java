@@ -2,6 +2,7 @@ package com.cardillsports.stattracker;
 
 import com.cardillsports.stattracker.common.data.CardillService;
 import com.cardillsports.stattracker.common.data.MockCardillService;
+import com.cardillsports.stattracker.game.ui.BoxScoreActivity;
 import com.cardillsports.stattracker.game.ui.DetailsActivity;
 import com.cardillsports.stattracker.game.ui.GameActivity;
 import com.cardillsports.stattracker.main.ui.MainActivity;
@@ -27,6 +28,9 @@ public abstract class ApplicationModule {
 
     @ContributesAndroidInjector
     abstract DetailsActivity contributeDetailsActivityInjector();
+
+    @ContributesAndroidInjector
+    abstract BoxScoreActivity contributeBoxScoreActivityInjector();
 
     @Provides
     static CardillService provideCardillService(){

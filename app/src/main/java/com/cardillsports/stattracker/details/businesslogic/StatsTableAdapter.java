@@ -15,7 +15,7 @@ import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.evrencoskun.tableview.adapter.AbstractTableAdapter;
 import com.evrencoskun.tableview.adapter.recyclerview.holder.AbstractViewHolder;
 
-public class StatsTableAdapter extends AbstractTableAdapter<StatType, Player, Stat> {
+public abstract class StatsTableAdapter extends AbstractTableAdapter<StatType, Player, Stat> {
 
     private final Context context;
 
@@ -40,6 +40,20 @@ public class StatsTableAdapter extends AbstractTableAdapter<StatType, Player, St
     }
 
     /**
+     * This is sample CellViewHolder class
+     * This viewHolder must be extended from AbstractViewHolder class instead of RecyclerView.ViewHolder.
+     */
+    class BoxScoreCellViewHolder extends AbstractViewHolder {
+
+        public final TextView textView;
+
+        public BoxScoreCellViewHolder(View itemView) {
+            super(itemView);
+            textView = itemView.findViewById(R.id.stat_button);
+        }
+    }
+
+    /**
      * This is where you create your custom Cell ViewHolder. This method is called when Cell
      * RecyclerView of the TableView needs a new RecyclerView.ViewHolder of the given type to
      * represent an item.
@@ -50,9 +64,15 @@ public class StatsTableAdapter extends AbstractTableAdapter<StatType, Player, St
      */
     @Override
     public AbstractViewHolder onCreateCellViewHolder(ViewGroup parent, int viewType) {
-        View layout = LayoutInflater.from(context).inflate(R.layout.stat_item,
-                parent, false);
-        return new MyCellViewHolder(layout);
+        if (viewType == 0) {
+            View layout = LayoutInflater.from(context).inflate(R.layout.stat_item,
+                    parent, false);
+            return new MyCellViewHolder(layout);
+        } else {
+            View layout = LayoutInflater.from(context).inflate(R.layout.box_score_stat_item,
+                    parent, false);
+            return new BoxScoreCellViewHolder(layout);
+        }
     }
 
     /**
@@ -72,25 +92,32 @@ public class StatsTableAdapter extends AbstractTableAdapter<StatType, Player, St
     @Override
     public void onBindCellViewHolder(AbstractViewHolder holder, Object cellItemModel, int
             columnPosition, int rowPosition) {
+
         Stat cell = (Stat) cellItemModel;
 
-        // Get the holder to update cell item text
-        MyCellViewHolder viewHolder = (MyCellViewHolder) holder;
+        if (holder instanceof MyCellViewHolder) {
 
-        viewHolder.numberButton.setNumber(String.valueOf(cell.getCount()));
+            // Get the holder to update cell item text
+            MyCellViewHolder viewHolder = (MyCellViewHolder) holder;
 
-        viewHolder.numberButton.setOnValueChangeListener(new ElegantNumberButton.OnValueChangeListener() {
-            @Override
-            public void onValueChange(ElegantNumberButton view, int oldValue, int newValue) {
-                //TODO update gameRepo
-            }
-        });
-        // If your TableView should have auto resize for cells & columns.
-        // Then you should consider the below lines. Otherwise, you can ignore them.
+            viewHolder.numberButton.setNumber(String.valueOf(cell.getCount()));
 
-        // It is necessary to remeasure itself.
-        viewHolder.itemView.getLayoutParams().width = LinearLayout.LayoutParams.WRAP_CONTENT;
-        viewHolder.numberButton.requestLayout();
+            viewHolder.numberButton.setOnValueChangeListener(new ElegantNumberButton.OnValueChangeListener() {
+                @Override
+                public void onValueChange(ElegantNumberButton view, int oldValue, int newValue) {
+                    //TODO update gameRepo
+                }
+            });
+            // If your TableView should have auto resize for cells & columns.
+            // Then you should consider the below lines. Otherwise, you can ignore them.
+
+            // It is necessary to remeasure itself.
+            viewHolder.itemView.getLayoutParams().width = LinearLayout.LayoutParams.WRAP_CONTENT;
+            viewHolder.numberButton.requestLayout();
+        } else if (holder instanceof BoxScoreCellViewHolder) {
+            BoxScoreCellViewHolder viewHolder = (BoxScoreCellViewHolder) holder;
+            viewHolder.textView.setText(String.valueOf(cell.getCount()));
+        }
     }
 
 
@@ -247,11 +274,9 @@ public class StatsTableAdapter extends AbstractTableAdapter<StatType, Player, St
     }
 
     @Override
-    public int getCellItemViewType(int columnPosition) {
-        // The unique ID for this type of cell item
-        // If you have different items for Cell View by X (Column) position,
-        // then you should fill this method to be able create different
-        // type of CellViewHolder on "onCreateCellViewHolder"
-        return 0;
-    }
+    public abstract int getCellItemViewType(int columnPosition);
+    // The unique ID for this type of cell item
+    // If you have different items for Cell View by X (Column) position,
+    // then you should fill this method to be able create different
+    // type of CellViewHolder on "onCreateCellViewHolder"
 }

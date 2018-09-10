@@ -288,7 +288,7 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
 
         if (item.getItemId() == R.id.action_save) {
             mPresenter.submitGameStats();
-            mPresenter.detailsRequested();
+            mPresenter.boxScoreRequested();
             finish();
             return true;
         } else if (item.getItemId() == R.id.action_details) {
@@ -316,6 +316,12 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
     @Override
     public void showDetails() {
         Intent intent = new Intent(this, DetailsActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void showBoxScore() {
+        Intent intent = new Intent(this, BoxScoreActivity.class);
         startActivity(intent);
     }
 }

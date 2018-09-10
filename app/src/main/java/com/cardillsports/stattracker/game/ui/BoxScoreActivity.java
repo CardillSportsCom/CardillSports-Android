@@ -6,7 +6,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.cardillsports.stattracker.R;
-import com.cardillsports.stattracker.common.data.MockData;
 import com.cardillsports.stattracker.common.data.Player;
 import com.cardillsports.stattracker.details.businesslogic.StatsTableAdapter;
 import com.cardillsports.stattracker.game.data.GameData;
@@ -23,7 +22,7 @@ import javax.inject.Inject;
 
 import dagger.android.AndroidInjection;
 
-public class DetailsActivity extends AppCompatActivity {
+public class BoxScoreActivity extends AppCompatActivity {
 
     @Inject GameRepository gameRepository;
 
@@ -53,7 +52,7 @@ public class DetailsActivity extends AppCompatActivity {
         StatsTableAdapter adapter = new StatsTableAdapter(this) {
             @Override
             public int getCellItemViewType(int columnPosition) {
-                return 0;
+                return 1;
             }
         };
 
