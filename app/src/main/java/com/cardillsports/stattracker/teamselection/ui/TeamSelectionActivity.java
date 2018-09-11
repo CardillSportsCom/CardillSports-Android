@@ -1,4 +1,4 @@
-package com.cardillsports.stattracker.main.ui;
+package com.cardillsports.stattracker.teamselection.ui;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -9,30 +9,25 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.cardillsports.stattracker.R;
-import com.cardillsports.stattracker.main.businesslogic.MainPresenter;
-import com.cardillsports.stattracker.main.businesslogic.PlayerAdapter;
+import com.cardillsports.stattracker.teamselection.businesslogic.TeamSelectionPresenter;
+import com.cardillsports.stattracker.teamselection.businesslogic.PlayerAdapter;
 import com.cardillsports.stattracker.common.data.CardillService;
 import com.cardillsports.stattracker.game.data.GameData;
 import com.cardillsports.stattracker.common.data.Player;
 import com.cardillsports.stattracker.game.ui.GameActivity;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
 import dagger.android.AndroidInjection;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends AppCompatActivity implements MainViewBinder {
+public class TeamSelectionActivity extends AppCompatActivity implements TeamSelectionViewBinder {
 
     public static final String BASE_URL = "https://api-cardillsports-st.herokuapp.com";
     public static final String GAME_DATA = "game-data-key";
 
-    private MainPresenter mPresenter;
+    private TeamSelectionPresenter mPresenter;
     private RecyclerView mRecyclerView;
     private PlayerAdapter adapter;
     @Inject CardillService cardillService;
@@ -44,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements MainViewBinder {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mPresenter = new MainPresenter(this, cardillService);
+        mPresenter = new TeamSelectionPresenter(this, cardillService);
 
         mRecyclerView = findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));

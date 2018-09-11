@@ -25,8 +25,6 @@ import com.cardillsports.stattracker.game.businesslogic.NewGamePlayerAdapter;
 import com.cardillsports.stattracker.game.businesslogic.Team;
 import com.cardillsports.stattracker.game.data.GameData;
 import com.cardillsports.stattracker.game.data.GameRepository;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import javax.inject.Inject;
@@ -34,11 +32,8 @@ import javax.inject.Inject;
 import dagger.android.AndroidInjection;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 
-import static com.cardillsports.stattracker.main.ui.MainActivity.GAME_DATA;
+import static com.cardillsports.stattracker.teamselection.ui.TeamSelectionActivity.GAME_DATA;
 
 public class GameActivity extends AppCompatActivity implements GameViewBinder {
 

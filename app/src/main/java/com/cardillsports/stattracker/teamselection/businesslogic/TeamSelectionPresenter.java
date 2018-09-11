@@ -1,27 +1,25 @@
-package com.cardillsports.stattracker.main.businesslogic;
+package com.cardillsports.stattracker.teamselection.businesslogic;
 
 import android.util.Log;
 
 import com.cardillsports.stattracker.common.data.CardillService;
 import com.cardillsports.stattracker.common.data.Player;
-import com.cardillsports.stattracker.main.ui.MainViewBinder;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.cardillsports.stattracker.teamselection.ui.TeamSelectionViewBinder;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class MainPresenter {
+public class TeamSelectionPresenter {
 
     private static final String LEAGUE_ID = "5ac6aaefe8da8276a88ffc07";
     private static final String TAG = "Vithushan";
 
-    private final MainViewBinder mViewBinder;
+    private final TeamSelectionViewBinder mViewBinder;
     private final CardillService mCardillService;
     private Disposable mDisposable;
 
-    public MainPresenter(MainViewBinder viewBinder, CardillService cardillService) {
+    public TeamSelectionPresenter(TeamSelectionViewBinder viewBinder, CardillService cardillService) {
         mViewBinder = viewBinder;
         mCardillService = cardillService;
     }

@@ -5,7 +5,7 @@ import com.cardillsports.stattracker.common.data.MockCardillService;
 import com.cardillsports.stattracker.game.ui.BoxScoreActivity;
 import com.cardillsports.stattracker.game.ui.DetailsActivity;
 import com.cardillsports.stattracker.game.ui.GameActivity;
-import com.cardillsports.stattracker.main.ui.MainActivity;
+import com.cardillsports.stattracker.teamselection.ui.TeamSelectionActivity;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -21,7 +21,7 @@ public abstract class ApplicationModule {
 
 
     @ContributesAndroidInjector
-    abstract MainActivity contributeMainActivityInjector();
+    abstract TeamSelectionActivity contributeMainActivityInjector();
 
     @ContributesAndroidInjector
     abstract GameActivity contributeGameActivityInjector();

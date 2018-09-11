@@ -4,30 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.cardillsports.stattracker.R;
-import com.cardillsports.stattracker.common.data.CardillService;
-import com.cardillsports.stattracker.common.data.Player;
-import com.cardillsports.stattracker.game.data.GameData;
-import com.cardillsports.stattracker.game.ui.GameActivity;
-import com.cardillsports.stattracker.main.businesslogic.MainPresenter;
-import com.cardillsports.stattracker.main.businesslogic.PlayerAdapter;
-import com.cardillsports.stattracker.main.ui.MainActivity;
-import com.cardillsports.stattracker.main.ui.MainViewBinder;
-
-import java.util.List;
-
-import javax.inject.Inject;
-
-import dagger.android.AndroidInjection;
+import com.cardillsports.stattracker.teamselection.ui.TeamSelectionActivity;
 
 public class StatsActivity extends AppCompatActivity {
 
@@ -100,7 +84,7 @@ public class StatsActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (item.getItemId() == R.id.action_new_game) {
-            Intent intent = new Intent(this, MainActivity.class);
+            Intent intent = new Intent(this, TeamSelectionActivity.class);
             startActivity(intent);
             return true;
         }
