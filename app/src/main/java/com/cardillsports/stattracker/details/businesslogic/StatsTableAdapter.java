@@ -15,14 +15,24 @@ import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.evrencoskun.tableview.adapter.AbstractTableAdapter;
 import com.evrencoskun.tableview.adapter.recyclerview.holder.AbstractViewHolder;
 
+import io.reactivex.Observable;
+import io.reactivex.subjects.PublishSubject;
+
 public abstract class StatsTableAdapter extends AbstractTableAdapter<StatType, Player, Stat> {
 
     private final Context context;
+    private PublishSubject<DetailsChangedEvent> mPublishSubject;
+
 
     public StatsTableAdapter(Context context) {
         super(context);
 
+        mPublishSubject = PublishSubject.create();
         this.context = context;
+    }
+
+    public Observable<DetailsChangedEvent> getChangeEvents() {
+        return mPublishSubject;
     }
 
     /**
@@ -106,6 +116,7 @@ public abstract class StatsTableAdapter extends AbstractTableAdapter<StatType, P
                 @Override
                 public void onValueChange(ElegantNumberButton view, int oldValue, int newValue) {
                     //TODO update gameRepo
+                    mPublishSubject.onNext(new DetailsChangedEvent(columnPosition, rowPosition, newValue));
                 }
             });
             // If your TableView should have auto resize for cells & columns.
@@ -275,8 +286,4 @@ public abstract class StatsTableAdapter extends AbstractTableAdapter<StatType, P
 
     @Override
     public abstract int getCellItemViewType(int columnPosition);
-    // The unique ID for this type of cell item
-    // If you have different items for Cell View by X (Column) position,
-    // then you should fill this method to be able create different
-    // type of CellViewHolder on "onCreateCellViewHolder"
 }

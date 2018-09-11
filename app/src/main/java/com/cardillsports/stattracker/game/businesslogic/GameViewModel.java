@@ -5,6 +5,9 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
+import com.cardillsports.stattracker.common.data.Player;
+import com.cardillsports.stattracker.game.data.GameData;
+
 public class GameViewModel extends ViewModel {
 
     private MutableLiveData<GameState> mGameState;
@@ -12,9 +15,11 @@ public class GameViewModel extends ViewModel {
     private int teamTwoScore;
     private int teamOneScore;
     private MutableLiveData<String> scoreString;
+    private MutableLiveData<GameData> gameStats;
 
     public GameViewModel() {
         this.mGameState = new MutableLiveData<>();
+        this.gameStats = new MutableLiveData<>();
         mGameState.setValue(GameState.MAIN);
         currentTeam = Team.TEAM_ONE;
         teamOneScore = 0;
@@ -43,12 +48,22 @@ public class GameViewModel extends ViewModel {
         return scoreString;
     }
 
-    public void recordScore() {
-        if (currentTeam == Team.TEAM_ONE) {
-            teamOneScore++;
-        } else {
-            teamTwoScore++;
+    public void updateScore(GameData gameStats) {
+
+        this.gameStats.setValue(gameStats);
+
+        int team1 = 0;
+
+        for (Player p : gameStats.teamOnePlayers()) {
+            team1 += p.fieldGoalMade();
         }
-        scoreString.setValue(teamOneScore + " - " + teamTwoScore);
+
+        int team2 = 0;
+
+        for (Player p : gameStats.teamTwoPlayers()) {
+            team2 += p.fieldGoalMade();
+        }
+
+        scoreString.setValue(team1 + " - "  + team2);
     }
 }

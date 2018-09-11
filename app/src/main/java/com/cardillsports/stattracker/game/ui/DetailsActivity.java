@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import com.cardillsports.stattracker.R;
 import com.cardillsports.stattracker.common.data.MockData;
 import com.cardillsports.stattracker.common.data.Player;
+import com.cardillsports.stattracker.details.businesslogic.DetailsChangedEvent;
 import com.cardillsports.stattracker.details.businesslogic.StatsTableAdapter;
 import com.cardillsports.stattracker.game.data.GameData;
 import com.cardillsports.stattracker.game.data.GameRepository;
@@ -22,6 +23,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import dagger.android.AndroidInjection;
+import io.reactivex.functions.Consumer;
 
 public class DetailsActivity extends AppCompatActivity {
 
@@ -78,6 +80,49 @@ public class DetailsActivity extends AppCompatActivity {
         }
 
         adapter.setAllItems(columnHeaderItems, players, mCellList);
+
+        int numOfTeamOnePlayers = gameRepository.getGameStats().teamOnePlayers().size();
+
+        adapter.getChangeEvents()
+                .subscribe(new Consumer<DetailsChangedEvent>() {
+                    @Override
+                    public void accept(DetailsChangedEvent detailsChangedEvent) throws Exception {
+                        int rowPosition = detailsChangedEvent.getRowPosition();
+                        Player player;
+                        if (rowPosition >= numOfTeamOnePlayers) {
+                            rowPosition -= numOfTeamOnePlayers;
+                            player = gameRepository.getGameStats().teamTwoPlayers().get(rowPosition);
+                        } else {
+                            player = gameRepository.getGameStats().teamOnePlayers().get(rowPosition);
+                        }
+
+                        switch (detailsChangedEvent.getColumnPosition()) {
+                            case 0:
+                                gameRepository.updateStats(player.id(), StatType.FIELD_GOAL_MADE, detailsChangedEvent.getNewValue());
+                                break;
+                            case 1:
+                                gameRepository.updateStats(player.id(), StatType.FIELD_GOAL_MISSED, detailsChangedEvent.getNewValue());
+                                break;
+                            case 2:
+                                gameRepository.updateStats(player.id(), StatType.ASSISTS, detailsChangedEvent.getNewValue());
+                                break;
+                            case 3:
+                                gameRepository.updateStats(player.id(), StatType.REBOUNDS, detailsChangedEvent.getNewValue());
+                                break;
+                            case 4:
+                                gameRepository.updateStats(player.id(), StatType.STEALS, detailsChangedEvent.getNewValue());
+                                break;
+                            case 5:
+                                gameRepository.updateStats(player.id(), StatType.BLOCKS, detailsChangedEvent.getNewValue());
+                                break;
+                            case 6:
+                                gameRepository.updateStats(player.id(), StatType.TURNOVERS, detailsChangedEvent.getNewValue());
+                                break;
+                            default:
+                                throw new UnsupportedOperationException("Invalid column number");
+                        }
+                    }
+                });
     }
 
     @Override

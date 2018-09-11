@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.cardillsports.stattracker.R;
 import com.cardillsports.stattracker.teamselection.businesslogic.TeamSelectionPresenter;
@@ -31,6 +32,7 @@ public class TeamSelectionActivity extends AppCompatActivity implements TeamSele
     private RecyclerView mRecyclerView;
     private PlayerAdapter adapter;
     @Inject CardillService cardillService;
+    private View mProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +45,7 @@ public class TeamSelectionActivity extends AppCompatActivity implements TeamSele
 
         mRecyclerView = findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mProgress = findViewById(R.id.progress);
     }
 
     @Override
@@ -76,6 +79,7 @@ public class TeamSelectionActivity extends AppCompatActivity implements TeamSele
 
     @Override
     public void loadPlayers(List<Player> players) {
+        mProgress.setVisibility(View.GONE);
         adapter = new PlayerAdapter(players);
         mRecyclerView.setAdapter(adapter);
     }

@@ -294,6 +294,12 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        gameViewModel.updateScore(gameRepository.getGameStats()); //when you come back from details, update score
+    }
+
+    @Override
     public void showStatConfirmation(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }

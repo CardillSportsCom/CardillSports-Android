@@ -66,7 +66,7 @@ public class GamePresenter {
                                 PendingStat latestPendingStat = gameRepository.getLatestPendingStat();
                                 gameRepository.incrementStat(latestPendingStat.getPlayer().id(), latestPendingStat.getStatType());
                                 gameRepository.incrementStat(player.id(), statType);
-                                viewModel.recordScore();
+                                viewModel.updateScore(gameRepository.getGameStats());
                                 viewBinder.showStatConfirmation(player.firstName() + " assists to " + latestPendingStat.getPlayer().firstName());
                             } else if (gameState == GameState.REBOUND_REQUESTED) {
                                 PendingStat latestPendingStat = gameRepository.getLatestPendingStat();
@@ -101,7 +101,7 @@ public class GamePresenter {
                         PendingStat latestPendingStat = gameRepository.getLatestPendingStat();
                         gameRepository.incrementStat(latestPendingStat.getPlayer().id(), latestPendingStat.getStatType());
                         viewBinder.showStatConfirmation(latestPendingStat.getPlayer().firstName() + " made shot");
-                        viewModel.recordScore();
+                        viewModel.updateScore(gameRepository.getGameStats());
                         viewModel.setGameState(GameState.MAIN);
                     } else if (gameEvent instanceof GameEvent.MissRequested) {
                         viewModel.setGameState(GameState.MISS_REQUESTED);
