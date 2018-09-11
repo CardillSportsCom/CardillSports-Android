@@ -87,6 +87,8 @@ public class MainActivity extends AppCompatActivity implements MainViewBinder {
 
     @Override
     public void navigateToGameScreen() {
+        finish();
+
         List<Player> teamOnePlayers = adapter.getTeamOnePlayers();
         List<Player> teamTwoPlayers = adapter.getTeamTwoPlayers();
 
