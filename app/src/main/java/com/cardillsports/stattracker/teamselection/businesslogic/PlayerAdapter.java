@@ -46,16 +46,20 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
         holder.getTeamOneCheckbox().setOnCheckedChangeListener((compoundButton, b) -> {
             if (b == true) {
                 mTeamOne.add(mPlayers.get(position));
+                holder.getTeamTwoCheckbox().setEnabled(false);
             } else {
                 mTeamOne.remove(mPlayers.get(position));
+                holder.getTeamTwoCheckbox().setEnabled(true);
             }
         });
 
         holder.getTeamTwoCheckbox().setOnCheckedChangeListener((compoundButton, b) -> {
             if (b == true) {
                 mTeamTwo.add(mPlayers.get(position));
+                holder.getTeamOneCheckbox().setEnabled(false);
             } else {
                 mTeamTwo.remove(mPlayers.get(position));
+                holder.getTeamOneCheckbox().setEnabled(true);
             }
         });
     }
