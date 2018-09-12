@@ -5,4 +5,6 @@ public class JSONGameStats {
     public String teamTypeId;
     public JSONTeamStats teamA;
     public JSONTeamStats teamB;
+    public String teamAScore;
+    public String teamBScore;
 }

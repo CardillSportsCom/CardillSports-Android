@@ -74,4 +74,21 @@ dependencies {
     annotationProcessor 'com.google.dagger:dagger-android-processor:2.11'
 
     implementation 'com.evrencoskun.library:tableview:0.8.8'
+
+    // https://mvnrepository.com/artifact/com.birbit/android-priority-jobqueue
+    implementation group: 'com.birbit', name: 'android-priority-jobqueue', version: '2.0.1'
+
+    // https://mvnrepository.com/artifact/com.jakewharton.timber/timber
+    compile group: 'com.jakewharton.timber', name: 'timber', version: '4.7.1'
+
+    // https://mvnrepository.com/artifact/com.jakewharton.rxrelay2/rxrelay
+    compile group: 'com.jakewharton.rxrelay2', name: 'rxrelay', version: '2.0.0'
+
+    // https://mvnrepository.com/artifact/android.arch.persistence.room/runtime
+    compile group: 'android.arch.persistence.room', name: 'runtime', version: '1.1.1-rc1'
+    annotationProcessor 'android.arch.persistence.room:compiler:1.1.1'
+
+    //GCM Network Manager
+    implementation "com.google.android.gms:play-services-gcm:11.4.2"
+
 }

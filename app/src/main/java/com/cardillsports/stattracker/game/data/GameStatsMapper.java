@@ -18,7 +18,20 @@ public class GameStatsMapper {
         jsonGameStats.teamA = transformTeamStats(gameData.getTeamOnePlayers(), "Team 1");
         jsonGameStats.teamB = transformTeamStats(gameData.getTeamTwoPlayers(), "Team 2");
 
+        jsonGameStats.teamAScore = calculateTeamScore(gameData.getTeamOnePlayers());
+        jsonGameStats.teamBScore = calculateTeamScore(gameData.getTeamTwoPlayers());
+
         return jsonGameStats;
+    }
+
+    private static String calculateTeamScore(List<Player> teamOnePlayers) {
+        int result = 0;
+
+        for (Player player : teamOnePlayers) {
+            result += player.fieldGoalMade();
+        }
+
+        return String.valueOf(result);
     }
 
     private static JSONTeamStats transformTeamStats(List<Player> playerList, String name) {
