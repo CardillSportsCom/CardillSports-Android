@@ -1,6 +1,7 @@
 package com.cardillsports.stattracker.teamselection.ui;
 
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -31,7 +32,8 @@ public class TeamSelectionActivity extends AppCompatActivity implements TeamSele
     private TeamSelectionPresenter mPresenter;
     private RecyclerView mRecyclerView;
     private PlayerAdapter adapter;
-    @Inject CardillService cardillService;
+    @Inject
+    CardillService cardillService;
     private View mProgress;
 
     @Override
@@ -92,8 +94,12 @@ public class TeamSelectionActivity extends AppCompatActivity implements TeamSele
         List<Player> teamTwoPlayers = adapter.getTeamTwoPlayers();
 
         Intent intent = new Intent(this, GameActivity.class);
-        GameData gameData = GameData.create(teamOnePlayers, teamTwoPlayers);
-        intent.putExtra(GAME_DATA, gameData);
+        GameData gameData = new GameData(
+                teamOnePlayers,
+                teamTwoPlayers,
+                true);
+
+        intent.putExtra(GAME_DATA, (Parcelable) gameData);
         startActivity(intent);
     }
 }

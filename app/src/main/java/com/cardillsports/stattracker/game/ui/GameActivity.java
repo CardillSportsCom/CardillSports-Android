@@ -1,5 +1,6 @@
 package com.cardillsports.stattracker.game.ui;
 
+import android.arch.lifecycle.LifecycleRegistry;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,15 +17,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cardillsports.stattracker.R;
+import com.cardillsports.stattracker.details.ui.DetailsActivity;
 import com.cardillsports.stattracker.game.businesslogic.GameEvent;
 import com.cardillsports.stattracker.game.businesslogic.GamePresenter;
 import com.cardillsports.stattracker.common.data.CardillService;
 import com.cardillsports.stattracker.game.businesslogic.GameState;
 import com.cardillsports.stattracker.game.businesslogic.GameViewModel;
+import com.cardillsports.stattracker.game.businesslogic.GameViewModelFactory;
 import com.cardillsports.stattracker.game.businesslogic.NewGamePlayerAdapter;
 import com.cardillsports.stattracker.game.businesslogic.Team;
 import com.cardillsports.stattracker.game.data.GameData;
 import com.cardillsports.stattracker.game.data.GameRepository;
+import com.cardillsports.stattracker.offline.domain.services.SyncCommentLifecycleObserver;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import javax.inject.Inject;
@@ -57,6 +61,10 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
 
     @Inject GameRepository gameRepository;
     @Inject CardillService cardillService;
+    @Inject SyncCommentLifecycleObserver syncCommentLifecycleObserver;
+    @Inject GameViewModelFactory gameViewModelFactory;
+
+    private LifecycleRegistry registry = new LifecycleRegistry(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +72,8 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_game);
+
+        getLifecycle().addObserver(syncCommentLifecycleObserver);
 
         GameData gameData = getIntent().getParcelableExtra(GAME_DATA);
 
@@ -75,13 +85,13 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
         teamOneRecyclerView = findViewById(R.id.team_1_recycler_view);
         teamOneRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         teamOneRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        NewGamePlayerAdapter teamOneAdapter = new NewGamePlayerAdapter(gameData.teamOnePlayers(), Team.TEAM_ONE);
+        NewGamePlayerAdapter teamOneAdapter = new NewGamePlayerAdapter(gameData.getTeamOnePlayers(), Team.TEAM_ONE);
         teamOneRecyclerView.setAdapter(teamOneAdapter);
 
         teamTwoRecyclerView = findViewById(R.id.team_2_recycler_view);
         teamTwoRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         teamTwoRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        NewGamePlayerAdapter teamTwoAdapter = new NewGamePlayerAdapter(gameData.teamTwoPlayers(), Team.TEAM_TWO);
+        NewGamePlayerAdapter teamTwoAdapter = new NewGamePlayerAdapter(gameData.getTeamTwoPlayers(), Team.TEAM_TWO);
         teamTwoRecyclerView.setAdapter(teamTwoAdapter);
 
         makeButton = findViewById(R.id.make);
@@ -95,7 +105,7 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
         stealButton = findViewById(R.id.steal);
         noStealButton = findViewById(R.id.no_steal);
 
-        gameViewModel = ViewModelProviders.of(this).get(GameViewModel.class);
+        gameViewModel = ViewModelProviders.of(this, gameViewModelFactory).get(GameViewModel.class);
 
         Observable<GameEvent> clicks = getGameEventObservable();
         mBackButtonPublishSubject = PublishSubject.create();

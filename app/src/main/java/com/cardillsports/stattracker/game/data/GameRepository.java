@@ -31,18 +31,18 @@ public class GameRepository {
     }
 
     public void updateStats(String playerId, StatType statKey, int newValue) {
-        List<Player> teamOnePlayers = gameData.teamOnePlayers();
+        List<Player> teamOnePlayers = gameData.getTeamOnePlayers();
         updateTeamStats(playerId, statKey, newValue, teamOnePlayers);
 
-        List<Player> teamTwoPlayers = gameData.teamTwoPlayers();
+        List<Player> teamTwoPlayers = gameData.getTeamTwoPlayers();
         updateTeamStats(playerId, statKey, newValue, teamTwoPlayers);
     }
 
     public void incrementStat(String playerId, StatType statKey) {
-        List<Player> teamOnePlayers = gameData.teamOnePlayers();
+        List<Player> teamOnePlayers = gameData.getTeamOnePlayers();
         incrementTeamStats(playerId, statKey, teamOnePlayers);
 
-        List<Player> teamTwoPlayers = gameData.teamTwoPlayers();
+        List<Player> teamTwoPlayers = gameData.getTeamTwoPlayers();
         incrementTeamStats(playerId, statKey, teamTwoPlayers);
     }
 
@@ -70,19 +70,19 @@ public class GameRepository {
 
     private Player updatePlayerStat(StatType statKey, int newValue, Player player) {
         switch (statKey) {
-            case FIELD_GOAL_MADE:
+            case FGM:
                 return player.toBuilder().fieldGoalMade(newValue).build();
-            case FIELD_GOAL_MISSED:
+            case MISSES:
                 return player.toBuilder().fieldGoalMissed(newValue).build();
-            case ASSISTS:
+            case AST:
                 return player.toBuilder().assists(newValue).build();
-            case REBOUNDS:
+            case REB:
                 return player.toBuilder().rebounds(newValue).build();
-            case STEALS:
+            case STL:
                 return player.toBuilder().steals(newValue).build();
-            case BLOCKS:
+            case BLK:
                 return player.toBuilder().blocks(newValue).build();
-            case TURNOVERS:
+            case TO:
                 return player.toBuilder().turnovers(newValue).build();
 
             default:
@@ -92,19 +92,19 @@ public class GameRepository {
 
     private Player incrementPlayerStat(StatType statKey, Player player) {
         switch (statKey) {
-            case FIELD_GOAL_MADE:
+            case FGM:
                 return player.toBuilder().fieldGoalMade(player.fieldGoalMade() + 1).build();
-            case FIELD_GOAL_MISSED:
+            case MISSES:
                 return player.toBuilder().fieldGoalMissed(player.fieldGoalMissed() + 1).build();
-            case ASSISTS:
+            case AST:
                 return player.toBuilder().assists(player.assists() + 1).build();
-            case REBOUNDS:
+            case REB:
                 return player.toBuilder().rebounds(player.rebounds() + 1).build();
-            case STEALS:
+            case STL:
                 return player.toBuilder().steals(player.steals() + 1).build();
-            case BLOCKS:
+            case BLK:
                 return player.toBuilder().blocks(player.blocks() + 1).build();
-            case TURNOVERS:
+            case TO:
                 return player.toBuilder().turnovers(player.turnovers() + 1).build();
 
             default:
@@ -124,46 +124,46 @@ public class GameRepository {
     }
 
     public int getGameStat(Player player, StatType statType) {
-        List<Player> teamOnePlayers = gameData.teamOnePlayers();
+        List<Player> teamOnePlayers = gameData.getTeamOnePlayers();
         for (Player p1 : teamOnePlayers) {
             if (p1.id().equals(player.id())) {
                 switch (statType) {
-                    case TURNOVERS:
+                    case TO:
                         return p1.turnovers();
-                    case REBOUNDS:
+                    case REB:
                         return p1.rebounds();
-                    case STEALS:
+                    case STL:
                         return p1.steals();
-                    case ASSISTS:
+                    case AST:
                         return p1.assists();
-                    case FIELD_GOAL_MISSED:
+                    case MISSES:
                         return p1.fieldGoalMissed();
-                    case FIELD_GOAL_MADE:
+                    case FGM:
                         return p1.fieldGoalMade();
-                    case BLOCKS:
+                    case BLK:
                         return p1.blocks();
                 }
             }
         }
 
 
-        List<Player> teamTwoPlayers = gameData.teamTwoPlayers();
+        List<Player> teamTwoPlayers = gameData.getTeamTwoPlayers();
         for (Player p2 : teamTwoPlayers) {
             if (p2.id().equals(player.id())) {
                 switch (statType) {
-                    case TURNOVERS:
+                    case TO:
                         return p2.turnovers();
-                    case REBOUNDS:
+                    case REB:
                         return p2.rebounds();
-                    case STEALS:
+                    case STL:
                         return p2.steals();
-                    case ASSISTS:
+                    case AST:
                         return p2.assists();
-                    case FIELD_GOAL_MISSED:
+                    case MISSES:
                         return p2.fieldGoalMissed();
-                    case FIELD_GOAL_MADE:
+                    case FGM:
                         return p2.fieldGoalMade();
-                    case BLOCKS:
+                    case BLK:
                         return p2.blocks();
                 }
             }

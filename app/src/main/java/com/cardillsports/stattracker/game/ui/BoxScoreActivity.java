@@ -36,9 +36,9 @@ public class BoxScoreActivity extends AppCompatActivity {
         GameData gameData = gameRepository.getGameStats();
         //TODO paginate this table
         List<Player> players = new ArrayList<>();
-        players.addAll(gameData.teamOnePlayers());
+        players.addAll(gameData.getTeamOnePlayers());
         //players.add(Player.create("team", "team", "team"));
-        players.addAll(gameData.teamTwoPlayers());
+        players.addAll(gameData.getTeamTwoPlayers());
 
         TableView tableView = findViewById(R.id.team_1_table_view);
 
@@ -66,13 +66,13 @@ public class BoxScoreActivity extends AppCompatActivity {
 
         for (Player player : players) {
             List<Stat> statList = new ArrayList<>(8);
-            statList.add(new Stat(StatType.FIELD_GOAL_MADE, player.fieldGoalMade()));
-            statList.add(new Stat(StatType.FIELD_GOAL_MISSED, player.fieldGoalMissed()));
-            statList.add(new Stat(StatType.ASSISTS, player.assists()));
-            statList.add(new Stat(StatType.REBOUNDS, player.rebounds()));
-            statList.add(new Stat(StatType.STEALS, player.steals()));
-            statList.add(new Stat(StatType.BLOCKS, player.blocks()));
-            statList.add(new Stat(StatType.TURNOVERS, player.turnovers()));
+            statList.add(new Stat(StatType.FGM, player.fieldGoalMade()));
+            statList.add(new Stat(StatType.MISSES, player.fieldGoalMissed()));
+            statList.add(new Stat(StatType.AST, player.assists()));
+            statList.add(new Stat(StatType.REB, player.rebounds()));
+            statList.add(new Stat(StatType.STL, player.steals()));
+            statList.add(new Stat(StatType.BLK, player.blocks()));
+            statList.add(new Stat(StatType.TO, player.turnovers()));
             mCellList.add(statList);
         }
 

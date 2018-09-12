@@ -4,11 +4,17 @@ import com.cardillsports.stattracker.game.data.JSONGameStats;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
+import okhttp3.MediaType;
+import okhttp3.Request;
 import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
@@ -29,8 +35,44 @@ public class MockCardillService implements CardillService {
         return Observable.just(response);
     }
 
+    //TODO(clean this upP)
     @Override
-    public Observable<ResponseBody> saveGameStats(JSONGameStats jsonGameStats) {
-        return Observable.empty();
+    public Call<ResponseBody> saveGameStats(JSONGameStats jsonGameStats) {
+       return new Call<ResponseBody>() {
+           @Override
+           public Response<ResponseBody> execute() throws IOException {
+               return null;
+           }
+
+           @Override
+           public void enqueue(Callback<ResponseBody> callback) {
+
+           }
+
+           @Override
+           public boolean isExecuted() {
+               return false;
+           }
+
+           @Override
+           public void cancel() {
+
+           }
+
+           @Override
+           public boolean isCanceled() {
+               return false;
+           }
+
+           @Override
+           public Call<ResponseBody> clone() {
+               return null;
+           }
+
+           @Override
+           public Request request() {
+               return null;
+           }
+       };
     }
 }

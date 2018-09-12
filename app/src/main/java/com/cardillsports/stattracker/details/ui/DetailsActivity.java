@@ -1,4 +1,4 @@
-package com.cardillsports.stattracker.game.ui;
+package com.cardillsports.stattracker.details.ui;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -6,7 +6,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.cardillsports.stattracker.R;
-import com.cardillsports.stattracker.common.data.MockData;
 import com.cardillsports.stattracker.common.data.Player;
 import com.cardillsports.stattracker.details.businesslogic.DetailsChangedEvent;
 import com.cardillsports.stattracker.details.businesslogic.StatsTableAdapter;
@@ -39,9 +38,9 @@ public class DetailsActivity extends AppCompatActivity {
         GameData gameData = gameRepository.getGameStats();
         //TODO paginate this table
         List<Player> players = new ArrayList<>();
-        players.addAll(gameData.teamOnePlayers());
+        players.addAll(gameData.getTeamOnePlayers());
         //players.add(Player.create("team", "team", "team"));
-        players.addAll(gameData.teamTwoPlayers());
+        players.addAll(gameData.getTeamTwoPlayers());
 
         TableView tableView = findViewById(R.id.team_1_table_view);
 
@@ -69,19 +68,19 @@ public class DetailsActivity extends AppCompatActivity {
 
         for (Player player : players) {
             List<Stat> statList = new ArrayList<>(8);
-            statList.add(new Stat(StatType.FIELD_GOAL_MADE, player.fieldGoalMade()));
-            statList.add(new Stat(StatType.FIELD_GOAL_MISSED, player.fieldGoalMissed()));
-            statList.add(new Stat(StatType.ASSISTS, player.assists()));
-            statList.add(new Stat(StatType.REBOUNDS, player.rebounds()));
-            statList.add(new Stat(StatType.STEALS, player.steals()));
-            statList.add(new Stat(StatType.BLOCKS, player.blocks()));
-            statList.add(new Stat(StatType.TURNOVERS, player.turnovers()));
+            statList.add(new Stat(StatType.FGM, player.fieldGoalMade()));
+            statList.add(new Stat(StatType.MISSES, player.fieldGoalMissed()));
+            statList.add(new Stat(StatType.AST, player.assists()));
+            statList.add(new Stat(StatType.REB, player.rebounds()));
+            statList.add(new Stat(StatType.STL, player.steals()));
+            statList.add(new Stat(StatType.BLK, player.blocks()));
+            statList.add(new Stat(StatType.TO, player.turnovers()));
             mCellList.add(statList);
         }
 
         adapter.setAllItems(columnHeaderItems, players, mCellList);
 
-        int numOfTeamOnePlayers = gameRepository.getGameStats().teamOnePlayers().size();
+        int numOfTeamOnePlayers = gameRepository.getGameStats().getTeamOnePlayers().size();
 
         adapter.getChangeEvents()
                 .subscribe(new Consumer<DetailsChangedEvent>() {
@@ -91,32 +90,32 @@ public class DetailsActivity extends AppCompatActivity {
                         Player player;
                         if (rowPosition >= numOfTeamOnePlayers) {
                             rowPosition -= numOfTeamOnePlayers;
-                            player = gameRepository.getGameStats().teamTwoPlayers().get(rowPosition);
+                            player = gameRepository.getGameStats().getTeamTwoPlayers().get(rowPosition);
                         } else {
-                            player = gameRepository.getGameStats().teamOnePlayers().get(rowPosition);
+                            player = gameRepository.getGameStats().getTeamOnePlayers().get(rowPosition);
                         }
 
                         switch (detailsChangedEvent.getColumnPosition()) {
                             case 0:
-                                gameRepository.updateStats(player.id(), StatType.FIELD_GOAL_MADE, detailsChangedEvent.getNewValue());
+                                gameRepository.updateStats(player.id(), StatType.FGM, detailsChangedEvent.getNewValue());
                                 break;
                             case 1:
-                                gameRepository.updateStats(player.id(), StatType.FIELD_GOAL_MISSED, detailsChangedEvent.getNewValue());
+                                gameRepository.updateStats(player.id(), StatType.MISSES, detailsChangedEvent.getNewValue());
                                 break;
                             case 2:
-                                gameRepository.updateStats(player.id(), StatType.ASSISTS, detailsChangedEvent.getNewValue());
+                                gameRepository.updateStats(player.id(), StatType.AST, detailsChangedEvent.getNewValue());
                                 break;
                             case 3:
-                                gameRepository.updateStats(player.id(), StatType.REBOUNDS, detailsChangedEvent.getNewValue());
+                                gameRepository.updateStats(player.id(), StatType.REB, detailsChangedEvent.getNewValue());
                                 break;
                             case 4:
-                                gameRepository.updateStats(player.id(), StatType.STEALS, detailsChangedEvent.getNewValue());
+                                gameRepository.updateStats(player.id(), StatType.STL, detailsChangedEvent.getNewValue());
                                 break;
                             case 5:
-                                gameRepository.updateStats(player.id(), StatType.BLOCKS, detailsChangedEvent.getNewValue());
+                                gameRepository.updateStats(player.id(), StatType.BLK, detailsChangedEvent.getNewValue());
                                 break;
                             case 6:
-                                gameRepository.updateStats(player.id(), StatType.TURNOVERS, detailsChangedEvent.getNewValue());
+                                gameRepository.updateStats(player.id(), StatType.TO, detailsChangedEvent.getNewValue());
                                 break;
                             default:
                                 throw new UnsupportedOperationException("Invalid column number");

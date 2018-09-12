@@ -17,7 +17,8 @@ public class MockData {
         List<Player> team2 = getTeam2();
 
 
-        GameData gameData = GameData.create(team1, team2);
+        GameData gameData = new GameData(0, team1, team2, false);
+
         return gameData;
     }
 

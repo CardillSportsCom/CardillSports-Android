@@ -4,12 +4,14 @@ import android.app.Activity;
 import android.app.Application;
 
 import com.cardillsports.stattracker.game.data.GameRepository;
+import com.cardillsports.stattracker.offline.domain.services.jobs.JobManagerFactory;
 
 import javax.inject.Inject;
 
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.HasActivityInjector;
+import timber.log.Timber;
 
 public class CardillApplication extends Application implements HasActivityInjector {
 
@@ -22,7 +24,14 @@ public class CardillApplication extends Application implements HasActivityInject
     @Override
     public void onCreate() {
         super.onCreate();
-        DaggerApplicationComponent.create().inject(this);
+
+        if (BuildConfig.DEBUG) {
+            Timber.plant(new Timber.DebugTree());
+        }
+
+        DaggerAppComponent.builder().create(this).inject(this);
+
+        JobManagerFactory.getJobManager(this);
     }
 
     @Override

@@ -1,23 +1,15 @@
 package com.cardillsports.stattracker.game.businesslogic;
 
-import android.util.Log;
-
 import com.cardillsports.stattracker.common.data.CardillService;
 import com.cardillsports.stattracker.common.data.Player;
 import com.cardillsports.stattracker.game.data.GameData;
 import com.cardillsports.stattracker.game.data.GameRepository;
-import com.cardillsports.stattracker.game.data.GameStatsMapper;
-import com.cardillsports.stattracker.game.data.JSONGameStats;
 import com.cardillsports.stattracker.game.data.PendingStat;
 import com.cardillsports.stattracker.game.data.StatType;
-import com.cardillsports.stattracker.game.ui.GameActivity;
 import com.cardillsports.stattracker.game.ui.GameViewBinder;
 
 import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 
 public class GamePresenter {
     private final GameViewBinder viewBinder;
@@ -158,19 +150,19 @@ public class GamePresenter {
     private StatType getStatKey(GameState value) {
         switch (value) {
             case ASSIST_REQUESTED:
-                return StatType.ASSISTS;
+                return StatType.AST;
             case MAKE_REQUESTED:
-                return StatType.FIELD_GOAL_MADE;
+                return StatType.FGM;
             case MISS_REQUESTED:
-                return StatType.FIELD_GOAL_MISSED;
+                return StatType.MISSES;
             case BLOCK_REQUESTED:
-                return StatType.BLOCKS;
+                return StatType.BLK;
             case STEAL_REQUESTED:
-                return StatType.STEALS;
+                return StatType.STL;
             case REBOUND_REQUESTED:
-                return StatType.REBOUNDS;
+                return StatType.REB;
             case TURNOVER_REQUESTED:
-                return StatType.TURNOVERS;
+                return StatType.TO;
         }
 
         throw new IllegalStateException("Invalid game state");
@@ -178,12 +170,7 @@ public class GamePresenter {
 
     public void submitGameStats() {
         GameData gameData = gameRepository.getGameStats();
-        JSONGameStats jsonGameStats = GameStatsMapper.transform(gameData);
-        Disposable subscribe = mCardillService.saveGameStats(jsonGameStats)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(x -> Log.d("VITHUSHAN", "submitGameStats: " + x.string()),
-                        x -> Log.e("VITHUSHAN", x.getLocalizedMessage()));
+        viewModel.saveGame(gameData);
     }
 
     public void detailsRequested() {

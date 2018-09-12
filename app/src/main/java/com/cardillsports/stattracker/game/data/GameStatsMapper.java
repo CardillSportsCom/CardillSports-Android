@@ -15,8 +15,8 @@ public class GameStatsMapper {
         jsonGameStats.leagueId = WEDNESDAY_NIGHTS;
         jsonGameStats.teamTypeId = BASKETBALL_ID;
 
-        jsonGameStats.teamA = transformTeamStats(gameData.teamOnePlayers(), "Team 1");
-        jsonGameStats.teamB = transformTeamStats(gameData.teamTwoPlayers(), "Team 2");
+        jsonGameStats.teamA = transformTeamStats(gameData.getTeamOnePlayers(), "Team 1");
+        jsonGameStats.teamB = transformTeamStats(gameData.getTeamTwoPlayers(), "Team 2");
 
         return jsonGameStats;
     }
