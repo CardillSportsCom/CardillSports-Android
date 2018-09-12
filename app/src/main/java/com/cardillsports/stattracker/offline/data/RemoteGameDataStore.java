@@ -1,7 +1,6 @@
 package com.cardillsports.stattracker.offline.data;
 
-import com.cardillsports.stattracker.common.data.CardillService;
-import com.cardillsports.stattracker.game.businesslogic.RemoteGameRepository;
+import com.cardillsports.stattracker.offline.domain.RemoteGameRepository;
 import com.cardillsports.stattracker.game.data.GameData;
 import com.cardillsports.stattracker.offline.domain.services.jobs.JobManagerFactory;
 import com.cardillsports.stattracker.offline.domain.services.jobs.SyncGameJob;

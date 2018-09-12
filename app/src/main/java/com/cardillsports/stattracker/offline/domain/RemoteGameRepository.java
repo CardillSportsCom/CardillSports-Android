@@ -1,4 +1,4 @@
-package com.cardillsports.stattracker.game.businesslogic;
+package com.cardillsports.stattracker.offline.domain;
 
 import com.cardillsports.stattracker.game.data.GameData;
 

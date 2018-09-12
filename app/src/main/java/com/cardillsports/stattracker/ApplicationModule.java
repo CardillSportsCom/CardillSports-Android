@@ -1,11 +1,10 @@
 package com.cardillsports.stattracker;
 
 import android.app.Application;
-import android.content.Context;
 
 import com.cardillsports.stattracker.common.data.CardillService;
 import com.cardillsports.stattracker.common.data.MockCardillService;
-import com.cardillsports.stattracker.game.businesslogic.RemoteGameRepository;
+import com.cardillsports.stattracker.offline.domain.RemoteGameRepository;
 import com.cardillsports.stattracker.game.di.GameActivityModule;
 import com.cardillsports.stattracker.game.ui.BoxScoreActivity;
 import com.cardillsports.stattracker.details.ui.DetailsActivity;
@@ -15,8 +14,6 @@ import com.cardillsports.stattracker.offline.data.GameDatabase;
 import com.cardillsports.stattracker.offline.data.LocalGameDataStore;
 import com.cardillsports.stattracker.offline.data.RemoteGameDataStore;
 import com.cardillsports.stattracker.offline.domain.LocalGameRepository;
-import com.cardillsports.stattracker.offline.domain.services.jobs.GcmJobService;
-import com.cardillsports.stattracker.offline.domain.services.jobs.SchedulerJobService;
 import com.cardillsports.stattracker.teamselection.ui.TeamSelectionActivity;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

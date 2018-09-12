@@ -6,17 +6,15 @@ import android.support.annotation.Nullable;
 import com.birbit.android.jobqueue.Job;
 import com.birbit.android.jobqueue.Params;
 import com.birbit.android.jobqueue.RetryConstraint;
-import com.cardillsports.stattracker.common.data.CardillService;
 import com.cardillsports.stattracker.game.data.GameData;
 import com.cardillsports.stattracker.game.data.GameStatsMapper;
 import com.cardillsports.stattracker.game.data.JSONGameStats;
-import com.cardillsports.stattracker.offline.domain.services.RemoteGameService;
 import com.cardillsports.stattracker.offline.domain.services.SyncGameRxBus;
 import com.cardillsports.stattracker.offline.domain.services.SyncResponseEventType;
 import com.cardillsports.stattracker.offline.domain.services.networking.RemoteException;
+import com.cardillsports.stattracker.offline.domain.services.networking.RemoteGameService;
 import com.cardillsports.stattracker.offline.model.GameDataUtils;
 
-import retrofit2.Response;
 import timber.log.Timber;
 
 public class SyncGameJob extends Job {

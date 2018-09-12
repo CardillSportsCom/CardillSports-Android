@@ -1,18 +1,19 @@
-package com.cardillsports.stattracker.offline.domain.services;
+package com.cardillsports.stattracker.offline.domain.services.networking;
 
+import com.cardillsports.stattracker.BuildConfig;
 import com.cardillsports.stattracker.common.data.CardillService;
+import com.cardillsports.stattracker.game.data.GameData;
 import com.cardillsports.stattracker.game.data.JSONGameStats;
-import com.cardillsports.stattracker.offline.domain.services.networking.RemoteException;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.w3c.dom.Comment;
+
 import java.io.IOException;
 
-import io.reactivex.Observable;
 import okhttp3.OkHttpClient;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import timber.log.Timber;
 
@@ -21,27 +22,22 @@ import timber.log.Timber;
  */
 
 public class RemoteGameService {
+
+
     private static RemoteGameService instance;
 
     private final Retrofit retrofit;
 
     public RemoteGameService() {
 
-        OkHttpClient httpClient = new OkHttpClient.Builder()
-                .build();
-
         Gson gson = new GsonBuilder()
                 .setLenient()
                 .create();
 
-        String BASE_URL = "https://api-cardillsports-st.herokuapp.com";
-
         retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .baseUrl(BuildConfig.API_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
-
     }
 
     public static synchronized RemoteGameService getInstance() {

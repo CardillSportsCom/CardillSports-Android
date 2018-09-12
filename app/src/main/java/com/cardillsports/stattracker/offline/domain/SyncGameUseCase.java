@@ -1,6 +1,5 @@
 package com.cardillsports.stattracker.offline.domain;
 
-import com.cardillsports.stattracker.game.businesslogic.RemoteGameRepository;
 import com.cardillsports.stattracker.game.data.GameData;
 
 import io.reactivex.Completable;

@@ -1,7 +1,7 @@
 package com.cardillsports.stattracker.game.di;
 
 import com.cardillsports.stattracker.game.businesslogic.GameViewModelFactory;
-import com.cardillsports.stattracker.game.businesslogic.RemoteGameRepository;
+import com.cardillsports.stattracker.offline.domain.RemoteGameRepository;
 import com.cardillsports.stattracker.offline.domain.LocalGameRepository;
 import com.cardillsports.stattracker.offline.domain.SaveGameUseCase;
 import com.cardillsports.stattracker.offline.domain.SyncGameUseCase;
