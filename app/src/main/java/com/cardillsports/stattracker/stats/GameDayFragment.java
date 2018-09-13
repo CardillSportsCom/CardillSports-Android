@@ -31,7 +31,7 @@ import dagger.android.support.AndroidSupportInjection;
  */
 
 public class GameDayFragment extends Fragment implements GameDayViewBinder {
-    private static final String GAME_DAY = "game-day-key";
+    public static final String GAME_DAY = "game-day-key";
     private GameDay gameDay;
 
     public static GameDayFragment newInstance(GameDay gameDay) {

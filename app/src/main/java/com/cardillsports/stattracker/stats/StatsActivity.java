@@ -2,6 +2,8 @@ package com.cardillsports.stattracker.stats;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
@@ -10,23 +12,23 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.FrameLayout;
 
 import com.cardillsports.stattracker.R;
 import com.cardillsports.stattracker.teamselection.ui.TeamSelectionActivity;
 
 import javax.inject.Inject;
 
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import dagger.android.AndroidInjection;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.HasFragmentInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 
-public class StatsActivity extends AppCompatActivity implements HasSupportFragmentInjector{
-
-    private ViewPager mViewPager;
-    private FragmentPagerAdapter pagerAdapter;
-
+public class StatsActivity extends AppCompatActivity implements HasSupportFragmentInjector {
 
     @Inject
     DispatchingAndroidInjector<Fragment> fragmentInjector;
@@ -43,72 +45,31 @@ public class StatsActivity extends AppCompatActivity implements HasSupportFragme
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stats);
 
-        // ViewPager and its adapters use support library
-        // fragments, so use getSupportFragmentManager.
-        pagerAdapter =
-                new StatsPagerAdapter(
-                        getSupportFragmentManager());
-        mViewPager = (ViewPager) findViewById(R.id.pager);
-        mViewPager.setAdapter(pagerAdapter);
-        mViewPager.setOnPageChangeListener(
-                new ViewPager.SimpleOnPageChangeListener() {
-                    @Override
-                    public void onPageSelected(int position) {
-                        // When swiping between pages, select the
-                        // corresponding tab.
-                        getSupportActionBar().setSelectedNavigationItem(position);
-                    }
-                });
+        BottomNavigationView navView = findViewById(R.id.bottomNavigationView);
 
-        final ActionBar actionBar = getSupportActionBar();
+        navView.setOnNavigationItemSelectedListener(item -> {
+            NavController navController = Navigation.findNavController(
+                    this,
+                    R.id.my_nav_host_fragment);
 
-        // Specify that tabs should be displayed in the action bar.
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
-        // Create a tab listener that is called when the user changes tabs.
-        ActionBar.TabListener tabListener = new ActionBar.TabListener() {
-            public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
-                // show the given tab
-                mViewPager.setCurrentItem(tab.getPosition());
+            switch (item.getItemId()) {
+                case R.id.nav_game:
+                    navController.navigate(R.id.newGameFragment);
+                    return true;
+                case R.id.nav_scores:
+                    navController.navigate(R.id.scoresFragment);
+                    return true;
+                case R.id.nav_stats:
+                    navController.navigate(R.id.statsFragment);
+                    return true;
+                default:
+                    return false;
             }
-
-            public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
-                // hide the given tab
-            }
-
-            public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
-                // probably ignore this event
-            }
-        };
-
-        actionBar.addTab(
-                actionBar.newTab()
-                        .setText("Stats")
-                        .setTabListener(tabListener));
-
-
-        actionBar.addTab(
-                actionBar.newTab()
-                        .setText("Scores")
-                        .setTabListener(tabListener));
+        });
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.stats_menu, menu);
-        return true;
+    public boolean onSupportNavigateUp() {
+        return Navigation.findNavController(this, R.id.scoresFragment).navigateUp();
     }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        if (item.getItemId() == R.id.action_new_game) {
-            Intent intent = new Intent(this, TeamSelectionActivity.class);
-            startActivity(intent);
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
 }

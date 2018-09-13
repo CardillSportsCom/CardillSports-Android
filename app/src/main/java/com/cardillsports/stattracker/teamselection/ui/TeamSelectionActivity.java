@@ -41,7 +41,7 @@ public class TeamSelectionActivity extends AppCompatActivity implements TeamSele
         AndroidInjection.inject(this);
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_team_selection);
 
         mPresenter = new TeamSelectionPresenter(this, cardillService);
 

@@ -5,4 +5,5 @@
     <string name="field_goal_missed">Field Goal Missed</string>
     <string name="three_point_made">Three Point Made</string>
     <string name="two_point_made">Two Point Made</string>
+    <string name="start_new_game">Start New Game</string>
 </resources>

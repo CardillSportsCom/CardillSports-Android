@@ -22,10 +22,16 @@ import com.cardillsports.stattracker.teamselection.businesslogic.TeamSelectionPr
 
 import javax.inject.Inject;
 
+import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import dagger.android.AndroidInjection;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.AndroidSupportInjection;
+
+import static com.cardillsports.stattracker.stats.GameDayFragment.GAME_DAY;
 
 /**
  * Created by vithushan on 9/10/18.
@@ -97,6 +103,11 @@ public class ScoresFragment extends Fragment implements ScoresViewBinder {
     }
 
     private void gotoGameDay(ScoreEvent.DateSelected dateSelected) {
-// TODO refactor to bottom tabs
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(GAME_DAY, dateSelected.getGameDay());
+        NavHostFragment.findNavController(this)
+                .navigate(R.id.action_scoresFragment_to_gameDayFragment,
+                        bundle);
+
     }
 }

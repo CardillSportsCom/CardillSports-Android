@@ -7,4 +7,6 @@
     <color name="shadow_background_color">#303F9F</color>
     <color name="unselected_background_color">#FF4081</color>
     <color name="colorPrimaryTransparent">#b1e6b000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="whiteTransparent">#80FFFFFF</color>
 </resources>

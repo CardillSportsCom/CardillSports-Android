@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/newGameFragment">
+    <fragment
+        android:id="@+id/scoresFragment"
+        tools:layout="@layout/fragment_scores"
+        android:name="com.cardillsports.stattracker.stats.ScoresFragment"
+        android:label="ScoresFragment" >
+        <action
+            android:id="@+id/action_scoresFragment_to_gameDayFragment"
+            app:destination="@id/gameDayFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/gameDayFragment"
+        tools:layout="@layout/fragment_scores"
+        android:name="com.cardillsports.stattracker.stats.GameDayFragment"
+        android:label="GameDayFragment" >
+        <argument android:name="game-day-key" />
+    </fragment>
+    <fragment
+        android:id="@+id/newGameFragment"
+        android:name="com.cardillsports.stattracker.stats.NewGameFragment"
+        android:label="NewGameFragment" >
+        <action
+            android:id="@+id/action_newGameFragment_to_teamSelectionActivity"
+            app:destination="@id/teamSelectionActivity" />
+    </fragment>
+    <fragment
+        android:id="@+id/statsFragment"
+        android:name="com.cardillsports.stattracker.stats.StatsFragment"
+        android:label="StatsFragment" />
+    <activity
+        android:id="@+id/teamSelectionActivity"
+        android:name="com.cardillsports.stattracker.teamselection.ui.TeamSelectionActivity"
+        android:label="activity_team_selection"
+        tools:layout="@layout/activity_team_selection" />
+</navigation>
