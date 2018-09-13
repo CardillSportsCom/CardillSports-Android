@@ -18,6 +18,17 @@
         android:name="com.cardillsports.stattracker.stats.GameDayFragment"
         android:label="GameDayFragment" >
         <argument android:name="game-day-key" />
+        <action
+            android:id="@+id/action_gameDayFragment_to_boxScoreFragment"
+            app:destination="@id/boxScoreFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/boxScoreFragment"
+        tools:layout="@layout/fragment_box_score"
+        android:name="com.cardillsports.stattracker.stats.BoxScoreFragment"
+        android:label="BoxScoreFragment" >
+        <argument
+            android:name="game-id-key" />
     </fragment>
     <fragment
         android:id="@+id/newGameFragment"

@@ -7,7 +7,7 @@ import java.io.Serializable;
  */
 
 public class Game implements Serializable {
-    private String id;
+    private String _id;
     private String teamA;
     private String teamB;
     private String league;
@@ -17,8 +17,8 @@ public class Game implements Serializable {
     private long v;
     private Object type;
 
-    public String getID() { return id; }
-    public void setID(String value) { this.id = value; }
+    public String getID() { return _id; }
+    public void setID(String value) { this._id = value; }
 
     public String getTeamA() { return teamA; }
     public void setTeamA(String value) { this.teamA = value; }

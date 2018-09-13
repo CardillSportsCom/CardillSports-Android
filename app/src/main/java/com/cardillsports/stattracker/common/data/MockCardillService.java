@@ -2,6 +2,7 @@ package com.cardillsports.stattracker.common.data;
 
 import com.cardillsports.stattracker.game.data.JSONGameStats;
 import com.cardillsports.stattracker.scores.model.GameDays;
+import com.cardillsports.stattracker.scores.model.boxscore.BoxScoreResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -79,6 +80,11 @@ public class MockCardillService implements CardillService {
 
     @Override
     public Observable<GameDays> getGameDays(String leagueId) {
+        return Observable.empty();
+    }
+
+    @Override
+    public Observable<BoxScoreResponse> getBoxScore(String gameId) {
         return Observable.empty();
     }
 }

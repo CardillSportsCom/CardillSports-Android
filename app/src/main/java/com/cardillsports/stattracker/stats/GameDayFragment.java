@@ -23,6 +23,7 @@ import com.cardillsports.stattracker.scores.model.GameDays;
 
 import javax.inject.Inject;
 
+import androidx.navigation.fragment.NavHostFragment;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.AndroidSupportInjection;
 
@@ -32,15 +33,8 @@ import dagger.android.support.AndroidSupportInjection;
 
 public class GameDayFragment extends Fragment implements GameDayViewBinder {
     public static final String GAME_DAY = "game-day-key";
+    public static final String GAME_ID_KEY = "game-id-key";
     private GameDay gameDay;
-
-    public static GameDayFragment newInstance(GameDay gameDay) {
-        GameDayFragment gameDayFragment = new GameDayFragment();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(GAME_DAY, gameDay);
-        gameDayFragment.setArguments(bundle);
-        return gameDayFragment;
-    }
 
     private RecyclerView recycler;
     private ProgressBar mProgress;
@@ -107,6 +101,10 @@ public class GameDayFragment extends Fragment implements GameDayViewBinder {
     }
 
     private void gotoGame(Game game) {
-        Log.d("VITHUSHAN", gameDay.toString());
+        Bundle bundle = new Bundle();
+        bundle.putString(GAME_ID_KEY, game.getID());
+        NavHostFragment.findNavController(this)
+                .navigate(R.id.action_gameDayFragment_to_boxScoreFragment,
+                        bundle);
     }
 }
