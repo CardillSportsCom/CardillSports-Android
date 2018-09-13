@@ -17,6 +17,9 @@ import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.PublishSubject;
 
+/**
+ * List of players shown in-game for stat recording.
+ */
 public class NewGamePlayerAdapter extends RecyclerView.Adapter<NewGamePlayerAdapter.PlayerViewHolder> {
     private final List<Player> mPlayers;
     private PublishSubject<GameEvent.PlayerSelected> mPublishSubject;

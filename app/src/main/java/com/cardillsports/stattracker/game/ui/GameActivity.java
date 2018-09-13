@@ -118,7 +118,7 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
 
         TextView scoreText = findViewById(R.id.score_textview);
 
-        mPresenter = new GamePresenter(this, gameRepository, cardillService, gameViewModel, clickObservable);
+        mPresenter = new GamePresenter(this, gameRepository, gameViewModel, clickObservable);
         gameViewModel.getGameState().observe(this, this::renderUI);
         gameViewModel.getCurrentScore().observe(this, scoreText::setText);
     }

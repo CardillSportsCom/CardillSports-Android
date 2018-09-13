@@ -18,14 +18,19 @@ import com.evrencoskun.tableview.adapter.recyclerview.holder.AbstractViewHolder;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 
-public abstract class StatsTableAdapter extends AbstractTableAdapter<StatType, Player, Stat> {
+public class StatsTableAdapter extends AbstractTableAdapter<StatType, Player, Stat> {
+
+    public static final int EDITABLE = 0;
+    public static final int NON_EDITABLE = 1;
 
     private final Context context;
     private PublishSubject<DetailsChangedEvent> mPublishSubject;
+    private int viewType;
 
 
-    public StatsTableAdapter(Context context) {
+    public StatsTableAdapter(Context context, int viewType) {
         super(context);
+        this.viewType = viewType;
 
         mPublishSubject = PublishSubject.create();
         this.context = context;
@@ -74,12 +79,12 @@ public abstract class StatsTableAdapter extends AbstractTableAdapter<StatType, P
      */
     @Override
     public AbstractViewHolder onCreateCellViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == 0) {
-            View layout = LayoutInflater.from(context).inflate(R.layout.stat_item,
+        if (viewType == EDITABLE) {
+            View layout = LayoutInflater.from(context).inflate(R.layout.editable_stat_item,
                     parent, false);
             return new MyCellViewHolder(layout);
         } else {
-            View layout = LayoutInflater.from(context).inflate(R.layout.box_score_stat_item,
+            View layout = LayoutInflater.from(context).inflate(R.layout.non_editable_stat_item,
                     parent, false);
             return new BoxScoreCellViewHolder(layout);
         }
@@ -285,5 +290,7 @@ public abstract class StatsTableAdapter extends AbstractTableAdapter<StatType, P
     }
 
     @Override
-    public abstract int getCellItemViewType(int columnPosition);
+    public int getCellItemViewType(int columnPosition) {
+        return viewType;
+    }
 }

@@ -18,22 +18,17 @@ public class GameViewModel extends ViewModel {
 
     private MutableLiveData<GameState> mGameState;
     private Team currentTeam;
-    private int teamTwoScore;
-    private int teamOneScore;
     private MutableLiveData<String> scoreString;
     private MutableLiveData<GameData> gameStats;
 
     private final SaveGameUseCase saveGameUseCase;
     private final CompositeDisposable disposables = new CompositeDisposable();
-    //private MutableLiveData<List<Comment>> commentsLiveData = new MutableLiveData<>();
 
     public GameViewModel(SaveGameUseCase saveGameUseCase) {
         this.mGameState = new MutableLiveData<>();
         this.gameStats = new MutableLiveData<>();
         mGameState.setValue(GameState.MAIN);
         currentTeam = Team.TEAM_ONE;
-        teamOneScore = 0;
-        teamTwoScore = 0;
         this.scoreString = new MutableLiveData<>();
         scoreString.setValue("0 - 0");
 

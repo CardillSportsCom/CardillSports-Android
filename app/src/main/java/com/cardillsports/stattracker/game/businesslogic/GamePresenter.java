@@ -1,6 +1,5 @@
 package com.cardillsports.stattracker.game.businesslogic;
 
-import com.cardillsports.stattracker.common.data.CardillService;
 import com.cardillsports.stattracker.common.data.Player;
 import com.cardillsports.stattracker.game.data.GameData;
 import com.cardillsports.stattracker.game.data.GameRepository;
@@ -14,21 +13,15 @@ import io.reactivex.disposables.Disposable;
 public class GamePresenter {
     private final GameViewBinder viewBinder;
     private final GameRepository gameRepository;
-    private final CardillService mCardillService;
     private final GameViewModel viewModel;
-    private final Observable<GameEvent> eventObservable;
 
     public GamePresenter(GameViewBinder viewBinder,
                          GameRepository gameRepository,
-                         CardillService cardillService,
                          GameViewModel viewModel,
                          Observable<GameEvent> eventObservable) {
         this.viewBinder = viewBinder;
-
         this.gameRepository = gameRepository;
-        mCardillService = cardillService;
         this.viewModel = viewModel;
-        this.eventObservable = eventObservable;
 
         init(viewModel, eventObservable);
     }
