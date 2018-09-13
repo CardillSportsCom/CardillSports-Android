@@ -1,13 +1,14 @@
-package com.cardillsports.stattracker.stats;
+package com.cardillsports.stattracker.scores.businesslogic;
 
 import android.util.Log;
 
 import com.cardillsports.stattracker.common.data.CardillService;
-import com.cardillsports.stattracker.common.data.Player;
+import com.cardillsports.stattracker.scores.ui.ScoresViewBinder;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import timber.log.Timber;
 
 import static com.cardillsports.stattracker.teamselection.businesslogic.TeamSelectionPresenter.LEAGUE_ID;
 
@@ -24,13 +25,12 @@ public class ScoresPresenter {
         this.cardillService = cardillService;
     }
 
-
     public void loadScores() {
         Disposable mDisposable = cardillService.getGameDays(LEAGUE_ID)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         scoresViewBinder::loadGameDays,
-                        throwable -> Log.e("VITHUSHAN", throwable.getLocalizedMessage()));
+                        throwable -> Timber.e(throwable));
     }
 }

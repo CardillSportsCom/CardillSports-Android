@@ -1,22 +1,11 @@
-package com.cardillsports.stattracker.stats;
+package com.cardillsports.stattracker.main.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.FrameLayout;
 
 import com.cardillsports.stattracker.R;
-import com.cardillsports.stattracker.teamselection.ui.TeamSelectionActivity;
 
 import javax.inject.Inject;
 
@@ -25,13 +14,11 @@ import androidx.navigation.Navigation;
 import dagger.android.AndroidInjection;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
-import dagger.android.HasFragmentInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 
-public class StatsActivity extends AppCompatActivity implements HasSupportFragmentInjector {
+public class MainActivity extends AppCompatActivity implements HasSupportFragmentInjector {
 
-    @Inject
-    DispatchingAndroidInjector<Fragment> fragmentInjector;
+    @Inject DispatchingAndroidInjector<Fragment> fragmentInjector;
 
     @Override
     public AndroidInjector<Fragment> supportFragmentInjector() {

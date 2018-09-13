@@ -1,8 +1,8 @@
 package com.cardillsports.stattracker;
 
-import com.cardillsports.stattracker.stats.BoxScoreFragment;
-import com.cardillsports.stattracker.stats.GameDayFragment;
-import com.cardillsports.stattracker.stats.ScoresFragment;
+import com.cardillsports.stattracker.scores.ui.BoxScoreFragment;
+import com.cardillsports.stattracker.scores.ui.GameDayFragment;
+import com.cardillsports.stattracker.scores.ui.ScoresFragment;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;

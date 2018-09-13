@@ -1,12 +1,11 @@
-package com.cardillsports.stattracker.stats;
+package com.cardillsports.stattracker.scores.businesslogic;
 
 import com.cardillsports.stattracker.scores.model.Game;
 import com.cardillsports.stattracker.scores.model.GameDay;
 
 /**
- * Created by vithushan on 9/12/18.
+ * User triggered events.
  */
-
 public interface ScoreEvent {
     class DateSelected implements ScoreEvent{
         private final GameDay gameDay;
@@ -20,7 +19,7 @@ public interface ScoreEvent {
         }
     }
 
-    public class GameSelected {
+    class GameSelected {
         private Game gameDay;
 
         public GameSelected(Game gameDay) {

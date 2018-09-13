@@ -1,4 +1,4 @@
-package com.cardillsports.stattracker.stats;
+package com.cardillsports.stattracker.scores.businesslogic;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -16,9 +16,8 @@ import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 
 /**
- * Created by vithushan on 9/12/18.
+ * Adapter for showing a list of games
  */
-
 public class GamesAdapter extends RecyclerView.Adapter<GamesAdapter.GameViewHolder> {
     private GameDay gameDay;
     private PublishSubject<ScoreEvent.GameSelected> mPublishSubject;

@@ -1,4 +1,4 @@
-package com.cardillsports.stattracker.stats;
+package com.cardillsports.stattracker.scores.ui;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,18 +11,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
 
 import com.cardillsports.stattracker.R;
 import com.cardillsports.stattracker.common.data.CardillService;
 import com.cardillsports.stattracker.common.data.Player;
+import com.cardillsports.stattracker.common.ui.BaseFragment;
 import com.cardillsports.stattracker.details.businesslogic.StatsTableAdapter;
 import com.cardillsports.stattracker.game.data.GameData;
 import com.cardillsports.stattracker.game.data.Stat;
 import com.cardillsports.stattracker.game.data.StatType;
-import com.cardillsports.stattracker.scores.model.GameDay;
-import com.cardillsports.stattracker.teamselection.businesslogic.TeamSelectionPresenter;
+import com.cardillsports.stattracker.scores.businesslogic.BoxScorePresenter;
 import com.evrencoskun.tableview.TableView;
 
 import java.util.ArrayList;
@@ -31,12 +29,11 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import androidx.navigation.fragment.NavHostFragment;
 import dagger.android.support.AndroidSupportInjection;
 
-import static com.cardillsports.stattracker.stats.GameDayFragment.GAME_ID_KEY;
+import static com.cardillsports.stattracker.scores.ui.GameDayFragment.GAME_ID_KEY;
 
-public class BoxScoreFragment extends Fragment implements BoxScoreViewBinder {
+public class BoxScoreFragment extends BaseFragment implements BoxScoreViewBinder {
 
     private BoxScorePresenter mPresenter;
     private String gameId;
@@ -57,27 +54,6 @@ public class BoxScoreFragment extends Fragment implements BoxScoreViewBinder {
         return view;
     }
 
-
-    @SuppressWarnings("deprecation")
-    @Override
-    public void onAttach(Activity activity) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            // Perform injection here for versions before M as onAttach(*Context*) did not yet exist
-            // This fixes DaggerFragment issue: https://github.com/google/dagger/issues/777
-            AndroidSupportInjection.inject(this);
-        }
-        super.onAttach(activity);
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            // Perform injection here for M (API 23) due to deprecation of onAttach(*Activity*).
-            AndroidSupportInjection.inject(this);
-        }
-        super.onAttach(context);
-    }
-
     @Override
     public void onResume() {
         super.onResume();
@@ -86,11 +62,8 @@ public class BoxScoreFragment extends Fragment implements BoxScoreViewBinder {
 
     @Override
     public void showBoxScore(GameData gameData) {
-        Log.d("VITHUSHAN", gameData.toString());
-
         List<Player> players = new ArrayList<>();
         players.addAll(gameData.getTeamOnePlayers());
-        //players.add(Player.create("team", "team", "team"));
         players.addAll(gameData.getTeamTwoPlayers());
 
         initRecyclerView(tableView, players);

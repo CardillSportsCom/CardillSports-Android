@@ -1,4 +1,4 @@
-package com.cardillsports.stattracker.stats;
+package com.cardillsports.stattracker.scores.ui;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;

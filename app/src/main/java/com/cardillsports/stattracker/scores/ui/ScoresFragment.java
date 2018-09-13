@@ -1,4 +1,4 @@
-package com.cardillsports.stattracker.stats;
+package com.cardillsports.stattracker.scores.ui;
 
 import android.app.Activity;
 import android.content.Context;
@@ -17,71 +17,46 @@ import android.widget.ProgressBar;
 
 import com.cardillsports.stattracker.R;
 import com.cardillsports.stattracker.common.data.CardillService;
+import com.cardillsports.stattracker.common.ui.BaseFragment;
 import com.cardillsports.stattracker.scores.model.GameDays;
-import com.cardillsports.stattracker.teamselection.businesslogic.TeamSelectionPresenter;
+import com.cardillsports.stattracker.scores.businesslogic.GameDaysAdapter;
+import com.cardillsports.stattracker.scores.businesslogic.ScoreEvent;
+import com.cardillsports.stattracker.scores.businesslogic.ScoresPresenter;
 
 import javax.inject.Inject;
 
-import androidx.navigation.NavController;
-import androidx.navigation.NavDestination;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
-import dagger.android.AndroidInjection;
-import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.AndroidSupportInjection;
+import io.reactivex.disposables.Disposable;
 
-import static com.cardillsports.stattracker.stats.GameDayFragment.GAME_DAY;
+import static com.cardillsports.stattracker.scores.ui.GameDayFragment.GAME_DAY;
 
 /**
  * Created by vithushan on 9/10/18.
  */
 
-public class ScoresFragment extends Fragment implements ScoresViewBinder {
+public class ScoresFragment extends BaseFragment implements ScoresViewBinder {
 
     private RecyclerView recycler;
     private ProgressBar mProgress;
-    @Inject
-    CardillService cardillService;
-    @Inject
-    DispatchingAndroidInjector<Fragment> childFragmentInjector;
     private ScoresPresenter mPresenter;
+
+    @Inject CardillService cardillService;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_scores, container, false);
-        recycler = view.findViewById(R.id.recycler_view);
 
+        recycler = view.findViewById(R.id.recycler_view);
         recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
+
         mProgress = view.findViewById(R.id.progress);
 
         mPresenter = new ScoresPresenter(this, cardillService);
+
         return view;
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    public void onAttach(Activity activity) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            // Perform injection here for versions before M as onAttach(*Context*) did not yet exist
-            // This fixes DaggerFragment issue: https://github.com/google/dagger/issues/777
-            AndroidSupportInjection.inject(this);
-        }
-        super.onAttach(activity);
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            // Perform injection here for M (API 23) due to deprecation of onAttach(*Activity*).
-            AndroidSupportInjection.inject(this);
-        }
-        super.onAttach(context);
-    }
-
-    public DispatchingAndroidInjector<Fragment> getChildFragmentInjector() {
-        return childFragmentInjector;
     }
 
     @Override
@@ -95,11 +70,10 @@ public class ScoresFragment extends Fragment implements ScoresViewBinder {
         mProgress.setVisibility(View.GONE);
 
         GameDaysAdapter adapter = new GameDaysAdapter(gameDays.getGameDays());
-        adapter.getEventObservable()
-                .subscribe(gameDay -> gotoGameDay(gameDay));
+        Disposable subscribe = adapter.getEventObservable()
+                .subscribe(this::gotoGameDay);
 
         recycler.setAdapter(adapter);
-        Log.d("VITHUSHAN", gameDays.toString());
     }
 
     private void gotoGameDay(ScoreEvent.DateSelected dateSelected) {

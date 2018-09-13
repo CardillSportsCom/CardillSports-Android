@@ -1,4 +1,4 @@
-package com.cardillsports.stattracker.stats;
+package com.cardillsports.stattracker.scores.businesslogic;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -8,20 +8,16 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.cardillsports.stattracker.R;
-import com.cardillsports.stattracker.game.businesslogic.NewGamePlayerAdapter;
 import com.cardillsports.stattracker.scores.model.GameDay;
-import com.cardillsports.stattracker.scores.model.GameDays;
 import com.jakewharton.rxbinding2.view.RxView;
 
-import java.util.Date;
-
 import io.reactivex.Observable;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.PublishSubject;
 
 /**
- * Created by vithushan on 9/12/18.
+ * Adapter for showing a list of game days.
  */
-
 public class GameDaysAdapter extends RecyclerView.Adapter<GameDaysAdapter.GameDaysViewHolder> {
     private GameDay[] gameDays;
     private PublishSubject<ScoreEvent.DateSelected> mPublishSubject;
@@ -48,7 +44,7 @@ public class GameDaysAdapter extends RecyclerView.Adapter<GameDaysAdapter.GameDa
     public void onBindViewHolder(@NonNull GameDaysViewHolder holder, int position) {
         GameDay gameDay = gameDays[position];
         holder.getTextView().setText(gameDay.getGameDate());
-        RxView.clicks(holder.getTextView())
+        Disposable disposable = RxView.clicks(holder.getTextView())
                 .subscribe(x -> mPublishSubject.onNext(new ScoreEvent.DateSelected(gameDay)));
     }
 

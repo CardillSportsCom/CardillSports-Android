@@ -1,8 +1,5 @@
-package com.cardillsports.stattracker.stats;
+package com.cardillsports.stattracker.scores.businesslogic;
 
-import android.util.Log;
-
-import com.cardillsports.stattracker.common.data.CardillService;
 import com.cardillsports.stattracker.common.data.Player;
 import com.cardillsports.stattracker.game.data.GameData;
 import com.cardillsports.stattracker.scores.model.boxscore.BoxScoreResponse;
@@ -11,32 +8,15 @@ import com.cardillsports.stattracker.scores.model.boxscore.PlayerStat;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
+import io.reactivex.functions.Function;
 
-public class BoxScorePresenter {
+/**
+ * Maps a {@link BoxScoreResponse} to a {@link GameData}
+ */
+class BoxScoreMapper implements Function<BoxScoreResponse, GameData> {
 
-    private final BoxScoreViewBinder viewBinder;
-    private final CardillService cardillService;
-
-    public BoxScorePresenter(BoxScoreViewBinder viewBinder, CardillService cardillService) {
-        this.viewBinder = viewBinder;
-        this.cardillService = cardillService;
-    }
-
-    public void loadBoxScore(String gameId) {
-        Disposable mDisposable = cardillService.getBoxScore(gameId)
-                .map(boxScoreResponse -> transform(boxScoreResponse))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        viewBinder::showBoxScore,
-                        throwable -> Log.e("VITHUSHAN", throwable.getLocalizedMessage()));
-    }
-
-    //TODO move this into a separate class
-    private GameData transform(BoxScoreResponse boxScoreResponse) {
+    @Override
+    public GameData apply(BoxScoreResponse boxScoreResponse) {
         List<Player> team1 = new ArrayList<>();
         List<Player> team2 = new ArrayList<>();
 
@@ -72,7 +52,6 @@ public class BoxScorePresenter {
             team2.add(player);
         }
 
-        GameData gameData = new GameData(team1, team2, false);
-        return gameData;
+        return new GameData(team1, team2, false);
     }
 }
