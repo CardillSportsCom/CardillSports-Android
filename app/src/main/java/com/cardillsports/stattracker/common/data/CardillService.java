@@ -3,6 +3,8 @@ package com.cardillsports.stattracker.common.data;
 import com.cardillsports.stattracker.game.data.JSONGameStats;
 import com.cardillsports.stattracker.scores.model.boxscore.BoxScoreResponse;
 import com.cardillsports.stattracker.scores.model.GameDays;
+import com.cardillsports.stattracker.stats.data.LeagueTotalsResponse;
+import com.cardillsports.stattracker.teamselection.data.LeaguePlayersResponse;
 
 import io.reactivex.Observable;
 import okhttp3.ResponseBody;
@@ -25,4 +27,7 @@ public interface CardillService {
 
     @GET("stat/game/{gameID}")
     Observable<BoxScoreResponse> getBoxScore(@Path("gameID") String gameId);
+
+    @GET("stat/league/{gameID}")
+    Observable<LeagueTotalsResponse> getStatTotals(@Path("gameID") String gameId);
 }

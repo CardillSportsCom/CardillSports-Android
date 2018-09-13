@@ -3,6 +3,7 @@ package com.cardillsports.stattracker;
 import com.cardillsports.stattracker.scores.ui.BoxScoreFragment;
 import com.cardillsports.stattracker.scores.ui.GameDayFragment;
 import com.cardillsports.stattracker.scores.ui.ScoresFragment;
+import com.cardillsports.stattracker.stats.StatsFragment;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -21,4 +22,7 @@ public abstract class StatsActivityModule {
 
     @ContributesAndroidInjector
     abstract BoxScoreFragment boxScoreFragmentInjector();
+
+    @ContributesAndroidInjector
+    abstract StatsFragment statsFragmentInjector();
 }

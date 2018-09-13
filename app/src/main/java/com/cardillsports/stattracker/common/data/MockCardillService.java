@@ -3,24 +3,19 @@ package com.cardillsports.stattracker.common.data;
 import com.cardillsports.stattracker.game.data.JSONGameStats;
 import com.cardillsports.stattracker.scores.model.GameDays;
 import com.cardillsports.stattracker.scores.model.boxscore.BoxScoreResponse;
+import com.cardillsports.stattracker.stats.data.LeagueTotalsResponse;
+import com.cardillsports.stattracker.teamselection.data.LeaguePlayersResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import io.reactivex.Observable;
-import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.POST;
-import retrofit2.http.Path;
 
 public class MockCardillService implements CardillService {
 
@@ -85,6 +80,11 @@ public class MockCardillService implements CardillService {
 
     @Override
     public Observable<BoxScoreResponse> getBoxScore(String gameId) {
+        return Observable.empty();
+    }
+
+    @Override
+    public Observable<LeagueTotalsResponse> getStatTotals(String gameId) {
         return Observable.empty();
     }
 }
