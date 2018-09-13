@@ -1,7 +1,9 @@
 package com.cardillsports.stattracker.common.data;
 
 import com.cardillsports.stattracker.game.data.JSONGameStats;
+import com.cardillsports.stattracker.scores.model.GameDays;
 
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -18,4 +20,7 @@ public interface CardillService {
 
     @POST("stat")
     Call<ResponseBody> saveGameStats(@Body JSONGameStats jsonGameStats);
+
+    @GET("stat/score/{leagueID}")
+    Observable<GameDays> getGameDays(@Path("leagueID") String leagueId);
 }

@@ -17,21 +17,30 @@ import android.widget.ProgressBar;
 
 import com.cardillsports.stattracker.R;
 import com.cardillsports.stattracker.common.data.CardillService;
+import com.cardillsports.stattracker.scores.model.Game;
+import com.cardillsports.stattracker.scores.model.GameDay;
 import com.cardillsports.stattracker.scores.model.GameDays;
-import com.cardillsports.stattracker.teamselection.businesslogic.TeamSelectionPresenter;
 
 import javax.inject.Inject;
 
-import dagger.android.AndroidInjection;
-import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.AndroidSupportInjection;
 
 /**
- * Created by vithushan on 9/10/18.
+ * Created by vithushan on 9/12/18.
  */
 
-public class ScoresFragment extends Fragment implements ScoresViewBinder {
+public class GameDayFragment extends Fragment implements GameDayViewBinder {
+    private static final String GAME_DAY = "game-day-key";
+    private GameDay gameDay;
+
+    public static GameDayFragment newInstance(GameDay gameDay) {
+        GameDayFragment gameDayFragment = new GameDayFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(GAME_DAY, gameDay);
+        gameDayFragment.setArguments(bundle);
+        return gameDayFragment;
+    }
 
     private RecyclerView recycler;
     private ProgressBar mProgress;
@@ -39,7 +48,7 @@ public class ScoresFragment extends Fragment implements ScoresViewBinder {
     CardillService cardillService;
     @Inject
     DispatchingAndroidInjector<Fragment> childFragmentInjector;
-    private ScoresPresenter mPresenter;
+    private GameDayPresenter mPresenter;
 
     @Nullable
     @Override
@@ -50,7 +59,10 @@ public class ScoresFragment extends Fragment implements ScoresViewBinder {
         recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         mProgress = view.findViewById(R.id.progress);
 
-        mPresenter = new ScoresPresenter(this, cardillService);
+        mPresenter = new GameDayPresenter(this, cardillService);
+
+        this.gameDay = (GameDay) getArguments().getSerializable(GAME_DAY);
+        loadGames(gameDay);
         return view;
     }
 
@@ -81,22 +93,20 @@ public class ScoresFragment extends Fragment implements ScoresViewBinder {
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.loadScores();
     }
 
     @Override
-    public void loadGameDays(GameDays gameDays) {
+    public void loadGames(GameDay gameDay) {
         mProgress.setVisibility(View.GONE);
 
-        GameDaysAdapter adapter = new GameDaysAdapter(gameDays.getGameDays());
+        GamesAdapter adapter = new GamesAdapter(gameDay);
         adapter.getEventObservable()
-                .subscribe(gameDay -> gotoGameDay(gameDay));
+                .subscribe(game -> gotoGame(game.getGameDay()));
 
         recycler.setAdapter(adapter);
-        Log.d("VITHUSHAN", gameDays.toString());
     }
 
-    private void gotoGameDay(ScoreEvent.DateSelected dateSelected) {
-// TODO refactor to bottom tabs
+    private void gotoGame(Game game) {
+        Log.d("VITHUSHAN", gameDay.toString());
     }
 }

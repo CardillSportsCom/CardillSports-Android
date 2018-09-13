@@ -12,7 +12,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class TeamSelectionPresenter {
 
-    private static final String LEAGUE_ID = "5ac6aaefe8da8276a88ffc07";
+    public static final String LEAGUE_ID = "5ac6aaefe8da8276a88ffc07";
     private static final String TAG = "Vithushan";
 
     private final TeamSelectionViewBinder mViewBinder;

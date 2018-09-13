@@ -14,6 +14,7 @@ import com.cardillsports.stattracker.offline.data.GameDatabase;
 import com.cardillsports.stattracker.offline.data.LocalGameDataStore;
 import com.cardillsports.stattracker.offline.data.RemoteGameDataStore;
 import com.cardillsports.stattracker.offline.domain.LocalGameRepository;
+import com.cardillsports.stattracker.stats.StatsActivity;
 import com.cardillsports.stattracker.teamselection.ui.TeamSelectionActivity;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -46,6 +47,9 @@ public abstract class ApplicationModule {
 
     @ContributesAndroidInjector
     abstract BoxScoreActivity contributeBoxScoreActivityInjector();
+
+    @ContributesAndroidInjector(modules = StatsActivityModule.class)
+    abstract StatsActivity contributeStatsScoreActivityInjector();
 
     @Singleton
     @Provides

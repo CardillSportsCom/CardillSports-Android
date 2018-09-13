@@ -1,10 +1,12 @@
 package com.cardillsports.stattracker.scores.model;
 
+import java.io.Serializable;
+
 /**
  * Created by vithushan on 9/12/18.
  */
 
-public class Game {
+public class Game implements Serializable {
     private String id;
     private String teamA;
     private String teamB;
