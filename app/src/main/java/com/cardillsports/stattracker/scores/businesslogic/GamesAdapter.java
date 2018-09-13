@@ -12,8 +12,16 @@ import com.cardillsports.stattracker.scores.model.Game;
 import com.cardillsports.stattracker.scores.model.GameDay;
 import com.jakewharton.rxbinding2.view.RxView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
+import timber.log.Timber;
+
+import static com.cardillsports.stattracker.scores.businesslogic.GameDaysAdapter.SOURCE_PATTERN;
+import static com.cardillsports.stattracker.scores.businesslogic.GameDaysAdapter.TARGET_PATTERN;
 
 /**
  * Adapter for showing a list of games
@@ -42,8 +50,14 @@ public class GamesAdapter extends RecyclerView.Adapter<GamesAdapter.GameViewHold
 
     @Override
     public void onBindViewHolder(@NonNull GameViewHolder holder, int position) {
+
         Game game = gameDay.getGames()[position];
-        holder.getTextView().setText(game.getDateCreated() + " " + game.getTeamAScore() + " - " + game.getTeamBScore());
+        String score = game.getTeamAScore() + " - " + game.getTeamBScore();
+
+        String text = "Game " + (position + 1) + ": " + score;
+
+        holder.getTextView().setText(text);
+
         RxView.clicks(holder.getTextView())
                 .subscribe(x -> mPublishSubject.onNext(new ScoreEvent.GameSelected(game)));
     }

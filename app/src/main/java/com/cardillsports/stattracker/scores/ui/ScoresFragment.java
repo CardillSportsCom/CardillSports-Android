@@ -1,15 +1,11 @@
 package com.cardillsports.stattracker.scores.ui;
 
-import android.app.Activity;
-import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,16 +14,14 @@ import android.widget.ProgressBar;
 import com.cardillsports.stattracker.R;
 import com.cardillsports.stattracker.common.data.CardillService;
 import com.cardillsports.stattracker.common.ui.BaseFragment;
-import com.cardillsports.stattracker.scores.model.GameDays;
 import com.cardillsports.stattracker.scores.businesslogic.GameDaysAdapter;
 import com.cardillsports.stattracker.scores.businesslogic.ScoreEvent;
 import com.cardillsports.stattracker.scores.businesslogic.ScoresPresenter;
+import com.cardillsports.stattracker.scores.model.GameDays;
 
 import javax.inject.Inject;
 
 import androidx.navigation.fragment.NavHostFragment;
-import dagger.android.DispatchingAndroidInjector;
-import dagger.android.support.AndroidSupportInjection;
 import io.reactivex.disposables.Disposable;
 
 import static com.cardillsports.stattracker.scores.ui.GameDayFragment.GAME_DAY;
@@ -51,6 +45,7 @@ public class ScoresFragment extends BaseFragment implements ScoresViewBinder {
 
         recycler = view.findViewById(R.id.recycler_view);
         recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recycler.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
 
         mProgress = view.findViewById(R.id.progress);
 

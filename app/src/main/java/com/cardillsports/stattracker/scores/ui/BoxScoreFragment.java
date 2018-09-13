@@ -35,6 +35,7 @@ public class BoxScoreFragment extends BaseFragment implements BoxScoreViewBinder
     @Inject
     CardillService cardillService;
     private TableView tableView;
+    private View progress;
 
     @Nullable
     @Override
@@ -46,6 +47,8 @@ public class BoxScoreFragment extends BaseFragment implements BoxScoreViewBinder
         mPresenter = new BoxScorePresenter(this, cardillService);
 
         tableView = view.findViewById(R.id.team_1_table_view);
+        progress = view.findViewById(R.id.progress);
+
         return view;
     }
 
@@ -57,6 +60,8 @@ public class BoxScoreFragment extends BaseFragment implements BoxScoreViewBinder
 
     @Override
     public void showBoxScore(GameData gameData) {
+        progress.setVisibility(View.GONE);
+
         List<Player> players = new ArrayList<>();
         players.addAll(gameData.getTeamOnePlayers());
         players.addAll(gameData.getTeamTwoPlayers());

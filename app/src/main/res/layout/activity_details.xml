@@ -13,8 +13,8 @@
             app:column_header_height="@dimen/column_header_height"
             app:row_header_width="@dimen/row_header_width"
             app:selected_color="@color/colorAccent"
-            app:shadow_color="@color/colorPrimaryDark"
-            app:unselected_color="@color/colorPrimary" />
+            app:shadow_color="@color/colorPrimaryDarkTransparent"
+            app:unselected_color="@color/colorPrimaryTransparent" />
 
 
 </FrameLayout>
