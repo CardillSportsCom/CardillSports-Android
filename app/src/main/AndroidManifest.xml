@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.cardillsports.stattracker">
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+
     <application
+        tools:replace="android:icon"
+        android:name=".CardillApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/stat_logo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/stat_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
@@ -20,6 +26,21 @@
         </activity>
 
         <activity android:name="com.cardillsports.stattracker.game.ui.GameActivity"/>
+        <activity android:name="com.cardillsports.stattracker.details.ui.DetailsActivity"/>
+        <activity android:name="com.cardillsports.stattracker.game.ui.BoxScoreActivity"/>
+        <activity android:name="com.cardillsports.stattracker.teamselection.ui.TeamSelectionActivity"/>
+
+        <service android:name=".offline.domain.services.jobs.SchedulerJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
+        <service
+            android:name=".offline.domain.services.jobs.GcmJobService"
+            android:exported="true"
+            android:permission="com.google.android.gms.permission.BIND_NETWORK_TASK_SERVICE">
+            <intent-filter>
+                <action android:name="com.google.android.gms.gcm.ACTION_TASK_READY" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

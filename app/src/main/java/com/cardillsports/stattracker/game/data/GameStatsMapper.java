@@ -15,10 +15,23 @@ public class GameStatsMapper {
         jsonGameStats.leagueId = WEDNESDAY_NIGHTS;
         jsonGameStats.teamTypeId = BASKETBALL_ID;
 
-        jsonGameStats.teamA = transformTeamStats(gameData.teamOnePlayers(), "Team 1");
-        jsonGameStats.teamB = transformTeamStats(gameData.teamTwoPlayers(), "Team 2");
+        jsonGameStats.teamA = transformTeamStats(gameData.getTeamOnePlayers(), "Team 1");
+        jsonGameStats.teamB = transformTeamStats(gameData.getTeamTwoPlayers(), "Team 2");
+
+        jsonGameStats.teamAScore = calculateTeamScore(gameData.getTeamOnePlayers());
+        jsonGameStats.teamBScore = calculateTeamScore(gameData.getTeamTwoPlayers());
 
         return jsonGameStats;
+    }
+
+    private static String calculateTeamScore(List<Player> teamOnePlayers) {
+        int result = 0;
+
+        for (Player player : teamOnePlayers) {
+            result += player.fieldGoalMade();
+        }
+
+        return String.valueOf(result);
     }
 
     private static JSONTeamStats transformTeamStats(List<Player> playerList, String name) {
@@ -39,7 +52,7 @@ public class GameStatsMapper {
             JSONPlayerStats jsonPlayerStats = new JSONPlayerStats();
             jsonPlayerStats.assists = player.assists();
             jsonPlayerStats.blocks = player.blocks();
-            jsonPlayerStats.fga = player.fieldGoalMissed();
+            jsonPlayerStats.fga = player.fieldGoalMissed() + player.fieldGoalMade();
             jsonPlayerStats.fgm = player.fieldGoalMade();
             jsonPlayerStats.playerId = player.id();
             jsonPlayerStats.rebounds = player.rebounds();
