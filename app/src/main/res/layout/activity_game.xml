@@ -20,7 +20,7 @@
         android:padding="16dp"
         android:text="SCORE"
         android:textSize="64sp"
-        android:background="@color/colorPrimaryTransparent"
+        android:background="@color/default_background_color"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
