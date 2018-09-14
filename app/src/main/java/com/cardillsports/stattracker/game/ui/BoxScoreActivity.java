@@ -59,6 +59,18 @@ public class BoxScoreActivity extends AppCompatActivity {
         List<List<Stat>> cellList = TableUtils.generateTableCellList(players);
 
         adapter.setAllItems(columnHeaderItems, players, cellList);
+
+        tableView.setColumnWidth(0, 200);
+        tableView.setColumnWidth(1, 250);
+        tableView.setColumnWidth(2, 200);
+        tableView.setColumnWidth(3, 200);
+        tableView.setColumnWidth(4, 200);
+        tableView.setColumnWidth(5, 200);
+        tableView.setColumnWidth(6, 200);
+        tableView.setColumnWidth(7, 200);
+        tableView.setColumnWidth(8, 200);
+        tableView.setColumnWidth(9, 200);
+        tableView.setColumnWidth(10,200);
     }
 
     @Override

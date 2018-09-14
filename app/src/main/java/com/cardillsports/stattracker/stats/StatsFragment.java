@@ -53,6 +53,7 @@ public class StatsFragment extends BaseFragment implements StatsViewBinder {
         mPresenter = new StatsPresenter(this, cardillService);
 
         tableView = view.findViewById(R.id.team_1_table_view);
+
         progress = view.findViewById(R.id.progress);
 
         return view;
@@ -87,6 +88,18 @@ public class StatsFragment extends BaseFragment implements StatsViewBinder {
         adapter.setAllItems(columnHeaderItems, players, mCellList);
 
         tableView.setTableViewListener(new CardillTableListener(tableView));
+
+        tableView.setColumnWidth(0, 200);
+        tableView.setColumnWidth(1, 200);
+        tableView.setColumnWidth(2, 200);
+        tableView.setColumnWidth(3, 250);
+        tableView.setColumnWidth(4, 200);
+        tableView.setColumnWidth(5, 200);
+        tableView.setColumnWidth(6, 200);
+        tableView.setColumnWidth(7, 200);
+        tableView.setColumnWidth(8, 200);
+        tableView.setColumnWidth(9, 200);
+        tableView.setColumnWidth(10,200);
     }
 
     private List<List<Stat>> generateTableCellList(List<Player> players) {
