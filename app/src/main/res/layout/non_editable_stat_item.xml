@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="@color/colorAccent"
+    android:background="@color/default_background_color"
     android:layout_gravity="center"
     android:gravity="center"
     android:layout_width="wrap_content"
@@ -12,6 +12,7 @@
         android:id="@+id/stat_button"
         android:gravity="center"
         android:text="HELLO"
+        android:textColor="@color/md_cell_text_color"
         android:layout_width="128dp"
         android:layout_height="wrap_content" />
 

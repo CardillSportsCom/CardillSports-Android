@@ -16,6 +16,7 @@ import com.cardillsports.stattracker.offline.data.RemoteGameDataStore;
 import com.cardillsports.stattracker.offline.domain.LocalGameRepository;
 import com.cardillsports.stattracker.main.ui.MainActivity;
 import com.cardillsports.stattracker.teamselection.ui.TeamSelectionActivity;
+import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -26,6 +27,7 @@ import dagger.Module;
 import dagger.Provides;
 import dagger.android.AndroidInjectionModule;
 import dagger.android.ContributesAndroidInjector;
+import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -83,9 +85,12 @@ public abstract class ApplicationModule {
                     .create();
 
             String BASE_URL = "https://api-cardillsports-st.herokuapp.com";
-
+            OkHttpClient httpClient = new OkHttpClient.Builder()
+                    .addNetworkInterceptor(new StethoInterceptor())
+                    .build();
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
+                    .client(httpClient)
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();

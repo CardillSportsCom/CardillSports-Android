@@ -82,10 +82,30 @@ public class StatsFragment extends BaseFragment implements StatsViewBinder {
         tableView.setAdapter(adapter);
 
         List<StatType> columnHeaderItems = Arrays.asList(StatType.values());
-        List<List<Stat>> mCellList = TableUtils.generateTableCellList(players);
+        List<List<Stat>> mCellList = generateTableCellList(players);
 
         adapter.setAllItems(columnHeaderItems, players, mCellList);
 
         tableView.setTableViewListener(new CardillTableListener(tableView));
+    }
+
+    private List<List<Stat>> generateTableCellList(List<Player> players) {
+        List<List<Stat>> cellList = new ArrayList<>();
+
+        for (Player player : players) {
+            List<Stat> statList = new ArrayList<>(8);
+            statList.add(new Stat(StatType.WINS, player.wins()));
+            statList.add(new Stat(StatType.GP, player.gamesPlayed()));
+            statList.add(new Stat(StatType.FGM, player.fieldGoalMade()));
+            statList.add(new Stat(StatType.MISSES, player.fieldGoalMissed()));
+            statList.add(new Stat(StatType.AST, player.assists()));
+            statList.add(new Stat(StatType.REB, player.rebounds()));
+            statList.add(new Stat(StatType.STL, player.steals()));
+            statList.add(new Stat(StatType.BLK, player.blocks()));
+            statList.add(new Stat(StatType.TO, player.turnovers()));
+            cellList.add(statList);
+        }
+
+        return cellList;
     }
 }

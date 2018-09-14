@@ -75,7 +75,7 @@ public class BoxScoreFragment extends BaseFragment implements BoxScoreViewBinder
 
         tableView.setAdapter(adapter);
 
-        List<StatType> columnHeaderItems = Arrays.asList(StatType.values());
+        List<StatType> columnHeaderItems = Arrays.asList(StatType.values()).subList(2,9);
         List<List<Stat>> mCellList = TableUtils.generateTableCellList(players);
 
         adapter.setAllItems(columnHeaderItems, players, mCellList);

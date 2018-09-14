@@ -10,9 +10,9 @@
         android:layout_height="wrap_content"
         app:column_header_height="@dimen/column_header_height"
         app:row_header_width="@dimen/row_header_width"
-        app:selected_color="@color/colorAccent"
-        app:shadow_color="@color/colorPrimaryDark"
-        app:unselected_color="@color/colorPrimaryTransparent" />
+        app:selected_color="@color/md_selected_background_color"
+        app:shadow_color="@color/md_highlight_row_background_color"
+        app:unselected_color="@color/default_background_color" />
 
 
     <ProgressBar

@@ -55,7 +55,7 @@ public class BoxScoreActivity extends AppCompatActivity {
         StatsTableAdapter adapter = new StatsTableAdapter(this, NON_EDITABLE);
         tableView.setAdapter(adapter);
 
-        List<StatType> columnHeaderItems = Arrays.asList(StatType.values());
+        List<StatType> columnHeaderItems = Arrays.asList(StatType.values()).subList(2,9);
         List<List<Stat>> cellList = TableUtils.generateTableCellList(players);
 
         adapter.setAllItems(columnHeaderItems, players, cellList);

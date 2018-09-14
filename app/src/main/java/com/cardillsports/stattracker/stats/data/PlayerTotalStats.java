@@ -9,6 +9,7 @@ public class PlayerTotalStats {
     private long blocks;
     private long turnovers;
     private long gamesPlayed;
+    private long gamesWon;
 
     public long getFGM() { return FGM; }
     public void setFGM(long value) { this.FGM = value; }
@@ -33,4 +34,11 @@ public class PlayerTotalStats {
 
     public long getGamesPlayed() { return gamesPlayed; }
     public void setGamesPlayed(long value) { this.gamesPlayed = value; }
+
+    public long getGamesWon() {
+        return gamesWon;
+    }
+    public void setGamesWon(long gamesWon) {
+        this.gamesWon = gamesWon;
+    }
 }

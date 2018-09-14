@@ -52,7 +52,7 @@ public class DetailsActivity extends AppCompatActivity {
 
         tableView.setAdapter(adapter);
 
-        List<StatType> columnHeaderItems = Arrays.asList(StatType.values());
+        List<StatType> columnHeaderItems = Arrays.asList(StatType.values()).subList(0,7);
         List<List<Stat>> mCellList = TableUtils.generateTableCellList(players);
 
         adapter.setAllItems(columnHeaderItems, players, mCellList);

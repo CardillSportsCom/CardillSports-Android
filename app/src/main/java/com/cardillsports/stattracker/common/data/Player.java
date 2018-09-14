@@ -20,6 +20,8 @@ public class Player implements Parcelable, Serializable {
     public int blocks;
     public int steals;
     public int turnovers;
+    public int wins;
+    public int gamesPlayed;
 
     protected Player(Parcel in) {
         id = in.readString();
@@ -32,6 +34,25 @@ public class Player implements Parcelable, Serializable {
         blocks = in.readInt();
         steals = in.readInt();
         turnovers = in.readInt();
+        wins = in.readInt();
+        gamesPlayed = in.readInt();
+
+    }
+
+    public Player(String id, String firstName, String lastName, int fgm, int fga, int assists, int rebounds, int blocks, int steals, int turnovers) {
+
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.fieldGoalMade = fgm;
+        this.fieldGoalMissed = fga;
+        this.assists = assists;
+        this.rebounds = rebounds;
+        this.blocks = blocks;
+        this.steals = steals;
+        this.turnovers = turnovers;
+        this.wins = 0;
+        this.gamesPlayed = 0;
     }
 
     public Builder toBuilder() {
@@ -60,7 +81,9 @@ public class Player implements Parcelable, Serializable {
             Integer rebounds,
             Integer blocks,
             Integer steals,
-            Integer turnovers) {
+            Integer turnovers,
+            Integer wins,
+            Integer gamesPlayed) {
 
         this.id = id;
         this.firstName = firstName;
@@ -72,6 +95,8 @@ public class Player implements Parcelable, Serializable {
         this.blocks = blocks;
         this.steals = steals;
         this.turnovers = turnovers;
+        this.wins = wins;
+        this.gamesPlayed = gamesPlayed;
     }
 
     public String id() {
@@ -114,6 +139,14 @@ public class Player implements Parcelable, Serializable {
         return turnovers;
     }
 
+    public int wins() {
+        return wins;
+    }
+
+    public int gamesPlayed() {
+        return gamesPlayed;
+    }
+
     public static Player create(String id, String firstName, String lastName) {
         return builder()
                 .id(id)
@@ -126,6 +159,8 @@ public class Player implements Parcelable, Serializable {
                 .blocks(0)
                 .steals(0)
                 .turnovers(0)
+                .wins(0)
+                .gamesPlayed(0)
                 .build();
     }
 
@@ -137,7 +172,9 @@ public class Player implements Parcelable, Serializable {
                 .rebounds(0)
                 .blocks(0)
                 .steals(0)
-                .turnovers(0);
+                .turnovers(0)
+                .wins(0)
+                .gamesPlayed(0);
     }
 
     @Override
@@ -157,6 +194,8 @@ public class Player implements Parcelable, Serializable {
         dest.writeInt(blocks);
         dest.writeInt(steals);
         dest.writeInt(turnovers);
+        dest.writeInt(wins);
+        dest.writeInt(gamesPlayed);
     }
 
     public static final class Builder {
@@ -170,6 +209,8 @@ public class Player implements Parcelable, Serializable {
         private Integer blocks;
         private Integer steals;
         private Integer turnovers;
+        private Integer wins;
+        private Integer gamesPlayed;
         Builder() {
         }
         private Builder(Player source) {
@@ -183,6 +224,8 @@ public class Player implements Parcelable, Serializable {
             this.blocks = source.blocks();
             this.steals = source.steals();
             this.turnovers = source.turnovers();
+            this.wins = source.wins();
+            this.gamesPlayed = source.gamesPlayed();
         }
 
         public Player.Builder id(String id) {
@@ -244,6 +287,16 @@ public class Player implements Parcelable, Serializable {
             return this;
         }
 
+        public Player.Builder wins(int wins) {
+            this.wins = wins;
+            return this;
+        }
+
+        public Player.Builder gamesPlayed(int gamesPlayed) {
+            this.gamesPlayed = gamesPlayed;
+            return this;
+        }
+
         public Player build() {
             String missing = "";
             if (this.id == null) {
@@ -276,6 +329,12 @@ public class Player implements Parcelable, Serializable {
             if (this.turnovers == null) {
                 missing += " turnovers";
             }
+            if (this.wins == null) {
+                missing += " wins";
+            }
+            if (this.gamesPlayed == null) {
+                missing += " gamesPlayed";
+            }
             if (!missing.isEmpty()) {
                 throw new IllegalStateException("Missing required properties:" + missing);
             }
@@ -289,7 +348,9 @@ public class Player implements Parcelable, Serializable {
                     this.rebounds,
                     this.blocks,
                     this.steals,
-                    this.turnovers);
+                    this.turnovers,
+                    this.wins,
+                    this.gamesPlayed);
         }
     }
 

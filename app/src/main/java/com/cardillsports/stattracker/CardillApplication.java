@@ -5,6 +5,7 @@ import android.app.Application;
 
 import com.cardillsports.stattracker.game.data.GameRepository;
 import com.cardillsports.stattracker.offline.domain.services.jobs.JobManagerFactory;
+import com.facebook.stetho.Stetho;
 
 import javax.inject.Inject;
 
@@ -27,6 +28,7 @@ public class CardillApplication extends Application implements HasActivityInject
 
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
+            Stetho.initializeWithDefaults(this);
         }
 
         DaggerAppComponent.builder().create(this).inject(this);

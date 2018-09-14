@@ -33,6 +33,7 @@ public class CardillTableListener implements ITableViewListener {
         } else {
             tableView.sortColumn(column, SortState.ASCENDING);
         }
+        tableView.scrollToRowPosition(0);
     }
 
     @Override
