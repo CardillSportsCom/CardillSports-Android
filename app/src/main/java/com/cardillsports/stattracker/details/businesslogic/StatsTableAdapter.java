@@ -13,6 +13,7 @@ import com.cardillsports.stattracker.game.data.Stat;
 import com.cardillsports.stattracker.game.data.StatType;
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.evrencoskun.tableview.adapter.AbstractTableAdapter;
+import com.evrencoskun.tableview.adapter.recyclerview.holder.AbstractSorterViewHolder;
 import com.evrencoskun.tableview.adapter.recyclerview.holder.AbstractViewHolder;
 
 import io.reactivex.Observable;
@@ -141,7 +142,7 @@ public class StatsTableAdapter extends AbstractTableAdapter<StatType, Player, St
      * This is sample CellViewHolder class.
      * This viewHolder must be extended from AbstractViewHolder class instead of RecyclerView.ViewHolder.
      */
-    class MyColumnHeaderViewHolder extends AbstractViewHolder {
+    class MyColumnHeaderViewHolder extends AbstractSorterViewHolder {
 
         public final TextView cell_textview;
         public final ViewGroup container;

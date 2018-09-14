@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.cardillsports.stattracker.R;
+import com.cardillsports.stattracker.common.CardillTableListener;
 import com.cardillsports.stattracker.common.data.CardillService;
 import com.cardillsports.stattracker.common.data.Player;
 import com.cardillsports.stattracker.common.ui.BaseFragment;
@@ -84,5 +85,7 @@ public class StatsFragment extends BaseFragment implements StatsViewBinder {
         List<List<Stat>> mCellList = TableUtils.generateTableCellList(players);
 
         adapter.setAllItems(columnHeaderItems, players, mCellList);
+
+        tableView.setTableViewListener(new CardillTableListener(tableView));
     }
 }

@@ -1,14 +1,11 @@
 package com.cardillsports.stattracker.game.data;
 
-public class Stat {
+import com.evrencoskun.tableview.sort.ISortableModel;
+
+public class Stat implements ISortableModel {
 
     private int count;
     private final StatType statType;
-
-    Stat(StatType statType) {
-        this.statType = statType;
-        count = 0;
-    }
 
     public Stat(StatType statType, int count) {
         this.count = count;
@@ -25,5 +22,15 @@ public class Stat {
 
     public void setCount(int count) {
         this.count = count;
+    }
+
+    @Override
+    public String getId() {
+        return String.valueOf(hashCode());
+    }
+
+    @Override
+    public Object getContent() {
+        return count;
     }
 }

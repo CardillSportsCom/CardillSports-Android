@@ -13,7 +13,8 @@
         android:padding="8dp"
         android:background="@color/colorPrimaryTransparent"
         android:text="Total Stats"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline" />
+        android:textColor="@color/grey"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead" />
 
 
     <ProgressBar
