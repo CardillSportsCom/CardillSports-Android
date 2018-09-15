@@ -4,15 +4,16 @@
     android:orientation="vertical"
     android:layout_gravity="center"
     android:gravity="center"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="@dimen/row_height">
 
     <com.cepheuen.elegantnumberbutton.view.ElegantNumberButton
         android:id="@+id/stat_button"
         android:gravity="center"
-        app:backGroundColor="@color/default_background_color"
         app:textColor="#000000"
+        android:background="@color/default_background_color"
         android:layout_width="128dp"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent" />
 
 </LinearLayout>

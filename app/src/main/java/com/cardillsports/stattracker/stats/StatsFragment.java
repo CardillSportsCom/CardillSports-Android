@@ -3,7 +3,6 @@ package com.cardillsports.stattracker.stats;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,14 +12,13 @@ import com.cardillsports.stattracker.common.CardillTableListener;
 import com.cardillsports.stattracker.common.data.CardillService;
 import com.cardillsports.stattracker.common.data.Player;
 import com.cardillsports.stattracker.common.ui.BaseFragment;
-import com.cardillsports.stattracker.common.ui.TableUtils;
 import com.cardillsports.stattracker.details.businesslogic.StatsTableAdapter;
 import com.cardillsports.stattracker.game.data.GameData;
 import com.cardillsports.stattracker.game.data.Stat;
 import com.cardillsports.stattracker.game.data.StatType;
-import com.cardillsports.stattracker.scores.businesslogic.BoxScorePresenter;
 import com.cardillsports.stattracker.stats.businesslogic.StatsPresenter;
 import com.cardillsports.stattracker.stats.businesslogic.StatsViewBinder;
+import com.cardillsports.stattracker.teamselection.data.NewGamePlayer;
 import com.evrencoskun.tableview.TableView;
 
 import java.util.ArrayList;
@@ -30,7 +28,6 @@ import java.util.List;
 import javax.inject.Inject;
 
 import static com.cardillsports.stattracker.details.businesslogic.StatsTableAdapter.NON_EDITABLE;
-import static com.cardillsports.stattracker.scores.ui.GameDayFragment.GAME_ID_KEY;
 
 /**
  * Created by vithushan on 9/10/18.
@@ -53,6 +50,7 @@ public class StatsFragment extends BaseFragment implements StatsViewBinder {
         mPresenter = new StatsPresenter(this, cardillService);
 
         tableView = view.findViewById(R.id.team_1_table_view);
+
         progress = view.findViewById(R.id.progress);
 
         return view;
@@ -84,9 +82,26 @@ public class StatsFragment extends BaseFragment implements StatsViewBinder {
         List<StatType> columnHeaderItems = Arrays.asList(StatType.values());
         List<List<Stat>> mCellList = generateTableCellList(players);
 
-        adapter.setAllItems(columnHeaderItems, players, mCellList);
+        List<NewGamePlayer> newGamePlayers = new ArrayList<>();
+
+        for (Player player : players) {
+            newGamePlayers.add(new NewGamePlayer(player, true, false));
+        }
+        adapter.setAllItems(columnHeaderItems, newGamePlayers, mCellList);
 
         tableView.setTableViewListener(new CardillTableListener(tableView));
+
+        tableView.setColumnWidth(0, 200);
+        tableView.setColumnWidth(1, 200);
+        tableView.setColumnWidth(2, 200);
+        tableView.setColumnWidth(3, 250);
+        tableView.setColumnWidth(4, 200);
+        tableView.setColumnWidth(5, 200);
+        tableView.setColumnWidth(6, 200);
+        tableView.setColumnWidth(7, 200);
+        tableView.setColumnWidth(8, 200);
+        tableView.setColumnWidth(9, 200);
+        tableView.setColumnWidth(10,200);
     }
 
     private List<List<Stat>> generateTableCellList(List<Player> players) {
@@ -94,15 +109,15 @@ public class StatsFragment extends BaseFragment implements StatsViewBinder {
 
         for (Player player : players) {
             List<Stat> statList = new ArrayList<>(8);
-            statList.add(new Stat(StatType.WINS, player.wins()));
-            statList.add(new Stat(StatType.GP, player.gamesPlayed()));
-            statList.add(new Stat(StatType.FGM, player.fieldGoalMade()));
-            statList.add(new Stat(StatType.MISSES, player.fieldGoalMissed()));
-            statList.add(new Stat(StatType.AST, player.assists()));
-            statList.add(new Stat(StatType.REB, player.rebounds()));
-            statList.add(new Stat(StatType.STL, player.steals()));
-            statList.add(new Stat(StatType.BLK, player.blocks()));
-            statList.add(new Stat(StatType.TO, player.turnovers()));
+            statList.add(new Stat(StatType.WINS, player.wins(), true));
+            statList.add(new Stat(StatType.GP, player.gamesPlayed(), true));
+            statList.add(new Stat(StatType.FGM, player.fieldGoalMade(), true));
+            statList.add(new Stat(StatType.MISSES, player.fieldGoalMissed(), true));
+            statList.add(new Stat(StatType.AST, player.assists(), true));
+            statList.add(new Stat(StatType.REB, player.rebounds(), true));
+            statList.add(new Stat(StatType.STL, player.steals(), true));
+            statList.add(new Stat(StatType.BLK, player.blocks(), true));
+            statList.add(new Stat(StatType.TO, player.turnovers(), true));
             cellList.add(statList);
         }
 

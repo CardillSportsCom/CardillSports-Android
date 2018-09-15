@@ -5,7 +5,7 @@
     android:background="@color/default_background_color"
     android:layout_gravity="center"
     android:gravity="center"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="@dimen/row_height">
 
     <TextView
@@ -13,7 +13,7 @@
         android:gravity="center"
         android:text="HELLO"
         android:textColor="@color/md_cell_text_color"
-        android:layout_width="128dp"
-        android:layout_height="wrap_content" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </LinearLayout>

@@ -4,6 +4,8 @@ import com.cardillsports.stattracker.game.data.JSONGameStats;
 import com.cardillsports.stattracker.scores.model.GameDays;
 import com.cardillsports.stattracker.scores.model.boxscore.BoxScoreResponse;
 import com.cardillsports.stattracker.stats.data.LeagueTotalsResponse;
+import com.cardillsports.stattracker.teamselection.data.AddPlayerRequestBody;
+import com.cardillsports.stattracker.teamselection.data.AddPlayerResponse;
 import com.cardillsports.stattracker.teamselection.data.LeaguePlayersResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -85,6 +87,16 @@ public class MockCardillService implements CardillService {
 
     @Override
     public Observable<LeagueTotalsResponse> getStatTotals(String gameId) {
+        return Observable.empty();
+    }
+
+    @Override
+    public Observable<AddPlayerResponse> addPlayer(AddPlayerRequestBody addPlayerRequestBody) {
+        return Observable.empty();
+    }
+
+    @Override
+    public Observable<ResponseBody> addPlayerToLeague(AddPlayerToLeagueRequestBody addPlayerRequestBody) {
         return Observable.empty();
     }
 }

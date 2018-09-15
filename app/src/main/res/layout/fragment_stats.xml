@@ -14,7 +14,16 @@
         android:background="@color/default_background_color"
         android:text="Total Stats"
         android:textColor="@color/grey"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead" />
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/default_background_color"
+        android:text="Click column headers to sort"
+        android:textColor="@color/grey"
+        android:paddingStart="8dp"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption" />
 
 
     <ProgressBar

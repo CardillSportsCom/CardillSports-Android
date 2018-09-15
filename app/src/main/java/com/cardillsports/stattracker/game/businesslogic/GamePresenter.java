@@ -164,13 +164,18 @@ public class GamePresenter {
     public void submitGameStats() {
         GameData gameData = gameRepository.getGameStats();
         viewModel.saveGame(gameData);
+        boxScoreRequested();
     }
 
     public void detailsRequested() {
         viewBinder.showDetails();
     }
 
-    public void boxScoreRequested() {
+    private void boxScoreRequested() {
         viewBinder.showBoxScore();
+    }
+
+    public void saveGameRequested() {
+        viewBinder.showGameOverConfirmation();
     }
 }
