@@ -1,9 +1,9 @@
 package com.cardillsports.stattracker.teamselection.ui;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,12 +12,13 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.cardillsports.stattracker.R;
-import com.cardillsports.stattracker.teamselection.businesslogic.TeamSelectionPresenter;
-import com.cardillsports.stattracker.teamselection.businesslogic.PlayerAdapter;
 import com.cardillsports.stattracker.common.data.CardillService;
-import com.cardillsports.stattracker.game.data.GameData;
 import com.cardillsports.stattracker.common.data.Player;
+import com.cardillsports.stattracker.game.data.GameData;
 import com.cardillsports.stattracker.game.ui.GameActivity;
+import com.cardillsports.stattracker.teamselection.businesslogic.PlayerAdapter;
+import com.cardillsports.stattracker.teamselection.businesslogic.TeamSelectionPresenter;
+import com.cardillsports.stattracker.teamselection.data.NewGamePlayer;
 
 import java.util.List;
 
@@ -27,15 +28,14 @@ import dagger.android.AndroidInjection;
 
 public class TeamSelectionActivity extends AppCompatActivity implements TeamSelectionViewBinder {
 
-    public static final String BASE_URL = "https://api-cardillsports-st.herokuapp.com";
     public static final String GAME_DATA = "game-data-key";
 
     private TeamSelectionPresenter mPresenter;
     private RecyclerView mRecyclerView;
     private PlayerAdapter adapter;
-    @Inject
-    CardillService cardillService;
     private View mProgress;
+
+    @Inject CardillService cardillService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +73,7 @@ public class TeamSelectionActivity extends AppCompatActivity implements TeamSele
     @Override
     protected void onStart() {
         super.onStart();
-        mPresenter.onStart();
+        mPresenter.loadPlayers();
     }
 
     @Override
@@ -83,10 +83,11 @@ public class TeamSelectionActivity extends AppCompatActivity implements TeamSele
     }
 
     @Override
-    public void loadPlayers(List<Player> players) {
+    public void loadPlayers(List<NewGamePlayer> players) {
         mProgress.setVisibility(View.GONE);
         adapter = new PlayerAdapter(players);
         mRecyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -104,5 +105,10 @@ public class TeamSelectionActivity extends AppCompatActivity implements TeamSele
 
         intent.putExtra(GAME_DATA, (Parcelable) gameData);
         startActivity(intent);
+    }
+
+    @Override
+    public void showLoading() {
+        mProgress.setVisibility(View.VISIBLE);
     }
 }
