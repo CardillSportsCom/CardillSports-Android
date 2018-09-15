@@ -292,9 +292,7 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (item.getItemId() == R.id.action_save) {
-            mPresenter.submitGameStats();
-            mPresenter.boxScoreRequested();
-            finish();
+            mPresenter.saveGameRequested();
             return true;
         } else if (item.getItemId() == R.id.action_details) {
             mPresenter.detailsRequested();
@@ -332,7 +330,19 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
 
     @Override
     public void showBoxScore() {
+        finish();
+
         Intent intent = new Intent(this, BoxScoreActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void showGameOverConfirmation() {
+        new AlertDialog.Builder(this)
+                .setTitle("Save Game?")
+                .setMessage("Are you sure you are ready to save and end this game?")
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton(android.R.string.yes, (dialog, whichButton) -> mPresenter.submitGameStats())
+                .setNegativeButton(android.R.string.no, null).show();
     }
 }
