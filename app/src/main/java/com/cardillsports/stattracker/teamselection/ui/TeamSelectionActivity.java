@@ -29,6 +29,8 @@ import com.cardillsports.stattracker.teamselection.data.AddPlayerRequestBody;
 import com.cardillsports.stattracker.teamselection.data.NewGamePlayer;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
@@ -125,6 +127,10 @@ public class TeamSelectionActivity extends AppCompatActivity implements TeamSele
                         String message = "All fields are required";
                         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
                     }
+                    else if(!isEmailValid(emailText)){
+                        String message = "Email address is invalid";
+                        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                    }
                     else {
                         AddPlayerRequestBody addPlayerRequestBody = new AddPlayerRequestBody(firstNameText, lastNameText, emailText, "password");
                         mPresenter.addPlayer(addPlayerRequestBody);
@@ -178,5 +184,25 @@ public class TeamSelectionActivity extends AppCompatActivity implements TeamSele
     @Override
     public void showLoading() {
         mProgress.setVisibility(View.VISIBLE);
+    }
+
+    public boolean isEmailValid( String email){
+        String regExpn =
+                "^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]{1}|[\\w-]{2,}))@"
+                        +"((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
+                        +"[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\."
+                        +"([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
+                        +"[0-9]{1,2}|25[0-5]|2[0-4][0-9])){1}|"
+                        +"([a-zA-Z]+[\\w-]+\\.)+[a-zA-Z]{2,4})$";
+
+        CharSequence inputStr = email;
+
+        Pattern pattern = Pattern.compile(regExpn,Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(inputStr);
+
+        if(matcher.matches())
+            return true;
+        else
+            return false;
     }
 }
