@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.cardillsports.stattracker.R;
 import com.cardillsports.stattracker.common.data.Player;
@@ -28,34 +29,36 @@ import static com.cardillsports.stattracker.details.businesslogic.StatsTableAdap
 public class BoxScoreActivity extends AppCompatActivity {
 
     @Inject GameRepository gameRepository;
+    private TextView scoreView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         AndroidInjection.inject(this);
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_details);
+        setContentView(R.layout.activity_box_score);
 
         GameData gameData = gameRepository.getGameStats();
-        //TODO paginate this table
-        List<Player> players = new ArrayList<>();
-        players.addAll(gameData.getTeamOnePlayers());
-        //players.add(Player.create("team", "team", "team"));
-        players.addAll(gameData.getTeamTwoPlayers());
 
         TableView tableView = findViewById(R.id.team_1_table_view);
 
+        scoreView = findViewById(R.id.score_textview);
 
-        initTableView(tableView, players);
+        initTableView(tableView, gameData.getTeamOnePlayers(), gameData.getTeamTwoPlayers());
     }
 
-    private void initTableView(TableView tableView, List<Player> players) {
+    private void initTableView(TableView tableView, List<Player> team1, List<Player> team2) {
         tableView.getCellRecyclerView().setMotionEventSplittingEnabled(true);
 
         StatsTableAdapter adapter = new StatsTableAdapter(this, NON_EDITABLE);
         tableView.setAdapter(adapter);
 
         List<StatType> columnHeaderItems = Arrays.asList(StatType.values()).subList(2,9);
+
+        List<Player> players = new ArrayList<>();
+        players.addAll(team1);
+        players.addAll(team2);
+
         List<List<Stat>> cellList = TableUtils.generateTableCellList(players);
 
         adapter.setAllItems(columnHeaderItems, players, cellList);
@@ -71,6 +74,18 @@ public class BoxScoreActivity extends AppCompatActivity {
         tableView.setColumnWidth(8, 200);
         tableView.setColumnWidth(9, 200);
         tableView.setColumnWidth(10,200);
+
+        int team1Score = 0;
+        int team2Score = 0;
+        for (Player player : team1) {
+            team1Score += player.fieldGoalMade;
+        }
+        for (Player player : team2) {
+            team2Score += player.fieldGoalMade;
+        }
+
+        String scoreText = team1Score + " - " + team2Score;
+        scoreView.setText(scoreText);
     }
 
     @Override
