@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.cardillsports.stattracker.R;
 import com.cardillsports.stattracker.common.data.CardillService;
@@ -97,12 +98,10 @@ public class TeamSelectionActivity extends AppCompatActivity implements TeamSele
 
             builder.setView(layout);
 
+
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    AddPlayerRequestBody addPlayerRequestBody = new AddPlayerRequestBody(firstName.getText().toString(), lastName.getText().toString(), email.getText().toString(), "password");
-                     mPresenter.addPlayer(addPlayerRequestBody);
-
 
                 }
             });
@@ -112,8 +111,27 @@ public class TeamSelectionActivity extends AppCompatActivity implements TeamSele
                     dialog.cancel();
                 }
             });
-
-            builder.show();
+            AlertDialog dialog = builder.create();
+            dialog.show();
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    String firstNameText = firstName.getText().toString();
+                    String lastNameText = lastName.getText().toString();
+                    String emailText = email.getText().toString();
+                    if(firstNameText.isEmpty() || lastNameText.isEmpty() || emailText.isEmpty()){
+                        String message = "All fields are required";
+                        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        AddPlayerRequestBody addPlayerRequestBody = new AddPlayerRequestBody(firstNameText, lastNameText, emailText, "password");
+                        mPresenter.addPlayer(addPlayerRequestBody);
+                        dialog.dismiss();
+                    }
+                }
+            });
             return true;
         }
 
