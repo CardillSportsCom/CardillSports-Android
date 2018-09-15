@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.cardillsports.stattracker.R;
 import com.cardillsports.stattracker.common.data.CardillService;
@@ -36,6 +37,7 @@ public class BoxScoreFragment extends BaseFragment implements BoxScoreViewBinder
     CardillService cardillService;
     private TableView tableView;
     private View progress;
+    private TextView score;
 
     @Nullable
     @Override
@@ -47,7 +49,10 @@ public class BoxScoreFragment extends BaseFragment implements BoxScoreViewBinder
         mPresenter = new BoxScorePresenter(this, cardillService);
 
         tableView = view.findViewById(R.id.team_1_table_view);
+
         progress = view.findViewById(R.id.progress);
+
+        score = view.findViewById(R.id.score_textview);
 
         return view;
     }
@@ -62,11 +67,26 @@ public class BoxScoreFragment extends BaseFragment implements BoxScoreViewBinder
     public void showBoxScore(GameData gameData) {
         progress.setVisibility(View.GONE);
 
+        int team1 = 0;
+        for (Player player : gameData.getTeamOnePlayers()) {
+            team1 += player.fieldGoalMade();
+        }
+
+        int team2 = 0;
+        for (Player player : gameData.getTeamTwoPlayers()) {
+            team2 += player.fieldGoalMade();
+        }
+
+        String scoreText = team1 + " - " + team2;
+
+        score.setText(scoreText);
         List<Player> players = new ArrayList<>();
         players.addAll(gameData.getTeamOnePlayers());
         players.addAll(gameData.getTeamTwoPlayers());
 
         initTableView(tableView, players);
+
+
     }
 
     private void initTableView(TableView tableView, List<Player> players) {
@@ -79,6 +99,18 @@ public class BoxScoreFragment extends BaseFragment implements BoxScoreViewBinder
         List<List<Stat>> mCellList = TableUtils.generateTableCellList(players);
 
         adapter.setAllItems(columnHeaderItems, players, mCellList);
+
+        tableView.setColumnWidth(0, 200);
+        tableView.setColumnWidth(1, 250);
+        tableView.setColumnWidth(2, 200);
+        tableView.setColumnWidth(3, 200);
+        tableView.setColumnWidth(4, 200);
+        tableView.setColumnWidth(5, 200);
+        tableView.setColumnWidth(6, 200);
+        tableView.setColumnWidth(7, 200);
+        tableView.setColumnWidth(8, 200);
+        tableView.setColumnWidth(9, 200);
+        tableView.setColumnWidth(10,200);
     }
 
 }

@@ -49,6 +49,7 @@ public class TeamSelectionActivity extends AppCompatActivity implements TeamSele
         mRecyclerView = findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+
         mProgress = findViewById(R.id.progress);
     }
 

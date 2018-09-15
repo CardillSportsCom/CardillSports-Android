@@ -2,6 +2,6 @@
 <resources>
     <dimen name="game_stat_button_size">24dp</dimen>
     <dimen name="column_header_height">64dp</dimen>
-    <dimen name="row_header_width">64dp</dimen>
+    <dimen name="row_header_width">96dp</dimen>
     <dimen name="row_height">64dp</dimen>
 </resources>

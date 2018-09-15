@@ -10,6 +10,7 @@
         android:id="@+id/player_label"
         android:text="hello"
         android:gravity="center"
+        android:padding="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 </LinearLayout>
