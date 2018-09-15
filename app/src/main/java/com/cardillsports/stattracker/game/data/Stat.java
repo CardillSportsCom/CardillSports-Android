@@ -6,10 +6,12 @@ public class Stat implements ISortableModel {
 
     private int count;
     private final StatType statType;
+    private boolean isTeamOne;
 
-    public Stat(StatType statType, int count) {
+    public Stat(StatType statType, int count, boolean isTeamOne) {
         this.count = count;
         this.statType = statType;
+        this.isTeamOne = isTeamOne;
     }
 
     public StatType getStatType() {
@@ -22,6 +24,10 @@ public class Stat implements ISortableModel {
 
     public void setCount(int count) {
         this.count = count;
+    }
+
+    public boolean isTeamOne() {
+        return isTeamOne;
     }
 
     @Override

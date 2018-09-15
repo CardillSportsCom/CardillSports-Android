@@ -1,16 +1,18 @@
 package com.cardillsports.stattracker.details.businesslogic;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.cardillsports.stattracker.R;
-import com.cardillsports.stattracker.common.data.Player;
 import com.cardillsports.stattracker.game.data.Stat;
 import com.cardillsports.stattracker.game.data.StatType;
+import com.cardillsports.stattracker.teamselection.data.NewGamePlayer;
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.evrencoskun.tableview.adapter.AbstractTableAdapter;
 import com.evrencoskun.tableview.adapter.recyclerview.holder.AbstractSorterViewHolder;
@@ -19,10 +21,13 @@ import com.evrencoskun.tableview.adapter.recyclerview.holder.AbstractViewHolder;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 
-public class StatsTableAdapter extends AbstractTableAdapter<StatType, Player, Stat> {
+public class StatsTableAdapter extends AbstractTableAdapter<StatType, NewGamePlayer, Stat> {
 
     public static final int EDITABLE = 0;
     public static final int NON_EDITABLE = 1;
+    private static final String TEAM_ONE_COLOR_STRING = "#50ffffff";
+    private static final String TEAM_TWO_COLOR_STRING = "#50fbc02d";
+
 
     private final Context context;
     private PublishSubject<DetailsChangedEvent> mPublishSubject;
@@ -48,9 +53,11 @@ public class StatsTableAdapter extends AbstractTableAdapter<StatType, Player, St
     class MyCellViewHolder extends AbstractViewHolder {
 
         public final ElegantNumberButton numberButton;
+        private final ViewGroup container;
 
         public MyCellViewHolder(View itemView) {
             super(itemView);
+            container = itemView.findViewById(R.id.container);
             numberButton = itemView.findViewById(R.id.stat_button);
         }
     }
@@ -125,6 +132,13 @@ public class StatsTableAdapter extends AbstractTableAdapter<StatType, Player, St
                     mPublishSubject.onNext(new DetailsChangedEvent(columnPosition, rowPosition, newValue));
                 }
             });
+
+            if (cell.isTeamOne()) {
+                viewHolder.container.setBackgroundColor(Color.parseColor(TEAM_ONE_COLOR_STRING));
+            } else {
+                viewHolder.container.setBackgroundColor(Color.parseColor(TEAM_TWO_COLOR_STRING));
+            }
+
             // If your TableView should have auto resize for cells & columns.
             // Then you should consider the below lines. Otherwise, you can ignore them.
 
@@ -134,6 +148,11 @@ public class StatsTableAdapter extends AbstractTableAdapter<StatType, Player, St
         } else if (holder instanceof BoxScoreCellViewHolder) {
             BoxScoreCellViewHolder viewHolder = (BoxScoreCellViewHolder) holder;
             viewHolder.textView.setText(String.valueOf(cell.getCount()));
+            if (cell.isTeamOne()) {
+                viewHolder.textView.setBackgroundColor(Color.parseColor(TEAM_ONE_COLOR_STRING));
+            } else {
+                viewHolder.textView.setBackgroundColor(Color.parseColor(TEAM_TWO_COLOR_STRING));
+            }
         }
     }
 
@@ -258,11 +277,17 @@ public class StatsTableAdapter extends AbstractTableAdapter<StatType, Player, St
     @Override
     public void onBindRowHeaderViewHolder(AbstractViewHolder holder, Object rowHeaderItemModel, int
             position) {
-        Player rowHeader = (Player) rowHeaderItemModel;
+        NewGamePlayer rowHeader = (NewGamePlayer) rowHeaderItemModel;
 
         // Get the holder to update row header item text
         MyRowHeaderViewHolder rowHeaderViewHolder = (MyRowHeaderViewHolder) holder;
-        rowHeaderViewHolder.cell_textview.setText(rowHeader.firstName());
+        rowHeaderViewHolder.cell_textview.setText(rowHeader.getPlayer().firstName());
+
+        if (rowHeader.isTeamOne()) {
+            rowHeaderViewHolder.cell_textview.setBackgroundColor(Color.parseColor(TEAM_ONE_COLOR_STRING));
+        } else {
+            rowHeaderViewHolder.cell_textview.setBackgroundColor(Color.parseColor(TEAM_TWO_COLOR_STRING));
+        }
     }
 
 
