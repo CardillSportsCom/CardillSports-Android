@@ -24,6 +24,7 @@ import com.cardillsports.stattracker.game.data.GameData;
 import com.cardillsports.stattracker.game.ui.GameActivity;
 import com.cardillsports.stattracker.teamselection.businesslogic.PlayerAdapter;
 import com.cardillsports.stattracker.teamselection.businesslogic.TeamSelectionPresenter;
+import com.cardillsports.stattracker.teamselection.data.AddPlayerRequestBody;
 import com.cardillsports.stattracker.teamselection.data.NewGamePlayer;
 
 import java.util.List;
@@ -99,8 +100,10 @@ public class TeamSelectionActivity extends AppCompatActivity implements TeamSele
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    String m_Text = firstName.getText().toString();
-                    Log.d("Debug","Value" + m_Text);
+                    AddPlayerRequestBody addPlayerRequestBody = new AddPlayerRequestBody(firstName.getText().toString(), lastName.getText().toString(), email.getText().toString(), "password");
+                     mPresenter.addPlayer(addPlayerRequestBody);
+
+
                 }
             });
             builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
