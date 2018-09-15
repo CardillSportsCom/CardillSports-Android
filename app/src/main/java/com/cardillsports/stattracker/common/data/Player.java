@@ -51,8 +51,22 @@ public class Player implements Parcelable, Serializable {
         this.blocks = blocks;
         this.steals = steals;
         this.turnovers = turnovers;
-        this.wins = 0;
-        this.gamesPlayed = 0;
+    }
+
+    public Player(String id, String firstName, String lastName, int fgm, int fga, int assists, int rebounds, int blocks, int steals, int turnovers, int wins, int gamesPlayed) {
+
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.fieldGoalMade = fgm;
+        this.fieldGoalMissed = fga;
+        this.assists = assists;
+        this.rebounds = rebounds;
+        this.blocks = blocks;
+        this.steals = steals;
+        this.turnovers = turnovers;
+        this.wins = wins;
+        this.gamesPlayed = gamesPlayed;
     }
 
     public Builder toBuilder() {

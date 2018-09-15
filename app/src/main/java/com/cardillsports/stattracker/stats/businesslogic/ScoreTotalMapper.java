@@ -29,7 +29,9 @@ public class ScoreTotalMapper implements Function<LeagueTotalsResponse, GameData
                     (int) leagueStat.getPlayerTotalStats().getRebounds(),
                     (int) leagueStat.getPlayerTotalStats().getBlocks(),
                     (int) leagueStat.getPlayerTotalStats().getSteals(),
-                    (int) leagueStat.getPlayerTotalStats().getTurnovers()
+                    (int) leagueStat.getPlayerTotalStats().getTurnovers(),
+                    (int) leagueStat.getPlayerTotalStats().getGamesWon(),
+                    (int) leagueStat.getPlayerTotalStats().getGamesPlayed()
             );
             team1.add(player);
         }
