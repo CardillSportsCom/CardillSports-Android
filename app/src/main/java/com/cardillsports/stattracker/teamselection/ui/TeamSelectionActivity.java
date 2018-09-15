@@ -1,5 +1,7 @@
 package com.cardillsports.stattracker.teamselection.ui;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
@@ -7,9 +9,13 @@ import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.cardillsports.stattracker.R;
 import com.cardillsports.stattracker.teamselection.businesslogic.TeamSelectionPresenter;
@@ -63,6 +69,47 @@ public class TeamSelectionActivity extends AppCompatActivity implements TeamSele
 
         if (item.getItemId() == R.id.action_next) {
             mPresenter.onTeamsSelected();
+            return true;
+        }
+        else if(item.getItemId() == R.id.add_player){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Add Player");
+
+            LinearLayout layout = new LinearLayout(this);
+            layout.setOrientation(LinearLayout.VERTICAL);
+
+            final EditText firstName = new EditText(this);
+            firstName.setHint("First name");
+            firstName.setInputType(InputType.TYPE_CLASS_TEXT );
+            layout.addView(firstName);
+
+            final EditText lastName = new EditText(this);
+            lastName.setHint("Last name");
+            lastName.setInputType(InputType.TYPE_CLASS_TEXT );
+            layout.addView(lastName);
+
+            final EditText email = new EditText(this);
+            email.setHint("Email");
+            email.setInputType(InputType.TYPE_CLASS_TEXT );
+            layout.addView(email);
+
+            builder.setView(layout);
+
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    String m_Text = firstName.getText().toString();
+                    Log.d("Debug","Value" + m_Text);
+                }
+            });
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+
+            builder.show();
             return true;
         }
 
