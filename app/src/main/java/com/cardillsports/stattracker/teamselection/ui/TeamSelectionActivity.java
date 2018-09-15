@@ -1,55 +1,41 @@
 package com.cardillsports.stattracker.teamselection.ui;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Parcelable;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 
 import com.cardillsports.stattracker.R;
-import com.cardillsports.stattracker.common.data.AddPlayerToLeagueRequestBody;
-import com.cardillsports.stattracker.teamselection.businesslogic.TeamSelectionPresenter;
-import com.cardillsports.stattracker.teamselection.businesslogic.PlayerAdapter;
 import com.cardillsports.stattracker.common.data.CardillService;
-import com.cardillsports.stattracker.game.data.GameData;
 import com.cardillsports.stattracker.common.data.Player;
+import com.cardillsports.stattracker.game.data.GameData;
 import com.cardillsports.stattracker.game.ui.GameActivity;
-import com.cardillsports.stattracker.teamselection.data.AddPlayerRequestBody;
+import com.cardillsports.stattracker.teamselection.businesslogic.PlayerAdapter;
+import com.cardillsports.stattracker.teamselection.businesslogic.TeamSelectionPresenter;
+import com.cardillsports.stattracker.teamselection.data.NewGamePlayer;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
 import dagger.android.AndroidInjection;
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
-import okhttp3.Response;
-import timber.log.Timber;
-
-import static com.cardillsports.stattracker.teamselection.businesslogic.TeamSelectionPresenter.LEAGUE_ID;
 
 public class TeamSelectionActivity extends AppCompatActivity implements TeamSelectionViewBinder {
 
-    public static final String BASE_URL = "https://api-cardillsports-st.herokuapp.com";
     public static final String GAME_DATA = "game-data-key";
 
     private TeamSelectionPresenter mPresenter;
     private RecyclerView mRecyclerView;
     private PlayerAdapter adapter;
-    @Inject
-    CardillService cardillService;
     private View mProgress;
+
+    @Inject CardillService cardillService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,10 +66,6 @@ public class TeamSelectionActivity extends AppCompatActivity implements TeamSele
             mPresenter.onTeamsSelected();
             return true;
         }
-        if (item.getItemId() == R.id.action_add_player) {
-            mPresenter.onAddPlayerRequested();
-            return true;
-        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -101,7 +83,7 @@ public class TeamSelectionActivity extends AppCompatActivity implements TeamSele
     }
 
     @Override
-    public void loadPlayers(List<Player> players) {
+    public void loadPlayers(List<NewGamePlayer> players) {
         mProgress.setVisibility(View.GONE);
         adapter = new PlayerAdapter(players);
         mRecyclerView.setAdapter(adapter);
@@ -123,28 +105,6 @@ public class TeamSelectionActivity extends AppCompatActivity implements TeamSele
 
         intent.putExtra(GAME_DATA, (Parcelable) gameData);
         startActivity(intent);
-    }
-
-    @Override
-    public void showPlayerInputDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Add Player");
-        builder.setMessage("Enter the first name of the player");
-
-        // Set up the input
-        final EditText input = new EditText(this);
-        input.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
-        builder.setView(input);
-
-        // Set up the buttons
-        builder.setPositiveButton("OK", (dialog, which) -> {
-            String playerName = input.getText().toString();
-            Timber.d(playerName);
-            mPresenter.addPlayer(playerName);
-        });
-        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
-
-        builder.show();
     }
 
     @Override

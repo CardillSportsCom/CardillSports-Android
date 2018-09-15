@@ -6,13 +6,12 @@ import com.cardillsports.stattracker.common.data.AddPlayerToLeagueRequestBody;
 import com.cardillsports.stattracker.common.data.CardillService;
 import com.cardillsports.stattracker.common.data.Player;
 import com.cardillsports.stattracker.teamselection.data.AddPlayerRequestBody;
+import com.cardillsports.stattracker.teamselection.data.NewGamePlayer;
 import com.cardillsports.stattracker.teamselection.ui.TeamSelectionViewBinder;
 
-import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import retrofit2.Response;
 import timber.log.Timber;
 
 public class TeamSelectionPresenter {
@@ -35,7 +34,7 @@ public class TeamSelectionPresenter {
                 .map(resp -> resp.players)
                 .flatMapIterable(list -> list)
                 .map(item -> item.player)
-                .map(player -> Player.create(player._id, player.firstName, player.lastName))
+                .map(player -> new NewGamePlayer(Player.create(player._id, player.firstName, player.lastName), false, false))
                 .toList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

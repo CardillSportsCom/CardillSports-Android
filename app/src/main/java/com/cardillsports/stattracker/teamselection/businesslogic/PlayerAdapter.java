@@ -12,16 +12,17 @@ import android.widget.TextView;
 
 import com.cardillsports.stattracker.R;
 import com.cardillsports.stattracker.common.data.Player;
+import com.cardillsports.stattracker.teamselection.data.NewGamePlayer;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerViewHolder> {
-    private final List<Player> mPlayers;
+    private final List<NewGamePlayer> mPlayers;
     private List<Player> mTeamOne;
     private List<Player> mTeamTwo;
 
-    public PlayerAdapter(List<Player> players) {
+    public PlayerAdapter(List<NewGamePlayer> players) {
         mPlayers = players;
         mTeamOne = new ArrayList<>();
         mTeamTwo = new ArrayList<>();
@@ -42,26 +43,30 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.PlayerView
 
     @Override
     public void onBindViewHolder(@NonNull PlayerViewHolder holder, int position) {
-        holder.getNameTextView().setText(mPlayers.get(position).firstName());
+        holder.getTeamOneCheckbox().setOnCheckedChangeListener(null);
+        holder.getNameTextView().setText(mPlayers.get(position).getPlayer().firstName());
         holder.getTeamOneCheckbox().setOnCheckedChangeListener((compoundButton, b) -> {
             if (b == true) {
-                mTeamOne.add(mPlayers.get(position));
+                mTeamOne.add(mPlayers.get(position).getPlayer());
                 holder.getTeamTwoCheckbox().setEnabled(false);
             } else {
-                mTeamOne.remove(mPlayers.get(position));
+                mTeamOne.remove(mPlayers.get(position).getPlayer());
                 holder.getTeamTwoCheckbox().setEnabled(true);
             }
         });
+        holder.getTeamOneCheckbox().setChecked(mPlayers.get(position).isTeamOne());
 
+        holder.getTeamTwoCheckbox().setOnCheckedChangeListener(null);
         holder.getTeamTwoCheckbox().setOnCheckedChangeListener((compoundButton, b) -> {
             if (b == true) {
-                mTeamTwo.add(mPlayers.get(position));
+                mTeamTwo.add(mPlayers.get(position).getPlayer());
                 holder.getTeamOneCheckbox().setEnabled(false);
             } else {
-                mTeamTwo.remove(mPlayers.get(position));
+                mTeamTwo.remove(mPlayers.get(position).getPlayer());
                 holder.getTeamOneCheckbox().setEnabled(true);
             }
         });
+        holder.getTeamTwoCheckbox().setChecked(mPlayers.get(position).isTeamTwo());
     }
 
     @Override
