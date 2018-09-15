@@ -18,6 +18,7 @@ import com.cardillsports.stattracker.game.data.GameData;
 import com.cardillsports.stattracker.game.data.Stat;
 import com.cardillsports.stattracker.game.data.StatType;
 import com.cardillsports.stattracker.scores.businesslogic.BoxScorePresenter;
+import com.cardillsports.stattracker.teamselection.data.NewGamePlayer;
 import com.evrencoskun.tableview.TableView;
 
 import java.util.ArrayList;
@@ -80,23 +81,30 @@ public class BoxScoreFragment extends BaseFragment implements BoxScoreViewBinder
         String scoreText = team1 + " - " + team2;
 
         score.setText(scoreText);
-        List<Player> players = new ArrayList<>();
-        players.addAll(gameData.getTeamOnePlayers());
-        players.addAll(gameData.getTeamTwoPlayers());
 
-        initTableView(tableView, players);
+
+        initTableView(tableView, gameData.getTeamOnePlayers(), gameData.getTeamTwoPlayers());
 
 
     }
 
-    private void initTableView(TableView tableView, List<Player> players) {
+    private void initTableView(TableView tableView, List<Player> teamOne, List<Player> teamTwo) {
         tableView.getCellRecyclerView().setMotionEventSplittingEnabled(true);
         StatsTableAdapter adapter = new StatsTableAdapter(getActivity(), NON_EDITABLE);
 
         tableView.setAdapter(adapter);
 
         List<StatType> columnHeaderItems = Arrays.asList(StatType.values()).subList(2,9);
-        List<List<Stat>> mCellList = TableUtils.generateTableCellList(players);
+        List<List<Stat>> mCellList = TableUtils.generateTableCellList(teamOne, teamTwo);
+
+        List<NewGamePlayer> players = new ArrayList<>();
+
+        for (Player player : teamOne) {
+            players.add(new NewGamePlayer(player, true, false));
+        }
+        for (Player player : teamTwo) {
+            players.add(new NewGamePlayer(player, false, true));
+        }
 
         adapter.setAllItems(columnHeaderItems, players, mCellList);
 

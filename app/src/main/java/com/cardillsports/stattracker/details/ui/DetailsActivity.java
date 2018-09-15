@@ -13,6 +13,7 @@ import com.cardillsports.stattracker.game.data.GameData;
 import com.cardillsports.stattracker.game.data.GameRepository;
 import com.cardillsports.stattracker.game.data.Stat;
 import com.cardillsports.stattracker.game.data.StatType;
+import com.cardillsports.stattracker.teamselection.data.NewGamePlayer;
 import com.evrencoskun.tableview.TableView;
 
 import java.util.ArrayList;
@@ -36,24 +37,30 @@ public class DetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_details);
 
         GameData gameData = gameRepository.getGameStats();
-        List<Player> players = new ArrayList<>();
-        players.addAll(gameData.getTeamOnePlayers());
-        players.addAll(gameData.getTeamTwoPlayers());
 
         TableView tableView = findViewById(R.id.team_1_table_view);
 
 
-        initTableView(tableView, players, StatsTableAdapter.EDITABLE);
+        initTableView(tableView, gameData.getTeamOnePlayers(), gameData.getTeamTwoPlayers(), StatsTableAdapter.EDITABLE);
     }
 
-    private void initTableView(TableView tableView, List<Player> players, int viewType) {
+    private void initTableView(TableView tableView, List<Player> teamOne, List<Player> teamTwo, int viewType) {
         tableView.getCellRecyclerView().setMotionEventSplittingEnabled(true);
         StatsTableAdapter adapter = new StatsTableAdapter(this, viewType);
 
         tableView.setAdapter(adapter);
 
         List<StatType> columnHeaderItems = Arrays.asList(StatType.values()).subList(0,7);
-        List<List<Stat>> mCellList = TableUtils.generateTableCellList(players);
+        List<List<Stat>> mCellList = TableUtils.generateTableCellList(teamOne, teamTwo);
+
+        List<NewGamePlayer> players = new ArrayList<>();
+
+        for (Player player : teamOne) {
+            players.add(new NewGamePlayer(player, true, false));
+        }
+        for (Player player : teamTwo) {
+            players.add(new NewGamePlayer(player, false, true));
+        }
 
         adapter.setAllItems(columnHeaderItems, players, mCellList);
 

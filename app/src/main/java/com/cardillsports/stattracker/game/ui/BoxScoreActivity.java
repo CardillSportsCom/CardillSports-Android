@@ -14,6 +14,7 @@ import com.cardillsports.stattracker.game.data.GameData;
 import com.cardillsports.stattracker.game.data.GameRepository;
 import com.cardillsports.stattracker.game.data.Stat;
 import com.cardillsports.stattracker.game.data.StatType;
+import com.cardillsports.stattracker.teamselection.data.NewGamePlayer;
 import com.evrencoskun.tableview.TableView;
 
 import java.util.ArrayList;
@@ -55,12 +56,16 @@ public class BoxScoreActivity extends AppCompatActivity {
 
         List<StatType> columnHeaderItems = Arrays.asList(StatType.values()).subList(2,9);
 
-        List<Player> players = new ArrayList<>();
-        players.addAll(team1);
-        players.addAll(team2);
+        List<List<Stat>> cellList = TableUtils.generateTableCellList(team1,team2);
 
-        List<List<Stat>> cellList = TableUtils.generateTableCellList(players);
+        List<NewGamePlayer> players = new ArrayList<>();
 
+        for (Player player : team1) {
+            players.add(new NewGamePlayer(player, true, false));
+        }
+        for (Player player : team2) {
+            players.add(new NewGamePlayer(player, false, true));
+        }
         adapter.setAllItems(columnHeaderItems, players, cellList);
 
         tableView.setColumnWidth(0, 200);
