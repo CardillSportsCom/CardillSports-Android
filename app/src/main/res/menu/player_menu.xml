@@ -3,6 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:id="@+id/action_add_player"
+        app:showAsAction="ifRoom"
+        android:title="Add Player"/>
+    <item
         android:id="@+id/action_next"
         app:showAsAction="always"
         android:title="Next"/>

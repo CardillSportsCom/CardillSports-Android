@@ -8,4 +8,8 @@ public interface TeamSelectionViewBinder {
     void loadPlayers(List<Player> players);
 
     void navigateToGameScreen();
+
+    void showPlayerInputDialog();
+
+    void showLoading();
 }
