@@ -6,4 +6,7 @@
         android:id="@+id/action_next"
         app:showAsAction="always"
         android:title="Next"/>
+    <item
+        android:id="@+id/add_player"
+        android:title="Add Player"/>
 </menu>

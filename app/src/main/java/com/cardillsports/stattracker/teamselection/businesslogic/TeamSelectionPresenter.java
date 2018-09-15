@@ -54,8 +54,7 @@ public class TeamSelectionPresenter {
     }
 
 
-    public void addPlayer(String playerName) {
-        AddPlayerRequestBody addPlayerRequestBody = new AddPlayerRequestBody(playerName, "lastName", playerName + "@gmail.com", "password");
+    public void addPlayer(AddPlayerRequestBody addPlayerRequestBody) {
         Disposable subscribe = mCardillService.addPlayer(addPlayerRequestBody)
                 .map(addPlayerResponse -> addPlayerResponse.getNewPlayer().getID())
                 .flatMap(playerId -> mCardillService.addPlayerToLeague(new AddPlayerToLeagueRequestBody(playerId, LEAGUE_ID)))
