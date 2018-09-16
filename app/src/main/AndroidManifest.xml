@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.cardillsports.stattracker">
+    package="com.cardill.sports.stattracker">
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
@@ -9,7 +9,7 @@
 
     <application
         tools:replace="android:icon"
-        android:name=".CardillApplication"
+        android:name="com.cardill.sports.stattracker.CardillApplication"
         android:allowBackup="true"
         android:icon="@drawable/stat_logo"
         android:label="@string/app_name"
@@ -17,24 +17,24 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".main.ui.MainActivity">
+        <activity android:name="com.cardill.sports.stattracker.ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
+                <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name="com.cardillsports.stattracker.game.ui.GameActivity"/>
-        <activity android:name="com.cardillsports.stattracker.details.ui.DetailsActivity"/>
-        <activity android:name="com.cardillsports.stattracker.game.ui.BoxScoreActivity"/>
-        <activity android:name="com.cardillsports.stattracker.teamselection.ui.TeamSelectionActivity"/>
+        <activity android:name="com.cardill.sports.stattracker.game.ui.GameActivity"/>
+        <activity android:name="com.cardill.sports.stattracker.details.ui.DetailsActivity"/>
+        <activity android:name="com.cardill.sports.stattracker.game.ui.BoxScoreActivity"/>
+        <activity android:name="com.cardill.sports.stattracker.teamselection.ui.TeamSelectionActivity"/>
 
-        <service android:name=".offline.domain.services.jobs.SchedulerJobService"
+        <service android:name="com.cardill.sports.stattracker.offline.domain.services.jobs.SchedulerJobService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
         <service
-            android:name=".offline.domain.services.jobs.GcmJobService"
+            android:name="com.cardill.sports.stattracker.offline.domain.services.jobs.GcmJobService"
             android:exported="true"
             android:permission="com.google.android.gms.permission.BIND_NETWORK_TASK_SERVICE">
             <intent-filter>
