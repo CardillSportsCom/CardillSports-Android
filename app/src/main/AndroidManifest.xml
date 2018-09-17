@@ -17,14 +17,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name="com.cardill.sports.stattracker.ui.MainActivity">
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <activity android:name=".login.ui.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity android:name=".ui.MainActivity"/>
         <activity android:name="com.cardill.sports.stattracker.game.ui.GameActivity"/>
         <activity android:name="com.cardill.sports.stattracker.details.ui.DetailsActivity"/>
         <activity android:name="com.cardill.sports.stattracker.game.ui.BoxScoreActivity"/>
