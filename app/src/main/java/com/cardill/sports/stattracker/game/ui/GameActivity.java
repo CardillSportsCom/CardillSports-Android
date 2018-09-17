@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cardill.sports.stattracker.R;
+import com.cardill.sports.stattracker.common.data.Player;
 import com.cardill.sports.stattracker.details.ui.DetailsActivity;
 import com.cardill.sports.stattracker.game.businesslogic.GameEvent;
 import com.cardill.sports.stattracker.game.businesslogic.GamePresenter;
@@ -217,6 +218,8 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
 
 
     private void renderUI(GameState gameState) {
+        setPlayerToDisable(null);
+
         switch (gameState) {
             case MAKE_REQUESTED:
             case MISS_REQUESTED:
@@ -263,6 +266,7 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
             case ASSIST_REQUESTED:
                 setMainButtonsVisibility(View.GONE);
                 setTeamVisibility(gameViewModel.getCurrentTeam());
+                setPlayerToDisable(gameViewModel.getLastPlayerToMake());
                 setAssistButtonVisibility(View.GONE);
                 setMissExtrasButtonVisibility(View.GONE);
                 setTurnoverExtraButtonVisibility(View.GONE);
@@ -280,6 +284,20 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
             default:
                 return;
         }
+    }
+
+    private void setPlayerToDisable(Player lastSelectedPlayer) {
+
+        NewGamePlayerAdapter adapter;
+        if (gameViewModel.getCurrentTeam() == Team.TEAM_ONE) {
+            adapter = (NewGamePlayerAdapter) teamOneRecyclerView.getAdapter();
+
+        } else {
+            adapter = (NewGamePlayerAdapter) teamTwoRecyclerView.getAdapter();
+        }
+
+        adapter.setLastSelectedPlayer(lastSelectedPlayer);
+        adapter.notifyDataSetChanged();
     }
 
     @Override

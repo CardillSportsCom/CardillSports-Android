@@ -20,6 +20,7 @@ public class GameViewModel extends ViewModel {
     private Team currentTeam;
     private MutableLiveData<String> scoreString;
     private MutableLiveData<GameData> gameStats;
+    private Player lastPlayerToMake;
 
     private final SaveGameUseCase saveGameUseCase;
     private final CompositeDisposable disposables = new CompositeDisposable();
@@ -66,6 +67,14 @@ public class GameViewModel extends ViewModel {
 
     public Team getCurrentTeam() {
         return currentTeam;
+    }
+
+    public Player getLastPlayerToMake() {
+        return lastPlayerToMake;
+    }
+
+    public void setLastPlayerToMake(Player lastPlayerToMake) {
+        this.lastPlayerToMake = lastPlayerToMake;
     }
 
     public LiveData<String> getCurrentScore() {

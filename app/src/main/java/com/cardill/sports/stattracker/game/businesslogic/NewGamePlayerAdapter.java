@@ -24,6 +24,7 @@ public class NewGamePlayerAdapter extends RecyclerView.Adapter<NewGamePlayerAdap
     private final List<Player> mPlayers;
     private PublishSubject<GameEvent.PlayerSelected> mPublishSubject;
     private Team team;
+    private Player lastSelectedPlayer;
 
     public NewGamePlayerAdapter(List<Player> players, Team team) {
         mPlayers = players;
@@ -47,6 +48,13 @@ public class NewGamePlayerAdapter extends RecyclerView.Adapter<NewGamePlayerAdap
     @Override
     public void onBindViewHolder(@NonNull PlayerViewHolder holder, int position) {
         Player player = mPlayers.get(position);
+        if (player.equals(lastSelectedPlayer)) {
+            holder.mNameTextView.setAlpha(0.5f);
+            holder.mNameTextView.setEnabled(false);
+        } else {
+            holder.mNameTextView.setAlpha(1.0f);
+            holder.mNameTextView.setEnabled(true);
+        }
         holder.getNameTextView().setText(player.firstName());
         Disposable subscribe = RxView.clicks(holder.getNameTextView())
                 .subscribe(x -> mPublishSubject.onNext(new GameEvent.PlayerSelected(team, player)));
@@ -59,6 +67,11 @@ public class NewGamePlayerAdapter extends RecyclerView.Adapter<NewGamePlayerAdap
     @Override
     public int getItemCount() {
         return mPlayers.size();
+    }
+
+    public void setLastSelectedPlayer(Player lastSelectedPlayer) {
+
+        this.lastSelectedPlayer = lastSelectedPlayer;
     }
 
     public class PlayerViewHolder extends RecyclerView.ViewHolder {

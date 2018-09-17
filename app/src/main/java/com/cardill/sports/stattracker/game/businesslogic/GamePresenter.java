@@ -71,6 +71,7 @@ public class GamePresenter {
                             }
                             viewModel.setGameState(GameState.MAIN);
                         } else if (gameState == GameState.MAKE_REQUESTED) {
+                            viewModel.setLastPlayerToMake(player);
                             gameRepository.incrementPendingStat(player, statType);
                             viewModel.setGameState(GameState.DETERMINE_MAKE_EXTRAS);
                         } else if (gameState == GameState.MISS_REQUESTED) {
