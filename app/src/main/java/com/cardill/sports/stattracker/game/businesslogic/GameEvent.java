@@ -36,4 +36,8 @@ public interface GameEvent {
     class NoStealRequested implements GameEvent {}
 
     class BackRequested implements GameEvent {}
+
+    class ReboundFromBlockRequested implements GameEvent {}
+
+    class NoReboundFromBlockRequested implements GameEvent {}
 }
