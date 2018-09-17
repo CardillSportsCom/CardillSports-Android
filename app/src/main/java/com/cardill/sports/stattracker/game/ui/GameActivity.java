@@ -56,15 +56,19 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
     private View neitherButton;
     private View stealButton;
     private View noStealButton;
+    private View reboundFromBlockButton;
+    private View noReboundFromBlockButton;
     private GameViewModel gameViewModel;
     private PublishSubject<GameEvent> mBackButtonPublishSubject;
 
-    @Inject GameRepository gameRepository;
-    @Inject CardillService cardillService;
-    @Inject SyncCommentLifecycleObserver syncCommentLifecycleObserver;
-    @Inject GameViewModelFactory gameViewModelFactory;
-
-    private LifecycleRegistry registry = new LifecycleRegistry(this);
+    @Inject
+    GameRepository gameRepository;
+    @Inject
+    CardillService cardillService;
+    @Inject
+    SyncCommentLifecycleObserver syncCommentLifecycleObserver;
+    @Inject
+    GameViewModelFactory gameViewModelFactory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +108,8 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
         blockButton = findViewById(R.id.block);
         stealButton = findViewById(R.id.steal);
         noStealButton = findViewById(R.id.no_steal);
+        reboundFromBlockButton = findViewById(R.id.reboundFromBlock);
+        noReboundFromBlockButton = findViewById(R.id.noReboundFromBlock);
 
         gameViewModel = ViewModelProviders.of(this, gameViewModelFactory).get(GameViewModel.class);
 
@@ -134,6 +140,8 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
         Observable<GameEvent> blockClicks = RxView.clicks(blockButton).map(x -> new GameEvent.BlockRequested());
         Observable<GameEvent> stealClicks = RxView.clicks(stealButton).map(x -> new GameEvent.StealRequested());
         Observable<GameEvent> noStealClicks = RxView.clicks(noStealButton).map(x -> new GameEvent.NoStealRequested());
+        Observable<GameEvent> reboundFromBlockClicks = RxView.clicks(reboundFromBlockButton).map(x -> new GameEvent.ReboundFromBlockRequested());
+        Observable<GameEvent> noReboundFromBlockClicks = RxView.clicks(noReboundFromBlockButton).map(x -> new GameEvent.NoReboundFromBlockRequested());
 
         Observable<GameEvent> mainButtonClicks = Observable.merge(
                 makeClicks,
@@ -157,12 +165,21 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
                 noStealClicks
         );
 
-        return Observable.merge(
-                mainButtonClicks,
+        Observable<GameEvent> blockExtrasClicks = Observable.merge(
+                reboundFromBlockClicks,
+                noReboundFromBlockClicks
+        );
+
+        Observable<GameEvent> mainButtonExtrasClicks = Observable.merge(
                 makeButtonClicks,
                 missButtonClicks,
                 turnoverButtonClicks
         );
+
+        return Observable.merge(
+                mainButtonExtrasClicks,
+                blockExtrasClicks,
+                mainButtonClicks);
     }
 
     @Override
@@ -215,6 +232,11 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
         noStealButton.setVisibility(visibility);
     }
 
+    private void setBlockExtrasButtonVisibility(int visibility) {
+        reboundFromBlockButton.setVisibility(visibility);
+        noReboundFromBlockButton.setVisibility(visibility);
+    }
+
 
     private void renderUI(GameState gameState) {
         switch (gameState) {
@@ -222,11 +244,13 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
             case MISS_REQUESTED:
             case REBOUND_REQUESTED:
             case TURNOVER_REQUESTED:
+            case REBOUND_FROM_BLOCK_REQUESTED:
                 setMainButtonsVisibility(View.GONE);
                 setPlayerListVisibility(View.VISIBLE);
                 setAssistButtonVisibility(View.GONE);
                 setMissExtrasButtonVisibility(View.GONE);
                 setTurnoverExtraButtonVisibility(View.GONE);
+                setBlockExtrasButtonVisibility(View.GONE);
                 return;
 
             case MAIN:
@@ -235,6 +259,7 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
                 setAssistButtonVisibility(View.GONE);
                 setMissExtrasButtonVisibility(View.GONE);
                 setTurnoverExtraButtonVisibility(View.GONE);
+                setBlockExtrasButtonVisibility(View.GONE);
                 return;
 
             case DETERMINE_MAKE_EXTRAS:
@@ -243,6 +268,7 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
                 setAssistButtonVisibility(View.VISIBLE);
                 setMissExtrasButtonVisibility(View.GONE);
                 setTurnoverExtraButtonVisibility(View.GONE);
+                setBlockExtrasButtonVisibility(View.GONE);
                 return;
 
             case DETERMINE_MISS_EXTRAS:
@@ -251,6 +277,7 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
                 setAssistButtonVisibility(View.GONE);
                 setMissExtrasButtonVisibility(View.VISIBLE);
                 setTurnoverExtraButtonVisibility(View.GONE);
+                setBlockExtrasButtonVisibility(View.GONE);
                 return;
 
             case DETERMINE_TURNOVER_EXTRAS:
@@ -259,6 +286,7 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
                 setAssistButtonVisibility(View.GONE);
                 setMissExtrasButtonVisibility(View.GONE);
                 setTurnoverExtraButtonVisibility(View.VISIBLE);
+                setBlockExtrasButtonVisibility(View.GONE);
                 return;
             case ASSIST_REQUESTED:
                 setMainButtonsVisibility(View.GONE);
@@ -266,6 +294,7 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
                 setAssistButtonVisibility(View.GONE);
                 setMissExtrasButtonVisibility(View.GONE);
                 setTurnoverExtraButtonVisibility(View.GONE);
+                setBlockExtrasButtonVisibility(View.GONE);
                 return;
             case BLOCK_REQUESTED:
             case STEAL_REQUESTED:
@@ -276,7 +305,15 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
                 setAssistButtonVisibility(View.GONE);
                 setMissExtrasButtonVisibility(View.GONE);
                 setTurnoverExtraButtonVisibility(View.GONE);
+                setBlockExtrasButtonVisibility(View.GONE);
                 return;
+            case DETERMINE_BLOCK_EXTRAS:
+                setMainButtonsVisibility(View.GONE);
+                setPlayerListVisibility(View.GONE);
+                setAssistButtonVisibility(View.GONE);
+                setMissExtrasButtonVisibility(View.GONE);
+                setTurnoverExtraButtonVisibility(View.GONE);
+                setBlockExtrasButtonVisibility(View.VISIBLE);
             default:
                 return;
         }

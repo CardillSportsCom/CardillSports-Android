@@ -4,7 +4,6 @@ import com.cardill.sports.stattracker.common.data.Player;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
@@ -14,7 +13,7 @@ import javax.inject.Singleton;
 public class GameRepository {
 
     private GameData gameData;
-    private Queue<PendingStat> queue;
+    private LinkedList<PendingStat> queue;
 
     @Inject
     public GameRepository() {
@@ -113,9 +112,6 @@ public class GameRepository {
     }
 
     public void incrementPendingStat(Player player, StatType statType) {
-        if (queue.size() > 0) {
-            queue.poll();
-        }
         queue.offer(new PendingStat(player, statType));
     }
 
@@ -123,52 +119,7 @@ public class GameRepository {
         return queue.poll();
     }
 
-    public int getGameStat(Player player, StatType statType) {
-        List<Player> teamOnePlayers = gameData.getTeamOnePlayers();
-        for (Player p1 : teamOnePlayers) {
-            if (p1.id().equals(player.id())) {
-                switch (statType) {
-                    case TO:
-                        return p1.turnovers();
-                    case REB:
-                        return p1.rebounds();
-                    case STL:
-                        return p1.steals();
-                    case AST:
-                        return p1.assists();
-                    case MISSES:
-                        return p1.fieldGoalMissed();
-                    case FGM:
-                        return p1.fieldGoalMade();
-                    case BLK:
-                        return p1.blocks();
-                }
-            }
-        }
-
-
-        List<Player> teamTwoPlayers = gameData.getTeamTwoPlayers();
-        for (Player p2 : teamTwoPlayers) {
-            if (p2.id().equals(player.id())) {
-                switch (statType) {
-                    case TO:
-                        return p2.turnovers();
-                    case REB:
-                        return p2.rebounds();
-                    case STL:
-                        return p2.steals();
-                    case AST:
-                        return p2.assists();
-                    case MISSES:
-                        return p2.fieldGoalMissed();
-                    case FGM:
-                        return p2.fieldGoalMade();
-                    case BLK:
-                        return p2.blocks();
-                }
-            }
-        }
-
-        throw new IllegalStateException("Stat not found");
+    public PendingStat removeFromQueue() {
+        return queue.removeLast();
     }
 }
