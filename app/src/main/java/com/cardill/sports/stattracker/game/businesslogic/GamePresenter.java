@@ -45,6 +45,7 @@ public class GamePresenter {
 
                         if (gameState == GameState.ASSIST_REQUESTED
                                 || gameState == GameState.REBOUND_REQUESTED
+                                || gameState == GameState.REBOUND_FROM_BLOCK_REQUESTED
                                 || gameState == GameState.BLOCK_REQUESTED
                                 || gameState == GameState.STEAL_REQUESTED) {
                             if (gameState == GameState.ASSIST_REQUESTED) {
@@ -59,17 +60,27 @@ public class GamePresenter {
                                 gameRepository.incrementStat(player.id(), statType);
                                 viewBinder.showStatConfirmation(player.firstName() + " rebounded " + latestPendingStat.getPlayer().firstName() + "'s missed shot");
                             } else if (gameState == GameState.BLOCK_REQUESTED) {
-                                PendingStat latestPendingStat = gameRepository.getLatestPendingStat();
-                                gameRepository.incrementStat(latestPendingStat.getPlayer().id(), latestPendingStat.getStatType());
-                                gameRepository.incrementStat(player.id(), statType);
-                                viewBinder.showStatConfirmation(player.firstName() + " blocked " + latestPendingStat.getPlayer().firstName());
+                                gameRepository.incrementPendingStat(player, statType);
+                                viewModel.setGameState(GameState.DETERMINE_BLOCK_EXTRAS);
                             } else if (gameState == GameState.STEAL_REQUESTED) {
                                 PendingStat latestPendingStat = gameRepository.getLatestPendingStat();
                                 gameRepository.incrementStat(latestPendingStat.getPlayer().id(), latestPendingStat.getStatType());
                                 gameRepository.incrementStat(player.id(), statType);
                                 viewBinder.showStatConfirmation(player.firstName() + " stole from " + latestPendingStat.getPlayer().firstName());
+                            } else if (gameState == GameState.REBOUND_FROM_BLOCK_REQUESTED) {
+                                PendingStat miss = gameRepository.getLatestPendingStat();
+                                PendingStat block = gameRepository.getLatestPendingStat();
+                                gameRepository.incrementStat(miss.getPlayer().id(), miss.getStatType());
+                                gameRepository.incrementStat(block.getPlayer().id(), block.getStatType());
+                                gameRepository.incrementStat(player.id(), statType);
+                                viewBinder.showStatConfirmation(miss.getPlayer().firstName() + " missed shot was blocked by "
+                                        + block.getPlayer().firstName() + " and rebounded by "
+                                        + player.firstName());
                             }
-                            viewModel.setGameState(GameState.MAIN);
+
+                            if (gameState != GameState.BLOCK_REQUESTED) {
+                                viewModel.setGameState(GameState.MAIN);
+                            }
                         } else if (gameState == GameState.MAKE_REQUESTED) {
                             gameRepository.incrementPendingStat(player, statType);
                             viewModel.setGameState(GameState.DETERMINE_MAKE_EXTRAS);
@@ -92,6 +103,15 @@ public class GamePresenter {
                         viewModel.setGameState(GameState.MISS_REQUESTED);
                     } else if (gameEvent instanceof GameEvent.BlockRequested) {
                         viewModel.setGameState(GameState.BLOCK_REQUESTED);
+                    } else if (gameEvent instanceof GameEvent.ReboundFromBlockRequested) {
+                        viewModel.setGameState(GameState.REBOUND_FROM_BLOCK_REQUESTED);
+                    } else if (gameEvent instanceof GameEvent.NoReboundFromBlockRequested) {
+                        PendingStat miss = gameRepository.getLatestPendingStat();
+                        PendingStat block = gameRepository.getLatestPendingStat();
+                        gameRepository.incrementStat(miss.getPlayer().id(), miss.getStatType());
+                        gameRepository.incrementStat(block.getPlayer().id(), block.getStatType());
+                        viewBinder.showStatConfirmation(block.getPlayer().firstName() + " blocked " + miss.getPlayer().firstName());
+                        viewModel.setGameState(GameState.MAIN);
                     } else if (gameEvent instanceof GameEvent.ReboundRequested) {
                         viewModel.setGameState(GameState.REBOUND_REQUESTED);
                     } else if (gameEvent instanceof GameEvent.NeitherRequested) {
@@ -114,14 +134,14 @@ public class GamePresenter {
                         if (viewModel.getGameState().getValue() == GameState.MAKE_REQUESTED) {
                             viewModel.setGameState(GameState.MAIN);
                         } else if (viewModel.getGameState().getValue() == GameState.DETERMINE_MAKE_EXTRAS) {
+                            gameRepository.removeFromQueue();
                             viewModel.setGameState(GameState.MAKE_REQUESTED);
                         } else if (viewModel.getGameState().getValue() == GameState.ASSIST_REQUESTED) {
                             viewModel.setGameState(GameState.DETERMINE_MAKE_EXTRAS);
                         } else if (viewModel.getGameState().getValue() == GameState.MISS_REQUESTED) {
                             viewModel.setGameState(GameState.MAIN);
                         } else if (viewModel.getGameState().getValue() == GameState.DETERMINE_MISS_EXTRAS) {
-                            viewModel.setGameState(GameState.MISS_REQUESTED);
-                        } else if (viewModel.getGameState().getValue() == GameState.DETERMINE_MISS_EXTRAS) {
+                            gameRepository.removeFromQueue();
                             viewModel.setGameState(GameState.MISS_REQUESTED);
                         } else if (viewModel.getGameState().getValue() == GameState.REBOUND_REQUESTED) {
                             viewModel.setGameState(GameState.DETERMINE_MISS_EXTRAS);
@@ -130,11 +150,16 @@ public class GamePresenter {
                         } else if (viewModel.getGameState().getValue() == GameState.TURNOVER_REQUESTED) {
                             viewModel.setGameState(GameState.MAIN);
                         } else if (viewModel.getGameState().getValue() == GameState.DETERMINE_TURNOVER_EXTRAS) {
+                            gameRepository.removeFromQueue();
                             viewModel.setGameState(GameState.TURNOVER_REQUESTED);
                         } else if (viewModel.getGameState().getValue() == GameState.STEAL_REQUESTED) {
                             viewModel.setGameState(GameState.DETERMINE_TURNOVER_EXTRAS);
                         } else if (viewModel.getGameState().getValue() == GameState.MAIN) {
                             viewBinder.showExitConfirmation();
+                        } else if (viewModel.getGameState().getValue() == GameState.DETERMINE_BLOCK_EXTRAS) {
+                            gameRepository.removeFromQueue();
+                            viewModel.setCurrentTeam(viewModel.getCurrentTeam() == Team.TEAM_ONE ? Team.TEAM_TWO : Team.TEAM_ONE);
+                            viewModel.setGameState(GameState.BLOCK_REQUESTED);
                         }
                     }
                 });
@@ -156,6 +181,8 @@ public class GamePresenter {
                 return StatType.REB;
             case TURNOVER_REQUESTED:
                 return StatType.TO;
+            case REBOUND_FROM_BLOCK_REQUESTED:
+                return StatType.REB;
         }
 
         throw new IllegalStateException("Invalid game state");
