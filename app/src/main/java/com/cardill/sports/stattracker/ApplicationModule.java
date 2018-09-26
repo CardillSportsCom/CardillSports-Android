@@ -4,7 +4,6 @@ import android.app.Application;
 
 import com.cardill.sports.stattracker.common.data.CardillService;
 import com.cardill.sports.stattracker.common.data.MockCardillService;
-import com.cardill.sports.stattracker.login.ui.LoginActivity;
 import com.cardill.sports.stattracker.offline.domain.RemoteGameRepository;
 import com.cardill.sports.stattracker.game.di.GameActivityModule;
 import com.cardill.sports.stattracker.game.ui.BoxScoreActivity;
@@ -38,9 +37,6 @@ public abstract class ApplicationModule {
 
     @Binds
     abstract Application application(CardillApplication app);
-
-    @ContributesAndroidInjector
-    abstract LoginActivity contributeLoginActivityInjector();
 
     @ContributesAndroidInjector
     abstract TeamSelectionActivity contributeTeamSelectionActivityInjector();

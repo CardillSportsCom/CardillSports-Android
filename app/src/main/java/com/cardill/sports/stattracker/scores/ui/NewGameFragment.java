@@ -24,8 +24,6 @@ public class NewGameFragment extends Fragment {
                 x -> NavHostFragment.findNavController(this)
                         .navigate(R.id.action_newGameFragment_to_teamSelectionActivity));
 
-        View viewById = view.findViewById(R.id.image);
-        viewById.setAlpha(0.5f);
         return view;
     }
 }
