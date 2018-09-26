@@ -39,7 +39,7 @@ public abstract class ApplicationModule {
     abstract Application application(CardillApplication app);
 
     @ContributesAndroidInjector
-    abstract TeamSelectionActivity contributeMainActivityInjector();
+    abstract TeamSelectionActivity contributeTeamSelectionActivityInjector();
 
     @ContributesAndroidInjector(modules = GameActivityModule.class)
     abstract GameActivity contributeGameActivityInjector();
@@ -50,8 +50,8 @@ public abstract class ApplicationModule {
     @ContributesAndroidInjector
     abstract BoxScoreActivity contributeBoxScoreActivityInjector();
 
-    @ContributesAndroidInjector(modules = StatsActivityModule.class)
-    abstract MainActivity contributeStatsScoreActivityInjector();
+    @ContributesAndroidInjector(modules = MainActivityModule.class)
+    abstract MainActivity contributeMainActivityInjector();
 
     @Singleton
     @Provides

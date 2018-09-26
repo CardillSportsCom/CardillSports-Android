@@ -13,7 +13,7 @@ import dagger.android.ContributesAndroidInjector;
  */
 
 @Module
-public abstract class StatsActivityModule {
+public abstract class MainActivityModule {
     @ContributesAndroidInjector
     abstract ScoresFragment scoresFragmentInjector();
 
