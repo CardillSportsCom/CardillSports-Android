@@ -46,6 +46,7 @@ public class TeamSelectionActivity extends AppCompatActivity implements TeamSele
     private CheckablePlayerAdapter mCheckablePlayerAdapter;
 
     @Inject CardillService cardillService;
+    private TeamSelectionViewModel teamSelectionViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +61,7 @@ public class TeamSelectionActivity extends AppCompatActivity implements TeamSele
 
         mProgress = findViewById(R.id.progress);
 
-        TeamSelectionViewModel teamSelectionViewModel = ViewModelProviders.of(this).get(TeamSelectionViewModel.class);
+        teamSelectionViewModel = ViewModelProviders.of(this).get(TeamSelectionViewModel.class);
         teamSelectionViewModel.getPlayers().observe(this, this::renderUI);
         teamSelectionViewModel.isSelectingTeamOne().observe(this, this::renderAppBarTitle);
         teamSelectionViewModel.isLoading().observe(this, this::renderLoading);
@@ -99,6 +100,16 @@ public class TeamSelectionActivity extends AppCompatActivity implements TeamSele
     protected void onStop() {
         super.onStop();
         mPresenter.onStop();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (teamSelectionViewModel.isSelectingTeamOne().getValue()) {
+            finish();
+        } else {
+            teamSelectionViewModel.isSelectingTeamOne().setValue(true);
+            mPresenter.loadPlayers();
+        }
     }
 
     @Override
