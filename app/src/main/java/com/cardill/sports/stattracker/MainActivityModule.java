@@ -1,6 +1,7 @@
 package com.cardill.sports.stattracker;
 
 import com.cardill.sports.stattracker.scores.ui.BoxScoreFragment;
+import com.cardill.sports.stattracker.scores.ui.DailyStatsFragment;
 import com.cardill.sports.stattracker.scores.ui.GameDayFragment;
 import com.cardill.sports.stattracker.scores.ui.ScoresFragment;
 import com.cardill.sports.stattracker.stats.StatsFragment;
@@ -19,6 +20,9 @@ public abstract class MainActivityModule {
 
     @ContributesAndroidInjector
     abstract GameDayFragment gameDayFragmentInjector();
+
+    @ContributesAndroidInjector
+    abstract DailyStatsFragment dailyStatsFragmentInjector();
 
     @ContributesAndroidInjector
     abstract BoxScoreFragment boxScoreFragmentInjector();
