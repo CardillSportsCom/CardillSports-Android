@@ -21,6 +21,16 @@
         <action
             android:id="@+id/action_gameDayFragment_to_boxScoreFragment"
             app:destination="@id/boxScoreFragment" />
+        <action
+            android:id="@+id/action_gameDayFragment_to_dailyStatsFragment"
+            app:destination="@id/dailyStatsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/dailyStatsFragment"
+        tools:layout="@layout/fragment_daily_stats"
+        android:name="com.cardill.sports.stattracker.scores.ui.DailyStatsFragment"
+        android:label="DailyFragment" >
+        <argument android:name="game-day-stat-total-id-key" />
     </fragment>
     <fragment
         android:id="@+id/boxScoreFragment"

@@ -21,6 +21,7 @@ import com.cardill.sports.stattracker.common.ui.BaseFragment;
 import com.cardill.sports.stattracker.scores.model.Game;
 import com.cardill.sports.stattracker.scores.model.GameDay;
 import com.cardill.sports.stattracker.scores.businesslogic.GamesAdapter;
+import com.cardill.sports.stattracker.scores.model.GameDayStatTotal;
 
 import javax.inject.Inject;
 
@@ -35,6 +36,8 @@ import io.reactivex.disposables.Disposable;
 public class GameDayFragment extends BaseFragment implements GameDayViewBinder {
     public static final String GAME_DAY = "game-day-key";
     public static final String GAME_ID_KEY = "game-id-key";
+    public static final String GAME_DAY_STAT_TOTALS_ID_KEY = "game-day-stat-total-id-key";
+
     private GameDay gameDay;
 
     private RecyclerView recycler;
@@ -43,19 +46,28 @@ public class GameDayFragment extends BaseFragment implements GameDayViewBinder {
     CardillService cardillService;
     @Inject
     DispatchingAndroidInjector<Fragment> childFragmentInjector;
+    private View mDailyStats;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_scores, container, false);
+        View view = inflater.inflate(R.layout.fragment_game_day, container, false);
         recycler = view.findViewById(R.id.recycler_view);
 
         recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         recycler.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         mProgress = view.findViewById(R.id.progress);
+        mDailyStats = view.findViewById(R.id.daily_stats);
+        View mDailyStatsImage = view.findViewById(R.id.daily_stats_image);
+        View mDailyStatsText = view.findViewById(R.id.daily_stats_text);
 
         this.gameDay = (GameDay) getArguments().getSerializable(GAME_DAY);
         loadGames(gameDay);
+
+        mDailyStats.setOnClickListener(v -> gotoDailyStats(gameDay.getGameDayStatTotals()));
+        mDailyStatsImage.setOnClickListener(v -> gotoDailyStats(gameDay.getGameDayStatTotals()));
+        mDailyStatsText.setOnClickListener(v -> gotoDailyStats(gameDay.getGameDayStatTotals()));
+
         return view;
     }
 
@@ -67,12 +79,21 @@ public class GameDayFragment extends BaseFragment implements GameDayViewBinder {
     @Override
     public void loadGames(GameDay gameDay) {
         mProgress.setVisibility(View.GONE);
+        mDailyStats.setVisibility(View.VISIBLE);
 
         GamesAdapter adapter = new GamesAdapter(gameDay);
         Disposable subscribe = adapter.getEventObservable()
                 .subscribe(game -> gotoGame(game.getGameDay()));
 
         recycler.setAdapter(adapter);
+    }
+
+    private void gotoDailyStats(GameDayStatTotal[] gameDayStatTotals) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(GAME_DAY_STAT_TOTALS_ID_KEY, gameDayStatTotals);
+        NavHostFragment.findNavController(this)
+                .navigate(R.id.action_gameDayFragment_to_dailyStatsFragment,
+                        bundle);
     }
 
     private void gotoGame(Game game) {
