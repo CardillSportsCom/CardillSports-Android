@@ -1,10 +1,5 @@
 package com.cardill.sports.stattracker.scores.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
-import com.facebook.stetho.json.annotation.JsonProperty;
-
 import java.io.Serializable;
 
 /**

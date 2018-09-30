@@ -1,7 +1,6 @@
 package com.cardill.sports.stattracker.scores.model;
 
 import com.cardill.sports.stattracker.scores.model.boxscore.Player;
-import com.facebook.stetho.json.annotation.JsonProperty;
 
 import java.io.Serializable;
 import java.util.Map;
