@@ -11,15 +11,15 @@ import java.util.List;
 public class TeamSelectionViewModel extends ViewModel {
 
     private MutableLiveData<List<Player>> mPlayers;
-    private MutableLiveData<Boolean> mSelectingTeam1;
+    private MutableLiveData<Boolean> mIsSelectingTeamOne;
     private MutableLiveData<Boolean> misLoading;
 
     public TeamSelectionViewModel() {
         mPlayers = new MutableLiveData<>();
         mPlayers.setValue(new ArrayList<>());
 
-        mSelectingTeam1 = new MutableLiveData<>();
-        mSelectingTeam1.setValue(true);
+        mIsSelectingTeamOne = new MutableLiveData<>();
+        mIsSelectingTeamOne.setValue(true);
 
         misLoading= new MutableLiveData<>();
         misLoading.setValue(true);
@@ -33,15 +33,15 @@ public class TeamSelectionViewModel extends ViewModel {
         mPlayers.setValue(players);
     }
 
-    public MutableLiveData<Boolean> getSelectingTeam1() {
-        return mSelectingTeam1;
+    public MutableLiveData<Boolean> isSelectingTeamOne() {
+        return mIsSelectingTeamOne;
     }
 
-    public void setSelectingTeam1(Boolean mSelectingTeam1) {
-        this.mSelectingTeam1.setValue(mSelectingTeam1);
+    void isSelectingTeamOne(Boolean isSelectingTeamOne) {
+        mIsSelectingTeamOne.setValue(isSelectingTeamOne);
     }
 
-    public void setLoading(boolean isLoading) {
+    void setLoading(boolean isLoading) {
         misLoading.setValue(isLoading);
     }
 

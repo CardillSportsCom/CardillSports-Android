@@ -6,7 +6,5 @@ import com.cardill.sports.stattracker.teamselection.data.NewGamePlayer;
 import java.util.List;
 
 public interface TeamSelectionViewBinder {
-
     void navigateToGameScreen(List<Player> team1, List<Player> team2);
-
 }
