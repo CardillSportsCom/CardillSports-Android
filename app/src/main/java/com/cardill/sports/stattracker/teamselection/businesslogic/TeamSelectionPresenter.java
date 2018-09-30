@@ -9,8 +9,12 @@ import com.cardill.sports.stattracker.teamselection.data.AddPlayerRequestBody;
 import com.cardill.sports.stattracker.teamselection.data.NewGamePlayer;
 import com.cardill.sports.stattracker.teamselection.ui.TeamSelectionViewBinder;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
@@ -20,11 +24,14 @@ public class TeamSelectionPresenter {
     private static final String TAG = "Vithushan";
 
     private final TeamSelectionViewBinder mViewBinder;
+    private TeamSelectionViewModel teamSelectionViewModel;
     private final CardillService mCardillService;
     private Disposable mDisposable;
+    private List<Player> team1;
 
-    public TeamSelectionPresenter(TeamSelectionViewBinder viewBinder, CardillService cardillService) {
+    public TeamSelectionPresenter(TeamSelectionViewBinder viewBinder, TeamSelectionViewModel teamSelectionViewModel, CardillService cardillService) {
         mViewBinder = viewBinder;
+        this.teamSelectionViewModel = teamSelectionViewModel;
         mCardillService = cardillService;
     }
 
@@ -34,13 +41,16 @@ public class TeamSelectionPresenter {
                 .map(resp -> resp.players)
                 .flatMapIterable(list -> list)
                 .map(item -> item.player)
-                .map(player -> new NewGamePlayer(Player.create(player._id, player.firstName, player.lastName), false, false))
+                .map(player -> Player.create(player._id, player.firstName, player.lastName))
                 .toList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        mViewBinder::loadPlayers,
-                        throwable -> Log.e(TAG, throwable.getLocalizedMessage()));
+                        newGamePlayers -> {
+                            teamSelectionViewModel.setPlayers(newGamePlayers);
+                            teamSelectionViewModel.setLoading(false);
+                        },
+                        throwable -> Timber.tag(TAG).e(throwable.getLocalizedMessage()));
     }
 
     public void onStop() {
@@ -49,8 +59,19 @@ public class TeamSelectionPresenter {
         }
     }
 
-    public void onTeamsSelected() {
-        mViewBinder.navigateToGameScreen();
+    public void onTeamSelected(List<Player> playerList) {
+        if (teamSelectionViewModel.getSelectingTeam1().getValue()) {
+            //set team 1
+            team1 = playerList;
+            teamSelectionViewModel.setSelectingTeam1(false);
+            List<Player> allPlayers = teamSelectionViewModel.getPlayers().getValue();
+            allPlayers.removeAll(playerList);
+            List<Player> remainingPlayers = new ArrayList<>(allPlayers);
+            teamSelectionViewModel.setPlayers(remainingPlayers);
+        } else {
+            //set team 2
+            mViewBinder.navigateToGameScreen(team1, playerList);
+        }
     }
 
 
@@ -62,7 +83,7 @@ public class TeamSelectionPresenter {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(x -> {
-                    mViewBinder.showLoading();
+                    teamSelectionViewModel.setLoading(true);
                     loadPlayers();
                         },
                         Timber::e);

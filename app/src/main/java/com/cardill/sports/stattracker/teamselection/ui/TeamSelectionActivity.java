@@ -1,33 +1,35 @@
 package com.cardill.sports.stattracker.teamselection.ui;
 
 import android.app.AlertDialog;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
-import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.cardill.sports.stattracker.R;
 import com.cardill.sports.stattracker.common.data.CardillService;
 import com.cardill.sports.stattracker.common.data.Player;
+import com.cardill.sports.stattracker.game.businesslogic.GameViewModel;
 import com.cardill.sports.stattracker.game.data.GameData;
 import com.cardill.sports.stattracker.game.ui.GameActivity;
 import com.cardill.sports.stattracker.teamselection.businesslogic.PlayerAdapter;
 import com.cardill.sports.stattracker.teamselection.businesslogic.TeamSelectionPresenter;
+import com.cardill.sports.stattracker.teamselection.businesslogic.TeamSelectionViewModel;
 import com.cardill.sports.stattracker.teamselection.data.AddPlayerRequestBody;
 import com.cardill.sports.stattracker.teamselection.data.NewGamePlayer;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -41,11 +43,13 @@ public class TeamSelectionActivity extends AppCompatActivity implements TeamSele
     public static final String GAME_DATA = "game-data-key";
 
     private TeamSelectionPresenter mPresenter;
-    private RecyclerView mRecyclerView;
+    private ListView mListView;
     private PlayerAdapter adapter;
     private View mProgress;
 
     @Inject CardillService cardillService;
+    private CheckablePlayerAdapter mCheckablePlayerAdapter;
+    private TeamSelectionViewModel teamSelectionViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,13 +58,39 @@ public class TeamSelectionActivity extends AppCompatActivity implements TeamSele
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_team_selection);
 
-        mPresenter = new TeamSelectionPresenter(this, cardillService);
-
-        mRecyclerView = findViewById(R.id.recycler_view);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        mListView = findViewById(R.id.list_view);
+        mCheckablePlayerAdapter = new CheckablePlayerAdapter(this);
+        mListView.setAdapter(mCheckablePlayerAdapter);
 
         mProgress = findViewById(R.id.progress);
+
+        teamSelectionViewModel = ViewModelProviders.of(this).get(TeamSelectionViewModel.class);
+        teamSelectionViewModel.getPlayers().observe(this, this::renderUI);
+        teamSelectionViewModel.getSelectingTeam1().observe(this, this::renderAppBarTitle);
+        teamSelectionViewModel.isLoading().observe(this, this::renderLoading);
+
+        mPresenter = new TeamSelectionPresenter(this, teamSelectionViewModel, cardillService);
+    }
+
+    private void renderLoading(Boolean isLoading) {
+        if (isLoading) {
+            mProgress.setVisibility(View.VISIBLE);
+        } else {
+            mProgress.setVisibility(View.GONE);
+        }
+    }
+
+    private void renderAppBarTitle(Boolean isSelectingTeam1) {
+        if (isSelectingTeam1) {
+            getSupportActionBar().setTitle(R.string.team_1);
+        } else {
+            getSupportActionBar().setTitle(R.string.team_2);
+        }
+    }
+
+    private void renderUI(List<Player> players) {
+        mListView.clearChoices();
+        mCheckablePlayerAdapter.setPlayers(players);
     }
 
     @Override
@@ -73,7 +103,7 @@ public class TeamSelectionActivity extends AppCompatActivity implements TeamSele
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (item.getItemId() == R.id.action_next) {
-            mPresenter.onTeamsSelected();
+            mPresenter.onTeamSelected(getSelectedPlayers());
             return true;
         }
         else if(item.getItemId() == R.id.add_player){
@@ -144,6 +174,22 @@ public class TeamSelectionActivity extends AppCompatActivity implements TeamSele
         return super.onOptionsItemSelected(item);
     }
 
+    private List<Player> getSelectedPlayers() {
+
+        List<Player> players = new ArrayList<>();
+
+        SparseBooleanArray sparseBooleanArray = mListView.getCheckedItemPositions();
+
+        for(int i = 0; i < mListView.getCount(); i++){
+            if(sparseBooleanArray.get(i)) {
+                Player player = (Player) mListView.getItemAtPosition(i);
+                players.add(player);
+            }
+        }
+
+        return players;
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -157,19 +203,8 @@ public class TeamSelectionActivity extends AppCompatActivity implements TeamSele
     }
 
     @Override
-    public void loadPlayers(List<NewGamePlayer> players) {
-        mProgress.setVisibility(View.GONE);
-        adapter = new PlayerAdapter(players);
-        mRecyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void navigateToGameScreen() {
+    public void navigateToGameScreen(List<Player> teamOnePlayers, List<Player> teamTwoPlayers) {
         finish();
-
-        List<Player> teamOnePlayers = adapter.getTeamOnePlayers();
-        List<Player> teamTwoPlayers = adapter.getTeamTwoPlayers();
 
         Intent intent = new Intent(this, GameActivity.class);
         GameData gameData = new GameData(
@@ -179,11 +214,6 @@ public class TeamSelectionActivity extends AppCompatActivity implements TeamSele
 
         intent.putExtra(GAME_DATA, (Parcelable) gameData);
         startActivity(intent);
-    }
-
-    @Override
-    public void showLoading() {
-        mProgress.setVisibility(View.VISIBLE);
     }
 
     public boolean isEmailValid( String email){
