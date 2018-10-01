@@ -1,11 +1,13 @@
 package com.cardill.sports.stattracker.scores.model.boxscore;
 
+import java.io.Serializable;
+
 /**
  * This is confusing having multiple model classes called Player.
  * Should rename this to JSONPlayer, but that would break json serialization.
  * TODO
  */
-public class Player {
+public class Player implements Serializable {
     private Object[] teams;
     private String id;
     private String firstName;
