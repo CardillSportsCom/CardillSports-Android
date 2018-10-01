@@ -1,8 +1,5 @@
 package com.cardill.sports.stattracker.scores.ui;
 
-import android.app.Activity;
-import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,9 +15,9 @@ import android.widget.ProgressBar;
 import com.cardill.sports.stattracker.R;
 import com.cardill.sports.stattracker.common.data.CardillService;
 import com.cardill.sports.stattracker.common.ui.BaseFragment;
+import com.cardill.sports.stattracker.scores.businesslogic.GamesAdapter;
 import com.cardill.sports.stattracker.scores.model.Game;
 import com.cardill.sports.stattracker.scores.model.GameDay;
-import com.cardill.sports.stattracker.scores.businesslogic.GamesAdapter;
 import com.cardill.sports.stattracker.scores.model.GameDayStatTotal;
 
 import javax.inject.Inject;
