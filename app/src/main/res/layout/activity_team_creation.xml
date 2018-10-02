@@ -17,12 +17,14 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
+    <ListView
+        android:id="@+id/list_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/team_selection_padding"
-        android:paddingRight="@dimen/team_selection_padding" />
+        android:paddingRight="@dimen/team_selection_padding"
+        android:scrollbarStyle="outsideOverlay"
+        android:choiceMode="multipleChoice"/>
 
 
 

@@ -1,7 +1,7 @@
 package com.cardill.sports.stattracker.teamselection.ui;
 
-import com.cardill.sports.stattracker.common.data.Player;
-import com.cardill.sports.stattracker.teamselection.data.NewGamePlayer;
+
+import com.cardill.sports.stattracker.stats.data.Player;
 
 import java.util.List;
 

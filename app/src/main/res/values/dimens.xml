@@ -5,5 +5,5 @@
     <dimen name="row_header_width">96dp</dimen>
     <dimen name="row_height">64dp</dimen>
     <dimen name="app_bar_height">64dp</dimen>
-    <dimen name="team_selection_padding">8dp</dimen>
+    <dimen name="team_selection_padding">16dp</dimen>
 </resources>

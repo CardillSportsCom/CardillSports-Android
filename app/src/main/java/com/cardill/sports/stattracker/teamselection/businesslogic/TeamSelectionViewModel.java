@@ -4,19 +4,20 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
 import com.cardill.sports.stattracker.common.data.Player;
+import com.cardill.sports.stattracker.teamselection.data.Team;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class TeamSelectionViewModel extends ViewModel {
 
-    private MutableLiveData<List<Player>> mPlayers;
+    private MutableLiveData<List<Team>> mTeams;
     private MutableLiveData<Boolean> mIsSelectingTeamOne;
     private MutableLiveData<Boolean> misLoading;
 
     public TeamSelectionViewModel() {
-        mPlayers = new MutableLiveData<>();
-        mPlayers.setValue(new ArrayList<>());
+        mTeams = new MutableLiveData<>();
+        mTeams.setValue(new ArrayList<>());
 
         mIsSelectingTeamOne = new MutableLiveData<>();
         mIsSelectingTeamOne.setValue(true);
@@ -25,12 +26,12 @@ public class TeamSelectionViewModel extends ViewModel {
         misLoading.setValue(true);
     }
 
-    public MutableLiveData<List<Player>> getPlayers() {
-        return mPlayers;
+    public MutableLiveData<List<Team>> getTeams() {
+        return mTeams;
     }
 
-    public void setPlayers(List<Player> players) {
-        mPlayers.setValue(players);
+    public void setTeams(List<Team> teams) {
+        mTeams.setValue(teams);
     }
 
     public MutableLiveData<Boolean> isSelectingTeamOne() {

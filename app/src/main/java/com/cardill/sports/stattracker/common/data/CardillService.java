@@ -7,6 +7,9 @@ import com.cardill.sports.stattracker.stats.data.LeagueTotalsResponse;
 import com.cardill.sports.stattracker.teamselection.data.AddPlayerRequestBody;
 import com.cardill.sports.stattracker.teamselection.data.AddPlayerResponse;
 import com.cardill.sports.stattracker.teamselection.data.LeaguePlayersResponse;
+import com.cardill.sports.stattracker.teamselection.data.TeamResponse;
+
+import java.util.Optional;
 
 import io.reactivex.Observable;
 import okhttp3.ResponseBody;
@@ -39,4 +42,10 @@ public interface CardillService {
 
     @POST("league/player")
     Observable<ResponseBody> addPlayerToLeague(@Body AddPlayerToLeagueRequestBody addPlayerRequestBody);
+
+    @GET("team")
+    Observable<TeamResponse> getTeamsForLeague();
+
+    @POST("team")
+    Observable<ResponseBody> addTeam(@Body AddTeamRequestBody addTeamRequestBody);
 }

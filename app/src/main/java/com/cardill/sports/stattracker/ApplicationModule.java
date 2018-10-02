@@ -14,6 +14,7 @@ import com.cardill.sports.stattracker.offline.data.GameDatabase;
 import com.cardill.sports.stattracker.offline.data.LocalGameDataStore;
 import com.cardill.sports.stattracker.offline.data.RemoteGameDataStore;
 import com.cardill.sports.stattracker.offline.domain.LocalGameRepository;
+import com.cardill.sports.stattracker.teamselection.ui.TeamCreationActivity;
 import com.cardill.sports.stattracker.ui.MainActivity;
 import com.cardill.sports.stattracker.teamselection.ui.TeamSelectionActivity;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
@@ -40,6 +41,9 @@ public abstract class ApplicationModule {
 
     @ContributesAndroidInjector
     abstract TeamSelectionActivity contributeTeamSelectionActivityInjector();
+
+    @ContributesAndroidInjector
+    abstract TeamCreationActivity contributeTeamCreationActivityInjector();
 
     @ContributesAndroidInjector(modules = GameActivityModule.class)
     abstract GameActivity contributeGameActivityInjector();
