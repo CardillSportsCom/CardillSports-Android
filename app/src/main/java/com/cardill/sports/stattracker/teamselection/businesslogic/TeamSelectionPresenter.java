@@ -1,5 +1,6 @@
 package com.cardill.sports.stattracker.teamselection.businesslogic;
 
+import com.cardill.sports.stattracker.BuildConfig;
 import com.cardill.sports.stattracker.common.data.AddPlayerToLeagueRequestBody;
 import com.cardill.sports.stattracker.common.data.CardillService;
 import com.cardill.sports.stattracker.stats.data.Player;
@@ -20,7 +21,6 @@ import timber.log.Timber;
 
 public class TeamSelectionPresenter {
 
-    public static final String LEAGUE_ID = "5ac6aaefe8da8276a88ffc07";
     private static final String TAG = "Vithushan";
 
     private final TeamSelectionViewBinder mViewBinder;
@@ -76,7 +76,7 @@ public class TeamSelectionPresenter {
     public void addPlayer(AddPlayerRequestBody addPlayerRequestBody) {
         Disposable subscribe = mCardillService.addPlayer(addPlayerRequestBody)
                 .map(addPlayerResponse -> addPlayerResponse.getNewPlayer().getID())
-                .flatMap(playerId -> mCardillService.addPlayerToLeague(new AddPlayerToLeagueRequestBody(playerId, LEAGUE_ID)))
+                .flatMap(playerId -> mCardillService.addPlayerToLeague(new AddPlayerToLeagueRequestBody(playerId, BuildConfig.LEAGUE_ID)))
                 .doOnError(Timber::e)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
