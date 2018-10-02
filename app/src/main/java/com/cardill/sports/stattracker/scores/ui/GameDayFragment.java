@@ -43,7 +43,7 @@ public class GameDayFragment extends BaseFragment implements GameDayViewBinder {
     CardillService cardillService;
     @Inject
     DispatchingAndroidInjector<Fragment> childFragmentInjector;
-    private View mDailyStats;
+    private View mDailyTotals;
 
     @Nullable
     @Override
@@ -54,14 +54,14 @@ public class GameDayFragment extends BaseFragment implements GameDayViewBinder {
         recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         recycler.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         mProgress = view.findViewById(R.id.progress);
-        mDailyStats = view.findViewById(R.id.daily_stats);
+        mDailyTotals = view.findViewById(R.id.daily_totals);
         View mDailyStatsImage = view.findViewById(R.id.daily_stats_image);
         View mDailyStatsText = view.findViewById(R.id.daily_stats_text);
 
         this.gameDay = (GameDay) getArguments().getSerializable(GAME_DAY);
         loadGames(gameDay);
 
-        mDailyStats.setOnClickListener(v -> gotoDailyStats(gameDay.getGameDayStatTotals()));
+        mDailyTotals.setOnClickListener(v -> gotoDailyStats(gameDay.getGameDayStatTotals()));
         mDailyStatsImage.setOnClickListener(v -> gotoDailyStats(gameDay.getGameDayStatTotals()));
         mDailyStatsText.setOnClickListener(v -> gotoDailyStats(gameDay.getGameDayStatTotals()));
 
@@ -76,7 +76,7 @@ public class GameDayFragment extends BaseFragment implements GameDayViewBinder {
     @Override
     public void loadGames(GameDay gameDay) {
         mProgress.setVisibility(View.GONE);
-        mDailyStats.setVisibility(View.VISIBLE);
+        mDailyTotals.setVisibility(View.VISIBLE);
 
         GamesAdapter adapter = new GamesAdapter(gameDay);
         Disposable subscribe = adapter.getEventObservable()

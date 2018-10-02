@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container"
     android:orientation="vertical" android:layout_width="match_parent"
     android:background="@color/colorPrimary"
     android:layout_margin="@dimen/team_selection_padding"
@@ -10,7 +11,6 @@
         android:layout_gravity="center"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
         android:id="@+id/text"
-        android:text="@string/daily_stats"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 </LinearLayout>

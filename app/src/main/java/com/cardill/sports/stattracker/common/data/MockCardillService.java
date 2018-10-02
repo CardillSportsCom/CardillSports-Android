@@ -105,4 +105,9 @@ public class MockCardillService implements CardillService {
     public Observable<TeamResponse> getTeamsForLeague() {
         return Observable.empty();
     }
+
+    @Override
+    public Observable<ResponseBody> addTeam(AddTeamRequestBody addTeamRequestBody) {
+        return Observable.empty();
+    }
 }

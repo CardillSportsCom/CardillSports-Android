@@ -47,6 +47,9 @@
         <action
             android:id="@+id/action_newGameFragment_to_teamSelectionActivity"
             app:destination="@id/teamSelectionActivity" />
+        <action
+            android:id="@+id/action_newGameFragment_to_teamCreationActivity"
+            app:destination="@id/teamCreationActivity" />
     </fragment>
     <fragment
         android:id="@+id/statsFragment"
@@ -57,4 +60,9 @@
         android:name="com.cardill.sports.stattracker.teamselection.ui.TeamSelectionActivity"
         android:label="activity_team_selection"
         tools:layout="@layout/activity_team_selection" />
+    <activity
+        android:id="@+id/teamCreationActivity"
+        android:name="com.cardill.sports.stattracker.teamselection.ui.TeamCreationActivity"
+        android:label="activity_team_creation"
+        tools:layout="@layout/activity_team_creation" />
 </navigation>

@@ -59,13 +59,17 @@ public class TeamSelectionPresenter {
         }
     }
 
-    public void onTeamSelected(List<Player> playerList) {
+    public void onTeamSelected(Team team) {
         if (mViewModel.isSelectingTeamOne().getValue() == true) {
             mViewModel.isSelectingTeamOne(false);
-            mTeamOnePlayers = playerList;
+            mTeamOnePlayers = team.getPlayers();
+
+            List<Team> value = mViewModel.getTeams().getValue();
+            value.remove(team);
+            mViewModel.setTeams(new ArrayList<>(value));
         } else {
 
-            mViewBinder.navigateToGameScreen(mTeamOnePlayers, playerList);
+            mViewBinder.navigateToGameScreen(mTeamOnePlayers, team.getPlayers());
         }
     }
 

@@ -45,4 +45,7 @@ public interface CardillService {
 
     @GET("team")
     Observable<TeamResponse> getTeamsForLeague();
+
+    @POST("team")
+    Observable<ResponseBody> addTeam(@Body AddTeamRequestBody addTeamRequestBody);
 }

@@ -8,5 +8,8 @@
     <string name="three_point_made">Three Point Made</string>
     <string name="two_point_made">Two Point Made</string>
     <string name="start_new_game">Start New Game</string>
-    <string name="daily_stats">Daily Stats</string>
+    <string name="daily_totals">Daily Totals</string>
+    <string name="create_new_team">Create New Team</string>
+    <string name="yes_create_another">Yes, I want to create another team</string>
+    <string name="no_im_finished">No, I\'m finished creating teams</string>
 </resources>

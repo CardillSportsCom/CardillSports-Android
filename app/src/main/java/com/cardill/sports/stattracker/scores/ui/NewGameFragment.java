@@ -19,10 +19,15 @@ public class NewGameFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_new_game, container, false);
-        Button button = view.findViewById(R.id.button_new_game);
-        button.setOnClickListener(
+        Button newGameButton = view.findViewById(R.id.button_new_game);
+        newGameButton.setOnClickListener(
                 x -> NavHostFragment.findNavController(this)
                         .navigate(R.id.action_newGameFragment_to_teamSelectionActivity));
+
+        Button newTeamButton = view.findViewById(R.id.button_new_team);
+        newTeamButton.setOnClickListener(
+                x -> NavHostFragment.findNavController(this)
+                        .navigate(R.id.action_newGameFragment_to_teamCreationActivity));
 
         return view;
     }

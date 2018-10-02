@@ -21,18 +21,19 @@
 
     <RelativeLayout
         android:visibility="visible"
-        android:background="@color/colorPrimary"
         android:layout_margin="16dp"
-        android:padding="16dp"
-        android:id="@+id/daily_stats"
+        android:id="@+id/daily_totals"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <ImageButton
+        <Button
             android:id="@+id/daily_stats_image"
             android:tint="@color/whiteTransparent"
-            android:src="@drawable/recap"
             android:scaleType="center"
+            android:text="@string/daily_totals"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+            android:textColor="@color/white"
+            android:background="#282828"
             android:layout_width="match_parent"
             android:layout_height="100dp" />
         <TextView
@@ -40,7 +41,7 @@
             android:gravity="center"
             android:textColor="#000000"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
-            android:text="@string/daily_stats"
+            android:text="@string/daily_totals"
             android:layout_width="match_parent"
             android:layout_height="100dp" />
     </RelativeLayout>

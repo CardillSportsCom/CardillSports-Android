@@ -1,10 +1,10 @@
 package com.cardill.sports.stattracker.teamselection.businesslogic;
 
 import com.cardill.sports.stattracker.common.data.AddPlayerToLeagueRequestBody;
+import com.cardill.sports.stattracker.common.data.AddTeamRequestBody;
 import com.cardill.sports.stattracker.common.data.CardillService;
 import com.cardill.sports.stattracker.common.data.Player;
 import com.cardill.sports.stattracker.teamselection.data.AddPlayerRequestBody;
-import com.cardill.sports.stattracker.teamselection.ui.TeamSelectionViewBinder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,18 +19,16 @@ public class TeamCreationPresenter {
     public static final String LEAGUE_ID = "5ac6aaefe8da8276a88ffc07";
     private static final String TAG = "Vithushan";
 
-    private final TeamSelectionViewBinder mViewBinder;
     private TeamCreationViewModel mViewModel;
     private final CardillService mCardillService;
     private Disposable mDisposable;
-    private List<Player> mTeamOnePlayers;
+    private TeamCreationViewBinder mViewBinder;
 
-    public TeamCreationPresenter(TeamSelectionViewBinder viewBinder,
-                                 TeamCreationViewModel viewModel,
-                                 CardillService cardillService) {
-        mViewBinder = viewBinder;
+    public TeamCreationPresenter(TeamCreationViewModel viewModel,
+                                 CardillService cardillService, TeamCreationViewBinder mViewBinder) {
         mViewModel = viewModel;
         mCardillService = cardillService;
+        this.mViewBinder = mViewBinder;
     }
 
     public void loadPlayers() {
@@ -58,7 +56,22 @@ public class TeamCreationPresenter {
     }
 
     public void onTeamSelected(List<Player> playerList) {
+        List<String> playerIds = new ArrayList<>();
+        for (Player player : playerList) {
+            playerIds.add(player.id());
+        }
 
+        mViewModel.isLoading().setValue(true);
+
+        AddTeamRequestBody requestBody = new AddTeamRequestBody("Team", playerIds);
+        Disposable subscribe = mCardillService.addTeam(requestBody)
+                .doOnError(Timber::e)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(x -> {
+                            mViewBinder.askToCreateAnotherTeam();
+                        },
+                        Timber::e);
     }
 
     public void addPlayer(AddPlayerRequestBody addPlayerRequestBody) {

@@ -33,6 +33,7 @@ public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.TeamViewHolder
     public void setTeams(List<Team> teams) {
         mTeams.clear();
         mTeams.addAll(teams);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -69,7 +70,7 @@ public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.TeamViewHolder
         }
 
         holder.getTextView().setText(teamText);
-        holder.getTextView().setOnClickListener(x -> mPublishSubject.onNext(new TeamEvent(team.getPlayers())));
+        holder.getItemView().setOnClickListener(x -> mPublishSubject.onNext(new TeamEvent(team)));
     }
 
     @Override
@@ -88,6 +89,10 @@ public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.TeamViewHolder
         public TeamViewHolder(View itemView) {
             super(itemView);
             textView = itemView.findViewById(R.id.text);
+        }
+
+        public View getItemView() {
+            return itemView;
         }
 
         public TextView getTextView() {

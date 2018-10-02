@@ -1,18 +1,16 @@
 package com.cardill.sports.stattracker.teamselection.ui;
 
-import com.cardill.sports.stattracker.stats.data.Player;
-
-import java.util.List;
+import com.cardill.sports.stattracker.teamselection.data.Team;
 
 class TeamEvent {
-    private List<Player> players;
+    private Team team;
 
-    public TeamEvent(List<Player> players) {
+    public TeamEvent(Team team) {
 
-        this.players = players;
+        this.team = team;
     }
 
-    public List<Player> getPlayers() {
-        return players;
+    public Team getTeam() {
+        return team;
     }
 }
