@@ -19,6 +19,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface CardillService {
 
@@ -43,8 +44,8 @@ public interface CardillService {
     @POST("league/player")
     Observable<ResponseBody> addPlayerToLeague(@Body AddPlayerToLeagueRequestBody addPlayerRequestBody);
 
-    @GET("team")
-    Observable<TeamResponse> getTeamsForLeague();
+    @GET("team/{leagueID}")
+    Observable<TeamResponse> getTeamsForLeague(@Path("leagueID") String leagueId, @Query("count") int count);
 
     @POST("team")
     Observable<ResponseBody> addTeam(@Body AddTeamRequestBody addTeamRequestBody);

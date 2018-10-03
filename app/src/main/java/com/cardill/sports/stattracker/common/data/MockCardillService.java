@@ -102,7 +102,7 @@ public class MockCardillService implements CardillService {
     }
 
     @Override
-    public Observable<TeamResponse> getTeamsForLeague() {
+    public Observable<TeamResponse> getTeamsForLeague(String leagueId, int count) {
         return Observable.empty();
     }
 

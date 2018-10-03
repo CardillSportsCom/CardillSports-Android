@@ -22,6 +22,7 @@ import timber.log.Timber;
 public class TeamSelectionPresenter {
 
     private static final String TAG = "Vithushan";
+    private static final int NUM_OF_TEAMS = 3;
 
     private final TeamSelectionViewBinder mViewBinder;
     private TeamSelectionViewModel mViewModel;
@@ -39,7 +40,7 @@ public class TeamSelectionPresenter {
 
     public void loadPlayers() {
 
-        mDisposable = mCardillService.getTeamsForLeague()
+        mDisposable = mCardillService.getTeamsForLeague(BuildConfig.LEAGUE_ID, NUM_OF_TEAMS)
                 .map(TeamResponse::getTeams)
                 .flatMapIterable((Function<Team[], Iterable<Team>>) Arrays::asList)
                 .toList()

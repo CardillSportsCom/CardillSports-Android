@@ -63,7 +63,7 @@ public class TeamCreationPresenter {
 
         mViewModel.isLoading().setValue(true);
 
-        AddTeamRequestBody requestBody = new AddTeamRequestBody("Team", playerIds);
+        AddTeamRequestBody requestBody = new AddTeamRequestBody("Team", playerIds, BuildConfig.LEAGUE_ID);
         Disposable subscribe = mCardillService.addTeam(requestBody)
                 .doOnError(Timber::e)
                 .subscribeOn(Schedulers.io())
