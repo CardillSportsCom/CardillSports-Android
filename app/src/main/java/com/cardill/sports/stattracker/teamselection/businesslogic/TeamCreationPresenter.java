@@ -1,5 +1,6 @@
 package com.cardill.sports.stattracker.teamselection.businesslogic;
 
+import com.cardill.sports.stattracker.BuildConfig;
 import com.cardill.sports.stattracker.common.data.AddPlayerToLeagueRequestBody;
 import com.cardill.sports.stattracker.common.data.AddTeamRequestBody;
 import com.cardill.sports.stattracker.common.data.CardillService;
@@ -16,7 +17,6 @@ import timber.log.Timber;
 
 public class TeamCreationPresenter {
 
-    public static final String LEAGUE_ID = "5ac6aaefe8da8276a88ffc07";
     private static final String TAG = "Vithushan";
 
     private TeamCreationViewModel mViewModel;
@@ -33,7 +33,7 @@ public class TeamCreationPresenter {
 
     public void loadPlayers() {
 
-        mDisposable = mCardillService.getPlayersForLeague(LEAGUE_ID)
+        mDisposable = mCardillService.getPlayersForLeague(BuildConfig.LEAGUE_ID)
                 .map(resp -> resp.players)
                 .flatMapIterable(list -> list)
                 .map(item -> item.player)
@@ -63,7 +63,7 @@ public class TeamCreationPresenter {
 
         mViewModel.isLoading().setValue(true);
 
-        AddTeamRequestBody requestBody = new AddTeamRequestBody("Team", playerIds);
+        AddTeamRequestBody requestBody = new AddTeamRequestBody("Team", playerIds, BuildConfig.LEAGUE_ID);
         Disposable subscribe = mCardillService.addTeam(requestBody)
                 .doOnError(Timber::e)
                 .subscribeOn(Schedulers.io())
@@ -77,7 +77,7 @@ public class TeamCreationPresenter {
     public void addPlayer(AddPlayerRequestBody addPlayerRequestBody) {
         Disposable subscribe = mCardillService.addPlayer(addPlayerRequestBody)
                 .map(addPlayerResponse -> addPlayerResponse.getNewPlayer().getID())
-                .flatMap(playerId -> mCardillService.addPlayerToLeague(new AddPlayerToLeagueRequestBody(playerId, LEAGUE_ID)))
+                .flatMap(playerId -> mCardillService.addPlayerToLeague(new AddPlayerToLeagueRequestBody(playerId, BuildConfig.LEAGUE_ID)))
                 .doOnError(Timber::e)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

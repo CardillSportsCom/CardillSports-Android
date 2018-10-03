@@ -88,12 +88,11 @@ public abstract class ApplicationModule {
                     .setLenient()
                     .create();
 
-            String BASE_URL = "https://api-cardillsports-st.herokuapp.com";
             OkHttpClient httpClient = new OkHttpClient.Builder()
                     .addNetworkInterceptor(new StethoInterceptor())
                     .build();
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(BASE_URL)
+                    .baseUrl(BuildConfig.API_BASE_URL)
                     .client(httpClient)
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create(gson))

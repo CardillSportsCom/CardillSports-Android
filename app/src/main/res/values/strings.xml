@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">Stat Tracker</string>
     <string name="select_team_1">Select Team One</string>
     <string name="select_team_2">Select Team Two</string>
     <string name="team_1">Team One</string>

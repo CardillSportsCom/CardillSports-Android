@@ -5,10 +5,12 @@ import java.util.List;
 public class AddTeamRequestBody {
     private String name;
     private List<String> players;
+    private String leagueId;
 
-    public AddTeamRequestBody(String name, List<String> players) {
+    public AddTeamRequestBody(String name, List<String> players, String leagueId) {
         this.name = name;
         this.players = players;
+        this.leagueId = leagueId;
     }
 
     public String getName() {
@@ -17,6 +19,10 @@ public class AddTeamRequestBody {
 
     public List<String> getPlayers() {
         return players;
+    }
+
+    public String getLeagueId() {
+        return leagueId;
     }
 }
 
