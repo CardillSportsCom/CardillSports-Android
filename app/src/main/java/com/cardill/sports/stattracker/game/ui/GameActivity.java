@@ -6,11 +6,13 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,7 +33,11 @@ import com.cardill.sports.stattracker.game.businesslogic.Team;
 import com.cardill.sports.stattracker.game.data.GameData;
 import com.cardill.sports.stattracker.game.data.GameRepository;
 import com.cardill.sports.stattracker.offline.domain.services.SyncCommentLifecycleObserver;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import javax.inject.Inject;
@@ -39,12 +45,14 @@ import javax.inject.Inject;
 import dagger.android.AndroidInjection;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
+import timber.log.Timber;
 
 import static com.cardill.sports.stattracker.teamselection.ui.TeamSelectionActivity.GAME_DATA;
 
 public class GameActivity extends AppCompatActivity implements GameViewBinder {
 
     private static final String IS_ONLINE_KEY = "is-online-key";
+    private static final String TAG = GameActivity.class.getName();
 
     private GamePresenter mPresenter;
     private Button makeButton;
@@ -390,9 +398,17 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setPositiveButton(android.R.string.yes, (dialog, whichButton) -> {
                     GameData gameData = gameRepository.getGameStats();
+
+//                    // Access a Cloud Firestore instance from your Activity
+//                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+//                    // Add a new document with a generated ID
+//                    db.collection("gameData")
+//                            .add(gameData)
+//                            .addOnSuccessListener(documentReference -> Timber.d("DocumentSnapshot added with ID: %s", documentReference.getId()))
+//                            .addOnFailureListener(e -> Timber.tag(TAG).w(e, "Error adding document"));
+
                     Bundle params = new Bundle();
                     params.putBoolean(IS_ONLINE_KEY, isNetworkAvailable());
-                    params.putSerializable(GAME_DATA, gameData);
                     mFirebaseAnalytics.logEvent("submit_game", params);
                     mPresenter.submitGameStats();
                 })
