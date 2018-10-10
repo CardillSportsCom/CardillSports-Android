@@ -13,3 +13,4 @@ gradlew.bat
 /build
 /captures
 .externalNativeBuild
+keystore.properties
