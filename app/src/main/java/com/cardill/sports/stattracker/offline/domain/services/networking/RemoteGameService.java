@@ -1,17 +1,13 @@
 package com.cardill.sports.stattracker.offline.domain.services.networking;
 
 import com.cardill.sports.stattracker.BuildConfig;
-import com.cardill.sports.stattracker.common.data.CardillService;
-import com.cardill.sports.stattracker.game.data.GameData;
+import com.cardill.sports.stattracker.network.CardillService;
 import com.cardill.sports.stattracker.game.data.JSONGameStats;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import org.w3c.dom.Comment;
-
 import java.io.IOException;
 
-import okhttp3.OkHttpClient;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

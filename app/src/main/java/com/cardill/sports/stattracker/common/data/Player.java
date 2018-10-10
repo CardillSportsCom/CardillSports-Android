@@ -178,7 +178,7 @@ public class Player implements Parcelable, Serializable {
                 .build();
     }
 
-    static Player.Builder builder() {
+    public static Player.Builder builder() {
         return new Builder()
                 .fieldGoalMade(0)
                 .fieldGoalMissed(0)

@@ -4,6 +4,9 @@ import com.cardill.sports.stattracker.game.data.GameData;
 import com.cardill.sports.stattracker.offline.domain.LocalGameRepository;
 import com.cardill.sports.stattracker.offline.model.GameDataUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.reactivex.Single;
 import timber.log.Timber;
 
@@ -23,8 +26,19 @@ public class LocalGameDataStore implements LocalGameRepository {
 
         return Single.fromCallable(() -> {
             long rowId = gameDataDao.add(gameData);
-            Timber.d("gameData stored " + rowId);
+            Timber.d("gameData stored %s", rowId);
             return GameDataUtils.clone(gameData, rowId);
+        });
+    }
+
+    @Override
+    public Single<ArrayList<GameData>> get() {
+        Timber.d("getting gameData");
+
+        return Single.fromCallable(() -> {
+            ArrayList<GameData> gameDataList = new ArrayList<>(gameDataDao.get());
+            Timber.d("gameData got %s", gameDataList.size());
+            return gameDataList;
         });
     }
 }

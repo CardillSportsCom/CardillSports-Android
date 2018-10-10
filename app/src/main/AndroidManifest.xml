@@ -21,7 +21,7 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".ui.MainActivity">
+        <activity android:name=".debug.RoomActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -32,7 +32,8 @@
         <activity android:name="com.cardill.sports.stattracker.details.ui.DetailsActivity"/>
         <activity android:name="com.cardill.sports.stattracker.game.ui.BoxScoreActivity"/>
         <activity android:name="com.cardill.sports.stattracker.teamselection.ui.TeamSelectionActivity"/>
-        <activity android:name="com.cardill.sports.stattracker.teamselection.ui.TeamCreationActivity"/>
+        <activity android:name="com.cardill.sports.stattracker.teamcreation.ui.TeamCreationActivity"/>
+        <activity android:name=".ui.MainActivity"/>
 
         <service android:name="com.cardill.sports.stattracker.offline.domain.services.jobs.SchedulerJobService"
             android:permission="android.permission.BIND_JOB_SERVICE" />

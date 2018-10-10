@@ -2,8 +2,9 @@ package com.cardill.sports.stattracker;
 
 import android.app.Application;
 
-import com.cardill.sports.stattracker.common.data.CardillService;
-import com.cardill.sports.stattracker.common.data.MockCardillService;
+import com.cardill.sports.stattracker.debug.RoomActivity;
+import com.cardill.sports.stattracker.network.CardillService;
+import com.cardill.sports.stattracker.network.MockCardillService;
 import com.cardill.sports.stattracker.offline.domain.RemoteGameRepository;
 import com.cardill.sports.stattracker.game.di.GameActivityModule;
 import com.cardill.sports.stattracker.game.ui.BoxScoreActivity;
@@ -14,7 +15,7 @@ import com.cardill.sports.stattracker.offline.data.GameDatabase;
 import com.cardill.sports.stattracker.offline.data.LocalGameDataStore;
 import com.cardill.sports.stattracker.offline.data.RemoteGameDataStore;
 import com.cardill.sports.stattracker.offline.domain.LocalGameRepository;
-import com.cardill.sports.stattracker.teamselection.ui.TeamCreationActivity;
+import com.cardill.sports.stattracker.teamcreation.ui.TeamCreationActivity;
 import com.cardill.sports.stattracker.ui.MainActivity;
 import com.cardill.sports.stattracker.teamselection.ui.TeamSelectionActivity;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
@@ -53,6 +54,9 @@ public abstract class ApplicationModule {
 
     @ContributesAndroidInjector
     abstract BoxScoreActivity contributeBoxScoreActivityInjector();
+
+    @ContributesAndroidInjector
+    abstract RoomActivity contributeRoomActivityInjector();
 
     @ContributesAndroidInjector(modules = MainActivityModule.class)
     abstract MainActivity contributeMainActivityInjector();

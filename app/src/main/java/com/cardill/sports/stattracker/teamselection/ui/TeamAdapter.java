@@ -5,11 +5,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.cardill.sports.stattracker.R;
-import com.cardill.sports.stattracker.scores.businesslogic.GamesAdapter;
 import com.cardill.sports.stattracker.stats.data.Player;
 import com.cardill.sports.stattracker.teamselection.data.Team;
 

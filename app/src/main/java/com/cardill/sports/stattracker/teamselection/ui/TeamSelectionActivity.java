@@ -10,7 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.cardill.sports.stattracker.R;
-import com.cardill.sports.stattracker.common.data.CardillService;
+import com.cardill.sports.stattracker.network.CardillService;
 import com.cardill.sports.stattracker.game.data.GameData;
 import com.cardill.sports.stattracker.game.ui.GameActivity;
 import com.cardill.sports.stattracker.stats.data.Player;
