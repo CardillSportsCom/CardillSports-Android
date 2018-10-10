@@ -123,9 +123,18 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
         } else if (item.getItemId() == R.id.action_delete_account) {
             deleteAccount();
             return true;
+        } else if (item.getItemId() == R.id.action_test_recovery) {
+            gotoRecoveryScreen();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void gotoRecoveryScreen() {
+        Navigation.findNavController(
+                this,
+                R.id.my_nav_host_fragment).navigate(R.id.roomActivity);
     }
 
     @Override

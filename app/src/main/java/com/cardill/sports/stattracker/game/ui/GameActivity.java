@@ -1,8 +1,10 @@
 package com.cardill.sports.stattracker.game.ui;
 
-import android.arch.lifecycle.LifecycleRegistry;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -20,7 +22,7 @@ import com.cardill.sports.stattracker.R;
 import com.cardill.sports.stattracker.details.ui.DetailsActivity;
 import com.cardill.sports.stattracker.game.businesslogic.GameEvent;
 import com.cardill.sports.stattracker.game.businesslogic.GamePresenter;
-import com.cardill.sports.stattracker.common.data.CardillService;
+import com.cardill.sports.stattracker.network.CardillService;
 import com.cardill.sports.stattracker.game.businesslogic.GameState;
 import com.cardill.sports.stattracker.game.businesslogic.GameViewModel;
 import com.cardill.sports.stattracker.game.businesslogic.GameViewModelFactory;
@@ -29,6 +31,7 @@ import com.cardill.sports.stattracker.game.businesslogic.Team;
 import com.cardill.sports.stattracker.game.data.GameData;
 import com.cardill.sports.stattracker.game.data.GameRepository;
 import com.cardill.sports.stattracker.offline.domain.services.SyncCommentLifecycleObserver;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import javax.inject.Inject;
@@ -40,6 +43,8 @@ import io.reactivex.subjects.PublishSubject;
 import static com.cardill.sports.stattracker.teamselection.ui.TeamSelectionActivity.GAME_DATA;
 
 public class GameActivity extends AppCompatActivity implements GameViewBinder {
+
+    private static final String IS_ONLINE_KEY = "is-online-key";
 
     private GamePresenter mPresenter;
     private Button makeButton;
@@ -70,10 +75,14 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
     @Inject
     GameViewModelFactory gameViewModelFactory;
 
+    private FirebaseAnalytics mFirebaseAnalytics;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         setContentView(R.layout.activity_game);
 
@@ -379,7 +388,26 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
                 .setTitle("Save Game?")
                 .setMessage("Are you sure you are ready to save and end this game?")
                 .setIcon(android.R.drawable.ic_dialog_alert)
-                .setPositiveButton(android.R.string.yes, (dialog, whichButton) -> mPresenter.submitGameStats())
+                .setPositiveButton(android.R.string.yes, (dialog, whichButton) -> {
+                    GameData gameData = gameRepository.getGameStats();
+                    Bundle params = new Bundle();
+                    params.putBoolean(IS_ONLINE_KEY, isNetworkAvailable());
+                    params.putSerializable(GAME_DATA, gameData);
+                    mFirebaseAnalytics.logEvent("submit_game", params);
+                    mPresenter.submitGameStats();
+                })
                 .setNegativeButton(android.R.string.no, null).show();
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager manager =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = manager.getActiveNetworkInfo();
+        boolean isAvailable = false;
+        if (networkInfo != null && networkInfo.isConnected()) {
+            // Network is present and connected
+            isAvailable = true;
+        }
+        return isAvailable;
     }
 }

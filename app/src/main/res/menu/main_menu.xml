@@ -10,4 +10,8 @@
         android:id="@+id/action_delete_account"
         app:showAsAction="never"
         android:title="Delete Account"/>
+    <item
+        android:id="@+id/action_test_recovery"
+        app:showAsAction="never"
+        android:title="Recover Data"/>
 </menu>

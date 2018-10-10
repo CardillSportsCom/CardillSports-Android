@@ -10,7 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.cardill.sports.stattracker.R;
-import com.cardill.sports.stattracker.common.data.CardillService;
+import com.cardill.sports.stattracker.network.CardillService;
 import com.cardill.sports.stattracker.game.data.GameData;
 import com.cardill.sports.stattracker.game.ui.GameActivity;
 import com.cardill.sports.stattracker.stats.data.Player;
@@ -52,9 +52,7 @@ public class TeamSelectionActivity extends AppCompatActivity implements TeamSele
         mRecyclerView = findViewById(R.id.recycler_view);
 
         mTeamAdapter = new TeamAdapter();
-        mTeamAdapter.getEventObservable().subscribe(x -> {
-            mPresenter.onTeamSelected(x.getTeam());
-        });
+        mTeamAdapter.getEventObservable().subscribe(x -> mPresenter.onTeamSelected(x.getTeam()));
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
         mRecyclerView.setAdapter(mTeamAdapter);

@@ -1,9 +1,9 @@
 package com.cardill.sports.stattracker;
 
-import com.cardill.sports.stattracker.scores.ui.BoxScoreFragment;
-import com.cardill.sports.stattracker.scores.ui.DailyStatsFragment;
-import com.cardill.sports.stattracker.scores.ui.GameDayFragment;
-import com.cardill.sports.stattracker.scores.ui.ScoresFragment;
+import com.cardill.sports.stattracker.boxscore.ui.BoxScoreFragment;
+import com.cardill.sports.stattracker.gamedays.ui.DailyStatsFragment;
+import com.cardill.sports.stattracker.gamedays.ui.GameDayFragment;
+import com.cardill.sports.stattracker.scores.ScoresFragment;
 import com.cardill.sports.stattracker.stats.StatsFragment;
 
 import dagger.Module;

@@ -1,10 +1,8 @@
 package com.cardill.sports.stattracker.teamselection.businesslogic;
 
 import com.cardill.sports.stattracker.BuildConfig;
-import com.cardill.sports.stattracker.common.data.AddPlayerToLeagueRequestBody;
-import com.cardill.sports.stattracker.common.data.CardillService;
+import com.cardill.sports.stattracker.network.CardillService;
 import com.cardill.sports.stattracker.stats.data.Player;
-import com.cardill.sports.stattracker.teamselection.data.AddPlayerRequestBody;
 import com.cardill.sports.stattracker.teamselection.data.Team;
 import com.cardill.sports.stattracker.teamselection.data.TeamResponse;
 import com.cardill.sports.stattracker.teamselection.ui.TeamSelectionViewBinder;
@@ -22,7 +20,7 @@ import timber.log.Timber;
 public class TeamSelectionPresenter {
 
     private static final String TAG = "Vithushan";
-    private static final int NUM_OF_TEAMS = 3;
+    private static final int NUM_OF_TEAMS = 4;
 
     private final TeamSelectionViewBinder mViewBinder;
     private TeamSelectionViewModel mViewModel;
@@ -72,19 +70,5 @@ public class TeamSelectionPresenter {
 
             mViewBinder.navigateToGameScreen(mTeamOnePlayers, team.getPlayers());
         }
-    }
-
-    public void addPlayer(AddPlayerRequestBody addPlayerRequestBody) {
-        Disposable subscribe = mCardillService.addPlayer(addPlayerRequestBody)
-                .map(addPlayerResponse -> addPlayerResponse.getNewPlayer().getID())
-                .flatMap(playerId -> mCardillService.addPlayerToLeague(new AddPlayerToLeagueRequestBody(playerId, BuildConfig.LEAGUE_ID)))
-                .doOnError(Timber::e)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(x -> {
-                    mViewModel.setLoading(true);
-                    loadPlayers();
-                        },
-                        Timber::e);
     }
 }

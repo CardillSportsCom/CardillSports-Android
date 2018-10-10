@@ -1,4 +1,4 @@
-package com.cardill.sports.stattracker.stats;
+package com.cardill.sports.stattracker.gamedays.ui;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,83 +9,65 @@ import android.view.ViewGroup;
 
 import com.cardill.sports.stattracker.R;
 import com.cardill.sports.stattracker.common.CardillTableListener;
-import com.cardill.sports.stattracker.network.CardillService;
 import com.cardill.sports.stattracker.common.data.Player;
 import com.cardill.sports.stattracker.common.ui.BaseFragment;
 import com.cardill.sports.stattracker.details.businesslogic.StatsTableAdapter;
-import com.cardill.sports.stattracker.game.data.GameData;
 import com.cardill.sports.stattracker.game.data.Stat;
 import com.cardill.sports.stattracker.game.data.StatType;
-import com.cardill.sports.stattracker.stats.businesslogic.StatsPresenter;
-import com.cardill.sports.stattracker.stats.businesslogic.StatsViewBinder;
+import com.cardill.sports.stattracker.gamedays.data.GameDayStatTotal;
 import com.cardill.sports.stattracker.teamselection.data.NewGamePlayer;
 import com.evrencoskun.tableview.TableView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import javax.inject.Inject;
+import java.util.Map;
 
 import static com.cardill.sports.stattracker.details.businesslogic.StatsTableAdapter.NON_EDITABLE;
+import static com.cardill.sports.stattracker.gamedays.ui.GameDayFragment.GAME_DAY_STAT_TOTALS_ID_KEY;
 
 /**
  * Created by vithushan on 9/10/18.
  */
 
-public class StatsFragment extends BaseFragment implements StatsViewBinder {
+public class DailyStatsFragment extends BaseFragment {
 
     private TableView tableView;
     private View progress;
-    private StatsPresenter mPresenter;
-
-    @Inject
-    CardillService cardillService;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_stats, container, false);
-
-        mPresenter = new StatsPresenter(this, cardillService);
+        View view = inflater.inflate(R.layout.fragment_daily_stats, container, false);
 
         tableView = view.findViewById(R.id.team_1_table_view);
 
         progress = view.findViewById(R.id.progress);
 
+        GameDayStatTotal[] dailyStats = (GameDayStatTotal[]) getArguments().get(GAME_DAY_STAT_TOTALS_ID_KEY);
+        showStats(dailyStats);
+
         return view;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        mPresenter.loadStatTotals();
-    }
-
-    @Override
-    public void showStats(GameData gameData) {
+    public void showStats(GameDayStatTotal[] gameDayStatTotals) {
         progress.setVisibility(View.GONE);
 
-        List<Player> players = new ArrayList<>();
-        players.addAll(gameData.getTeamOnePlayers());
-        players.addAll(gameData.getTeamTwoPlayers());
-
-        initTableView(tableView, players);
-    }
-
-    private void initTableView(TableView tableView, List<Player> players) {
         tableView.getCellRecyclerView().setMotionEventSplittingEnabled(true);
         StatsTableAdapter adapter = new StatsTableAdapter(getActivity(), NON_EDITABLE);
 
         tableView.setAdapter(adapter);
 
         List<StatType> columnHeaderItems = Arrays.asList(StatType.values());
-        List<List<Stat>> mCellList = generateTableCellList(players);
+        List<List<Stat>> mCellList = generateTableCellList(gameDayStatTotals);
 
         List<NewGamePlayer> newGamePlayers = new ArrayList<>();
 
-        for (Player player : players) {
-            newGamePlayers.add(new NewGamePlayer(player, true, false));
+        for (GameDayStatTotal gameDayStatTotal : gameDayStatTotals) {
+            //TODO make all these duplicated Player model classes differentiated
+            com.cardill.sports.stattracker.boxscore.data.Player player = gameDayStatTotal.getPlayer();
+            Player convertedPlayer = Player.create(player.getID(), player.getFirstName(), player.getLastName());
+            newGamePlayers.add(new NewGamePlayer(convertedPlayer, true, false));
         }
         adapter.setAllItems(columnHeaderItems, newGamePlayers, mCellList);
 
@@ -104,20 +86,22 @@ public class StatsFragment extends BaseFragment implements StatsViewBinder {
         tableView.setColumnWidth(10,200);
     }
 
-    private List<List<Stat>> generateTableCellList(List<Player> players) {
+    private List<List<Stat>> generateTableCellList(GameDayStatTotal[] gameDayStatTotals) {
         List<List<Stat>> cellList = new ArrayList<>();
 
-        for (Player player : players) {
+        for (GameDayStatTotal gameDayStatTotal : gameDayStatTotals) {
             List<Stat> statList = new ArrayList<>(8);
-            statList.add(new Stat(StatType.WINS, player.wins(), true));
-            statList.add(new Stat(StatType.GP, player.gamesPlayed(), true));
-            statList.add(new Stat(StatType.FGM, player.fieldGoalMade(), true));
-            statList.add(new Stat(StatType.MISSES, player.fieldGoalMissed(), true));
-            statList.add(new Stat(StatType.AST, player.assists(), true));
-            statList.add(new Stat(StatType.REB, player.rebounds(), true));
-            statList.add(new Stat(StatType.STL, player.steals(), true));
-            statList.add(new Stat(StatType.BLK, player.blocks(), true));
-            statList.add(new Stat(StatType.TO, player.turnovers(), true));
+            Map<String, Integer> playerTotalStats = gameDayStatTotal.getPlayerTotalStats();
+
+            statList.add(new Stat(StatType.WINS, playerTotalStats.get("gamesWon"), true));
+            statList.add(new Stat(StatType.GP, playerTotalStats.get("gamesPlayed"), true));
+            statList.add(new Stat(StatType.FGM, playerTotalStats.get("FGM"), true));
+            statList.add(new Stat(StatType.MISSES, playerTotalStats.get("FGA") - playerTotalStats.get("FGM"), true));
+            statList.add(new Stat(StatType.AST, playerTotalStats.get("assists"), true));
+            statList.add(new Stat(StatType.REB, playerTotalStats.get("rebounds"), true));
+            statList.add(new Stat(StatType.STL, playerTotalStats.get("steals"), true));
+            statList.add(new Stat(StatType.BLK, playerTotalStats.get("blocks"), true));
+            statList.add(new Stat(StatType.TO, playerTotalStats.get("turnovers"), true));
             cellList.add(statList);
         }
 

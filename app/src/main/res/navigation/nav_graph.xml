@@ -6,7 +6,7 @@
     <fragment
         android:id="@+id/scoresFragment"
         tools:layout="@layout/fragment_scores"
-        android:name="com.cardill.sports.stattracker.scores.ui.ScoresFragment"
+        android:name="com.cardill.sports.stattracker.scores.ScoresFragment"
         android:label="ScoresFragment" >
         <action
             android:id="@+id/action_scoresFragment_to_gameDayFragment"
@@ -15,7 +15,7 @@
     <fragment
         android:id="@+id/gameDayFragment"
         tools:layout="@layout/fragment_scores"
-        android:name="com.cardill.sports.stattracker.scores.ui.GameDayFragment"
+        android:name="com.cardill.sports.stattracker.gamedays.ui.GameDayFragment"
         android:label="GameDayFragment" >
         <argument android:name="game-day-key" />
         <action
@@ -28,21 +28,21 @@
     <fragment
         android:id="@+id/dailyStatsFragment"
         tools:layout="@layout/fragment_daily_stats"
-        android:name="com.cardill.sports.stattracker.scores.ui.DailyStatsFragment"
+        android:name="com.cardill.sports.stattracker.gamedays.ui.DailyStatsFragment"
         android:label="DailyFragment" >
         <argument android:name="game-day-stat-total-id-key" />
     </fragment>
     <fragment
         android:id="@+id/boxScoreFragment"
         tools:layout="@layout/fragment_box_score"
-        android:name="com.cardill.sports.stattracker.scores.ui.BoxScoreFragment"
+        android:name="com.cardill.sports.stattracker.boxscore.ui.BoxScoreFragment"
         android:label="BoxScoreFragment" >
         <argument
             android:name="game-id-key" />
     </fragment>
     <fragment
         android:id="@+id/newGameFragment"
-        android:name="com.cardill.sports.stattracker.scores.ui.NewGameFragment"
+        android:name="com.cardill.sports.stattracker.boxscore.ui.NewGameFragment"
         android:label="NewGameFragment" >
         <action
             android:id="@+id/action_newGameFragment_to_teamSelectionActivity"
@@ -62,7 +62,20 @@
         tools:layout="@layout/activity_team_selection" />
     <activity
         android:id="@+id/teamCreationActivity"
-        android:name="com.cardill.sports.stattracker.teamselection.ui.TeamCreationActivity"
+        android:name="com.cardill.sports.stattracker.teamcreation.ui.TeamCreationActivity"
         android:label="activity_team_creation"
         tools:layout="@layout/activity_team_creation" />
+    <activity
+        android:id="@+id/roomActivity"
+        android:name="com.cardill.sports.stattracker.debug.RoomActivity"
+        android:label="activity_room"
+        tools:layout="@layout/activity_room" />
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="com.cardill.sports.stattracker.ui.MainActivity"
+        android:label="MainActivity">
+        <action
+            android:id="@+id/action_main_to_room"
+            app:destination="@id/roomActivity" />
+    </activity>
 </navigation>
