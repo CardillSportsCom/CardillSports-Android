@@ -20,7 +20,7 @@ import timber.log.Timber;
 public class TeamSelectionPresenter {
 
     private static final String TAG = "Vithushan";
-    private static final int NUM_OF_TEAMS = 3;
+    private static final int NUM_OF_TEAMS = 4;
 
     private final TeamSelectionViewBinder mViewBinder;
     private TeamSelectionViewModel mViewModel;

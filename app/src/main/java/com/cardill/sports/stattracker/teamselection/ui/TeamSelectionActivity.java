@@ -52,9 +52,7 @@ public class TeamSelectionActivity extends AppCompatActivity implements TeamSele
         mRecyclerView = findViewById(R.id.recycler_view);
 
         mTeamAdapter = new TeamAdapter();
-        mTeamAdapter.getEventObservable().subscribe(x -> {
-            mPresenter.onTeamSelected(x.getTeam());
-        });
+        mTeamAdapter.getEventObservable().subscribe(x -> mPresenter.onTeamSelected(x.getTeam()));
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
         mRecyclerView.setAdapter(mTeamAdapter);
