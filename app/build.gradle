@@ -32,7 +32,7 @@ android {
         debug {
             buildConfigField "String", 'API_BASE_URL', "\"https://test-cardillsports-stattracker.herokuapp.com\""
             resValue "string", "app_name", "Stat Tracker Debug"
-            buildConfigField "String", 'LEAGUE_ID', "\"5ac6aaefe8da8276a88ffc07\""
+            buildConfigField "String", 'LEAGUE_ID', "\"5bb15c65be2df207fc5a7221\""
         }
         release {
             minifyEnabled false

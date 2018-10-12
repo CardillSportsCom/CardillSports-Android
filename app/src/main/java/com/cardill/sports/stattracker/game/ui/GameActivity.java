@@ -36,8 +36,6 @@ import com.cardill.sports.stattracker.offline.domain.services.SyncCommentLifecyc
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import javax.inject.Inject;
@@ -399,13 +397,7 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
                 .setPositiveButton(android.R.string.yes, (dialog, whichButton) -> {
                     GameData gameData = gameRepository.getGameStats();
 
-//                    // Access a Cloud Firestore instance from your Activity
-//                    FirebaseFirestore db = FirebaseFirestore.getInstance();
-//                    // Add a new document with a generated ID
-//                    db.collection("gameData")
-//                            .add(gameData)
-//                            .addOnSuccessListener(documentReference -> Timber.d("DocumentSnapshot added with ID: %s", documentReference.getId()))
-//                            .addOnFailureListener(e -> Timber.tag(TAG).w(e, "Error adding document"));
+                    //TODO (vithushan) log the gamedata somewhere
 
                     Bundle params = new Bundle();
                     params.putBoolean(IS_ONLINE_KEY, isNetworkAvailable());

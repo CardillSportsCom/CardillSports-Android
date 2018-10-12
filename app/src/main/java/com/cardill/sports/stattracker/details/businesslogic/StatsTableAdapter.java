@@ -229,13 +229,22 @@ public class StatsTableAdapter extends AbstractTableAdapter<StatType, NewGamePla
      * This is sample CellViewHolder class.
      * This viewHolder must be extended from AbstractViewHolder class instead of RecyclerView.ViewHolder.
      */
-    class MyRowHeaderViewHolder extends AbstractViewHolder {
+    public class MyRowHeaderViewHolder extends AbstractViewHolder {
 
         public final TextView cell_textview;
+        private NewGamePlayer player;
 
         public MyRowHeaderViewHolder(View itemView) {
             super(itemView);
             cell_textview = (TextView) itemView.findViewById(R.id.player_label);
+        }
+
+        public void setPlayer(NewGamePlayer player) {
+            this.player = player;
+        }
+
+        public NewGamePlayer getPlayer() {
+            return player;
         }
     }
 
@@ -282,6 +291,7 @@ public class StatsTableAdapter extends AbstractTableAdapter<StatType, NewGamePla
         // Get the holder to update row header item text
         MyRowHeaderViewHolder rowHeaderViewHolder = (MyRowHeaderViewHolder) holder;
         rowHeaderViewHolder.cell_textview.setText(rowHeader.getPlayer().firstName());
+        rowHeaderViewHolder.setPlayer(rowHeader);
 
         if (rowHeader.isTeamOne()) {
             rowHeaderViewHolder.cell_textview.setBackgroundColor(Color.parseColor(TEAM_ONE_COLOR_STRING));

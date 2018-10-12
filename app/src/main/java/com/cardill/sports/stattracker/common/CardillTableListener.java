@@ -2,7 +2,9 @@ package com.cardill.sports.stattracker.common;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Toast;
 
+import com.cardill.sports.stattracker.details.businesslogic.StatsTableAdapter;
 import com.evrencoskun.tableview.TableView;
 import com.evrencoskun.tableview.listener.ITableViewListener;
 import com.evrencoskun.tableview.sort.SortState;
@@ -43,7 +45,8 @@ public class CardillTableListener implements ITableViewListener {
 
     @Override
     public void onRowHeaderClicked(@NonNull RecyclerView.ViewHolder rowHeaderView, int row) {
-
+        StatsTableAdapter.MyRowHeaderViewHolder holder = (StatsTableAdapter.MyRowHeaderViewHolder) rowHeaderView;
+        Toast.makeText(tableView.getContext(), holder.getPlayer().getPlayer().firstName(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
