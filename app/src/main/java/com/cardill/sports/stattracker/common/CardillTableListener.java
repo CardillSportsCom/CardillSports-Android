@@ -1,15 +1,22 @@
 package com.cardill.sports.stattracker.common;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
+import com.cardill.sports.stattracker.R;
 import com.cardill.sports.stattracker.details.businesslogic.StatsTableAdapter;
 import com.evrencoskun.tableview.TableView;
 import com.evrencoskun.tableview.listener.ITableViewListener;
 import com.evrencoskun.tableview.sort.SortState;
 
+import androidx.navigation.NavOptions;
+import androidx.navigation.Navigation;
+
 public class CardillTableListener implements ITableViewListener {
+
+    public static final String PLAYER_NAME_KEY = "player-name-key";
 
     TableView tableView; //Be careful of the listener and table holding references to each other
 
@@ -46,7 +53,9 @@ public class CardillTableListener implements ITableViewListener {
     @Override
     public void onRowHeaderClicked(@NonNull RecyclerView.ViewHolder rowHeaderView, int row) {
         StatsTableAdapter.MyRowHeaderViewHolder holder = (StatsTableAdapter.MyRowHeaderViewHolder) rowHeaderView;
-        Toast.makeText(tableView.getContext(), holder.getPlayer().getPlayer().firstName(), Toast.LENGTH_SHORT).show();
+        Bundle params = new Bundle();
+        params.putString(PLAYER_NAME_KEY, holder.getPlayer().getPlayer().firstName());
+        Navigation.findNavController(tableView).navigate(R.id.profileFragment, params);
     }
 
     @Override

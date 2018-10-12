@@ -3,6 +3,7 @@ package com.cardill.sports.stattracker;
 import com.cardill.sports.stattracker.boxscore.ui.BoxScoreFragment;
 import com.cardill.sports.stattracker.gamedays.ui.DailyStatsFragment;
 import com.cardill.sports.stattracker.gamedays.ui.GameDayFragment;
+import com.cardill.sports.stattracker.profile.ProfileFragment;
 import com.cardill.sports.stattracker.scores.ScoresFragment;
 import com.cardill.sports.stattracker.stats.StatsFragment;
 
@@ -29,4 +30,7 @@ public abstract class MainActivityModule {
 
     @ContributesAndroidInjector
     abstract StatsFragment statsFragmentInjector();
+
+    @ContributesAndroidInjector
+    abstract ProfileFragment profileFragmentInjector();
 }

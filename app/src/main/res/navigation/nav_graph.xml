@@ -55,6 +55,10 @@
         android:id="@+id/statsFragment"
         android:name="com.cardill.sports.stattracker.stats.StatsFragment"
         android:label="StatsFragment" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.cardill.sports.stattracker.profile.ProfileFragment"
+        android:label="ProfileFragment" />
     <activity
         android:id="@+id/teamSelectionActivity"
         android:name="com.cardill.sports.stattracker.teamselection.ui.TeamSelectionActivity"
