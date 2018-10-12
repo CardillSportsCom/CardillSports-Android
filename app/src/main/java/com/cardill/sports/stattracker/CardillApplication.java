@@ -6,6 +6,7 @@ import android.app.Application;
 import com.cardill.sports.stattracker.game.data.GameRepository;
 import com.cardill.sports.stattracker.offline.domain.services.jobs.JobManagerFactory;
 import com.facebook.stetho.Stetho;
+import com.google.android.gms.ads.MobileAds;
 
 import javax.inject.Inject;
 
@@ -15,6 +16,8 @@ import dagger.android.HasActivityInjector;
 import timber.log.Timber;
 
 public class CardillApplication extends Application implements HasActivityInjector {
+
+    private static final String AD_APP_ID = "ca-app-pub-6796265721314281~3269435758";
 
     @Inject
     DispatchingAndroidInjector<Activity> dispatchingAndroidInjector;
@@ -34,6 +37,9 @@ public class CardillApplication extends Application implements HasActivityInject
         DaggerAppComponent.builder().create(this).inject(this);
 
         JobManagerFactory.getJobManager(this);
+
+        MobileAds.initialize(this, AD_APP_ID);
+
     }
 
     @Override

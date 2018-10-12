@@ -112,11 +112,11 @@ dependencies {
     implementation group: 'com.jakewharton.rxrelay2', name: 'rxrelay', version: '2.0.0'
 
     // https://mvnrepository.com/artifact/android.arch.persistence.room/runtime
-    implementation group: 'android.arch.persistence.room', name: 'runtime', version: '1.1.1-rc1'
+    implementation group: 'android.arch.persistence.room', name: 'runtime', version: '1.1.1'
     annotationProcessor 'android.arch.persistence.room:compiler:1.1.1'
 
     //GCM Network Manager
-    implementation "com.google.android.gms:play-services-gcm:15.0.1"
+    implementation "com.google.android.gms:play-services-gcm:16.0.0"
 
     def nav_version = "1.0.0-alpha05"
 
@@ -130,24 +130,27 @@ dependencies {
     implementation 'com.facebook.stetho:stetho:1.5.0'
     implementation 'com.facebook.stetho:stetho-okhttp3:1.5.0'
 
-    implementation 'com.google.android.gms:play-services-auth:16.0.0'
+    implementation 'com.google.android.gms:play-services-auth:16.0.1'
     // Dependencies for the REST API example
     implementation 'com.google.api-client:google-api-client:1.22.0'
     implementation 'com.google.api-client:google-api-client-android:1.22.0'
 
-    implementation 'com.google.firebase:firebase-core:16.0.3'
+    implementation 'com.google.firebase:firebase-core:16.0.4'
 
-    implementation 'com.google.firebase:firebase-auth:16.0.3'
-    implementation 'com.google.android.gms:play-services-auth:16.0.0'
+    implementation 'com.google.firebase:firebase-auth:16.0.4'
+    implementation 'com.google.android.gms:play-services-auth:16.0.1'
 
     implementation 'com.firebaseui:firebase-ui-auth:4.1.0'
 
     implementation 'com.android.support:multidex:1.0.3'
 
-    implementation 'com.google.firebase:firebase-perf:16.1.0'
+    implementation 'com.google.firebase:firebase-perf:16.1.2'
 
     // Add dependency
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.5'
+
+    implementation 'com.google.firebase:firebase-ads:17.0.0'
+
 }
 
 apply plugin: 'com.google.gms.google-services'
