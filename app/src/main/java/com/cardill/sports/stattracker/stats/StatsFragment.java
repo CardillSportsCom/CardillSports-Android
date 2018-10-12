@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.cardill.sports.stattracker.R;
-import com.cardill.sports.stattracker.common.CardillTableListener;
+import com.cardill.sports.stattracker.common.SortableCardillTableListener;
 import com.cardill.sports.stattracker.network.CardillService;
 import com.cardill.sports.stattracker.common.data.Player;
 import com.cardill.sports.stattracker.common.ui.BaseFragment;
@@ -89,7 +89,7 @@ public class StatsFragment extends BaseFragment implements StatsViewBinder {
         }
         adapter.setAllItems(columnHeaderItems, newGamePlayers, mCellList);
 
-        tableView.setTableViewListener(new CardillTableListener(tableView));
+        tableView.setTableViewListener(new SortableCardillTableListener(tableView));
 
         tableView.setColumnWidth(0, 200);
         tableView.setColumnWidth(1, 200);

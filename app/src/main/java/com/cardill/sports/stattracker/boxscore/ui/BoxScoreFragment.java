@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.cardill.sports.stattracker.R;
+import com.cardill.sports.stattracker.common.CardillTableListener;
+import com.cardill.sports.stattracker.common.SortableCardillTableListener;
 import com.cardill.sports.stattracker.network.CardillService;
 import com.cardill.sports.stattracker.common.data.Player;
 import com.cardill.sports.stattracker.common.ui.BaseFragment;
@@ -107,6 +109,7 @@ public class BoxScoreFragment extends BaseFragment implements BoxScoreViewBinder
         }
 
         adapter.setAllItems(columnHeaderItems, players, mCellList);
+        tableView.setTableViewListener(new CardillTableListener(tableView));
 
         tableView.setColumnWidth(0, 200);
         tableView.setColumnWidth(1, 250);

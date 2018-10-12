@@ -9,27 +9,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.cardill.sports.stattracker.R;
-import com.cardill.sports.stattracker.common.CardillTableListener;
-import com.cardill.sports.stattracker.common.data.Player;
 import com.cardill.sports.stattracker.common.ui.BaseFragment;
-import com.cardill.sports.stattracker.details.businesslogic.StatsTableAdapter;
-import com.cardill.sports.stattracker.game.data.GameData;
-import com.cardill.sports.stattracker.game.data.Stat;
-import com.cardill.sports.stattracker.game.data.StatType;
-import com.cardill.sports.stattracker.network.CardillService;
-import com.cardill.sports.stattracker.stats.businesslogic.StatsPresenter;
-import com.cardill.sports.stattracker.stats.businesslogic.StatsViewBinder;
-import com.cardill.sports.stattracker.teamselection.data.NewGamePlayer;
-import com.evrencoskun.tableview.TableView;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import javax.inject.Inject;
-
-import static com.cardill.sports.stattracker.common.CardillTableListener.PLAYER_NAME_KEY;
-import static com.cardill.sports.stattracker.details.businesslogic.StatsTableAdapter.NON_EDITABLE;
+import static com.cardill.sports.stattracker.common.SortableCardillTableListener.PLAYER_NAME_KEY;
 
 /**
  * Shows a player profile
