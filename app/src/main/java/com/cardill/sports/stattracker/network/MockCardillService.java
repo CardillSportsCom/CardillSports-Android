@@ -112,4 +112,10 @@ public class MockCardillService implements CardillService {
     public Observable<ResponseBody> addTeam(AddTeamRequestBody addTeamRequestBody) {
         return Observable.empty();
     }
+
+    @Override
+    public Observable<ResponseBody> authenticate(AuthRequestBody token) {
+        return Observable.empty();
+    }
+
 }

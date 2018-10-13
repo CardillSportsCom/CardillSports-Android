@@ -10,6 +10,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.cardill.sports.stattracker.R;
+import com.cardill.sports.stattracker.network.AuthRequestBody;
+import com.cardill.sports.stattracker.network.CardillService;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -19,6 +21,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GetTokenResult;
 
 import java.util.Arrays;
 import java.util.List;
@@ -40,6 +43,10 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
 
     @Inject
     DispatchingAndroidInjector<Fragment> fragmentInjector;
+
+    @Inject
+    CardillService mCardillService;
+
     private FirebaseAuth mAuth;
 
     @Override
@@ -171,6 +178,20 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
                     RC_SIGN_IN);
         } else {
             Timber.tag(TAG).d(user.getEmail());
+            user.getIdToken(true)
+                    .addOnCompleteListener(task -> {
+                                try {
+                                    Thread.sleep(5000);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                                String token = task.getResult().getToken();
+                                Timber.d(token + " VITHUSHAN");
+                                mCardillService.authenticate(new AuthRequestBody(token));
+                            }
+
+                    );
+
         }
     }
 }

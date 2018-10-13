@@ -48,4 +48,7 @@ public interface CardillService {
 
     @POST("team")
     Observable<ResponseBody> addTeam(@Body AddTeamRequestBody addTeamRequestBody);
+
+    @POST("auth")
+    Observable<ResponseBody> authenticate(@Body AuthRequestBody token);
 }
