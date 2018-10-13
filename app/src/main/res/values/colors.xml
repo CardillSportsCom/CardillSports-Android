@@ -30,4 +30,9 @@
     <!-- <color name="cell_line_color">#dbdbdb</color> -->
     <!-- <color name="table_view_selected_background_color">@color/md_selected_background_color</color> -->
     <color name="default_background_color">@color/cell_background_color</color>
+
+    <color name="black">#1f1f1f</color>
+    <color name="red">@android:color/holo_red_light</color>
+    <color name="green">@android:color/holo_green_light</color>
+    <color name="blue">@android:color/holo_blue_light</color>
 </resources>

@@ -127,7 +127,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:padding="@dimen/game_stat_button_size"
-        android:textColor="#000000"
+        android:textColor="@color/colorPrimary"
+        android:background="@color/black"
         android:layout_weight="1"
         android:text="Rebound"
         android:textSize="24sp"
@@ -137,7 +138,7 @@
         android:id="@+id/neither"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="match_parent"
-        android:textColor="#000000"
+        android:textColor="@color/colorPrimary"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/game_stat_button_size"
         android:layout_marginBottom="8dp"
@@ -146,10 +147,10 @@
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-
         android:padding="@dimen/game_stat_button_size"
         android:layout_weight="1"
         android:text="Neither"
+        android:background="@color/black"
         android:textSize="24sp"
         android:visibility="gone" />
 
@@ -159,7 +160,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/game_stat_button_size"
-        android:textColor="#000000"
+        android:textColor="@color/colorPrimary"
         android:padding="@dimen/game_stat_button_size"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
@@ -168,13 +169,14 @@
         android:layout_marginStart="8dp"
         android:layout_weight="1"
         android:text="Block"
+        android:background="@color/black"
         android:textSize="24sp"
         android:visibility="gone"/>
 
     <Button
         android:id="@+id/assist"
         style="@style/Widget.AppCompat.Button.Colored"
-        android:textColor="#000000"
+        android:textColor="@color/colorPrimary"
         android:padding="@dimen/game_stat_button_size"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -183,13 +185,14 @@
         android:layout_marginRight="8dp"
         android:layout_weight="1"
         android:text="Assist"
+        android:background="@color/black"
         android:textSize="24sp"
         android:visibility="gone" />
 
     <Button
         android:id="@+id/no_assist"
         style="@style/Widget.AppCompat.Button.Colored"
-        android:textColor="#000000"
+        android:textColor="@color/colorPrimary"
         android:padding="@dimen/game_stat_button_size"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -197,13 +200,14 @@
         android:layout_marginBottom="8dp"
         android:layout_weight="1"
         android:text="No Assist"
+        android:background="@color/black"
         android:textSize="24sp"
         android:visibility="gone" />
 
     <Button
         android:id="@+id/reboundFromBlock"
         style="@style/Widget.AppCompat.Button.Colored"
-        android:textColor="#000000"
+        android:textColor="@color/colorPrimary"
         android:padding="@dimen/game_stat_button_size"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -212,19 +216,21 @@
         android:layout_marginRight="8dp"
         android:layout_weight="1"
         android:text="Rebound"
+        android:background="@color/black"
         android:textSize="24sp"
         android:visibility="gone" />
 
     <Button
         android:id="@+id/noReboundFromBlock"
         style="@style/Widget.AppCompat.Button.Colored"
-        android:textColor="#000000"
+        android:textColor="@color/colorPrimary"
         android:padding="@dimen/game_stat_button_size"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/game_stat_button_size"
         android:layout_marginBottom="8dp"
         android:layout_weight="1"
+        android:background="@color/black"
         android:text="No Rebound"
         android:textSize="24sp"
         android:visibility="gone" />
@@ -232,7 +238,7 @@
     <Button
         android:id="@+id/steal"
         style="@style/Widget.AppCompat.Button.Colored"
-        android:textColor="#000000"
+        android:textColor="@color/colorPrimary"
         android:padding="@dimen/game_stat_button_size"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -241,19 +247,21 @@
         android:layout_marginRight="8dp"
         android:layout_weight="1"
         android:text="Steal"
+        android:background="@color/black"
         android:textSize="24sp"
         android:visibility="gone" />
 
     <Button
         android:id="@+id/no_steal"
         style="@style/Widget.AppCompat.Button.Colored"
-        android:textColor="#000000"
+        android:textColor="@color/colorPrimary"
         android:padding="@dimen/game_stat_button_size"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/game_stat_button_size"
         android:layout_marginBottom="8dp"
         android:layout_weight="1"
+        android:background="@color/black"
         android:text="No Steal"
         android:textSize="24sp"
         android:visibility="gone" />
