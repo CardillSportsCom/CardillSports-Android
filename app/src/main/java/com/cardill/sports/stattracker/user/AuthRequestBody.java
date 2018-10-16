@@ -1,4 +1,4 @@
-package com.cardill.sports.stattracker.network;
+package com.cardill.sports.stattracker.user;
 
 /**
  * Created by vithushan on 10/13/18.

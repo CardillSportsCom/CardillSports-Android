@@ -10,12 +10,15 @@ import com.cardill.sports.stattracker.stats.data.LeagueTotalsResponse;
 import com.cardill.sports.stattracker.teamselection.data.AddPlayerRequestBody;
 import com.cardill.sports.stattracker.teamselection.data.AddPlayerResponse;
 import com.cardill.sports.stattracker.teamselection.data.TeamResponse;
+import com.cardill.sports.stattracker.user.AuthRequestBody;
+import com.cardill.sports.stattracker.user.AuthResponseBody;
 
 import io.reactivex.Observable;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -49,6 +52,6 @@ public interface CardillService {
     @POST("team")
     Observable<ResponseBody> addTeam(@Body AddTeamRequestBody addTeamRequestBody);
 
-    @POST("auth")
-    Observable<ResponseBody> authenticate(@Body AuthRequestBody token);
+    @GET("league")
+    Observable<ResponseBody> getLeagues(@Header("Authorization") String token);
 }

@@ -2,26 +2,21 @@ package com.cardill.sports.stattracker.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.cardill.sports.stattracker.AuthService;
 import com.cardill.sports.stattracker.R;
-import com.cardill.sports.stattracker.network.AuthRequestBody;
+import com.cardill.sports.stattracker.user.AuthRequestBody;
 import com.cardill.sports.stattracker.network.CardillService;
+import com.cardill.sports.stattracker.user.Session;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GetTokenResult;
 
 import java.util.Arrays;
 import java.util.List;
@@ -48,6 +43,12 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
 
     @Inject
     CardillService mCardillService;
+
+    @Inject
+    AuthService authService;
+
+    @Inject
+    Session session;
 
     private FirebaseAuth mAuth;
 
@@ -183,11 +184,10 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
             user.getIdToken(true)
                     .addOnCompleteListener(task -> {
                                 String token = task.getResult().getToken();
-                                Timber.d(token + " VITHUSHAN");
-                                mCardillService.authenticate(new AuthRequestBody(token))
+                                authService.authenticate(new AuthRequestBody(token))
                                         .subscribeOn(Schedulers.io())
                                         .observeOn(AndroidSchedulers.mainThread())
-                                        .subscribe(response -> Timber.tag("VITHUSHAN").d(response.string()),
+                                        .subscribe(response -> session.saveToken(response.getId_token()),
                                                 throwable -> Timber.tag("VITHUSHAN").e(throwable));
                             }
 
