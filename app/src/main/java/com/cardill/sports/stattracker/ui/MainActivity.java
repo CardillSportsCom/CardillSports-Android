@@ -34,6 +34,8 @@ import dagger.android.AndroidInjection;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity implements HasSupportFragmentInjector {
@@ -180,14 +182,13 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
             Timber.tag(TAG).d(user.getEmail());
             user.getIdToken(true)
                     .addOnCompleteListener(task -> {
-                                try {
-                                    Thread.sleep(5000);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
                                 String token = task.getResult().getToken();
                                 Timber.d(token + " VITHUSHAN");
-                                mCardillService.authenticate(new AuthRequestBody(token));
+                                mCardillService.authenticate(new AuthRequestBody(token))
+                                        .subscribeOn(Schedulers.io())
+                                        .observeOn(AndroidSchedulers.mainThread())
+                                        .subscribe(response -> Timber.tag("VITHUSHAN").d(response.string()),
+                                                throwable -> Timber.tag("VITHUSHAN").e(throwable));
                             }
 
                     );

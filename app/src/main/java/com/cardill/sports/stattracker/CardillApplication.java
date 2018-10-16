@@ -34,6 +34,8 @@ public class CardillApplication extends Application implements HasActivityInject
         DaggerAppComponent.builder().create(this).inject(this);
 
         JobManagerFactory.getJobManager(this);
+
+        Stetho.initializeWithDefaults(this);
     }
 
     @Override
