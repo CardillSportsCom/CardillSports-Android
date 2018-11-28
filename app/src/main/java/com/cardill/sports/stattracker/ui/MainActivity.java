@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 
 import com.cardill.sports.stattracker.AuthService;
 import com.cardill.sports.stattracker.R;
@@ -17,6 +18,8 @@ import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.leinardi.android.speeddial.SpeedDialActionItem;
+import com.leinardi.android.speeddial.SpeedDialView;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,6 +28,7 @@ import javax.inject.Inject;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import dagger.android.AndroidInjection;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
@@ -81,6 +85,35 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
                 case R.id.nav_stats:
                     navController.navigate(R.id.statsFragment);
                     return true;
+                default:
+                    return false;
+            }
+        });
+
+        SpeedDialView speedDialView = findViewById(R.id.speedDial);
+        speedDialView.addActionItem(
+                new SpeedDialActionItem.Builder(R.id.fab_new_game, R.drawable.game)
+                        .setLabel(R.string.start_new_game)
+                        .create()
+        );
+        speedDialView.addActionItem(
+                new SpeedDialActionItem.Builder(R.id.fab_new_team, R.drawable.team)
+                        .setLabel(R.string.create_new_team)
+                        .create()
+        );
+
+        speedDialView.setOnActionSelectedListener(speedDialActionItem -> {
+            switch (speedDialActionItem.getId()) {
+                case R.id.fab_new_game:
+                    Navigation.findNavController(MainActivity.this, R.id.my_nav_host_fragment)
+                            .navigate(R.id.action_newGameFragment_to_teamSelectionActivity);
+
+                    return false; // true to keep the Speed Dial open
+                case R.id.fab_new_team:
+                    Navigation.findNavController(MainActivity.this, R.id.my_nav_host_fragment)
+                            .navigate(R.id.action_newGameFragment_to_teamCreationActivity);
+
+                    return false; // true to keep the Speed Dial open
                 default:
                     return false;
             }
