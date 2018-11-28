@@ -22,12 +22,12 @@ public class NewGameFragment extends Fragment {
         Button newGameButton = view.findViewById(R.id.button_new_game);
         newGameButton.setOnClickListener(
                 x -> NavHostFragment.findNavController(this)
-                        .navigate(R.id.action_newGameFragment_to_teamSelectionActivity));
+                        .navigate(R.id.action_mainActivity_to_teamSelectionActivity));
 
         Button newTeamButton = view.findViewById(R.id.button_new_team);
         newTeamButton.setOnClickListener(
                 x -> NavHostFragment.findNavController(this)
-                        .navigate(R.id.action_newGameFragment_to_teamCreationActivity));
+                        .navigate(R.id.action_mainActivity_to_teamCreationActivity));
 
         return view;
     }

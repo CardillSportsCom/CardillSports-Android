@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="fab_new_game" type="id" />
+    <item name="fab_new_team" type="id" />
+</resources>
