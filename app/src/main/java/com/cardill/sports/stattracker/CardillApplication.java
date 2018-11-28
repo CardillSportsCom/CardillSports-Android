@@ -5,6 +5,7 @@ import android.app.Application;
 
 import com.cardill.sports.stattracker.game.data.GameRepository;
 import com.cardill.sports.stattracker.offline.domain.services.jobs.JobManagerFactory;
+import com.cardill.sports.stattracker.user.Session;
 import com.facebook.stetho.Stetho;
 
 import javax.inject.Inject;
@@ -22,6 +23,8 @@ public class CardillApplication extends Application implements HasActivityInject
     @Inject
     GameRepository gameRepository;
 
+    private Session session;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -34,10 +37,13 @@ public class CardillApplication extends Application implements HasActivityInject
         DaggerAppComponent.builder().create(this).inject(this);
 
         JobManagerFactory.getJobManager(this);
+
+        Stetho.initializeWithDefaults(this);
     }
 
     @Override
     public AndroidInjector<Activity> activityInjector() {
         return dispatchingAndroidInjector;
     }
+
 }

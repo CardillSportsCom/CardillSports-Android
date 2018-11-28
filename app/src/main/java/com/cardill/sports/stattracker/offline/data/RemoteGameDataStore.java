@@ -1,5 +1,6 @@
 package com.cardill.sports.stattracker.offline.data;
 
+import com.cardill.sports.stattracker.network.CardillService;
 import com.cardill.sports.stattracker.offline.domain.RemoteGameRepository;
 import com.cardill.sports.stattracker.game.data.GameData;
 import com.cardill.sports.stattracker.offline.domain.services.jobs.JobManagerFactory;
@@ -9,9 +10,15 @@ import io.reactivex.Completable;
 
 public class RemoteGameDataStore implements RemoteGameRepository {
 
+    private CardillService service;
+
+    public RemoteGameDataStore(CardillService service) {
+        this.service = service;
+    }
+
     @Override
     public Completable sync(GameData gameData) {
         return Completable.fromAction(() ->
-                JobManagerFactory.getJobManager().addJobInBackground(new SyncGameJob(gameData)));
+                JobManagerFactory.getJobManager().addJobInBackground(new SyncGameJob(gameData, service)));
     }
 }

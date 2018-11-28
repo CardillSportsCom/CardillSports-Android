@@ -9,6 +9,7 @@ import com.birbit.android.jobqueue.RetryConstraint;
 import com.cardill.sports.stattracker.game.data.GameData;
 import com.cardill.sports.stattracker.game.data.GameStatsMapper;
 import com.cardill.sports.stattracker.game.data.JSONGameStats;
+import com.cardill.sports.stattracker.network.CardillService;
 import com.cardill.sports.stattracker.offline.domain.services.SyncGameRxBus;
 import com.cardill.sports.stattracker.offline.domain.services.SyncResponseEventType;
 import com.cardill.sports.stattracker.offline.domain.services.networking.RemoteException;
@@ -21,13 +22,15 @@ public class SyncGameJob extends Job {
 
     private static final String TAG = SyncGameJob.class.getCanonicalName();
     private final GameData gameData;
+    private CardillService service;
 
-    public SyncGameJob(GameData gameData) {
+    public SyncGameJob(GameData gameData, CardillService service) {
         super(new Params(JobPriority.MID)
                 .requireNetwork()
                 .groupBy(TAG)
                 .persist());
         this.gameData = gameData;
+        this.service = service;
     }
 
     @Override
@@ -42,7 +45,7 @@ public class SyncGameJob extends Job {
         // if any exception is thrown, it will be handled by shouldReRunOnThrowable()
         JSONGameStats jsonGameStats = GameStatsMapper.transform(gameData);
 
-        RemoteGameService.getInstance().saveGameStats(jsonGameStats);
+        RemoteGameService.getInstance().saveGameStats(jsonGameStats, service);
 
         // remote call was successful--the GameData will be updated locally to reflect that sync is no longer pending
         GameData updateGameData = GameDataUtils.clone(gameData, false);

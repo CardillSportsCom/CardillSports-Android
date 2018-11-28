@@ -1,6 +1,8 @@
 package com.cardill.sports.stattracker;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.SharedPreferences;
 
 import com.cardill.sports.stattracker.debug.RoomActivity;
 import com.cardill.sports.stattracker.network.CardillService;
@@ -18,6 +20,9 @@ import com.cardill.sports.stattracker.offline.domain.LocalGameRepository;
 import com.cardill.sports.stattracker.teamcreation.ui.TeamCreationActivity;
 import com.cardill.sports.stattracker.ui.MainActivity;
 import com.cardill.sports.stattracker.teamselection.ui.TeamSelectionActivity;
+import com.cardill.sports.stattracker.user.AuthorizationInterceptor;
+import com.cardill.sports.stattracker.user.UnauthorizedInterceptor;
+import com.cardill.sports.stattracker.user.Session;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -76,13 +81,41 @@ public abstract class ApplicationModule {
 
     @Singleton
     @Provides
-    static RemoteGameRepository provideRemoteGameRepository() {
-        return new RemoteGameDataStore();
+    static RemoteGameRepository provideRemoteGameRepository(CardillService service) {
+        return new RemoteGameDataStore(service);
+    }
+
+    @Provides
+    static Session provideSession(Application application) {
+        SharedPreferences sharedPref = application.getApplicationContext()
+                .getSharedPreferences("com.cardill.sports.stattracker", (Context.MODE_PRIVATE));
+
+        return new Session(sharedPref);
     }
 
     @Provides
     @Singleton
-    static CardillService provideCardillService(){
+    static AuthService provideAuthService() {
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+
+        OkHttpClient httpClient = new OkHttpClient.Builder()
+                .addNetworkInterceptor(new StethoInterceptor())
+                .build();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BuildConfig.API_BASE_URL)
+                .client(httpClient)
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+
+        return retrofit.create(AuthService.class);
+    }
+
+    @Provides
+    @Singleton
+    static CardillService provideCardillService(Session session, AuthService authService) {
 
         //TODO (vithushan) make this a build config or something better than a local var
         boolean online = true;
@@ -94,6 +127,8 @@ public abstract class ApplicationModule {
 
             OkHttpClient httpClient = new OkHttpClient.Builder()
                     .addNetworkInterceptor(new StethoInterceptor())
+                    .addInterceptor(new AuthorizationInterceptor(session))
+                    .addInterceptor(new UnauthorizedInterceptor(session, authService))
                     .build();
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(BuildConfig.API_BASE_URL)

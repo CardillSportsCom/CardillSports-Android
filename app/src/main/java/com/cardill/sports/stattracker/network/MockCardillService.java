@@ -1,6 +1,7 @@
 package com.cardill.sports.stattracker.network;
 
 import com.cardill.sports.stattracker.game.data.JSONGameStats;
+import com.cardill.sports.stattracker.stats.data.PlayerStatResponse;
 import com.cardill.sports.stattracker.teamcreation.data.AddPlayerToLeagueRequestBody;
 import com.cardill.sports.stattracker.teamcreation.data.AddTeamRequestBody;
 import com.cardill.sports.stattracker.teamcreation.data.LeaguePlayersResponse;
@@ -10,6 +11,8 @@ import com.cardill.sports.stattracker.stats.data.LeagueTotalsResponse;
 import com.cardill.sports.stattracker.teamselection.data.AddPlayerRequestBody;
 import com.cardill.sports.stattracker.teamselection.data.AddPlayerResponse;
 import com.cardill.sports.stattracker.teamselection.data.TeamResponse;
+import com.cardill.sports.stattracker.user.AuthRequestBody;
+import com.cardill.sports.stattracker.user.AuthResponseBody;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -112,4 +115,15 @@ public class MockCardillService implements CardillService {
     public Observable<ResponseBody> addTeam(AddTeamRequestBody addTeamRequestBody) {
         return Observable.empty();
     }
+
+    @Override
+    public Observable<ResponseBody> getLeagues(String token) {
+        return Observable.empty();
+    }
+
+    @Override
+    public Observable<PlayerStatResponse> getPlayerStats(String playerId) {
+        return Observable.empty();
+    }
+
 }

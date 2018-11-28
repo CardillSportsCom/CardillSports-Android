@@ -1,8 +1,8 @@
 package com.cardill.sports.stattracker.offline.domain.services.networking;
 
 import com.cardill.sports.stattracker.BuildConfig;
-import com.cardill.sports.stattracker.network.CardillService;
 import com.cardill.sports.stattracker.game.data.JSONGameStats;
+import com.cardill.sports.stattracker.network.CardillService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -22,20 +22,6 @@ public class RemoteGameService {
 
     private static RemoteGameService instance;
 
-    private final Retrofit retrofit;
-
-    public RemoteGameService() {
-
-        Gson gson = new GsonBuilder()
-                .setLenient()
-                .create();
-
-        retrofit = new Retrofit.Builder()
-                .baseUrl(BuildConfig.API_BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
-    }
-
     public static synchronized RemoteGameService getInstance() {
         if (instance == null) {
             instance = new RemoteGameService();
@@ -43,9 +29,7 @@ public class RemoteGameService {
         return instance;
     }
 
-    public void saveGameStats(JSONGameStats gameStatscomment) throws IOException, RemoteException {
-        CardillService service = retrofit.create(CardillService.class);
-
+    public void saveGameStats(JSONGameStats gameStatscomment, CardillService service) throws IOException, RemoteException {
         // Remote call can be executed synchronously since the job calling it is already backgrounded.
         Response response = service.saveGameStats(gameStatscomment).execute();
 
