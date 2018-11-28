@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@id/newGameFragment">
+    app:startDestination="@id/articleListFragment">
     <fragment
         android:id="@+id/scoresFragment"
-        tools:layout="@layout/fragment_scores"
         android:name="com.cardill.sports.stattracker.scores.ScoresFragment"
-        android:label="ScoresFragment" >
+        android:label="ScoresFragment"
+        tools:layout="@layout/fragment_scores">
         <action
             android:id="@+id/action_scoresFragment_to_gameDayFragment"
             app:destination="@id/gameDayFragment" />
     </fragment>
     <fragment
         android:id="@+id/gameDayFragment"
-        tools:layout="@layout/fragment_scores"
         android:name="com.cardill.sports.stattracker.gamedays.ui.GameDayFragment"
-        android:label="GameDayFragment" >
+        android:label="GameDayFragment"
+        tools:layout="@layout/fragment_scores">
         <argument android:name="game-day-key" />
         <action
             android:id="@+id/action_gameDayFragment_to_boxScoreFragment"
@@ -27,30 +27,41 @@
     </fragment>
     <fragment
         android:id="@+id/dailyStatsFragment"
-        tools:layout="@layout/fragment_daily_stats"
         android:name="com.cardill.sports.stattracker.gamedays.ui.DailyStatsFragment"
-        android:label="DailyFragment" >
+        android:label="DailyFragment"
+        tools:layout="@layout/fragment_daily_stats">
         <argument android:name="game-day-stat-total-id-key" />
     </fragment>
     <fragment
         android:id="@+id/boxScoreFragment"
-        tools:layout="@layout/fragment_box_score"
         android:name="com.cardill.sports.stattracker.boxscore.ui.BoxScoreFragment"
-        android:label="BoxScoreFragment" >
-        <argument
-            android:name="game-id-key" />
+        android:label="BoxScoreFragment"
+        tools:layout="@layout/fragment_box_score">
+        <argument android:name="game-id-key" />
     </fragment>
     <fragment
-        android:id="@+id/newGameFragment"
+        android:id="@+id/articleDetailFragment"
+        android:name="com.cardill.sports.stattracker.article.ArticleDetailFragment"
+        android:label="ArticleDetailFragment"
+        tools:layout="@layout/article_detail">
+        <argument android:name="game-id-key" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/articleListFragment"
         android:name="com.cardill.sports.stattracker.article.ArticleListFragment"
-        android:label="NewGameFragment" >
+        android:label="ArticleListFragment">
         <action
             android:id="@+id/action_newGameFragment_to_teamSelectionActivity"
             app:destination="@id/teamSelectionActivity" />
         <action
             android:id="@+id/action_newGameFragment_to_teamCreationActivity"
             app:destination="@id/teamCreationActivity" />
+        <action
+            android:id="@+id/action_articleListFragment_to_articleDetailFragment"
+            app:destination="@id/articleDetailFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/statsFragment"
         android:name="com.cardill.sports.stattracker.stats.StatsFragment"
@@ -81,5 +92,11 @@
         <action
             android:id="@+id/action_main_to_room"
             app:destination="@id/roomActivity" />
+        <action
+            android:id="@+id/action_mainActivity_to_teamSelectionActivity"
+            app:destination="@id/teamSelectionActivity" />
+        <action
+            android:id="@+id/action_mainActivity_to_teamCreationActivity"
+            app:destination="@id/teamCreationActivity" />
     </activity>
 </navigation>

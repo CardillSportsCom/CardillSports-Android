@@ -20,6 +20,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import androidx.navigation.fragment.NavHostFragment;
+
 public class ArticleListFragment extends Fragment implements AbstractViewBinder<List<CardillContent>> {
 
     private ArticlePresenter mArticlePresenter;

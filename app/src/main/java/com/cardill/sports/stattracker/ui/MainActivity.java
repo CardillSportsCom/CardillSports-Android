@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
 
 import com.cardill.sports.stattracker.AuthService;
 import com.cardill.sports.stattracker.R;
@@ -28,7 +27,6 @@ import javax.inject.Inject;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 import dagger.android.AndroidInjection;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
@@ -77,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
 
             switch (item.getItemId()) {
                 case R.id.nav_game:
-                    navController.navigate(R.id.newGameFragment);
+                    navController.navigate(R.id.articleListFragment);
                     return true;
                 case R.id.nav_scores:
                     navController.navigate(R.id.scoresFragment);
@@ -106,12 +104,12 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
             switch (speedDialActionItem.getId()) {
                 case R.id.fab_new_game:
                     Navigation.findNavController(MainActivity.this, R.id.my_nav_host_fragment)
-                            .navigate(R.id.action_newGameFragment_to_teamSelectionActivity);
+                            .navigate(R.id.action_mainActivity_to_teamSelectionActivity);
 
                     return false; // true to keep the Speed Dial open
                 case R.id.fab_new_team:
                     Navigation.findNavController(MainActivity.this, R.id.my_nav_host_fragment)
-                            .navigate(R.id.action_newGameFragment_to_teamCreationActivity);
+                            .navigate(R.id.action_mainActivity_to_teamCreationActivity);
 
                     return false; // true to keep the Speed Dial open
                 default:

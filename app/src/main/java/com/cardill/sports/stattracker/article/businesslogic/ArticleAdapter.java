@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +17,11 @@ import com.cardill.sports.stattracker.article.data.CardillContent;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
+
+import static com.cardill.sports.stattracker.article.ArticleDetailFragment.ARTICLE;
 
 public class ArticleAdapter extends RecyclerView.Adapter<ContentViewHolder> {
 
@@ -54,11 +60,10 @@ public class ArticleAdapter extends RecyclerView.Adapter<ContentViewHolder> {
 
         holder.mArticleAuthorView.setText(holder.mItem.Creator.name);
         holder.mArticleTitleView.setText(holder.mItem.Name);
-        holder.mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
+        holder.mView.setOnClickListener(v -> {
+            Bundle params = new Bundle();
+            params.putParcelable(ARTICLE, holder.mItem);
+            Navigation.findNavController(holder.mView).navigate(R.id.articleDetailFragment, params);
         });
     }
 
