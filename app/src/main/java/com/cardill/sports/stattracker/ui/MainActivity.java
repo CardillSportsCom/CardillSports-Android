@@ -2,11 +2,13 @@ package com.cardill.sports.stattracker.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.cardill.sports.stattracker.AuthService;
 import com.cardill.sports.stattracker.R;
@@ -26,6 +28,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import dagger.android.AndroidInjection;
 import dagger.android.AndroidInjector;
@@ -66,6 +69,8 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        View speedDial = findViewById(R.id.speedDial);
+
         BottomNavigationView navView = findViewById(R.id.bottomNavigationView);
 
         navView.setOnNavigationItemSelectedListener(item -> {
@@ -87,6 +92,16 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
                     return false;
             }
         });
+
+        Navigation.findNavController(this, R.id.my_nav_host_fragment)
+                .addOnNavigatedListener((controller, destination) -> {
+                if (destination.getId() == R.id.articleListFragment) {
+                    speedDial.setVisibility(View.VISIBLE);
+                } else {
+                    speedDial.setVisibility(View.GONE);
+                }
+        });
+
 
         SpeedDialView speedDialView = findViewById(R.id.speedDial);
         speedDialView.addActionItem(
