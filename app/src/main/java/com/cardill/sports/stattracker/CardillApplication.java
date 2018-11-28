@@ -46,12 +46,4 @@ public class CardillApplication extends Application implements HasActivityInject
         return dispatchingAndroidInjector;
     }
 
-    public interface AuthenticationListener {
-        void onUserLoggedOut();
-    }
-
-    public void setAuthenticationListener(AuthenticationListener listener) {
-       // this.authenticationListener = listener;
-    }
-
 }

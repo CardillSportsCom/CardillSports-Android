@@ -44,6 +44,7 @@ public class PlayerStat {
     @JsonProperty("league")
     public void setLeague(String value) { this.league = value; }
 
+    //TODO (vithushan) investigate if there's an error with FGM and FGA
     @JsonProperty("FGM")
     public long getFgm() { return fgm; }
     @JsonProperty("FGM")
