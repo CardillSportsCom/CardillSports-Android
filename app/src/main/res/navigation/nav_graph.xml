@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@id/articleListFragment">
+    app:startDestination="@id/newGameFragment">
     <fragment
         android:id="@+id/scoresFragment"
         android:name="com.cardill.sports.stattracker.scores.ScoresFragment"
@@ -51,15 +51,11 @@
         android:id="@+id/articleListFragment"
         android:name="com.cardill.sports.stattracker.article.ArticleListFragment"
         android:label="ArticleListFragment">
-        <action
-            android:id="@+id/action_newGameFragment_to_teamSelectionActivity"
-            app:destination="@id/teamSelectionActivity" />
-        <action
-            android:id="@+id/action_newGameFragment_to_teamCreationActivity"
-            app:destination="@id/teamCreationActivity" />
-        <action
-            android:id="@+id/action_articleListFragment_to_articleDetailFragment"
-            app:destination="@id/articleDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newGameFragment"
+        android:name="com.cardill.sports.stattracker.boxscore.ui.NewGameFragment"
+        android:label="NewGameFragment">
     </fragment>
 
     <fragment

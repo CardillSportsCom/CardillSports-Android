@@ -119,12 +119,12 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
             switch (speedDialActionItem.getId()) {
                 case R.id.fab_new_game:
                     Navigation.findNavController(MainActivity.this, R.id.my_nav_host_fragment)
-                            .navigate(R.id.action_mainActivity_to_teamSelectionActivity);
+                            .navigate(R.id.teamSelectionActivity);
 
                     return false; // true to keep the Speed Dial open
                 case R.id.fab_new_team:
                     Navigation.findNavController(MainActivity.this, R.id.my_nav_host_fragment)
-                            .navigate(R.id.action_mainActivity_to_teamCreationActivity);
+                            .navigate(R.id.teamCreationActivity);
 
                     return false; // true to keep the Speed Dial open
                 default:
