@@ -3,7 +3,6 @@ package com.cardill.sports.stattracker.common;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.widget.Toast;
 
 import com.cardill.sports.stattracker.R;
 import com.cardill.sports.stattracker.details.businesslogic.StatsTableAdapter;
@@ -11,12 +10,11 @@ import com.evrencoskun.tableview.TableView;
 import com.evrencoskun.tableview.listener.ITableViewListener;
 import com.evrencoskun.tableview.sort.SortState;
 
-import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 
 public class SortableCardillTableListener implements ITableViewListener {
 
-    public static final String PLAYER_NAME_KEY = "player-name-key";
+    public static final String PLAYER_ID_KEY = "player-id-key";
 
     TableView tableView; //Be careful of the listener and table holding references to each other
 
@@ -54,7 +52,7 @@ public class SortableCardillTableListener implements ITableViewListener {
     public void onRowHeaderClicked(@NonNull RecyclerView.ViewHolder rowHeaderView, int row) {
         StatsTableAdapter.MyRowHeaderViewHolder holder = (StatsTableAdapter.MyRowHeaderViewHolder) rowHeaderView;
         Bundle params = new Bundle();
-        params.putString(PLAYER_NAME_KEY, holder.getPlayer().getPlayer().firstName());
+        params.putString(PLAYER_ID_KEY, holder.getPlayer().getPlayer().id());
         Navigation.findNavController(tableView).navigate(R.id.profileFragment, params);
     }
 

@@ -20,7 +20,7 @@ public class ScoreTotalMapper implements Function<LeagueTotalsResponse, GameData
         LeagueStat[] leagueStats = leagueTotalsResponse.getLeagueStats();
         for (LeagueStat leagueStat : leagueStats) {
             Player player = new Player(
-                    leagueStat.getPlayer().getPlayerID(),
+                    leagueStat.getPlayer().getID(),
                     leagueStat.getPlayer().getFirstName(),
                     leagueStat.getPlayer().getLastName(),
                     (int) leagueStat.getPlayerTotalStats().getFGM(),
