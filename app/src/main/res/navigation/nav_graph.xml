@@ -42,7 +42,7 @@
     </fragment>
     <fragment
         android:id="@+id/newGameFragment"
-        android:name="com.cardill.sports.stattracker.boxscore.ui.NewGameFragment"
+        android:name="com.cardill.sports.stattracker.article.ArticleListFragment"
         android:label="NewGameFragment" >
         <action
             android:id="@+id/action_newGameFragment_to_teamSelectionActivity"

@@ -157,6 +157,8 @@ dependencies {
     // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.9.7'
 
+    compile group: 'com.squareup.picasso', name: 'picasso', version: '2.5.2'
+
 }
 
 apply plugin: 'com.google.gms.google-services'
