@@ -9,6 +9,7 @@ public class Player {
     private String firstName;
     private String lastName;
     private String email;
+    private String imageUri;
     private String password;
     private String dateCreated;
     private Object[] leagues;
@@ -48,4 +49,12 @@ public class Player {
 
     public String getPlayerID() { return playerID; }
     public void setPlayerID(String value) { this.playerID = value; }
+
+    public String getImageUri() {
+        return imageUri;
+    }
+
+    public void setImageUri(String imageUri) {
+        this.imageUri = imageUri;
+    }
 }

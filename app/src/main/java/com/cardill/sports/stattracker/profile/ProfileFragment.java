@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -26,6 +27,7 @@ import com.cardill.sports.stattracker.stats.data.PlayerStatResponse;
 import com.evrencoskun.tableview.TableView;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
+import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -56,6 +58,7 @@ public class ProfileFragment extends BaseFragment implements ProfileViewBinder {
 
     @Inject
     CardillService cardillService;
+    private ImageView imageView;
 
     @Nullable
     @Override
@@ -64,6 +67,7 @@ public class ProfileFragment extends BaseFragment implements ProfileViewBinder {
         nameTextView = view.findViewById(R.id.name);
         progress = view.findViewById(R.id.progress);
         tableView = view.findViewById(R.id.table_view);
+        imageView = view.findViewById(R.id.image);
         mPresenter = new ProfilePresenter(this, cardillService);
         return view;
     }
@@ -77,10 +81,13 @@ public class ProfileFragment extends BaseFragment implements ProfileViewBinder {
 
     @Override
     public void showProfile(PlayerStatResponse playerStatResponse) {
-        String playerName = playerStatResponse.getPlayerStats()[0].getPlayer();
+        String playerName = playerStatResponse.getPlayerStats()[0].getPlayer().getFirstName();
         nameTextView.setText(playerName);
 
         progress.setVisibility(View.GONE);
+        Picasso.with(getContext())
+                .load("https://firebasestorage.googleapis.com/v0/b/stat-tracker-1537117819639.appspot.com/o/test.jpg?alt=media&token=1a458099-7e93-4055-aa39-7d4e7ce8ee75")
+                .into(imageView);
 
         initTableView(tableView, playerStatResponse.getPlayerStats());
     }

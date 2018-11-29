@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class PlayerStat {
     private String id;
-    private String player;
+    private Player player;
     private Team team;
     private String game;
     private String league;
@@ -25,9 +25,9 @@ public class PlayerStat {
     public void setID(String value) { this.id = value; }
 
     @JsonProperty("player")
-    public String getPlayer() { return player; }
+    public Player getPlayer() { return player; }
     @JsonProperty("player")
-    public void setPlayer(String value) { this.player = value; }
+    public void setPlayer(Player value) { this.player = value; }
 
     @JsonProperty("team")
     public Team getTeam() { return team; }
