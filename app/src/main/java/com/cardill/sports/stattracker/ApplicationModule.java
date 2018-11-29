@@ -4,6 +4,10 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.birbit.android.jobqueue.Job;
+import com.birbit.android.jobqueue.JobManager;
+import com.birbit.android.jobqueue.config.Configuration;
+import com.birbit.android.jobqueue.di.DependencyInjector;
 import com.cardill.sports.stattracker.debug.RoomActivity;
 import com.cardill.sports.stattracker.network.CardillService;
 import com.cardill.sports.stattracker.network.MockCardillService;
@@ -17,6 +21,7 @@ import com.cardill.sports.stattracker.offline.data.GameDatabase;
 import com.cardill.sports.stattracker.offline.data.LocalGameDataStore;
 import com.cardill.sports.stattracker.offline.data.RemoteGameDataStore;
 import com.cardill.sports.stattracker.offline.domain.LocalGameRepository;
+import com.cardill.sports.stattracker.offline.domain.services.jobs.SyncGameJob;
 import com.cardill.sports.stattracker.teamcreation.ui.TeamCreationActivity;
 import com.cardill.sports.stattracker.ui.MainActivity;
 import com.cardill.sports.stattracker.teamselection.ui.TeamSelectionActivity;
@@ -33,6 +38,7 @@ import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
 import dagger.android.AndroidInjectionModule;
+import dagger.android.AndroidInjector;
 import dagger.android.ContributesAndroidInjector;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -81,8 +87,23 @@ public abstract class ApplicationModule {
 
     @Singleton
     @Provides
-    static RemoteGameRepository provideRemoteGameRepository(CardillService service) {
-        return new RemoteGameDataStore(service);
+    static JobManager provideJobManager(Application application, CardillService service) {
+
+        Configuration config = new Configuration.Builder(application.getApplicationContext())
+                .injector(job -> {
+                    if (job instanceof SyncGameJob) {
+                        ((JobManagerInjectable) job).inject(service);
+                    }
+                })
+                .build();
+
+        return new JobManager(config);
+    }
+
+    @Singleton
+    @Provides
+    static RemoteGameRepository provideRemoteGameRepository(JobManager jobManager, CardillService service) {
+        return new RemoteGameDataStore(jobManager, service);
     }
 
     @Provides

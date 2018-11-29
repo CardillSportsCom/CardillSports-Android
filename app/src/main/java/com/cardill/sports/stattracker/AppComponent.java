@@ -1,5 +1,7 @@
 package com.cardill.sports.stattracker;
 
+import com.cardill.sports.stattracker.offline.domain.services.jobs.SyncGameJob;
+
 import javax.inject.Singleton;
 
 import dagger.Component;
@@ -12,6 +14,8 @@ import dagger.android.AndroidInjector;
 @Singleton
 @Component(modules = {ApplicationModule.class})
 public interface AppComponent extends AndroidInjector<CardillApplication> {
+    void inject(SyncGameJob syncGameJob);
+
     @Component.Builder
     abstract class Builder extends AndroidInjector.Builder<CardillApplication> {
     }

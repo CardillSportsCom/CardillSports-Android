@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import com.birbit.android.jobqueue.Job;
 import com.birbit.android.jobqueue.Params;
 import com.birbit.android.jobqueue.RetryConstraint;
+import com.cardill.sports.stattracker.JobManagerInjectable;
 import com.cardill.sports.stattracker.game.data.GameData;
 import com.cardill.sports.stattracker.game.data.GameStatsMapper;
 import com.cardill.sports.stattracker.game.data.JSONGameStats;
@@ -16,13 +17,16 @@ import com.cardill.sports.stattracker.offline.domain.services.networking.RemoteE
 import com.cardill.sports.stattracker.offline.domain.services.networking.RemoteGameService;
 import com.cardill.sports.stattracker.offline.model.GameDataUtils;
 
+import javax.inject.Inject;
+
 import timber.log.Timber;
 
-public class SyncGameJob extends Job {
+public class SyncGameJob extends Job implements JobManagerInjectable {
 
     private static final String TAG = SyncGameJob.class.getCanonicalName();
     private final GameData gameData;
-    private CardillService service;
+
+    @Inject CardillService service;
 
     public SyncGameJob(GameData gameData, CardillService service) {
         super(new Params(JobPriority.MID)
@@ -30,7 +34,6 @@ public class SyncGameJob extends Job {
                 .groupBy(TAG)
                 .persist());
         this.gameData = gameData;
-        this.service = service;
     }
 
     @Override
@@ -45,11 +48,17 @@ public class SyncGameJob extends Job {
         // if any exception is thrown, it will be handled by shouldReRunOnThrowable()
         JSONGameStats jsonGameStats = GameStatsMapper.transform(gameData);
 
-        RemoteGameService.getInstance().saveGameStats(jsonGameStats, service);
+        try {
 
-        // remote call was successful--the GameData will be updated locally to reflect that sync is no longer pending
-        GameData updateGameData = GameDataUtils.clone(gameData, false);
-        SyncGameRxBus.getInstance().post(SyncResponseEventType.SUCCESS, updateGameData);
+            RemoteGameService.getInstance(service).saveGameStats(jsonGameStats);
+            // remote call was successful--the GameData will be updated locally to reflect that sync is no longer pending
+            GameData updateGameData = GameDataUtils.clone(gameData, false);
+            SyncGameRxBus.getInstance().post(SyncResponseEventType.SUCCESS, updateGameData);
+        } catch (Exception e) {
+            service = null;
+            throw e;
+        }
+
     }
 
     @Override
@@ -71,5 +80,10 @@ public class SyncGameJob extends Job {
         }
         // if we are here, most likely the connection was lost during job execution
         return RetryConstraint.RETRY;
+    }
+
+    @Override
+    public void inject(CardillService service) {
+        this.service = service;
     }
 }
