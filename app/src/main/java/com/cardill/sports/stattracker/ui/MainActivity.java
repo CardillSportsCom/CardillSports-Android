@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
 
             switch (item.getItemId()) {
                 case R.id.nav_game:
-                    navController.navigate(R.id.articleListFragment);
+                    navController.navigate(R.id.newGameFragment);
                     return true;
                 case R.id.nav_scores:
                     navController.navigate(R.id.scoresFragment);
