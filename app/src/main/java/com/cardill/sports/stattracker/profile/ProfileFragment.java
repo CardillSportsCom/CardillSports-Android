@@ -10,6 +10,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.cardill.sports.stattracker.R;
+import com.cardill.sports.stattracker.common.CardillTableListener;
 import com.cardill.sports.stattracker.common.SortableCardillTableListener;
 import com.cardill.sports.stattracker.common.data.Player;
 import com.cardill.sports.stattracker.common.ui.BaseFragment;
@@ -114,7 +115,7 @@ public class ProfileFragment extends BaseFragment implements ProfileViewBinder {
         }
         adapter.setAllItems(columnHeaderItems, gameDates, mCellList);
 
-        tableView.setTableViewListener(new SortableCardillTableListener(tableView));
+        tableView.setTableViewListener(new CardillTableListener(tableView));
 
         tableView.setColumnWidth(0, 200);
         tableView.setColumnWidth(1, 200);

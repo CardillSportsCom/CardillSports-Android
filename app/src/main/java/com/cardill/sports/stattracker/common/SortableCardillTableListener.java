@@ -50,10 +50,12 @@ public class SortableCardillTableListener implements ITableViewListener {
 
     @Override
     public void onRowHeaderClicked(@NonNull RecyclerView.ViewHolder rowHeaderView, int row) {
-        StatsTableAdapter.MyRowHeaderViewHolder holder = (StatsTableAdapter.MyRowHeaderViewHolder) rowHeaderView;
-        Bundle params = new Bundle();
-        params.putString(PLAYER_ID_KEY, holder.getPlayer().getPlayer().id());
-        Navigation.findNavController(tableView).navigate(R.id.profileFragment, params);
+        if (rowHeaderView instanceof StatsTableAdapter.MyRowHeaderViewHolder) {
+            StatsTableAdapter.MyRowHeaderViewHolder holder = (StatsTableAdapter.MyRowHeaderViewHolder) rowHeaderView;
+            Bundle params = new Bundle();
+            params.putString(PLAYER_ID_KEY, holder.getPlayer().getPlayer().id());
+            Navigation.findNavController(tableView).navigate(R.id.profileFragment, params);
+        }
     }
 
     @Override

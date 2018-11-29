@@ -44,10 +44,12 @@ public class CardillTableListener implements ITableViewListener {
 
     @Override
     public void onRowHeaderClicked(@NonNull RecyclerView.ViewHolder rowHeaderView, int row) {
-        StatsTableAdapter.MyRowHeaderViewHolder holder = (StatsTableAdapter.MyRowHeaderViewHolder) rowHeaderView;
-        Bundle params = new Bundle();
-        params.putString(PLAYER_NAME_KEY, holder.getPlayer().getPlayer().firstName());
-        Navigation.findNavController(tableView).navigate(R.id.profileFragment, params);
+        if (rowHeaderView instanceof StatsTableAdapter.MyRowHeaderViewHolder) {
+            StatsTableAdapter.MyRowHeaderViewHolder holder = (StatsTableAdapter.MyRowHeaderViewHolder) rowHeaderView;
+            Bundle params = new Bundle();
+            params.putString(PLAYER_NAME_KEY, holder.getPlayer().getPlayer().firstName());
+            Navigation.findNavController(tableView).navigate(R.id.profileFragment, params);
+        }
     }
 
     @Override
