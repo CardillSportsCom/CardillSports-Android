@@ -57,15 +57,19 @@
         android:name="com.cardill.sports.stattracker.boxscore.ui.NewGameFragment"
         android:label="NewGameFragment">
     </fragment>
-
+    <activity
+        android:id="@+id/profileActivity"
+        android:name="com.cardill.sports.stattracker.profile.ProfileActivity"
+        android:label="ProfileActivity" />
     <fragment
         android:id="@+id/statsFragment"
         android:name="com.cardill.sports.stattracker.stats.StatsFragment"
-        android:label="StatsFragment" />
-    <fragment
-        android:id="@+id/profileFragment"
-        android:name="com.cardill.sports.stattracker.profile.ProfileFragment"
-        android:label="ProfileFragment" />
+        android:label="StatsFragment" >
+        <action
+            android:id="@+id/action_statsFragment_to_profileActivity"
+            app:destination="@id/profileActivity" />
+    </fragment>
+
     <activity
         android:id="@+id/teamSelectionActivity"
         android:name="com.cardill.sports.stattracker.teamselection.ui.TeamSelectionActivity"

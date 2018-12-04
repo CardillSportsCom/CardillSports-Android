@@ -22,6 +22,7 @@ import com.cardill.sports.stattracker.offline.data.LocalGameDataStore;
 import com.cardill.sports.stattracker.offline.data.RemoteGameDataStore;
 import com.cardill.sports.stattracker.offline.domain.LocalGameRepository;
 import com.cardill.sports.stattracker.offline.domain.services.jobs.SyncGameJob;
+import com.cardill.sports.stattracker.profile.ProfileActivity;
 import com.cardill.sports.stattracker.teamcreation.ui.TeamCreationActivity;
 import com.cardill.sports.stattracker.ui.MainActivity;
 import com.cardill.sports.stattracker.teamselection.ui.TeamSelectionActivity;
@@ -68,6 +69,9 @@ public abstract class ApplicationModule {
 
     @ContributesAndroidInjector
     abstract RoomActivity contributeRoomActivityInjector();
+
+    @ContributesAndroidInjector
+    abstract ProfileActivity contributeProfileActivityInjector();
 
     @ContributesAndroidInjector(modules = MainActivityModule.class)
     abstract MainActivity contributeMainActivityInjector();

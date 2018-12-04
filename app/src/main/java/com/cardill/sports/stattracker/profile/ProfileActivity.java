@@ -1,22 +1,32 @@
 package com.cardill.sports.stattracker.profile;
 
+import android.annotation.SuppressLint;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.graphics.Palette;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
+import android.widget.FrameLayout;
 
 import com.cardill.sports.stattracker.R;
 import com.cardill.sports.stattracker.common.CardillTableListener;
-import com.cardill.sports.stattracker.common.SortableCardillTableListener;
-import com.cardill.sports.stattracker.common.data.Player;
-import com.cardill.sports.stattracker.common.ui.BaseFragment;
-import com.cardill.sports.stattracker.game.data.Stat;
-import com.cardill.sports.stattracker.game.data.StatType;
 import com.cardill.sports.stattracker.network.CardillService;
 import com.cardill.sports.stattracker.profile.businesslogic.PlayerStatsTableAdapter;
 import com.cardill.sports.stattracker.profile.businesslogic.ProfilePresenter;
@@ -25,11 +35,8 @@ import com.cardill.sports.stattracker.profile.data.PlayerStatType;
 import com.cardill.sports.stattracker.stats.data.PlayerStat;
 import com.cardill.sports.stattracker.stats.data.PlayerStatResponse;
 import com.evrencoskun.tableview.TableView;
-import com.google.common.base.Function;
 import com.google.common.collect.Lists;
-import com.squareup.picasso.Picasso;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -41,60 +48,61 @@ import java.util.TimeZone;
 
 import javax.inject.Inject;
 
+import dagger.android.AndroidInjection;
 import timber.log.Timber;
 
 import static com.cardill.sports.stattracker.common.SortableCardillTableListener.PLAYER_ID_KEY;
 
-/**
- * Shows a player profile
- */
-public class ProfileFragment extends BaseFragment implements ProfileViewBinder {
+public class ProfileActivity extends AppCompatActivity implements ProfileViewBinder {
 
-    public static final String SOURCE_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
-    private TextView nameTextView;
+    private static final String TAG = ProfileActivity.class.getSimpleName();
     private ProfilePresenter mPresenter;
-    private ProgressBar progress;
+
+    @Inject CardillService cardillService;
+
     private TableView tableView;
 
-    @Inject
-    CardillService cardillService;
-    private ImageView imageView;
-
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_profile, container, false);
-        nameTextView = view.findViewById(R.id.name);
-        progress = view.findViewById(R.id.progress);
-        tableView = view.findViewById(R.id.table_view);
-        imageView = view.findViewById(R.id.image);
+    protected void onCreate(Bundle savedInstanceState) {
+        AndroidInjection.inject(this);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.profile_activity);
+
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.htab_toolbar);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) getSupportActionBar().setTitle("Parallax Tabs");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+        final CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.htab_collapse_toolbar);
+
+        collapsingToolbarLayout.setContentScrimColor(
+                ContextCompat.getColor(this, R.color.colorPrimary)
+        );
+        collapsingToolbarLayout.setStatusBarScrimColor(
+                ContextCompat.getColor(this, R.color.colorPrimaryDark)
+        );
+
+        tableView = findViewById(R.id.table_view);
+
         mPresenter = new ProfilePresenter(this, cardillService);
-        return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        String playerId = getArguments().getString(PLAYER_ID_KEY);
+        String playerId = getIntent().getExtras().getString(PLAYER_ID_KEY);
         mPresenter.onLoad(playerId);
     }
 
     @Override
     public void showProfile(PlayerStatResponse playerStatResponse) {
-        String playerName = playerStatResponse.getPlayerStats()[0].getPlayer().getFirstName();
-        nameTextView.setText(playerName);
-
-        progress.setVisibility(View.GONE);
-        Picasso.with(getContext())
-                .load("https://firebasestorage.googleapis.com/v0/b/stat-tracker-1537117819639.appspot.com/o/test.jpg?alt=media&token=1a458099-7e93-4055-aa39-7d4e7ce8ee75")
-                .into(imageView);
-
         initTableView(tableView, playerStatResponse.getPlayerStats());
     }
 
     private void initTableView(TableView tableView, PlayerStat[] playerStats) {
         tableView.getCellRecyclerView().setMotionEventSplittingEnabled(true);
-        PlayerStatsTableAdapter adapter = new PlayerStatsTableAdapter(getActivity());
+        PlayerStatsTableAdapter adapter = new PlayerStatsTableAdapter(this);
         SimpleDateFormat sdf = new SimpleDateFormat(
                 ProfileFragment.SOURCE_PATTERN, Locale.US);
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -159,3 +167,4 @@ public class ProfileFragment extends BaseFragment implements ProfileViewBinder {
         return cellList;
     }
 }
+
