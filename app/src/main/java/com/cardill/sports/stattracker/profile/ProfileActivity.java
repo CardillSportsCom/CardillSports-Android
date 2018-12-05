@@ -3,6 +3,7 @@ package com.cardill.sports.stattracker.profile;
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -24,6 +25,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 import com.cardill.sports.stattracker.R;
 import com.cardill.sports.stattracker.common.CardillTableListener;
@@ -32,10 +34,12 @@ import com.cardill.sports.stattracker.profile.businesslogic.PlayerStatsTableAdap
 import com.cardill.sports.stattracker.profile.businesslogic.ProfilePresenter;
 import com.cardill.sports.stattracker.profile.businesslogic.ProfileViewBinder;
 import com.cardill.sports.stattracker.profile.data.PlayerStatType;
+import com.cardill.sports.stattracker.stats.data.Player;
 import com.cardill.sports.stattracker.stats.data.PlayerStat;
 import com.cardill.sports.stattracker.stats.data.PlayerStatResponse;
 import com.evrencoskun.tableview.TableView;
 import com.google.common.collect.Lists;
+import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -58,9 +62,12 @@ public class ProfileActivity extends AppCompatActivity implements ProfileViewBin
     private static final String TAG = ProfileActivity.class.getSimpleName();
     private ProfilePresenter mPresenter;
 
-    @Inject CardillService cardillService;
+    @Inject
+    CardillService cardillService;
 
     private TableView tableView;
+    private View progress;
+    private ImageView image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +77,6 @@ public class ProfileActivity extends AppCompatActivity implements ProfileViewBin
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.htab_toolbar);
         setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) getSupportActionBar().setTitle("Parallax Tabs");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
@@ -84,7 +90,8 @@ public class ProfileActivity extends AppCompatActivity implements ProfileViewBin
         );
 
         tableView = findViewById(R.id.table_view);
-
+        progress = findViewById(R.id.progress);
+        image = findViewById(R.id.htab_header);
         mPresenter = new ProfilePresenter(this, cardillService);
     }
 
@@ -97,6 +104,19 @@ public class ProfileActivity extends AppCompatActivity implements ProfileViewBin
 
     @Override
     public void showProfile(PlayerStatResponse playerStatResponse) {
+        progress.setVisibility(View.GONE);
+        Player player = playerStatResponse.getPlayerStats()[0].getPlayer();
+        if (getSupportActionBar() != null)
+            getSupportActionBar()
+                    .setTitle(String.format("%s %s",
+                            player.getFirstName(),
+                            player.getLastName()));
+
+
+        Picasso.Builder builder = new Picasso.Builder(this);
+        builder.listener((picasso, uri, exception) -> Timber.e(exception));
+        builder.build().load(player.getImageUri()).into(image);
+
         initTableView(tableView, playerStatResponse.getPlayerStats());
     }
 

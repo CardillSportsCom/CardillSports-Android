@@ -44,7 +44,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:layout_gravity="top"
-                android:layout_marginBottom="48dp"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
@@ -52,33 +51,38 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <ProgressBar
-        android:id="@+id/progress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp" />
-
     <android.support.v4.widget.NestedScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <com.evrencoskun.tableview.TableView
-            android:id="@+id/table_view"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            app:column_header_height="@dimen/column_header_height"
-            app:row_header_width="@dimen/row_header_width"
-            app:selected_color="@color/md_selected_background_color"
-            app:shadow_color="@color/md_highlight_row_background_color"
-            app:unselected_color="@color/default_background_color" />
+            android:layout_height="match_parent">
+
+            <ProgressBar
+                android:id="@+id/progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp" />
+
+            <com.evrencoskun.tableview.TableView
+                android:id="@+id/table_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:column_header_height="@dimen/column_header_height"
+                app:row_header_width="@dimen/row_header_width"
+                app:selected_color="@color/md_selected_background_color"
+                app:shadow_color="@color/md_highlight_row_background_color"
+                app:unselected_color="@color/default_background_color" />
+        </FrameLayout>
 
     </android.support.v4.widget.NestedScrollView>
 
