@@ -42,6 +42,7 @@ import timber.log.Timber;
 import static com.cardill.sports.stattracker.common.SortableCardillTableListener.PLAYER_ID_KEY;
 
 public class ProfileActivity extends AppCompatActivity implements ProfileViewBinder {
+    public static final String SOURCE_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 
     private static final String TAG = ProfileActivity.class.getSimpleName();
     private ProfilePresenter mPresenter;
@@ -125,7 +126,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileViewBin
         tableView.getCellRecyclerView().setMotionEventSplittingEnabled(true);
         PlayerStatsTableAdapter adapter = new PlayerStatsTableAdapter(this);
         SimpleDateFormat sdf = new SimpleDateFormat(
-                ProfileFragment.SOURCE_PATTERN, Locale.US);
+                SOURCE_PATTERN, Locale.US);
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
 
         tableView.setAdapter(adapter);
