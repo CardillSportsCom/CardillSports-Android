@@ -11,4 +11,5 @@
     <string name="create_new_team">Create New Team</string>
     <string name="yes_create_another">Yes, I want to create another team</string>
     <string name="no_im_finished">No, I\'m finished creating teams</string>
+    <string name="change_picture">Change Picture</string>
 </resources>
