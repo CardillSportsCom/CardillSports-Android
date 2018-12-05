@@ -48,7 +48,7 @@ public class CardillTableListener implements ITableViewListener {
             StatsTableAdapter.MyRowHeaderViewHolder holder = (StatsTableAdapter.MyRowHeaderViewHolder) rowHeaderView;
             Bundle params = new Bundle();
             params.putString(PLAYER_NAME_KEY, holder.getPlayer().getPlayer().firstName());
-            Navigation.findNavController(tableView).navigate(R.id.profileFragment, params);
+            Navigation.findNavController(tableView).navigate(R.id.profileActivity, params);
         }
     }
 
