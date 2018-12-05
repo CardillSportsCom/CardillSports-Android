@@ -8,8 +8,8 @@ public class PlayerStat {
     private Team team;
     private String game;
     private String league;
-    private long fgm;
-    private long fga;
+    private long FGM;
+    private long FGA;
     private long rebounds;
     private long assists;
     private long steals;
@@ -44,16 +44,15 @@ public class PlayerStat {
     @JsonProperty("league")
     public void setLeague(String value) { this.league = value; }
 
-    //TODO (vithushan) investigate if there's an error with FGM and FGA
     @JsonProperty("FGM")
-    public long getFgm() { return fgm; }
+    public long getFGM() { return FGM; }
     @JsonProperty("FGM")
-    public void setFgm(long value) { this.fgm = value; }
+    public void setFGM(long value) { this.FGM = value; }
 
     @JsonProperty("FGA")
-    public long getFga() { return fga; }
+    public long getFGA() { return FGA; }
     @JsonProperty("FGA")
-    public void setFga(long value) { this.fga = value; }
+    public void setFGA(long value) { this.FGA = value; }
 
     @JsonProperty("rebounds")
     public long getRebounds() { return rebounds; }
