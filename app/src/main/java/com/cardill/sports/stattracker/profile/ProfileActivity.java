@@ -1,30 +1,11 @@
 package com.cardill.sports.stattracker.profile;
 
-import android.annotation.SuppressLint;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.graphics.Palette;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.cardill.sports.stattracker.R;
@@ -75,12 +56,12 @@ public class ProfileActivity extends AppCompatActivity implements ProfileViewBin
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_activity);
 
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.htab_toolbar);
+        final Toolbar toolbar = findViewById(R.id.htab_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(v -> finish());
 
-
-        final CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.htab_collapse_toolbar);
+        final CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.htab_collapse_toolbar);
 
         collapsingToolbarLayout.setContentScrimColor(
                 ContextCompat.getColor(this, R.color.colorPrimary)
@@ -170,8 +151,8 @@ public class ProfileActivity extends AppCompatActivity implements ProfileViewBin
 
         for (PlayerStat playerStat : playerStats) {
             List<Long> statList = new ArrayList<>(8);
-            statList.add(playerStat.getFgm());
-            statList.add(playerStat.getFga());
+            statList.add(playerStat.getFGM());
+            statList.add(playerStat.getFGA());
             statList.add(playerStat.getAssists());
             statList.add(playerStat.getRebounds());
             statList.add(playerStat.getSteals());

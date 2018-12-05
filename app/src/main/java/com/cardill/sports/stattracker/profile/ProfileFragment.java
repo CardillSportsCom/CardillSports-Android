@@ -12,11 +12,7 @@ import android.widget.TextView;
 
 import com.cardill.sports.stattracker.R;
 import com.cardill.sports.stattracker.common.CardillTableListener;
-import com.cardill.sports.stattracker.common.SortableCardillTableListener;
-import com.cardill.sports.stattracker.common.data.Player;
 import com.cardill.sports.stattracker.common.ui.BaseFragment;
-import com.cardill.sports.stattracker.game.data.Stat;
-import com.cardill.sports.stattracker.game.data.StatType;
 import com.cardill.sports.stattracker.network.CardillService;
 import com.cardill.sports.stattracker.profile.businesslogic.PlayerStatsTableAdapter;
 import com.cardill.sports.stattracker.profile.businesslogic.ProfilePresenter;
@@ -25,11 +21,9 @@ import com.cardill.sports.stattracker.profile.data.PlayerStatType;
 import com.cardill.sports.stattracker.stats.data.PlayerStat;
 import com.cardill.sports.stattracker.stats.data.PlayerStatResponse;
 import com.evrencoskun.tableview.TableView;
-import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.squareup.picasso.Picasso;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -142,8 +136,8 @@ public class ProfileFragment extends BaseFragment implements ProfileViewBinder {
 
         for (PlayerStat playerStat : playerStats) {
             List<Long> statList = new ArrayList<>(8);
-            statList.add(playerStat.getFgm());
-            statList.add(playerStat.getFga());
+            statList.add(playerStat.getFGM());
+            statList.add(playerStat.getFGA());
             statList.add(playerStat.getAssists());
             statList.add(playerStat.getRebounds());
             statList.add(playerStat.getSteals());
