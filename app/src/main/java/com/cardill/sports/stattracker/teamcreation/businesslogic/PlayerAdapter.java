@@ -1,4 +1,4 @@
-package com.cardill.sports.stattracker.teamselection.businesslogic;
+package com.cardill.sports.stattracker.teamcreation.businesslogic;
 
 import android.graphics.Rect;
 import android.support.annotation.NonNull;

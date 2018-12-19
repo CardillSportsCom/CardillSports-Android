@@ -1,4 +1,4 @@
-package com.cardill.sports.stattracker.teamselection.businesslogic;
+package com.cardill.sports.stattracker.teamcreation.businesslogic;
 
 import com.cardill.sports.stattracker.BuildConfig;
 import com.cardill.sports.stattracker.teamcreation.data.AddPlayerToLeagueRequestBody;
@@ -8,6 +8,7 @@ import com.cardill.sports.stattracker.common.data.Player;
 import com.cardill.sports.stattracker.teamselection.data.AddPlayerRequestBody;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -39,6 +40,11 @@ public class TeamCreationPresenter {
                 .map(item -> item.player)
                 .map(player -> Player.create(player._id, player.firstName, player.lastName))
                 .toList()
+                .map(unsortedList -> {
+                    List<Player> sortedList = new ArrayList<>(unsortedList);
+                    Collections.sort(sortedList, new PlayerComparator());
+                    return sortedList;
+                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(

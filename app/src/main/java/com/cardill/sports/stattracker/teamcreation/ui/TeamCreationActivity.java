@@ -17,9 +17,9 @@ import android.widget.Toast;
 import com.cardill.sports.stattracker.R;
 import com.cardill.sports.stattracker.network.CardillService;
 import com.cardill.sports.stattracker.common.data.Player;
-import com.cardill.sports.stattracker.teamselection.businesslogic.TeamCreationPresenter;
-import com.cardill.sports.stattracker.teamselection.businesslogic.TeamCreationViewBinder;
-import com.cardill.sports.stattracker.teamselection.businesslogic.TeamCreationViewModel;
+import com.cardill.sports.stattracker.teamcreation.businesslogic.TeamCreationPresenter;
+import com.cardill.sports.stattracker.teamcreation.businesslogic.TeamCreationViewBinder;
+import com.cardill.sports.stattracker.teamcreation.businesslogic.TeamCreationViewModel;
 import com.cardill.sports.stattracker.teamselection.data.AddPlayerRequestBody;
 import com.cardill.sports.stattracker.teamselection.ui.CheckablePlayerAdapter;
 
