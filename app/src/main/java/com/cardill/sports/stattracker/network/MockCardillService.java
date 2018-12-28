@@ -126,4 +126,9 @@ public class MockCardillService implements CardillService {
         return Observable.empty();
     }
 
+    @Override
+    public Observable<PlayerLeaguesResponse> getPlayerLeagues(String playerId) {
+        return Observable.empty();
+    }
+
 }

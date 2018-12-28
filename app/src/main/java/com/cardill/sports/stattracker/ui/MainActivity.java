@@ -1,9 +1,7 @@
 package com.cardill.sports.stattracker.ui;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.Fragment;
@@ -11,14 +9,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.cardill.sports.stattracker.AuthService;
 import com.cardill.sports.stattracker.R;
-import com.cardill.sports.stattracker.league.League;
+import com.cardill.sports.stattracker.network.League;
+import com.cardill.sports.stattracker.network.LeagueResponse;
+import com.cardill.sports.stattracker.network.PlayerLeaguesResponse;
 import com.cardill.sports.stattracker.user.AuthRequestBody;
 import com.cardill.sports.stattracker.network.CardillService;
 import com.cardill.sports.stattracker.user.Session;
@@ -26,8 +25,6 @@ import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.leinardi.android.speeddial.SpeedDialActionItem;
-import com.leinardi.android.speeddial.SpeedDialView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,7 +33,6 @@ import java.util.List;
 import javax.inject.Inject;
 
 import androidx.navigation.NavController;
-import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import dagger.android.AndroidInjection;
 import dagger.android.AndroidInjector;
@@ -116,16 +112,6 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         List<League> data = new ArrayList<>();
-        data.add(new League("VIVIVIV"));
-        data.add(new League("DSFDFS  dfsssd"));
-        data.add(new League("VIVIVIV"));
-        data.add(new League("DSFDFS  dfsssd"));
-        data.add(new League("VIVIVIV"));
-        data.add(new League("DSFDFS  dfsssd"));
-        data.add(new League("VIVIVIV"));
-        data.add(new League("DSFDFS  dfsssd"));
-        data.add(new League("VIVIVIV"));
-        data.add(new League("DSFDFS  dfsssd"));
         adapter = new LeagueAdapter(data);
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
@@ -234,14 +220,23 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
                     .addOnCompleteListener(task -> {
                                 String token = task.getResult().getToken();
                                 authService.authenticate(new AuthRequestBody(token))
+                                        .doOnNext(response -> session.saveToken(response.getId_token()))
+                                        .flatMap(response -> mCardillService.getPlayerLeagues(response.getPlayer().getId()))
+                                        .flatMapIterable(PlayerLeaguesResponse::getLeagues)
+                                        .map(LeagueResponse::getLeague)
+                                        .toList()
                                         .subscribeOn(Schedulers.io())
                                         .observeOn(AndroidSchedulers.mainThread())
-                                        .subscribe(response -> session.saveToken(response.getId_token()),
+                                        .subscribe(this::savePlayerLeagues,
                                                 throwable -> Timber.tag("VITHUSHAN").e(throwable));
                             }
 
                     );
 
         }
+    }
+
+    private void savePlayerLeagues(List<League> leagueList) {
+        adapter.setLeagues(leagueList);
     }
 }

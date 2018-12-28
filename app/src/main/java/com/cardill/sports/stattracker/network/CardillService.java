@@ -58,4 +58,7 @@ public interface CardillService {
 
     @GET("stat/player/{id}")
     Observable<PlayerStatResponse> getPlayerStats(@Path("id") String playerId);
+
+    @GET("player/leagues/{playerID}")
+    Observable<PlayerLeaguesResponse> getPlayerLeagues(@Path("playerID") String playerId);
 }
