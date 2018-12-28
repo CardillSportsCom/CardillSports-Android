@@ -57,7 +57,7 @@
         android:name="com.cardill.sports.stattracker.boxscore.ui.NewGameFragment"
         android:label="NewGameFragment">
     </fragment>
-    <activity
+    <context
         android:id="@+id/profileActivity"
         android:name="com.cardill.sports.stattracker.profile.ProfileActivity"
         android:label="ProfileActivity" />
@@ -70,22 +70,22 @@
             app:destination="@id/profileActivity" />
     </fragment>
 
-    <activity
+    <context
         android:id="@+id/teamSelectionActivity"
         android:name="com.cardill.sports.stattracker.teamselection.ui.TeamSelectionActivity"
         android:label="activity_team_selection"
         tools:layout="@layout/activity_team_selection" />
-    <activity
+    <context
         android:id="@+id/teamCreationActivity"
         android:name="com.cardill.sports.stattracker.teamcreation.ui.TeamCreationActivity"
         android:label="activity_team_creation"
         tools:layout="@layout/activity_team_creation" />
-    <activity
+    <context
         android:id="@+id/roomActivity"
         android:name="com.cardill.sports.stattracker.debug.RoomActivity"
         android:label="activity_room"
         tools:layout="@layout/activity_room" />
-    <activity
+    <context
         android:id="@+id/mainActivity"
         android:name="com.cardill.sports.stattracker.ui.MainActivity"
         android:label="MainActivity">
@@ -98,5 +98,5 @@
         <action
             android:id="@+id/action_mainActivity_to_teamCreationActivity"
             app:destination="@id/teamCreationActivity" />
-    </activity>
+    </context>
 </navigation>

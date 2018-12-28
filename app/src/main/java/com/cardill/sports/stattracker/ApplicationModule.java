@@ -9,7 +9,9 @@ import com.birbit.android.jobqueue.JobManager;
 import com.birbit.android.jobqueue.config.Configuration;
 import com.birbit.android.jobqueue.di.DependencyInjector;
 import com.cardill.sports.stattracker.debug.RoomActivity;
+import com.cardill.sports.stattracker.league.LeagueRepository;
 import com.cardill.sports.stattracker.network.CardillService;
+import com.cardill.sports.stattracker.network.League;
 import com.cardill.sports.stattracker.network.MockCardillService;
 import com.cardill.sports.stattracker.offline.domain.RemoteGameRepository;
 import com.cardill.sports.stattracker.game.di.GameActivityModule;
@@ -166,5 +168,11 @@ public abstract class ApplicationModule {
         } else {
             return new MockCardillService();
         }
+    }
+
+    @Provides
+    @Singleton
+    static LeagueRepository provideLeagueRepository(Application application) {
+        return new LeagueRepository(application);
     }
 }

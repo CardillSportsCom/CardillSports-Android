@@ -15,6 +15,7 @@ import android.view.View;
 
 import com.cardill.sports.stattracker.AuthService;
 import com.cardill.sports.stattracker.R;
+import com.cardill.sports.stattracker.league.LeagueRepository;
 import com.cardill.sports.stattracker.network.League;
 import com.cardill.sports.stattracker.network.LeagueResponse;
 import com.cardill.sports.stattracker.network.PlayerLeaguesResponse;
@@ -58,6 +59,9 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
 
     @Inject
     Session session;
+
+    @Inject
+    LeagueRepository leagueRepository;
 
     private FirebaseAuth mAuth;
 
@@ -238,5 +242,10 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
 
     private void savePlayerLeagues(List<League> leagueList) {
         adapter.setLeagues(leagueList);
+
+        String activeLeague = leagueRepository.getActiveLeagueKey();
+        if (activeLeague.isEmpty()) {
+            leagueRepository.saveActiveLeaguekey(leagueList.get(0).getID());
+        }
     }
 }
