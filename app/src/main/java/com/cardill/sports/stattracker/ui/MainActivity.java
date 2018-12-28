@@ -1,5 +1,6 @@
 package com.cardill.sports.stattracker.ui;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
@@ -40,6 +41,7 @@ import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
@@ -68,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
     private BottomSheetDialog dialog;
     private LeagueAdapter adapter;
     private RecyclerView recyclerView;
+    private CardillViewModel viewModel;
 
     @Override
     public AndroidInjector<Fragment> supportFragmentInjector() {
@@ -82,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
         setContentView(R.layout.activity_main);
 
         BottomNavigationView navView = findViewById(R.id.bottomNavigationView);
+        navView.setSelectedItemId(R.id.nav_game);
 
         navView.setOnNavigationItemSelectedListener(item -> {
             NavController navController = Navigation.findNavController(
@@ -108,6 +112,12 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
         initLeaguePickerDialog();
 
         mAuth = FirebaseAuth.getInstance();
+
+        viewModel = ViewModelProviders.of(this).get(CardillViewModel.class);
+        viewModel.getTitle().observe(this, title -> {
+            // update UI
+            getSupportActionBar().setTitle(title);  // provide compatibility to all the versions
+        });
     }
 
     private void initLeaguePickerDialog() {
@@ -117,6 +127,12 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
 
         List<League> data = new ArrayList<>();
         adapter = new LeagueAdapter(data);
+        adapter.getPublishSubject()
+                .subscribe(league -> {
+                    //TODO move repo out of the view and into the view model
+                    leagueRepository.saveActiveLeaguekey(league.getID());
+                    viewModel.setTitle(league.getName());
+                });
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         dialog = new BottomSheetDialog(this);
@@ -245,7 +261,9 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
 
         String activeLeague = leagueRepository.getActiveLeagueKey();
         if (activeLeague.isEmpty()) {
+            //TODO move repo out of the view and into the view model
             leagueRepository.saveActiveLeaguekey(leagueList.get(0).getID());
+            viewModel.setTitle(leagueList.get(0).getName());
         }
     }
 }

@@ -22,21 +22,21 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <context android:name=".ui.MainActivity">
+        <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </context>
-        <context android:name="com.cardill.sports.stattracker.profile.ProfileActivity"
+        </activity>
+        <activity android:name="com.cardill.sports.stattracker.profile.ProfileActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <context android:name="com.cardill.sports.stattracker.game.ui.GameActivity"/>
-        <context android:name="com.cardill.sports.stattracker.details.ui.DetailsActivity"/>
-        <context android:name="com.cardill.sports.stattracker.game.ui.BoxScoreActivity"/>
-        <context android:name="com.cardill.sports.stattracker.teamselection.ui.TeamSelectionActivity"/>
-        <context android:name="com.cardill.sports.stattracker.teamcreation.ui.TeamCreationActivity"/>
-        <context android:name=".debug.RoomActivity"/>
+        <activity android:name="com.cardill.sports.stattracker.game.ui.GameActivity"/>
+        <activity android:name="com.cardill.sports.stattracker.details.ui.DetailsActivity"/>
+        <activity android:name="com.cardill.sports.stattracker.game.ui.BoxScoreActivity"/>
+        <activity android:name="com.cardill.sports.stattracker.teamselection.ui.TeamSelectionActivity"/>
+        <activity android:name="com.cardill.sports.stattracker.teamcreation.ui.TeamCreationActivity"/>
+        <activity android:name=".debug.RoomActivity"/>
 
         <service android:name="com.cardill.sports.stattracker.offline.domain.services.jobs.SchedulerJobService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
