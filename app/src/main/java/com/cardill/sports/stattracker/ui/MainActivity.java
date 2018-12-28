@@ -69,8 +69,6 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        View speedDial = findViewById(R.id.speedDial);
-
         BottomNavigationView navView = findViewById(R.id.bottomNavigationView);
 
         navView.setOnNavigationItemSelectedListener(item -> {
@@ -88,45 +86,6 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
                 case R.id.nav_stats:
                     navController.navigate(R.id.statsFragment);
                     return true;
-                default:
-                    return false;
-            }
-        });
-
-        Navigation.findNavController(this, R.id.my_nav_host_fragment)
-                .addOnNavigatedListener((controller, destination) -> {
-                if (destination.getId() == R.id.articleListFragment) {
-                    speedDial.setVisibility(View.VISIBLE);
-                } else {
-                    speedDial.setVisibility(View.GONE);
-                }
-        });
-
-
-        SpeedDialView speedDialView = findViewById(R.id.speedDial);
-        speedDialView.addActionItem(
-                new SpeedDialActionItem.Builder(R.id.fab_new_game, R.drawable.game)
-                        .setLabel(R.string.start_new_game)
-                        .create()
-        );
-        speedDialView.addActionItem(
-                new SpeedDialActionItem.Builder(R.id.fab_new_team, R.drawable.team)
-                        .setLabel(R.string.create_new_team)
-                        .create()
-        );
-
-        speedDialView.setOnActionSelectedListener(speedDialActionItem -> {
-            switch (speedDialActionItem.getId()) {
-                case R.id.fab_new_game:
-                    Navigation.findNavController(MainActivity.this, R.id.my_nav_host_fragment)
-                            .navigate(R.id.teamSelectionActivity);
-
-                    return false; // true to keep the Speed Dial open
-                case R.id.fab_new_team:
-                    Navigation.findNavController(MainActivity.this, R.id.my_nav_host_fragment)
-                            .navigate(R.id.teamCreationActivity);
-
-                    return false; // true to keep the Speed Dial open
                 default:
                     return false;
             }
