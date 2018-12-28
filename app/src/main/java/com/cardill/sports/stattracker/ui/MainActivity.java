@@ -71,6 +71,8 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
     private LeagueAdapter adapter;
     private RecyclerView recyclerView;
     private CardillViewModel viewModel;
+    private NavController navController;
+    private BottomNavigationView bottomNavigationView;
 
     @Override
     public AndroidInjector<Fragment> supportFragmentInjector() {
@@ -84,11 +86,11 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        BottomNavigationView navView = findViewById(R.id.bottomNavigationView);
-        navView.setSelectedItemId(R.id.nav_game);
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setSelectedItemId(R.id.nav_game);
 
-        navView.setOnNavigationItemSelectedListener(item -> {
-            NavController navController = Navigation.findNavController(
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            navController = Navigation.findNavController(
                     this,
                     R.id.my_nav_host_fragment);
 
@@ -132,6 +134,10 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
                     //TODO move repo out of the view and into the view model
                     leagueRepository.saveActiveLeaguekey(league.getID());
                     viewModel.setTitle(league.getName());
+                    dialog.dismiss();
+                    navController.navigate(R.id.newGameFragment);
+                    bottomNavigationView.setSelectedItemId(R.id.nav_game);
+
                 });
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
