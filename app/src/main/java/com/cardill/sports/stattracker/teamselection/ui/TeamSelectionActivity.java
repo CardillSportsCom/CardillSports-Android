@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.cardill.sports.stattracker.R;
+import com.cardill.sports.stattracker.league.LeagueRepository;
 import com.cardill.sports.stattracker.network.CardillService;
 import com.cardill.sports.stattracker.game.data.GameData;
 import com.cardill.sports.stattracker.game.ui.GameActivity;
@@ -36,6 +37,7 @@ public class TeamSelectionActivity extends AppCompatActivity implements TeamSele
 
     @Inject CardillService cardillService;
     private TeamSelectionViewModel teamSelectionViewModel;
+    @Inject LeagueRepository leagueRepo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +61,7 @@ public class TeamSelectionActivity extends AppCompatActivity implements TeamSele
 
         mProgress = findViewById(R.id.progress);
 
-        mPresenter = new TeamSelectionPresenter(this, teamSelectionViewModel, cardillService);
+        mPresenter = new TeamSelectionPresenter(this, teamSelectionViewModel, cardillService, leagueRepo);
     }
 
     @Override

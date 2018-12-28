@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.cardill.sports.stattracker.R;
+import com.cardill.sports.stattracker.league.LeagueRepository;
 import com.cardill.sports.stattracker.network.CardillService;
 import com.cardill.sports.stattracker.common.data.Player;
 import com.cardill.sports.stattracker.teamcreation.businesslogic.TeamCreationPresenter;
@@ -42,6 +43,10 @@ public class TeamCreationActivity extends AppCompatActivity implements TeamCreat
 
     @Inject
     CardillService cardillService;
+
+    @Inject
+    LeagueRepository leagueRepository;
+
     private TeamCreationViewModel teamCreationViewModel;
     private ListView mListView;
 
@@ -63,7 +68,7 @@ public class TeamCreationActivity extends AppCompatActivity implements TeamCreat
 
         mProgress = findViewById(R.id.progress);
 
-        mPresenter = new TeamCreationPresenter(teamCreationViewModel, cardillService, this);
+        mPresenter = new TeamCreationPresenter(teamCreationViewModel, cardillService, this, leagueRepository);
     }
 
     @Override

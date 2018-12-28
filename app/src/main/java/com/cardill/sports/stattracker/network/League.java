@@ -3,16 +3,16 @@ package com.cardill.sports.stattracker.network;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class League {
-    private String id;
+    private String _id;
     private String name;
     private String dateCreated;
     private Object type;
     private long v;
 
     @JsonProperty("_id")
-    public String getID() { return id; }
+    public String getID() { return _id; }
     @JsonProperty("_id")
-    public void setID(String value) { this.id = value; }
+    public void setID(String value) { this._id = value; }
 
     @JsonProperty("name")
     public String getName() { return name; }

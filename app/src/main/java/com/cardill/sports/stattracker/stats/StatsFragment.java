@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import com.cardill.sports.stattracker.R;
 import com.cardill.sports.stattracker.common.SortableCardillTableListener;
+import com.cardill.sports.stattracker.league.LeagueRepository;
 import com.cardill.sports.stattracker.network.CardillService;
 import com.cardill.sports.stattracker.common.data.Player;
 import com.cardill.sports.stattracker.common.ui.BaseFragment;
@@ -41,13 +42,14 @@ public class StatsFragment extends BaseFragment implements StatsViewBinder {
 
     @Inject
     CardillService cardillService;
+    @Inject LeagueRepository leagueRepo;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_stats, container, false);
 
-        mPresenter = new StatsPresenter(this, cardillService);
+        mPresenter = new StatsPresenter(this, cardillService, leagueRepo);
 
         tableView = view.findViewById(R.id.team_1_table_view);
 

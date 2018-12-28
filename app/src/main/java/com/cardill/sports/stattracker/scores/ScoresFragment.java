@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.cardill.sports.stattracker.R;
+import com.cardill.sports.stattracker.league.LeagueRepository;
 import com.cardill.sports.stattracker.network.CardillService;
 import com.cardill.sports.stattracker.common.ui.BaseFragment;
 import com.cardill.sports.stattracker.common.data.ScoreEvent;
@@ -35,6 +36,7 @@ public class ScoresFragment extends BaseFragment implements ScoresViewBinder {
     private ScoresPresenter mPresenter;
 
     @Inject CardillService cardillService;
+    @Inject LeagueRepository leagueRepo;
 
     @Nullable
     @Override
@@ -47,7 +49,7 @@ public class ScoresFragment extends BaseFragment implements ScoresViewBinder {
 
         mProgress = view.findViewById(R.id.progress);
 
-        mPresenter = new ScoresPresenter(this, cardillService);
+        mPresenter = new ScoresPresenter(this, cardillService, leagueRepo);
 
         return view;
     }

@@ -10,6 +10,7 @@ import com.cardill.sports.stattracker.JobManagerInjectable;
 import com.cardill.sports.stattracker.game.data.GameData;
 import com.cardill.sports.stattracker.game.data.GameStatsMapper;
 import com.cardill.sports.stattracker.game.data.JSONGameStats;
+import com.cardill.sports.stattracker.league.LeagueRepository;
 import com.cardill.sports.stattracker.network.CardillService;
 import com.cardill.sports.stattracker.offline.domain.services.SyncGameRxBus;
 import com.cardill.sports.stattracker.offline.domain.services.SyncResponseEventType;
@@ -27,6 +28,7 @@ public class SyncGameJob extends Job implements JobManagerInjectable {
     private final GameData gameData;
 
     @Inject CardillService service;
+    @Inject LeagueRepository leagueRepo;
 
     public SyncGameJob(GameData gameData, CardillService service) {
         super(new Params(JobPriority.MID)
@@ -46,7 +48,7 @@ public class SyncGameJob extends Job implements JobManagerInjectable {
         Timber.d("Executing onRun() for gameData " + gameData);
 
         // if any exception is thrown, it will be handled by shouldReRunOnThrowable()
-        JSONGameStats jsonGameStats = GameStatsMapper.transform(gameData);
+        JSONGameStats jsonGameStats = GameStatsMapper.transform(gameData, leagueRepo);
 
         try {
 

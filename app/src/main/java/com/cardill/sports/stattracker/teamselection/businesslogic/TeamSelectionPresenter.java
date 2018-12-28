@@ -1,6 +1,6 @@
 package com.cardill.sports.stattracker.teamselection.businesslogic;
 
-import com.cardill.sports.stattracker.BuildConfig;
+import com.cardill.sports.stattracker.league.LeagueRepository;
 import com.cardill.sports.stattracker.network.CardillService;
 import com.cardill.sports.stattracker.stats.data.Player;
 import com.cardill.sports.stattracker.teamselection.data.Team;
@@ -27,18 +27,20 @@ public class TeamSelectionPresenter {
     private final CardillService mCardillService;
     private Disposable mDisposable;
     private List<Player> mTeamOnePlayers;
+    private LeagueRepository leagueRepo;
 
     public TeamSelectionPresenter(TeamSelectionViewBinder viewBinder,
                                   TeamSelectionViewModel viewModel,
-                                  CardillService cardillService) {
+                                  CardillService cardillService, LeagueRepository leagueRepo) {
         mViewBinder = viewBinder;
         mViewModel = viewModel;
         mCardillService = cardillService;
+        this.leagueRepo = leagueRepo;
     }
 
     public void loadPlayers() {
 
-        mDisposable = mCardillService.getTeamsForLeague(BuildConfig.LEAGUE_ID, NUM_OF_TEAMS)
+        mDisposable = mCardillService.getTeamsForLeague(leagueRepo.getActiveLeagueKey(), NUM_OF_TEAMS)
                 .map(TeamResponse::getTeams)
                 .flatMapIterable((Function<Team[], Iterable<Team>>) Arrays::asList)
                 .toList()

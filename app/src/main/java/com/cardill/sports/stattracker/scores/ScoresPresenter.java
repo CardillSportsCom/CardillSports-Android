@@ -1,8 +1,7 @@
 package com.cardill.sports.stattracker.scores;
 
-import com.cardill.sports.stattracker.BuildConfig;
+import com.cardill.sports.stattracker.league.LeagueRepository;
 import com.cardill.sports.stattracker.network.CardillService;
-import com.cardill.sports.stattracker.scores.ScoresViewBinder;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -16,14 +15,16 @@ import timber.log.Timber;
 public class ScoresPresenter {
     private final ScoresViewBinder scoresViewBinder;
     private final CardillService cardillService;
+    private LeagueRepository leagueRepo;
 
-    public ScoresPresenter(ScoresViewBinder scoresViewBinder, CardillService cardillService) {
+    public ScoresPresenter(ScoresViewBinder scoresViewBinder, CardillService cardillService, LeagueRepository leagueRepo) {
         this.scoresViewBinder = scoresViewBinder;
         this.cardillService = cardillService;
+        this.leagueRepo = leagueRepo;
     }
 
     public void loadScores() {
-        Disposable mDisposable = cardillService.getGameDays(BuildConfig.LEAGUE_ID)
+        Disposable mDisposable = cardillService.getGameDays(leagueRepo.getActiveLeagueKey())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(

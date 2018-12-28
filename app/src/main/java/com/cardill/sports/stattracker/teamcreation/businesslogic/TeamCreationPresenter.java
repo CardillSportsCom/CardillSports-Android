@@ -1,6 +1,7 @@
 package com.cardill.sports.stattracker.teamcreation.businesslogic;
 
 import com.cardill.sports.stattracker.BuildConfig;
+import com.cardill.sports.stattracker.league.LeagueRepository;
 import com.cardill.sports.stattracker.teamcreation.data.AddPlayerToLeagueRequestBody;
 import com.cardill.sports.stattracker.teamcreation.data.AddTeamRequestBody;
 import com.cardill.sports.stattracker.network.CardillService;
@@ -24,17 +25,19 @@ public class TeamCreationPresenter {
     private final CardillService mCardillService;
     private Disposable mDisposable;
     private TeamCreationViewBinder mViewBinder;
+    private LeagueRepository leagueRepo;
 
     public TeamCreationPresenter(TeamCreationViewModel viewModel,
-                                 CardillService cardillService, TeamCreationViewBinder mViewBinder) {
+                                 CardillService cardillService, TeamCreationViewBinder mViewBinder, LeagueRepository leagueRepo) {
         mViewModel = viewModel;
         mCardillService = cardillService;
         this.mViewBinder = mViewBinder;
+        this.leagueRepo = leagueRepo;
     }
 
     public void loadPlayers() {
 
-        mDisposable = mCardillService.getPlayersForLeague(BuildConfig.LEAGUE_ID)
+        mDisposable = mCardillService.getPlayersForLeague(leagueRepo.getActiveLeagueKey())
                 .map(resp -> resp.players)
                 .flatMapIterable(list -> list)
                 .map(item -> item.player)
@@ -69,7 +72,7 @@ public class TeamCreationPresenter {
 
         mViewModel.isLoading().setValue(true);
 
-        AddTeamRequestBody requestBody = new AddTeamRequestBody("Team", playerIds, BuildConfig.LEAGUE_ID);
+        AddTeamRequestBody requestBody = new AddTeamRequestBody("Team", playerIds, leagueRepo.getActiveLeagueKey());
         Disposable subscribe = mCardillService.addTeam(requestBody)
                 .doOnError(Timber::e)
                 .subscribeOn(Schedulers.io())
@@ -83,7 +86,7 @@ public class TeamCreationPresenter {
     public void addPlayer(AddPlayerRequestBody addPlayerRequestBody) {
         Disposable subscribe = mCardillService.addPlayer(addPlayerRequestBody)
                 .map(addPlayerResponse -> addPlayerResponse.getNewPlayer().getID())
-                .flatMap(playerId -> mCardillService.addPlayerToLeague(new AddPlayerToLeagueRequestBody(playerId, BuildConfig.LEAGUE_ID)))
+                .flatMap(playerId -> mCardillService.addPlayerToLeague(new AddPlayerToLeagueRequestBody(playerId, leagueRepo.getActiveLeagueKey())))
                 .doOnError(Timber::e)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
