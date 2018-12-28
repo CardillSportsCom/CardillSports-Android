@@ -1,17 +1,24 @@
 package com.cardill.sports.stattracker.ui;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.cardill.sports.stattracker.AuthService;
 import com.cardill.sports.stattracker.R;
+import com.cardill.sports.stattracker.league.League;
 import com.cardill.sports.stattracker.user.AuthRequestBody;
 import com.cardill.sports.stattracker.network.CardillService;
 import com.cardill.sports.stattracker.user.Session;
@@ -22,6 +29,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.leinardi.android.speeddial.SpeedDialActionItem;
 import com.leinardi.android.speeddial.SpeedDialView;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -57,6 +65,10 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
 
     private FirebaseAuth mAuth;
 
+    private BottomSheetDialog dialog;
+    private LeagueAdapter adapter;
+    private RecyclerView recyclerView;
+
     @Override
     public AndroidInjector<Fragment> supportFragmentInjector() {
         return fragmentInjector;
@@ -86,12 +98,44 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
                 case R.id.nav_stats:
                     navController.navigate(R.id.statsFragment);
                     return true;
+                case R.id.nav_league:
+                    showLeagueMenu();
                 default:
                     return false;
             }
         });
 
+        initLeaguePickerDialog();
+
         mAuth = FirebaseAuth.getInstance();
+    }
+
+    private void initLeaguePickerDialog() {
+        View view = getLayoutInflater().inflate(R.layout.custom_bottom_sheet, null);
+        recyclerView = view.findViewById(R.id.rclItems);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        List<League> data = new ArrayList<>();
+        data.add(new League("VIVIVIV"));
+        data.add(new League("DSFDFS  dfsssd"));
+        data.add(new League("VIVIVIV"));
+        data.add(new League("DSFDFS  dfsssd"));
+        data.add(new League("VIVIVIV"));
+        data.add(new League("DSFDFS  dfsssd"));
+        data.add(new League("VIVIVIV"));
+        data.add(new League("DSFDFS  dfsssd"));
+        data.add(new League("VIVIVIV"));
+        data.add(new League("DSFDFS  dfsssd"));
+        adapter = new LeagueAdapter(data);
+        recyclerView.setAdapter(adapter);
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        dialog = new BottomSheetDialog(this);
+        dialog.setContentView(view);
+    }
+
+    private void showLeagueMenu() {
+        dialog.show();
+
     }
 
     @Override
