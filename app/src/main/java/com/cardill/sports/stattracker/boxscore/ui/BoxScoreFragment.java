@@ -3,14 +3,18 @@ package com.cardill.sports.stattracker.boxscore.ui;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cardill.sports.stattracker.R;
 import com.cardill.sports.stattracker.common.CardillTableListener;
-import com.cardill.sports.stattracker.common.SortableCardillTableListener;
 import com.cardill.sports.stattracker.network.CardillService;
 import com.cardill.sports.stattracker.common.data.Player;
 import com.cardill.sports.stattracker.common.ui.BaseFragment;
@@ -26,8 +30,12 @@ import com.evrencoskun.tableview.TableView;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import javax.inject.Inject;
+
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import static com.cardill.sports.stattracker.details.businesslogic.StatsTableAdapter.NON_EDITABLE;
 import static com.cardill.sports.stattracker.gamedays.ui.GameDayFragment.GAME_ID_KEY;
@@ -61,9 +69,31 @@ public class BoxScoreFragment extends BaseFragment implements BoxScoreViewBinder
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         mPresenter.loadBoxScore(gameId);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.boxscore_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == R.id.action_delete_game) {
+            mPresenter.deleteGameRequested();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -88,6 +118,29 @@ public class BoxScoreFragment extends BaseFragment implements BoxScoreViewBinder
         initTableView(tableView, gameData.getTeamOnePlayers(), gameData.getTeamTwoPlayers());
 
 
+    }
+
+    @Override
+    public void showDeleteGameConfirmation() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        builder.setMessage(R.string.dialog_message)
+                .setTitle(R.string.dialog_title);
+        builder.setPositiveButton(R.string.ok, (dialog, id) -> {
+            // User clicked OK button
+            mPresenter.deleteGameConfirmed(gameId);
+        });
+        builder.setNegativeButton(R.string.cancel, (dialog, id) -> {
+            // User cancelled the dialog
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    @Override
+    public void navigateToScores() {
+        Navigation.findNavController(tableView).navigate(R.id.scoresFragment);
     }
 
     private void initTableView(TableView tableView, List<Player> teamOne, List<Player> teamTwo) {

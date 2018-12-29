@@ -27,4 +27,12 @@ public class BoxScorePresenter {
                         viewBinder::showBoxScore,
                         Timber::e);
     }
+
+    public void deleteGameRequested() {
+        viewBinder.showDeleteGameConfirmation();
+    }
+
+    public void deleteGameConfirmed(String gameId) {
+        viewBinder.navigateToScores();
+    }
 }
