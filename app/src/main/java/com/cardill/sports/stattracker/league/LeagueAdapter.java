@@ -1,4 +1,4 @@
-package com.cardill.sports.stattracker.ui;
+package com.cardill.sports.stattracker.league;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.cardill.sports.stattracker.R;
-import com.cardill.sports.stattracker.network.League;
 
 import java.util.List;
 

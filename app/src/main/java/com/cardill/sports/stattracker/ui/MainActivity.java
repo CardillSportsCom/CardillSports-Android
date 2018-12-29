@@ -16,11 +16,9 @@ import android.view.View;
 
 import com.cardill.sports.stattracker.AuthService;
 import com.cardill.sports.stattracker.R;
+import com.cardill.sports.stattracker.league.LeagueAdapter;
 import com.cardill.sports.stattracker.league.LeagueRepository;
-import com.cardill.sports.stattracker.network.League;
-import com.cardill.sports.stattracker.network.LeagueResponse;
-import com.cardill.sports.stattracker.network.PlayerLeaguesResponse;
-import com.cardill.sports.stattracker.user.AuthRequestBody;
+import com.cardill.sports.stattracker.league.League;
 import com.cardill.sports.stattracker.network.CardillService;
 import com.cardill.sports.stattracker.user.Session;
 import com.firebase.ui.auth.AuthUI;
@@ -40,12 +38,9 @@ import dagger.android.AndroidInjection;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
-public class MainActivity extends AppCompatActivity implements HasSupportFragmentInjector {
+public class MainActivity extends AppCompatActivity implements HasSupportFragmentInjector, MainViewBinder {
 
     private static final int RC_SIGN_IN = 10;
     private static final String TAG = MainActivity.class.getName();
@@ -70,9 +65,10 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
     private BottomSheetDialog dialog;
     private LeagueAdapter adapter;
     private RecyclerView recyclerView;
-    private CardillViewModel viewModel;
+    private MainViewModel viewModel;
     private NavController navController;
     private BottomNavigationView bottomNavigationView;
+    private MainPresenter mPresenter;
 
     @Override
     public AndroidInjector<Fragment> supportFragmentInjector() {
@@ -89,11 +85,9 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setSelectedItemId(R.id.nav_game);
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
-            navController = Navigation.findNavController(
-                    this,
-                    R.id.my_nav_host_fragment);
+        navController = Navigation.findNavController(this, R.id.my_nav_host_fragment);
 
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.nav_game:
                     navController.navigate(R.id.newGameFragment);
@@ -105,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
                     navController.navigate(R.id.statsFragment);
                     return true;
                 case R.id.nav_league:
-                    showLeagueMenu();
+                    mPresenter.leaguePickerRequested();
                 default:
                     return false;
             }
@@ -115,11 +109,14 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
 
         mAuth = FirebaseAuth.getInstance();
 
-        viewModel = ViewModelProviders.of(this).get(CardillViewModel.class);
+        viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
         viewModel.getTitle().observe(this, title -> {
             // update UI
             getSupportActionBar().setTitle(title);  // provide compatibility to all the versions
         });
+
+        mPresenter = new MainPresenter(this, authService, session, mCardillService,
+                leagueRepository, viewModel);
     }
 
     private void initLeaguePickerDialog() {
@@ -143,11 +140,6 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         dialog = new BottomSheetDialog(this);
         dialog.setContentView(view);
-    }
-
-    private void showLeagueMenu() {
-        dialog.show();
-
     }
 
     @Override
@@ -227,49 +219,37 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
 
     private void updateUI(FirebaseUser user) {
         if (user == null) {
-            // Choose authentication providers
-            List<AuthUI.IdpConfig> providers = Arrays.asList(
-                    new AuthUI.IdpConfig.EmailBuilder().build(),
-                    new AuthUI.IdpConfig.GoogleBuilder().build());
-
-            // Create and launch sign-in intent
-            startActivityForResult(
-                    AuthUI.getInstance()
-                            .createSignInIntentBuilder()
-                            .setAvailableProviders(providers)
-                            .setLogo(R.drawable.stat_logo)
-                            .build(),
-                    RC_SIGN_IN);
+            mPresenter.handleNoUser();
         } else {
             Timber.tag(TAG).d(user.getEmail());
-            user.getIdToken(true)
-                    .addOnCompleteListener(task -> {
-                                String token = task.getResult().getToken();
-                                authService.authenticate(new AuthRequestBody(token))
-                                        .doOnNext(response -> session.saveToken(response.getId_token()))
-                                        .flatMap(response -> mCardillService.getPlayerLeagues(response.getPlayer().getId()))
-                                        .flatMapIterable(PlayerLeaguesResponse::getLeagues)
-                                        .map(LeagueResponse::getLeague)
-                                        .toList()
-                                        .subscribeOn(Schedulers.io())
-                                        .observeOn(AndroidSchedulers.mainThread())
-                                        .subscribe(this::savePlayerLeagues,
-                                                throwable -> Timber.tag("VITHUSHAN").e(throwable));
-                            }
-
-                    );
-
+            mPresenter.authenticateAndGetLeagues(user);
         }
     }
 
-    private void savePlayerLeagues(List<League> leagueList) {
-        adapter.setLeagues(leagueList);
+    @Override
+    public void launchSignInIntent() {
+        // Choose authentication providers
+        List<AuthUI.IdpConfig> providers = Arrays.asList(
+                new AuthUI.IdpConfig.EmailBuilder().build(),
+                new AuthUI.IdpConfig.GoogleBuilder().build());
 
-        String activeLeague = leagueRepository.getActiveLeagueKey();
-        if (activeLeague.isEmpty()) {
-            //TODO move repo out of the view and into the view model
-            leagueRepository.saveActiveLeaguekey(leagueList.get(0).getID());
-            viewModel.setTitle(leagueList.get(0).getName());
-        }
+        // Create and launch sign-in intent
+        startActivityForResult(
+                AuthUI.getInstance()
+                        .createSignInIntentBuilder()
+                        .setAvailableProviders(providers)
+                        .setLogo(R.drawable.stat_logo)
+                        .build(),
+                RC_SIGN_IN);
+    }
+
+    @Override
+    public void showLeaguePicker() {
+        dialog.show();
+    }
+
+    @Override
+    public void setLeagues(List<League> leagueList) {
+        adapter.setLeagues(leagueList);
     }
 }

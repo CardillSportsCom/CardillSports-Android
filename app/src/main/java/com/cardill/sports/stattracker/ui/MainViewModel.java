@@ -4,10 +4,10 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
-class CardillViewModel extends ViewModel {
+class MainViewModel extends ViewModel {
     private MutableLiveData<String> title;
 
-    public CardillViewModel() {
+    public MainViewModel() {
         title = new MutableLiveData<>();
     }
 

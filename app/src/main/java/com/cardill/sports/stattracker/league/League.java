@@ -1,4 +1,4 @@
-package com.cardill.sports.stattracker.network;
+package com.cardill.sports.stattracker.league;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
