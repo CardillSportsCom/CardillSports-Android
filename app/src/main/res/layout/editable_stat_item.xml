@@ -12,7 +12,7 @@
         android:id="@+id/stat_button"
         android:gravity="center"
         app:textColor="#000000"
-        android:background="@color/default_background_color"
+        app:backGroundColor="@color/whiteTransparent"
         android:layout_width="128dp"
         android:layout_height="match_parent" />
 
