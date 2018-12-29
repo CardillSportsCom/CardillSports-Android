@@ -20,7 +20,7 @@ import com.cardill.sports.stattracker.network.CardillService;
 import com.cardill.sports.stattracker.common.data.Player;
 import com.cardill.sports.stattracker.teamcreation.businesslogic.TeamCreationPresenter;
 import com.cardill.sports.stattracker.teamcreation.businesslogic.TeamCreationViewBinder;
-import com.cardill.sports.stattracker.teamcreation.businesslogic.TeamCreationViewModel;
+import com.cardill.sports.stattracker.teamcreation.businesslogic.PlayersViewModel;
 import com.cardill.sports.stattracker.teamselection.data.AddPlayerRequestBody;
 import com.cardill.sports.stattracker.teamselection.ui.CheckablePlayerAdapter;
 
@@ -47,7 +47,7 @@ public class TeamCreationActivity extends AppCompatActivity implements TeamCreat
     @Inject
     LeagueRepository leagueRepository;
 
-    private TeamCreationViewModel teamCreationViewModel;
+    private PlayersViewModel teamCreationViewModel;
     private ListView mListView;
 
     @Override
@@ -57,7 +57,7 @@ public class TeamCreationActivity extends AppCompatActivity implements TeamCreat
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_team_creation);
 
-        teamCreationViewModel = ViewModelProviders.of(this).get(TeamCreationViewModel.class);
+        teamCreationViewModel = ViewModelProviders.of(this).get(PlayersViewModel.class);
         teamCreationViewModel.getPlayers().observe(this, this::renderUI);
         teamCreationViewModel.isLoading().observe(this, this::renderLoading);
 

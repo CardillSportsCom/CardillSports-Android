@@ -7,6 +7,8 @@ import com.cardill.sports.stattracker.game.data.PendingStat;
 import com.cardill.sports.stattracker.game.data.StatType;
 import com.cardill.sports.stattracker.game.ui.GameViewBinder;
 
+import java.util.List;
+
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 
@@ -204,5 +206,15 @@ public class GamePresenter {
 
     public void saveGameRequested() {
         viewBinder.showGameOverConfirmation();
+    }
+
+    public void addPlayer(Player player) {
+        GameData gameStats = gameRepository.getGameStats();
+        List<Player> teamOnePlayers = gameStats.getTeamOnePlayers();
+        teamOnePlayers.add(player);
+    }
+
+    public void addPlayerRequested() {
+        viewBinder.showPlayerList();
     }
 }

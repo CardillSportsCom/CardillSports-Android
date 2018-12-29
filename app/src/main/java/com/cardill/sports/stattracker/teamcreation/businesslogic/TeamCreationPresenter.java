@@ -1,6 +1,5 @@
 package com.cardill.sports.stattracker.teamcreation.businesslogic;
 
-import com.cardill.sports.stattracker.BuildConfig;
 import com.cardill.sports.stattracker.league.LeagueRepository;
 import com.cardill.sports.stattracker.teamcreation.data.AddPlayerToLeagueRequestBody;
 import com.cardill.sports.stattracker.teamcreation.data.AddTeamRequestBody;
@@ -21,13 +20,13 @@ public class TeamCreationPresenter {
 
     private static final String TAG = "Vithushan";
 
-    private TeamCreationViewModel mViewModel;
+    private PlayersViewModel mViewModel;
     private final CardillService mCardillService;
     private Disposable mDisposable;
     private TeamCreationViewBinder mViewBinder;
     private LeagueRepository leagueRepo;
 
-    public TeamCreationPresenter(TeamCreationViewModel viewModel,
+    public TeamCreationPresenter(PlayersViewModel viewModel,
                                  CardillService cardillService, TeamCreationViewBinder mViewBinder, LeagueRepository leagueRepo) {
         mViewModel = viewModel;
         mCardillService = cardillService;

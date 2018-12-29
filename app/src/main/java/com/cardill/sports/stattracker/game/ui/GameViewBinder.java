@@ -13,4 +13,6 @@ public interface GameViewBinder {
     void showBoxScore();
 
     void showGameOverConfirmation();
+
+    void showPlayerList();
 }

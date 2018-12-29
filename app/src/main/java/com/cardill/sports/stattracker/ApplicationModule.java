@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import com.birbit.android.jobqueue.JobManager;
 import com.birbit.android.jobqueue.config.Configuration;
 import com.cardill.sports.stattracker.debug.RoomActivity;
+import com.cardill.sports.stattracker.game.ui.PlayerListActivity;
 import com.cardill.sports.stattracker.league.LeagueRepository;
 import com.cardill.sports.stattracker.network.CardillService;
 import com.cardill.sports.stattracker.network.MockCardillService;
@@ -55,6 +56,9 @@ public abstract class ApplicationModule {
 
     @ContributesAndroidInjector
     abstract TeamCreationActivity contributeTeamCreationActivityInjector();
+
+    @ContributesAndroidInjector
+    abstract PlayerListActivity contributePlayerListActivityInjector();
 
     @ContributesAndroidInjector(modules = GameActivityModule.class)
     abstract GameActivity contributeGameActivityInjector();

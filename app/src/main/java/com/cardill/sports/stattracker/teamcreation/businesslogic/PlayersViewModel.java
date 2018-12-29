@@ -8,12 +8,12 @@ import com.cardill.sports.stattracker.common.data.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TeamCreationViewModel extends ViewModel {
+public class PlayersViewModel extends ViewModel {
 
     private MutableLiveData<List<Player>> mPlayers;
     private MutableLiveData<Boolean> misLoading;
 
-    public TeamCreationViewModel() {
+    public PlayersViewModel() {
         mPlayers = new MutableLiveData<>();
         mPlayers.setValue(new ArrayList<>());
 
@@ -29,7 +29,7 @@ public class TeamCreationViewModel extends ViewModel {
         mPlayers.setValue(players);
     }
 
-    void setLoading(boolean isLoading) {
+    public void setLoading(boolean isLoading) {
         misLoading.setValue(isLoading);
     }
 

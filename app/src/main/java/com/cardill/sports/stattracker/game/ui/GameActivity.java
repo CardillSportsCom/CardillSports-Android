@@ -6,13 +6,12 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cardill.sports.stattracker.R;
+import com.cardill.sports.stattracker.common.data.Player;
 import com.cardill.sports.stattracker.details.ui.DetailsActivity;
 import com.cardill.sports.stattracker.game.businesslogic.GameEvent;
 import com.cardill.sports.stattracker.game.businesslogic.GamePresenter;
@@ -33,8 +33,6 @@ import com.cardill.sports.stattracker.game.businesslogic.Team;
 import com.cardill.sports.stattracker.game.data.GameData;
 import com.cardill.sports.stattracker.game.data.GameRepository;
 import com.cardill.sports.stattracker.offline.domain.services.SyncCommentLifecycleObserver;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.jakewharton.rxbinding2.view.RxView;
 
@@ -43,14 +41,15 @@ import javax.inject.Inject;
 import dagger.android.AndroidInjection;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
-import timber.log.Timber;
 
+import static com.cardill.sports.stattracker.game.ui.PlayerListActivity.PLAYER_EXTRA_KEY;
 import static com.cardill.sports.stattracker.teamselection.ui.TeamSelectionActivity.GAME_DATA;
 
 public class GameActivity extends AppCompatActivity implements GameViewBinder {
 
     private static final String IS_ONLINE_KEY = "is-online-key";
     private static final String TAG = GameActivity.class.getName();
+    private static final int NEW_PLAYER_REQUEST_CODE = 2;
 
     private GamePresenter mPresenter;
     private Button makeButton;
@@ -348,6 +347,8 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
             return true;
         } else if (item.getItemId() == R.id.action_details) {
             mPresenter.detailsRequested();
+        } else if (item.getItemId() == R.id.action_add) {
+            mPresenter.addPlayerRequested();
         }
 
         return super.onOptionsItemSelected(item);
@@ -405,6 +406,20 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
                     mPresenter.submitGameStats();
                 })
                 .setNegativeButton(android.R.string.no, null).show();
+    }
+
+    @Override
+    public void showPlayerList() {
+        Intent intent = new Intent(this, PlayerListActivity.class);
+        startActivityForResult(intent, NEW_PLAYER_REQUEST_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == NEW_PLAYER_REQUEST_CODE) {
+            Player player = data.getParcelableExtra(PLAYER_EXTRA_KEY);
+            mPresenter.addPlayer(player);
+        }
     }
 
     private boolean isNetworkAvailable() {
