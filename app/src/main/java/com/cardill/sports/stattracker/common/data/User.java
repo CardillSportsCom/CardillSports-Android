@@ -1,9 +1,9 @@
-package com.cardill.sports.stattracker.stats.data;
+package com.cardill.sports.stattracker.common.data;
 
 /**
  * Another player model class, can we consolidate them?
  */
-public class Player {
+public class User {
     private Object[] teams;
     private String _id;
     private String firstName;

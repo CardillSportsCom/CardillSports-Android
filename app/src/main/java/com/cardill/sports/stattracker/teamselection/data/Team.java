@@ -1,11 +1,11 @@
 package com.cardill.sports.stattracker.teamselection.data;
 
-import com.cardill.sports.stattracker.stats.data.Player;
+import com.cardill.sports.stattracker.common.data.User;
 
 import java.util.List;
 
 public class Team {
-    private List<Player> players;
+    private List<User> users;
     private Object[] substitutes;
     private Object[] injuries;
     private Object[] games;
@@ -14,8 +14,8 @@ public class Team {
     private String dateCreated;
     private long v;
 
-    public List<Player> getPlayers() { return players; }
-    public void setPlayers(List<Player> value) { this.players = value; }
+    public List<User> getUsers() { return users; }
+    public void setUsers(List<User> value) { this.users = value; }
 
     public Object[] getSubstitutes() { return substitutes; }
     public void setSubstitutes(Object[] value) { this.substitutes = value; }

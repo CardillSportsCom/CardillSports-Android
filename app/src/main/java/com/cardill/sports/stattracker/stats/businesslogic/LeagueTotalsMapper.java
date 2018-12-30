@@ -10,7 +10,7 @@ import java.util.List;
 
 import io.reactivex.functions.Function;
 
-public class ScoreTotalMapper implements Function<LeagueTotalsResponse, GameData> {
+public class LeagueTotalsMapper implements Function<LeagueTotalsResponse, GameData> {
 
     @Override
     public GameData apply(LeagueTotalsResponse leagueTotalsResponse) {
@@ -20,9 +20,9 @@ public class ScoreTotalMapper implements Function<LeagueTotalsResponse, GameData
         LeagueStat[] leagueStats = leagueTotalsResponse.getLeagueStats();
         for (LeagueStat leagueStat : leagueStats) {
             Player player = new Player(
-                    leagueStat.getPlayer().getID(),
-                    leagueStat.getPlayer().getFirstName(),
-                    leagueStat.getPlayer().getLastName(),
+                    leagueStat.getUser().getID(),
+                    leagueStat.getUser().getFirstName(),
+                    leagueStat.getUser().getLastName(),
                     (int) leagueStat.getPlayerTotalStats().getFGM(),
                     (int) (leagueStat.getPlayerTotalStats().getFGA() - leagueStat.getPlayerTotalStats().getFGM()),
                     (int) leagueStat.getPlayerTotalStats().getAssists(),

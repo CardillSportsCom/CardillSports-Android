@@ -1,8 +1,6 @@
 package com.cardill.sports.stattracker.profile.businesslogic;
 
-import com.cardill.sports.stattracker.BuildConfig;
 import com.cardill.sports.stattracker.network.CardillService;
-import com.cardill.sports.stattracker.stats.businesslogic.ScoreTotalMapper;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;

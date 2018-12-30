@@ -19,9 +19,9 @@ public class StatsPresenter {
         this.leagueRepo = leagueRepo;
     }
 
-    public void loadStatTotals() {
+    public void loadLeagueTotals() {
         Disposable mDisposable = cardillService.getStatTotals(leagueRepo.getActiveLeagueKey())
-                .map(new ScoreTotalMapper())
+                .map(new LeagueTotalsMapper())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(

@@ -1,10 +1,11 @@
-package com.cardill.sports.stattracker.stats.data;
+package com.cardill.sports.stattracker.profile.data;
 
+import com.cardill.sports.stattracker.common.data.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class PlayerStat {
     private String id;
-    private Player player;
+    private User player;
     private Team team;
     private String game;
     private String league;
@@ -25,9 +26,9 @@ public class PlayerStat {
     public void setID(String value) { this.id = value; }
 
     @JsonProperty("player")
-    public Player getPlayer() { return player; }
+    public User getPlayer() { return player; }
     @JsonProperty("player")
-    public void setPlayer(Player value) { this.player = value; }
+    public void setPlayer(User value) { this.player = value; }
 
     @JsonProperty("team")
     public Team getTeam() { return team; }

@@ -14,7 +14,7 @@ import com.cardill.sports.stattracker.league.LeagueRepository;
 import com.cardill.sports.stattracker.network.CardillService;
 import com.cardill.sports.stattracker.game.data.GameData;
 import com.cardill.sports.stattracker.game.ui.GameActivity;
-import com.cardill.sports.stattracker.stats.data.Player;
+import com.cardill.sports.stattracker.common.data.User;
 import com.cardill.sports.stattracker.teamselection.businesslogic.TeamSelectionPresenter;
 import com.cardill.sports.stattracker.teamselection.businesslogic.TeamSelectionViewModel;
 import com.cardill.sports.stattracker.teamselection.data.Team;
@@ -109,17 +109,17 @@ public class TeamSelectionActivity extends AppCompatActivity implements TeamSele
     }
 
     @Override
-    public void navigateToGameScreen(List<Player> team1, List<Player> team2) {
+    public void navigateToGameScreen(List<User> team1, List<User> team2) {
         finish();
 
         Intent intent = new Intent(this, GameActivity.class);
         List<com.cardill.sports.stattracker.common.data.Player> teamOnePlayers = new ArrayList<>();
-        for (Player player : team1) {
-            teamOnePlayers.add(com.cardill.sports.stattracker.common.data.Player.create(player.getID(), player.getFirstName(), player.getLastName()));
+        for (User user : team1) {
+            teamOnePlayers.add(com.cardill.sports.stattracker.common.data.Player.create(user.getID(), user.getFirstName(), user.getLastName()));
         }
         List<com.cardill.sports.stattracker.common.data.Player> teamTwoPlayers = new ArrayList<>();
-        for (Player player : team2) {
-            teamTwoPlayers.add(com.cardill.sports.stattracker.common.data.Player.create(player.getID(), player.getFirstName(), player.getLastName()));
+        for (User user : team2) {
+            teamTwoPlayers.add(com.cardill.sports.stattracker.common.data.Player.create(user.getID(), user.getFirstName(), user.getLastName()));
         }
         GameData gameData = new GameData(
                 teamOnePlayers,

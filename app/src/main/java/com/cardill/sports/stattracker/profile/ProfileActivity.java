@@ -17,10 +17,10 @@ import com.cardill.sports.stattracker.network.CardillService;
 import com.cardill.sports.stattracker.profile.businesslogic.PlayerStatsTableAdapter;
 import com.cardill.sports.stattracker.profile.businesslogic.ProfilePresenter;
 import com.cardill.sports.stattracker.profile.businesslogic.ProfileViewBinder;
+import com.cardill.sports.stattracker.profile.data.PlayerStat;
+import com.cardill.sports.stattracker.profile.data.PlayerStatResponse;
 import com.cardill.sports.stattracker.profile.data.PlayerStatType;
-import com.cardill.sports.stattracker.stats.data.Player;
-import com.cardill.sports.stattracker.stats.data.PlayerStat;
-import com.cardill.sports.stattracker.stats.data.PlayerStatResponse;
+import com.cardill.sports.stattracker.common.data.User;
 import com.evrencoskun.tableview.TableView;
 import com.google.common.collect.Lists;
 import com.squareup.picasso.Picasso;
@@ -107,7 +107,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileViewBin
     @Override
     public void showProfile(PlayerStatResponse playerStatResponse) {
         progress.setVisibility(View.GONE);
-        Player player = playerStatResponse.getPlayerStats()[0].getPlayer();
+        User player = playerStatResponse.getPlayerStats()[0].getPlayer();
         if (getSupportActionBar() != null)
             getSupportActionBar()
                     .setTitle(String.format("%s %s",

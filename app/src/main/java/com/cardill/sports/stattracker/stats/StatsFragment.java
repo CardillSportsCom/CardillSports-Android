@@ -15,10 +15,8 @@ import com.cardill.sports.stattracker.league.LeagueRepository;
 import com.cardill.sports.stattracker.network.CardillService;
 import com.cardill.sports.stattracker.common.data.Player;
 import com.cardill.sports.stattracker.common.ui.BaseFragment;
-import com.cardill.sports.stattracker.details.businesslogic.StatsTableAdapter;
 import com.cardill.sports.stattracker.game.data.GameData;
 import com.cardill.sports.stattracker.game.data.Stat;
-import com.cardill.sports.stattracker.game.data.GameStatType;
 import com.cardill.sports.stattracker.stats.businesslogic.StatsPresenter;
 import com.cardill.sports.stattracker.stats.businesslogic.StatsViewBinder;
 import com.cardill.sports.stattracker.teamselection.data.NewGamePlayer;
@@ -64,7 +62,7 @@ public class StatsFragment extends BaseFragment implements StatsViewBinder {
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.loadStatTotals();
+        mPresenter.loadLeagueTotals();
     }
 
     @Override

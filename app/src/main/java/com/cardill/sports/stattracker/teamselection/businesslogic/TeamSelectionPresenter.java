@@ -2,7 +2,7 @@ package com.cardill.sports.stattracker.teamselection.businesslogic;
 
 import com.cardill.sports.stattracker.league.LeagueRepository;
 import com.cardill.sports.stattracker.network.CardillService;
-import com.cardill.sports.stattracker.stats.data.Player;
+import com.cardill.sports.stattracker.common.data.User;
 import com.cardill.sports.stattracker.teamselection.data.Team;
 import com.cardill.sports.stattracker.teamselection.data.TeamResponse;
 import com.cardill.sports.stattracker.teamselection.ui.TeamSelectionViewBinder;
@@ -26,7 +26,7 @@ public class TeamSelectionPresenter {
     private TeamSelectionViewModel mViewModel;
     private final CardillService mCardillService;
     private Disposable mDisposable;
-    private List<Player> mTeamOnePlayers;
+    private List<User> mTeamOnePlayers;
     private LeagueRepository leagueRepo;
 
     public TeamSelectionPresenter(TeamSelectionViewBinder viewBinder,
@@ -63,14 +63,14 @@ public class TeamSelectionPresenter {
     public void onTeamSelected(Team team) {
         if (mViewModel.isSelectingTeamOne().getValue() == true) {
             mViewModel.isSelectingTeamOne(false);
-            mTeamOnePlayers = team.getPlayers();
+            mTeamOnePlayers = team.getUsers();
 
             List<Team> value = mViewModel.getTeams().getValue();
             value.remove(team);
             mViewModel.setTeams(new ArrayList<>(value));
         } else {
 
-            mViewBinder.navigateToGameScreen(mTeamOnePlayers, team.getPlayers());
+            mViewBinder.navigateToGameScreen(mTeamOnePlayers, team.getUsers());
         }
     }
 }

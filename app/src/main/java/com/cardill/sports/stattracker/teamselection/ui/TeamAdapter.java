@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.cardill.sports.stattracker.R;
-import com.cardill.sports.stattracker.stats.data.Player;
+import com.cardill.sports.stattracker.common.data.User;
 import com.cardill.sports.stattracker.teamselection.data.Team;
 
 import java.util.ArrayList;
@@ -53,8 +53,8 @@ public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.TeamViewHolder
 
         StringBuilder builder = new StringBuilder();
 
-        for (Player player : team.getPlayers()) {
-            builder.append(player.getFirstName());
+        for (User user : team.getUsers()) {
+            builder.append(user.getFirstName());
             builder.append(", ");
         }
 
