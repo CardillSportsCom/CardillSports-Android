@@ -25,6 +25,7 @@ import com.evrencoskun.tableview.TableView;
 import com.google.common.collect.Lists;
 import com.squareup.picasso.Picasso;
 
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -169,16 +170,21 @@ public class ProfileActivity extends AppCompatActivity implements ProfileViewBin
 
     private List<List<String>> generateTableCellList(PlayerStat[] playerStats) {
         List<List<String>> cellList = new ArrayList<>();
+        NumberFormat percentInstance = NumberFormat.getPercentInstance();
 
         for (PlayerStat playerStat : playerStats) {
-            List<Long> statList = new ArrayList<>(8);
-            statList.add(playerStat.getFGM());
-            statList.add(playerStat.getFGA());
-            statList.add(playerStat.getAssists());
-            statList.add(playerStat.getRebounds());
-            statList.add(playerStat.getSteals());
-            statList.add(playerStat.getBlocks());
-            statList.add(playerStat.getTurnovers());
+            List<String> statList = new ArrayList<>(8);
+            statList.add(String.valueOf(playerStat.getFGM()));
+            statList.add(String.valueOf(playerStat.getFGA()));
+
+            double fg = playerStat.getFGM() / (double) playerStat.getFGA();
+            statList.add(percentInstance.format(fg));
+
+            statList.add(String.valueOf(playerStat.getAssists()));
+            statList.add(String.valueOf(playerStat.getRebounds()));
+            statList.add(String.valueOf(playerStat.getSteals()));
+            statList.add(String.valueOf(playerStat.getBlocks()));
+            statList.add(String.valueOf(playerStat.getTurnovers()));
 
             List<String> stringList = Lists.transform(
                     statList,
