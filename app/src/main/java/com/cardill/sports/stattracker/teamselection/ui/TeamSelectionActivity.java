@@ -2,6 +2,8 @@ package com.cardill.sports.stattracker.teamselection.ui;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
@@ -45,6 +47,7 @@ public class TeamSelectionActivity extends AppCompatActivity implements TeamSele
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_team_selection);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
 
         teamSelectionViewModel = ViewModelProviders.of(this).get(TeamSelectionViewModel.class);
         teamSelectionViewModel.getTeams().observe(this, this::renderUI);

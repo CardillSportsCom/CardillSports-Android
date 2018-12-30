@@ -1,6 +1,8 @@
 package com.cardill.sports.stattracker.teamcreation.ui;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -57,6 +59,7 @@ public class TeamCreationActivity extends AppCompatActivity implements TeamCreat
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_team_creation);
 
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
         teamCreationViewModel = ViewModelProviders.of(this).get(PlayersViewModel.class);
         teamCreationViewModel.getPlayers().observe(this, this::renderUI);
         teamCreationViewModel.isLoading().observe(this, this::renderLoading);

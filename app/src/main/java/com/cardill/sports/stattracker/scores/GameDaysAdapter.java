@@ -25,7 +25,7 @@ import timber.log.Timber;
  * Adapter for showing a list of game days.
  */
 public class GameDaysAdapter extends RecyclerView.Adapter<GameDaysAdapter.GameDaysViewHolder> {
-    public static final String SOURCE_PATTERN = "yyyy-M-d";
+    public static final String SOURCE_PATTERN = "MM/d/yyyy";
     public static final String TARGET_PATTERN = "MMM d, yyy";
 
     private GameDay[] gameDays;

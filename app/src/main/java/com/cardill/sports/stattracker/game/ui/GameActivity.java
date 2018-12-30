@@ -3,6 +3,8 @@ package com.cardill.sports.stattracker.game.ui;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -90,6 +92,7 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         setContentView(R.layout.activity_game);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
 
         getLifecycle().addObserver(syncCommentLifecycleObserver);
 
@@ -416,9 +419,11 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == NEW_PLAYER_REQUEST_CODE) {
-            Player player = data.getParcelableExtra(PLAYER_EXTRA_KEY);
-            mPresenter.addPlayer(player);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == NEW_PLAYER_REQUEST_CODE) {
+                Player player = data.getParcelableExtra(PLAYER_EXTRA_KEY);
+                mPresenter.addPlayer(player);
+            }
         }
     }
 

@@ -5,18 +5,18 @@
 
     <item
         android:id="@+id/nav_league"
-        android:icon="@drawable/baseline_group_black_18dp"
+        android:icon="@drawable/ic_baseline_group_24px"
         android:title="League"/>
     <item
         android:id="@+id/nav_game"
-        android:icon="@drawable/baseline_home_black_18dp"
+        android:icon="@drawable/ic_baseline_home_24px"
         android:title="Home"/>
     <item
         android:id="@+id/nav_scores"
-        android:icon="@drawable/baseline_history_black_18dp"
+        android:icon="@drawable/ic_baseline_history_24px"
         android:title="Scores"/>
     <item
         android:id="@+id/nav_stats"
-        android:icon="@drawable/baseline_bar_chart_black_18dp"
+        android:icon="@drawable/ic_baseline_bar_chart_24px"
         android:title="Stats"/>
 </menu>
