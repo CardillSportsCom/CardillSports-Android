@@ -21,8 +21,8 @@ import com.cardill.sports.stattracker.common.data.Player;
 import com.cardill.sports.stattracker.teamcreation.businesslogic.TeamCreationPresenter;
 import com.cardill.sports.stattracker.teamcreation.businesslogic.TeamCreationViewBinder;
 import com.cardill.sports.stattracker.teamcreation.businesslogic.PlayersViewModel;
-import com.cardill.sports.stattracker.teamselection.data.AddPlayerRequestBody;
-import com.cardill.sports.stattracker.teamselection.ui.CheckablePlayerAdapter;
+import com.cardill.sports.stattracker.teamcreation.data.AddPlayerRequestBody;
+import com.cardill.sports.stattracker.teamcreation.businesslogic.CheckablePlayerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

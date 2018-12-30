@@ -1,6 +1,6 @@
 package com.cardill.sports.stattracker.game.data;
 
-import com.cardill.sports.stattracker.BuildConfig;
+import com.cardill.sports.stattracker.common.data.GameData;
 import com.cardill.sports.stattracker.common.data.Player;
 import com.cardill.sports.stattracker.league.LeagueRepository;
 

@@ -3,8 +3,7 @@ package com.cardill.sports.stattracker.offline.data;
 import com.birbit.android.jobqueue.JobManager;
 import com.cardill.sports.stattracker.network.CardillService;
 import com.cardill.sports.stattracker.offline.domain.RemoteGameRepository;
-import com.cardill.sports.stattracker.game.data.GameData;
-import com.cardill.sports.stattracker.offline.domain.services.jobs.JobManagerFactory;
+import com.cardill.sports.stattracker.common.data.GameData;
 import com.cardill.sports.stattracker.offline.domain.services.jobs.SyncGameJob;
 
 import io.reactivex.Completable;

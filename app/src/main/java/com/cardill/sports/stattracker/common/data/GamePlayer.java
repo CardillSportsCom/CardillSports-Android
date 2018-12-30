@@ -1,14 +1,12 @@
-package com.cardill.sports.stattracker.teamselection.data;
+package com.cardill.sports.stattracker.common.data;
 
-import com.cardill.sports.stattracker.common.data.Player;
-
-public class NewGamePlayer {
+public class GamePlayer {
 
     Player player;
     boolean isTeamOne;
     private boolean teamTwo;
 
-    public NewGamePlayer(Player player, boolean isTeamOne, boolean teamTwo) {
+    public GamePlayer(Player player, boolean isTeamOne, boolean teamTwo) {
         this.player = player;
         this.isTeamOne = isTeamOne;
         this.teamTwo = teamTwo;

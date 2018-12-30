@@ -9,8 +9,8 @@ import com.cardill.sports.stattracker.teamcreation.data.LeaguePlayersResponse;
 import com.cardill.sports.stattracker.boxscore.data.BoxScoreResponse;
 import com.cardill.sports.stattracker.gamedays.data.GameDays;
 import com.cardill.sports.stattracker.stats.data.LeagueTotalsResponse;
-import com.cardill.sports.stattracker.teamselection.data.AddPlayerRequestBody;
-import com.cardill.sports.stattracker.teamselection.data.AddPlayerResponse;
+import com.cardill.sports.stattracker.teamcreation.data.AddPlayerRequestBody;
+import com.cardill.sports.stattracker.teamcreation.data.AddPlayerResponse;
 import com.cardill.sports.stattracker.teamselection.data.TeamResponse;
 
 import io.reactivex.Observable;

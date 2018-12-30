@@ -1,11 +1,10 @@
 package com.cardill.sports.stattracker.offline.data;
 
-import com.cardill.sports.stattracker.game.data.GameData;
+import com.cardill.sports.stattracker.common.data.GameData;
 import com.cardill.sports.stattracker.offline.domain.LocalGameRepository;
 import com.cardill.sports.stattracker.offline.model.GameDataUtils;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import io.reactivex.Single;
 import timber.log.Timber;

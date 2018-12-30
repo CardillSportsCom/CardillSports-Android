@@ -4,8 +4,9 @@ import com.cardill.sports.stattracker.common.data.User;
 
 import java.util.List;
 
+//TODO use json deserializer so you can rename the playesr variable
 public class Team {
-    private List<User> users;
+    private List<User> players;
     private Object[] substitutes;
     private Object[] injuries;
     private Object[] games;
@@ -14,8 +15,8 @@ public class Team {
     private String dateCreated;
     private long v;
 
-    public List<User> getUsers() { return users; }
-    public void setUsers(List<User> value) { this.users = value; }
+    public List<User> getUsers() { return players; }
+    public void setUsers(List<User> value) { this.players = value; }
 
     public Object[] getSubstitutes() { return substitutes; }
     public void setSubstitutes(Object[] value) { this.substitutes = value; }

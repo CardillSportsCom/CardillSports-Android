@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.cardill.sports.stattracker.R;
-import com.cardill.sports.stattracker.common.CardillTableListener;
+import com.cardill.sports.stattracker.common.businesslogic.CardillTableListener;
 import com.cardill.sports.stattracker.network.CardillService;
 import com.cardill.sports.stattracker.profile.businesslogic.PlayerStatsTableAdapter;
 import com.cardill.sports.stattracker.profile.businesslogic.ProfilePresenter;
@@ -39,7 +39,7 @@ import javax.inject.Inject;
 import dagger.android.AndroidInjection;
 import timber.log.Timber;
 
-import static com.cardill.sports.stattracker.common.SortableCardillTableListener.PLAYER_ID_KEY;
+import static com.cardill.sports.stattracker.common.businesslogic.SortableCardillTableListener.PLAYER_ID_KEY;
 
 public class ProfileActivity extends AppCompatActivity implements ProfileViewBinder {
     public static final String SOURCE_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";

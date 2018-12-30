@@ -8,12 +8,12 @@ import android.view.MenuItem;
 import com.cardill.sports.stattracker.R;
 import com.cardill.sports.stattracker.common.data.Player;
 import com.cardill.sports.stattracker.common.ui.TableUtils;
-import com.cardill.sports.stattracker.details.businesslogic.StatsTableAdapter;
-import com.cardill.sports.stattracker.game.data.GameData;
+import com.cardill.sports.stattracker.common.businesslogic.StatsTableAdapter;
+import com.cardill.sports.stattracker.common.data.GameData;
 import com.cardill.sports.stattracker.game.data.GameRepository;
-import com.cardill.sports.stattracker.game.data.Stat;
-import com.cardill.sports.stattracker.game.data.GameStatType;
-import com.cardill.sports.stattracker.teamselection.data.NewGamePlayer;
+import com.cardill.sports.stattracker.common.data.Stat;
+import com.cardill.sports.stattracker.common.data.GameStatType;
+import com.cardill.sports.stattracker.common.data.GamePlayer;
 import com.evrencoskun.tableview.TableView;
 
 import java.util.ArrayList;
@@ -53,13 +53,13 @@ public class DetailsActivity extends AppCompatActivity {
         List<GameStatType> columnHeaderItems = Arrays.asList(GameStatType.values());
         List<List<Stat>> mCellList = TableUtils.generateTableCellList(teamOne, teamTwo);
 
-        List<NewGamePlayer> players = new ArrayList<>();
+        List<GamePlayer> players = new ArrayList<>();
 
         for (Player player : teamOne) {
-            players.add(new NewGamePlayer(player, true, false));
+            players.add(new GamePlayer(player, true, false));
         }
         for (Player player : teamTwo) {
-            players.add(new NewGamePlayer(player, false, true));
+            players.add(new GamePlayer(player, false, true));
         }
 
         adapter.setAllItems(columnHeaderItems, players, mCellList);

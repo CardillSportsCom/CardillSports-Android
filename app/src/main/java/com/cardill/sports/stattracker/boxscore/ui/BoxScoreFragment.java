@@ -13,17 +13,17 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.cardill.sports.stattracker.R;
-import com.cardill.sports.stattracker.common.CardillTableListener;
+import com.cardill.sports.stattracker.common.businesslogic.CardillTableListener;
 import com.cardill.sports.stattracker.network.CardillService;
 import com.cardill.sports.stattracker.common.data.Player;
 import com.cardill.sports.stattracker.common.ui.BaseFragment;
 import com.cardill.sports.stattracker.common.ui.TableUtils;
-import com.cardill.sports.stattracker.details.businesslogic.StatsTableAdapter;
-import com.cardill.sports.stattracker.game.data.GameData;
-import com.cardill.sports.stattracker.game.data.Stat;
-import com.cardill.sports.stattracker.game.data.GameStatType;
+import com.cardill.sports.stattracker.common.businesslogic.StatsTableAdapter;
+import com.cardill.sports.stattracker.common.data.GameData;
+import com.cardill.sports.stattracker.common.data.Stat;
+import com.cardill.sports.stattracker.common.data.GameStatType;
 import com.cardill.sports.stattracker.boxscore.businesslogic.BoxScorePresenter;
-import com.cardill.sports.stattracker.teamselection.data.NewGamePlayer;
+import com.cardill.sports.stattracker.common.data.GamePlayer;
 import com.evrencoskun.tableview.TableView;
 
 import java.util.ArrayList;
@@ -34,7 +34,7 @@ import javax.inject.Inject;
 
 import androidx.navigation.Navigation;
 
-import static com.cardill.sports.stattracker.details.businesslogic.StatsTableAdapter.NON_EDITABLE;
+import static com.cardill.sports.stattracker.common.businesslogic.StatsTableAdapter.NON_EDITABLE;
 import static com.cardill.sports.stattracker.gamedays.ui.GameDayFragment.GAME_ID_KEY;
 
 public class BoxScoreFragment extends BaseFragment implements BoxScoreViewBinder {
@@ -149,13 +149,13 @@ public class BoxScoreFragment extends BaseFragment implements BoxScoreViewBinder
         List<GameStatType> columnHeaderItems = Arrays.asList(GameStatType.values());
         List<List<Stat>> mCellList = TableUtils.generateTableCellList(teamOne, teamTwo);
 
-        List<NewGamePlayer> players = new ArrayList<>();
+        List<GamePlayer> players = new ArrayList<>();
 
         for (Player player : teamOne) {
-            players.add(new NewGamePlayer(player, true, false));
+            players.add(new GamePlayer(player, true, false));
         }
         for (Player player : teamTwo) {
-            players.add(new NewGamePlayer(player, false, true));
+            players.add(new GamePlayer(player, false, true));
         }
 
         adapter.setAllItems(columnHeaderItems, players, mCellList);

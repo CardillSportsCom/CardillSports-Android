@@ -1,6 +1,6 @@
 package com.cardill.sports.stattracker.offline.model;
 
-import com.cardill.sports.stattracker.game.data.GameData;
+import com.cardill.sports.stattracker.common.data.GameData;
 
 
 public class GameDataUtils {

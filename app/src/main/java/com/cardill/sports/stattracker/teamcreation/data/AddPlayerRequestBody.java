@@ -1,4 +1,4 @@
-package com.cardill.sports.stattracker.teamselection.data;
+package com.cardill.sports.stattracker.teamcreation.data;
 
 public class AddPlayerRequestBody {
     private String firstName;

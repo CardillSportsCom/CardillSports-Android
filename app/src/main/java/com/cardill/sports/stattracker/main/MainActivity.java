@@ -1,4 +1,4 @@
-package com.cardill.sports.stattracker.ui;
+package com.cardill.sports.stattracker.main;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;

@@ -5,9 +5,8 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
-import com.cardill.sports.stattracker.game.data.GameData;
+import com.cardill.sports.stattracker.common.data.GameData;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Dao

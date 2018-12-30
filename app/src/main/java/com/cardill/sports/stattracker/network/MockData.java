@@ -1,7 +1,7 @@
 package com.cardill.sports.stattracker.network;
 
 import com.cardill.sports.stattracker.common.data.Player;
-import com.cardill.sports.stattracker.game.data.GameData;
+import com.cardill.sports.stattracker.common.data.GameData;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -24,7 +24,7 @@ import com.cardill.sports.stattracker.offline.domain.LocalGameRepository;
 import com.cardill.sports.stattracker.offline.domain.services.jobs.SyncGameJob;
 import com.cardill.sports.stattracker.profile.ProfileActivity;
 import com.cardill.sports.stattracker.teamcreation.ui.TeamCreationActivity;
-import com.cardill.sports.stattracker.ui.MainActivity;
+import com.cardill.sports.stattracker.main.MainActivity;
 import com.cardill.sports.stattracker.teamselection.ui.TeamSelectionActivity;
 import com.cardill.sports.stattracker.user.AuthorizationInterceptor;
 import com.cardill.sports.stattracker.user.UnauthorizedInterceptor;

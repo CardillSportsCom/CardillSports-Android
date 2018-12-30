@@ -9,12 +9,12 @@ import android.widget.TextView;
 import com.cardill.sports.stattracker.R;
 import com.cardill.sports.stattracker.common.data.Player;
 import com.cardill.sports.stattracker.common.ui.TableUtils;
-import com.cardill.sports.stattracker.details.businesslogic.StatsTableAdapter;
-import com.cardill.sports.stattracker.game.data.GameData;
+import com.cardill.sports.stattracker.common.businesslogic.StatsTableAdapter;
+import com.cardill.sports.stattracker.common.data.GameData;
 import com.cardill.sports.stattracker.game.data.GameRepository;
-import com.cardill.sports.stattracker.game.data.Stat;
-import com.cardill.sports.stattracker.game.data.GameStatType;
-import com.cardill.sports.stattracker.teamselection.data.NewGamePlayer;
+import com.cardill.sports.stattracker.common.data.Stat;
+import com.cardill.sports.stattracker.common.data.GameStatType;
+import com.cardill.sports.stattracker.common.data.GamePlayer;
 import com.evrencoskun.tableview.TableView;
 
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ import javax.inject.Inject;
 
 import dagger.android.AndroidInjection;
 
-import static com.cardill.sports.stattracker.details.businesslogic.StatsTableAdapter.NON_EDITABLE;
+import static com.cardill.sports.stattracker.common.businesslogic.StatsTableAdapter.NON_EDITABLE;
 
 public class GameRecapActivity extends AppCompatActivity {
 
@@ -58,13 +58,13 @@ public class GameRecapActivity extends AppCompatActivity {
 
         List<List<Stat>> cellList = TableUtils.generateTableCellList(team1,team2);
 
-        List<NewGamePlayer> players = new ArrayList<>();
+        List<GamePlayer> players = new ArrayList<>();
 
         for (Player player : team1) {
-            players.add(new NewGamePlayer(player, true, false));
+            players.add(new GamePlayer(player, true, false));
         }
         for (Player player : team2) {
-            players.add(new NewGamePlayer(player, false, true));
+            players.add(new GamePlayer(player, false, true));
         }
         adapter.setAllItems(columnHeaderItems, players, cellList);
 

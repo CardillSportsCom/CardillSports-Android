@@ -1,5 +1,6 @@
 package com.cardill.sports.stattracker.game.data;
 
+import com.cardill.sports.stattracker.common.data.GameStatType;
 import com.cardill.sports.stattracker.common.data.Player;
 
 public class PendingGameStat implements GameCommand {

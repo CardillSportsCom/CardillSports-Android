@@ -4,7 +4,7 @@ import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.OnLifecycleEvent;
 
-import com.cardill.sports.stattracker.game.data.GameData;
+import com.cardill.sports.stattracker.common.data.GameData;
 import com.cardill.sports.stattracker.offline.domain.SaveGameUseCase;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;

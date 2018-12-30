@@ -1,4 +1,4 @@
-package com.cardill.sports.stattracker.teamselection.ui;
+package com.cardill.sports.stattracker.teamcreation.businesslogic;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

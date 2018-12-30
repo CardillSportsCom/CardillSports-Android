@@ -1,4 +1,4 @@
-package com.cardill.sports.stattracker.boxscore.ui;
+package com.cardill.sports.stattracker.home;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;

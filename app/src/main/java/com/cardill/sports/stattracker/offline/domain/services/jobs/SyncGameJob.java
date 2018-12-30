@@ -7,7 +7,7 @@ import com.birbit.android.jobqueue.Job;
 import com.birbit.android.jobqueue.Params;
 import com.birbit.android.jobqueue.RetryConstraint;
 import com.cardill.sports.stattracker.JobManagerInjectable;
-import com.cardill.sports.stattracker.game.data.GameData;
+import com.cardill.sports.stattracker.common.data.GameData;
 import com.cardill.sports.stattracker.game.data.GameStatsMapper;
 import com.cardill.sports.stattracker.game.data.JSONGameStats;
 import com.cardill.sports.stattracker.league.LeagueRepository;

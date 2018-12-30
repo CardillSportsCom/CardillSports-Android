@@ -1,4 +1,4 @@
-package com.cardill.sports.stattracker.ui;
+package com.cardill.sports.stattracker.main;
 
 import com.cardill.sports.stattracker.league.League;
 

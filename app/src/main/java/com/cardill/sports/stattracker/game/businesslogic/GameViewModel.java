@@ -6,7 +6,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
 import com.cardill.sports.stattracker.common.data.Player;
-import com.cardill.sports.stattracker.game.data.GameData;
+import com.cardill.sports.stattracker.common.data.GameData;
 import com.cardill.sports.stattracker.offline.domain.SaveGameUseCase;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;

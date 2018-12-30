@@ -1,7 +1,7 @@
 package com.cardill.sports.stattracker.boxscore.businesslogic;
 
 import com.cardill.sports.stattracker.common.data.Player;
-import com.cardill.sports.stattracker.game.data.GameData;
+import com.cardill.sports.stattracker.common.data.GameData;
 import com.cardill.sports.stattracker.boxscore.data.BoxScoreResponse;
 import com.cardill.sports.stattracker.boxscore.data.PlayerStat;
 

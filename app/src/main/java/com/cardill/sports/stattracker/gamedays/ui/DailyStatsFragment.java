@@ -8,16 +8,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.cardill.sports.stattracker.R;
-import com.cardill.sports.stattracker.common.SortableCardillTableListener;
+import com.cardill.sports.stattracker.common.businesslogic.SortableCardillTableListener;
 import com.cardill.sports.stattracker.common.data.Player;
 import com.cardill.sports.stattracker.common.ui.BaseFragment;
-import com.cardill.sports.stattracker.details.businesslogic.PlayerStatsTableAdapter;
-import com.cardill.sports.stattracker.details.businesslogic.StatsTableAdapter;
-import com.cardill.sports.stattracker.game.data.PlayerStatType;
-import com.cardill.sports.stattracker.game.data.Stat;
-import com.cardill.sports.stattracker.game.data.GameStatType;
+import com.cardill.sports.stattracker.common.businesslogic.PlayerStatsTableAdapter;
+import com.cardill.sports.stattracker.common.data.PlayerStatType;
+import com.cardill.sports.stattracker.common.data.Stat;
 import com.cardill.sports.stattracker.gamedays.data.GameDayStatTotal;
-import com.cardill.sports.stattracker.teamselection.data.NewGamePlayer;
+import com.cardill.sports.stattracker.common.data.GamePlayer;
 import com.evrencoskun.tableview.TableView;
 
 import java.text.NumberFormat;
@@ -26,7 +24,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import static com.cardill.sports.stattracker.details.businesslogic.StatsTableAdapter.NON_EDITABLE;
+import static com.cardill.sports.stattracker.common.businesslogic.StatsTableAdapter.NON_EDITABLE;
 import static com.cardill.sports.stattracker.gamedays.ui.GameDayFragment.GAME_DAY_STAT_TOTALS_ID_KEY;
 
 /**
@@ -64,15 +62,15 @@ public class DailyStatsFragment extends BaseFragment {
         List<PlayerStatType> columnHeaderItems = Arrays.asList(PlayerStatType.values());
         List<List<Stat>> mCellList = generateTableCellList(gameDayStatTotals);
 
-        List<NewGamePlayer> newGamePlayers = new ArrayList<>();
+        List<GamePlayer> gamePlayers = new ArrayList<>();
 
         for (GameDayStatTotal gameDayStatTotal : gameDayStatTotals) {
             //TODO make all these duplicated Player model classes differentiated
             com.cardill.sports.stattracker.boxscore.data.Player player = gameDayStatTotal.getPlayer();
             Player convertedPlayer = Player.create(player.getID(), player.getFirstName(), player.getLastName());
-            newGamePlayers.add(new NewGamePlayer(convertedPlayer, true, false));
+            gamePlayers.add(new GamePlayer(convertedPlayer, true, false));
         }
-        adapter.setAllItems(columnHeaderItems, newGamePlayers, mCellList);
+        adapter.setAllItems(columnHeaderItems, gamePlayers, mCellList);
 
         tableView.setTableViewListener(new SortableCardillTableListener(tableView));
 

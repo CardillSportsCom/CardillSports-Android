@@ -30,7 +30,7 @@ import com.cardill.sports.stattracker.game.businesslogic.GameViewModel;
 import com.cardill.sports.stattracker.game.businesslogic.GameViewModelFactory;
 import com.cardill.sports.stattracker.game.businesslogic.NewGamePlayerAdapter;
 import com.cardill.sports.stattracker.game.businesslogic.Team;
-import com.cardill.sports.stattracker.game.data.GameData;
+import com.cardill.sports.stattracker.common.data.GameData;
 import com.cardill.sports.stattracker.game.data.GameRepository;
 import com.cardill.sports.stattracker.offline.domain.services.SyncCommentLifecycleObserver;
 import com.google.firebase.analytics.FirebaseAnalytics;

@@ -1,4 +1,4 @@
-package com.cardill.sports.stattracker.game.data;
+package com.cardill.sports.stattracker.common.data;
 
 public enum PlayerStatType implements StatType {
     WINS,

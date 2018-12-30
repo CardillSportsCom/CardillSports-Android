@@ -1,5 +1,7 @@
 package com.cardill.sports.stattracker.game.data;
 
+import com.cardill.sports.stattracker.common.data.GameData;
+import com.cardill.sports.stattracker.common.data.GameStatType;
 import com.cardill.sports.stattracker.common.data.Player;
 
 import java.util.LinkedList;

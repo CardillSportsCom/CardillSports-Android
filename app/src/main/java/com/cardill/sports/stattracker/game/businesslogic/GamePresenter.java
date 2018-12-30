@@ -1,10 +1,10 @@
 package com.cardill.sports.stattracker.game.businesslogic;
 
 import com.cardill.sports.stattracker.common.data.Player;
-import com.cardill.sports.stattracker.game.data.GameData;
+import com.cardill.sports.stattracker.common.data.GameData;
 import com.cardill.sports.stattracker.game.data.GameRepository;
 import com.cardill.sports.stattracker.game.data.PendingGameStat;
-import com.cardill.sports.stattracker.game.data.GameStatType;
+import com.cardill.sports.stattracker.common.data.GameStatType;
 import com.cardill.sports.stattracker.game.ui.GameViewBinder;
 
 import java.util.List;

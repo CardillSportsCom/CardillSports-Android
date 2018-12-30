@@ -1,4 +1,4 @@
-package com.cardill.sports.stattracker.details.businesslogic;
+package com.cardill.sports.stattracker.common.businesslogic;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -9,10 +9,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.cardill.sports.stattracker.R;
-import com.cardill.sports.stattracker.game.data.GameStatType;
-import com.cardill.sports.stattracker.game.data.PlayerStatType;
-import com.cardill.sports.stattracker.game.data.Stat;
-import com.cardill.sports.stattracker.teamselection.data.NewGamePlayer;
+import com.cardill.sports.stattracker.details.businesslogic.DetailsChangedEvent;
+import com.cardill.sports.stattracker.common.data.Stat;
+import com.cardill.sports.stattracker.common.data.GameStatType;
+import com.cardill.sports.stattracker.common.data.GamePlayer;
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.evrencoskun.tableview.adapter.AbstractTableAdapter;
 import com.evrencoskun.tableview.adapter.recyclerview.holder.AbstractSorterViewHolder;
@@ -21,7 +21,7 @@ import com.evrencoskun.tableview.adapter.recyclerview.holder.AbstractViewHolder;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 
-public class PlayerStatsTableAdapter extends AbstractTableAdapter<PlayerStatType, NewGamePlayer, Stat> {
+public class StatsTableAdapter extends AbstractTableAdapter<GameStatType, GamePlayer, Stat> {
 
     public static final int EDITABLE = 0;
     public static final int NON_EDITABLE = 1;
@@ -34,7 +34,7 @@ public class PlayerStatsTableAdapter extends AbstractTableAdapter<PlayerStatType
     private int viewType;
 
 
-    public PlayerStatsTableAdapter(Context context, int viewType) {
+    public StatsTableAdapter(Context context, int viewType) {
         super(context);
         this.viewType = viewType;
 
@@ -210,7 +210,7 @@ public class PlayerStatsTableAdapter extends AbstractTableAdapter<PlayerStatType
     @Override
     public void onBindColumnHeaderViewHolder(AbstractViewHolder holder, Object columnHeaderItemModel, int
             position) {
-        PlayerStatType columnHeader = (PlayerStatType) columnHeaderItemModel;
+        GameStatType columnHeader = (GameStatType) columnHeaderItemModel;
 
         // Get the holder to update cell item text
         MyColumnHeaderViewHolder columnHeaderViewHolder = (MyColumnHeaderViewHolder) holder;
@@ -232,18 +232,18 @@ public class PlayerStatsTableAdapter extends AbstractTableAdapter<PlayerStatType
     public class MyRowHeaderViewHolder extends AbstractViewHolder {
 
         public final TextView cell_textview;
-        private NewGamePlayer player;
+        private GamePlayer player;
 
         public MyRowHeaderViewHolder(View itemView) {
             super(itemView);
             cell_textview = (TextView) itemView.findViewById(R.id.player_label);
         }
 
-        public void setPlayer(NewGamePlayer player) {
+        public void setPlayer(GamePlayer player) {
             this.player = player;
         }
 
-        public NewGamePlayer getPlayer() {
+        public GamePlayer getPlayer() {
             return player;
         }
     }
@@ -286,7 +286,7 @@ public class PlayerStatsTableAdapter extends AbstractTableAdapter<PlayerStatType
     @Override
     public void onBindRowHeaderViewHolder(AbstractViewHolder holder, Object rowHeaderItemModel, int
             position) {
-        NewGamePlayer rowHeader = (NewGamePlayer) rowHeaderItemModel;
+        GamePlayer rowHeader = (GamePlayer) rowHeaderItemModel;
 
         // Get the holder to update row header item text
         MyRowHeaderViewHolder rowHeaderViewHolder = (MyRowHeaderViewHolder) holder;

@@ -1,6 +1,6 @@
 package com.cardill.sports.stattracker.offline.domain.services;
 
-import com.cardill.sports.stattracker.game.data.GameData;
+import com.cardill.sports.stattracker.common.data.GameData;
 import com.jakewharton.rxrelay2.PublishRelay;
 
 import io.reactivex.Observable;

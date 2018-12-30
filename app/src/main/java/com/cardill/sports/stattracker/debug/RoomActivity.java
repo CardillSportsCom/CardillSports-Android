@@ -10,7 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.cardill.sports.stattracker.R;
-import com.cardill.sports.stattracker.game.data.GameData;
+import com.cardill.sports.stattracker.common.data.GameData;
 import com.cardill.sports.stattracker.network.MockData;
 import com.cardill.sports.stattracker.offline.domain.LocalGameRepository;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -18,7 +18,6 @@ import com.google.gson.Gson;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.inject.Inject;

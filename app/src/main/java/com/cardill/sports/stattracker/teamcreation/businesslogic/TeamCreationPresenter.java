@@ -5,7 +5,7 @@ import com.cardill.sports.stattracker.teamcreation.data.AddPlayerToLeagueRequest
 import com.cardill.sports.stattracker.teamcreation.data.AddTeamRequestBody;
 import com.cardill.sports.stattracker.network.CardillService;
 import com.cardill.sports.stattracker.common.data.Player;
-import com.cardill.sports.stattracker.teamselection.data.AddPlayerRequestBody;
+import com.cardill.sports.stattracker.teamcreation.data.AddPlayerRequestBody;
 
 import java.util.ArrayList;
 import java.util.Collections;
