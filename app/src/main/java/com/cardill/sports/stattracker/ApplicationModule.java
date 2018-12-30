@@ -13,7 +13,7 @@ import com.cardill.sports.stattracker.network.CardillService;
 import com.cardill.sports.stattracker.network.MockCardillService;
 import com.cardill.sports.stattracker.offline.domain.RemoteGameRepository;
 import com.cardill.sports.stattracker.game.di.GameActivityModule;
-import com.cardill.sports.stattracker.game.ui.BoxScoreActivity;
+import com.cardill.sports.stattracker.game.ui.GameRecapActivity;
 import com.cardill.sports.stattracker.details.ui.DetailsActivity;
 import com.cardill.sports.stattracker.game.ui.GameActivity;
 import com.cardill.sports.stattracker.offline.data.GameDataDao;
@@ -67,7 +67,7 @@ public abstract class ApplicationModule {
     abstract DetailsActivity contributeDetailsActivityInjector();
 
     @ContributesAndroidInjector
-    abstract BoxScoreActivity contributeBoxScoreActivityInjector();
+    abstract GameRecapActivity contributeBoxScoreActivityInjector();
 
     @ContributesAndroidInjector
     abstract RoomActivity contributeRoomActivityInjector();

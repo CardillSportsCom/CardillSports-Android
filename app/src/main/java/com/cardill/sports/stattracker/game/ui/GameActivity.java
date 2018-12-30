@@ -385,7 +385,7 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
     public void showBoxScore() {
         finish();
 
-        Intent intent = new Intent(this, BoxScoreActivity.class);
+        Intent intent = new Intent(this, GameRecapActivity.class);
         startActivity(intent);
     }
 

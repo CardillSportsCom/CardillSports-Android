@@ -11,13 +11,16 @@ import com.cardill.sports.stattracker.R;
 import com.cardill.sports.stattracker.common.SortableCardillTableListener;
 import com.cardill.sports.stattracker.common.data.Player;
 import com.cardill.sports.stattracker.common.ui.BaseFragment;
+import com.cardill.sports.stattracker.details.businesslogic.PlayerStatsTableAdapter;
 import com.cardill.sports.stattracker.details.businesslogic.StatsTableAdapter;
+import com.cardill.sports.stattracker.game.data.PlayerStatType;
 import com.cardill.sports.stattracker.game.data.Stat;
-import com.cardill.sports.stattracker.game.data.StatType;
+import com.cardill.sports.stattracker.game.data.GameStatType;
 import com.cardill.sports.stattracker.gamedays.data.GameDayStatTotal;
 import com.cardill.sports.stattracker.teamselection.data.NewGamePlayer;
 import com.evrencoskun.tableview.TableView;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -54,11 +57,11 @@ public class DailyStatsFragment extends BaseFragment {
         progress.setVisibility(View.GONE);
 
         tableView.getCellRecyclerView().setMotionEventSplittingEnabled(true);
-        StatsTableAdapter adapter = new StatsTableAdapter(getActivity(), NON_EDITABLE);
+        PlayerStatsTableAdapter adapter = new PlayerStatsTableAdapter(getActivity(), NON_EDITABLE);
 
         tableView.setAdapter(adapter);
 
-        List<StatType> columnHeaderItems = Arrays.asList(StatType.values());
+        List<PlayerStatType> columnHeaderItems = Arrays.asList(PlayerStatType.values());
         List<List<Stat>> mCellList = generateTableCellList(gameDayStatTotals);
 
         List<NewGamePlayer> newGamePlayers = new ArrayList<>();
@@ -93,15 +96,25 @@ public class DailyStatsFragment extends BaseFragment {
             List<Stat> statList = new ArrayList<>(8);
             Map<String, Integer> playerTotalStats = gameDayStatTotal.getPlayerTotalStats();
 
-            statList.add(new Stat(StatType.WINS, playerTotalStats.get("gamesWon"), true));
-            statList.add(new Stat(StatType.GP, playerTotalStats.get("gamesPlayed"), true));
-            statList.add(new Stat(StatType.FGM, playerTotalStats.get("FGM"), true));
-            statList.add(new Stat(StatType.MISSES, playerTotalStats.get("FGA") - playerTotalStats.get("FGM"), true));
-            statList.add(new Stat(StatType.AST, playerTotalStats.get("assists"), true));
-            statList.add(new Stat(StatType.REB, playerTotalStats.get("rebounds"), true));
-            statList.add(new Stat(StatType.STL, playerTotalStats.get("steals"), true));
-            statList.add(new Stat(StatType.BLK, playerTotalStats.get("blocks"), true));
-            statList.add(new Stat(StatType.TO, playerTotalStats.get("turnovers"), true));
+            Integer fgm = playerTotalStats.get("FGM");
+            Integer fga = playerTotalStats.get("FGA");
+
+            double fg = 0;
+            if (fgm != 0) {
+                fg = fgm / (double) fga;
+            }
+            NumberFormat percentInstance = NumberFormat.getPercentInstance();
+
+            statList.add(new Stat(PlayerStatType.WINS, playerTotalStats.get("gamesWon"), true));
+            statList.add(new Stat(PlayerStatType.GP, playerTotalStats.get("gamesPlayed"), true));
+            statList.add(new Stat(PlayerStatType.FGM, fgm, true));
+            statList.add(new Stat(PlayerStatType.FGA, fga, true));
+            statList.add(new Stat(PlayerStatType.FG, percentInstance.format(fg), true));
+            statList.add(new Stat(PlayerStatType.AST, playerTotalStats.get("assists"), true));
+            statList.add(new Stat(PlayerStatType.REB, playerTotalStats.get("rebounds"), true));
+            statList.add(new Stat(PlayerStatType.STL, playerTotalStats.get("steals"), true));
+            statList.add(new Stat(PlayerStatType.BLK, playerTotalStats.get("blocks"), true));
+            statList.add(new Stat(PlayerStatType.TO, playerTotalStats.get("turnovers"), true));
             cellList.add(statList);
         }
 

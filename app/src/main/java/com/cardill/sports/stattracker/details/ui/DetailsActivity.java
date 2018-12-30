@@ -12,7 +12,7 @@ import com.cardill.sports.stattracker.details.businesslogic.StatsTableAdapter;
 import com.cardill.sports.stattracker.game.data.GameData;
 import com.cardill.sports.stattracker.game.data.GameRepository;
 import com.cardill.sports.stattracker.game.data.Stat;
-import com.cardill.sports.stattracker.game.data.StatType;
+import com.cardill.sports.stattracker.game.data.GameStatType;
 import com.cardill.sports.stattracker.teamselection.data.NewGamePlayer;
 import com.evrencoskun.tableview.TableView;
 
@@ -50,7 +50,7 @@ public class DetailsActivity extends AppCompatActivity {
 
         tableView.setAdapter(adapter);
 
-        List<StatType> columnHeaderItems = Arrays.asList(StatType.values()).subList(2,9);
+        List<GameStatType> columnHeaderItems = Arrays.asList(GameStatType.values());
         List<List<Stat>> mCellList = TableUtils.generateTableCellList(teamOne, teamTwo);
 
         List<NewGamePlayer> players = new ArrayList<>();
@@ -79,25 +79,25 @@ public class DetailsActivity extends AppCompatActivity {
 
                     switch (detailsChangedEvent.getColumnPosition()) {
                         case 0:
-                            gameRepository.updateStats(player.id(), StatType.FGM, detailsChangedEvent.getNewValue());
+                            gameRepository.updateStats(player.id(), GameStatType.MAKES, detailsChangedEvent.getNewValue());
                             break;
                         case 1:
-                            gameRepository.updateStats(player.id(), StatType.MISSES, detailsChangedEvent.getNewValue());
+                            gameRepository.updateStats(player.id(), GameStatType.MISSES, detailsChangedEvent.getNewValue());
                             break;
                         case 2:
-                            gameRepository.updateStats(player.id(), StatType.AST, detailsChangedEvent.getNewValue());
+                            gameRepository.updateStats(player.id(), GameStatType.AST, detailsChangedEvent.getNewValue());
                             break;
                         case 3:
-                            gameRepository.updateStats(player.id(), StatType.REB, detailsChangedEvent.getNewValue());
+                            gameRepository.updateStats(player.id(), GameStatType.REB, detailsChangedEvent.getNewValue());
                             break;
                         case 4:
-                            gameRepository.updateStats(player.id(), StatType.STL, detailsChangedEvent.getNewValue());
+                            gameRepository.updateStats(player.id(), GameStatType.STL, detailsChangedEvent.getNewValue());
                             break;
                         case 5:
-                            gameRepository.updateStats(player.id(), StatType.BLK, detailsChangedEvent.getNewValue());
+                            gameRepository.updateStats(player.id(), GameStatType.BLK, detailsChangedEvent.getNewValue());
                             break;
                         case 6:
-                            gameRepository.updateStats(player.id(), StatType.TO, detailsChangedEvent.getNewValue());
+                            gameRepository.updateStats(player.id(), GameStatType.TO, detailsChangedEvent.getNewValue());
                             break;
                         default:
                             throw new UnsupportedOperationException("Invalid column number");

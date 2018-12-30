@@ -33,7 +33,7 @@
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name="com.cardill.sports.stattracker.game.ui.GameActivity"/>
         <activity android:name="com.cardill.sports.stattracker.details.ui.DetailsActivity"/>
-        <activity android:name="com.cardill.sports.stattracker.game.ui.BoxScoreActivity"/>
+        <activity android:name="com.cardill.sports.stattracker.game.ui.GameRecapActivity"/>
         <activity android:name="com.cardill.sports.stattracker.teamselection.ui.TeamSelectionActivity"/>
         <activity android:name="com.cardill.sports.stattracker.teamcreation.ui.TeamCreationActivity"/>
         <activity android:name=".game.ui.PlayerListActivity"/>

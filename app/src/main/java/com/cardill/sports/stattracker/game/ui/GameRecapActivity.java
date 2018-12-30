@@ -13,7 +13,7 @@ import com.cardill.sports.stattracker.details.businesslogic.StatsTableAdapter;
 import com.cardill.sports.stattracker.game.data.GameData;
 import com.cardill.sports.stattracker.game.data.GameRepository;
 import com.cardill.sports.stattracker.game.data.Stat;
-import com.cardill.sports.stattracker.game.data.StatType;
+import com.cardill.sports.stattracker.game.data.GameStatType;
 import com.cardill.sports.stattracker.teamselection.data.NewGamePlayer;
 import com.evrencoskun.tableview.TableView;
 
@@ -27,7 +27,7 @@ import dagger.android.AndroidInjection;
 
 import static com.cardill.sports.stattracker.details.businesslogic.StatsTableAdapter.NON_EDITABLE;
 
-public class BoxScoreActivity extends AppCompatActivity {
+public class GameRecapActivity extends AppCompatActivity {
 
     @Inject GameRepository gameRepository;
     private TextView scoreView;
@@ -54,7 +54,7 @@ public class BoxScoreActivity extends AppCompatActivity {
         StatsTableAdapter adapter = new StatsTableAdapter(this, NON_EDITABLE);
         tableView.setAdapter(adapter);
 
-        List<StatType> columnHeaderItems = Arrays.asList(StatType.values()).subList(2,9);
+        List<GameStatType> columnHeaderItems = Arrays.asList(GameStatType.values());
 
         List<List<Stat>> cellList = TableUtils.generateTableCellList(team1,team2);
 

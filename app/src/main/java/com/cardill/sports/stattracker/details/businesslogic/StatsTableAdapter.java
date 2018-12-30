@@ -5,13 +5,12 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.cardill.sports.stattracker.R;
 import com.cardill.sports.stattracker.game.data.Stat;
-import com.cardill.sports.stattracker.game.data.StatType;
+import com.cardill.sports.stattracker.game.data.GameStatType;
 import com.cardill.sports.stattracker.teamselection.data.NewGamePlayer;
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.evrencoskun.tableview.adapter.AbstractTableAdapter;
@@ -21,7 +20,7 @@ import com.evrencoskun.tableview.adapter.recyclerview.holder.AbstractViewHolder;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 
-public class StatsTableAdapter extends AbstractTableAdapter<StatType, NewGamePlayer, Stat> {
+public class StatsTableAdapter extends AbstractTableAdapter<GameStatType, NewGamePlayer, Stat> {
 
     public static final int EDITABLE = 0;
     public static final int NON_EDITABLE = 1;
@@ -123,7 +122,7 @@ public class StatsTableAdapter extends AbstractTableAdapter<StatType, NewGamePla
             // Get the holder to update cell item text
             MyCellViewHolder viewHolder = (MyCellViewHolder) holder;
 
-            viewHolder.numberButton.setNumber(String.valueOf(cell.getCount()));
+            viewHolder.numberButton.setNumber(String.valueOf(cell.getValue()));
 
             viewHolder.numberButton.setOnValueChangeListener(new ElegantNumberButton.OnValueChangeListener() {
                 @Override
@@ -147,7 +146,7 @@ public class StatsTableAdapter extends AbstractTableAdapter<StatType, NewGamePla
             viewHolder.numberButton.requestLayout();
         } else if (holder instanceof BoxScoreCellViewHolder) {
             BoxScoreCellViewHolder viewHolder = (BoxScoreCellViewHolder) holder;
-            viewHolder.textView.setText(String.valueOf(cell.getCount()));
+            viewHolder.textView.setText(String.valueOf(cell.getValue()));
             if (cell.isTeamOne()) {
                 viewHolder.textView.setBackgroundColor(Color.parseColor(TEAM_ONE_COLOR_STRING));
             } else {
@@ -210,7 +209,7 @@ public class StatsTableAdapter extends AbstractTableAdapter<StatType, NewGamePla
     @Override
     public void onBindColumnHeaderViewHolder(AbstractViewHolder holder, Object columnHeaderItemModel, int
             position) {
-        StatType columnHeader = (StatType) columnHeaderItemModel;
+        GameStatType columnHeader = (GameStatType) columnHeaderItemModel;
 
         // Get the holder to update cell item text
         MyColumnHeaderViewHolder columnHeaderViewHolder = (MyColumnHeaderViewHolder) holder;

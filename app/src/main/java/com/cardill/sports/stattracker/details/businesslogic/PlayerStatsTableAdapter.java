@@ -1,6 +1,7 @@
-package com.cardill.sports.stattracker.profile.businesslogic;
+package com.cardill.sports.stattracker.details.businesslogic;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,22 +9,57 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.cardill.sports.stattracker.R;
+import com.cardill.sports.stattracker.game.data.GameStatType;
+import com.cardill.sports.stattracker.game.data.PlayerStatType;
+import com.cardill.sports.stattracker.game.data.Stat;
+import com.cardill.sports.stattracker.teamselection.data.NewGamePlayer;
+import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.evrencoskun.tableview.adapter.AbstractTableAdapter;
 import com.evrencoskun.tableview.adapter.recyclerview.holder.AbstractSorterViewHolder;
 import com.evrencoskun.tableview.adapter.recyclerview.holder.AbstractViewHolder;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import io.reactivex.Observable;
+import io.reactivex.subjects.PublishSubject;
 
-public class PlayerStatsTableAdapter extends AbstractTableAdapter<String, Date, String> {
+public class PlayerStatsTableAdapter extends AbstractTableAdapter<PlayerStatType, NewGamePlayer, Stat> {
+
+    public static final int EDITABLE = 0;
+    public static final int NON_EDITABLE = 1;
+    private static final String TEAM_ONE_COLOR_STRING = "#50ffffff";
+    private static final String TEAM_TWO_COLOR_STRING = "#50fbc02d";
+
 
     private final Context context;
-    private final SimpleDateFormat formatter;
+    private PublishSubject<DetailsChangedEvent> mPublishSubject;
+    private int viewType;
 
-    public PlayerStatsTableAdapter(Context context) {
+
+    public PlayerStatsTableAdapter(Context context, int viewType) {
         super(context);
+        this.viewType = viewType;
+
+        mPublishSubject = PublishSubject.create();
         this.context = context;
-        formatter = new SimpleDateFormat("MMM dd");
+    }
+
+    public Observable<DetailsChangedEvent> getChangeEvents() {
+        return mPublishSubject;
+    }
+
+    /**
+     * This is sample CellViewHolder class
+     * This viewHolder must be extended from AbstractViewHolder class instead of RecyclerView.ViewHolder.
+     */
+    class MyCellViewHolder extends AbstractViewHolder {
+
+        public final ElegantNumberButton numberButton;
+        private final ViewGroup container;
+
+        public MyCellViewHolder(View itemView) {
+            super(itemView);
+            container = itemView.findViewById(R.id.container);
+            numberButton = itemView.findViewById(R.id.stat_button);
+        }
     }
 
     /**
@@ -51,9 +87,15 @@ public class PlayerStatsTableAdapter extends AbstractTableAdapter<String, Date, 
      */
     @Override
     public AbstractViewHolder onCreateCellViewHolder(ViewGroup parent, int viewType) {
-        View layout = LayoutInflater.from(context).inflate(R.layout.non_editable_stat_item,
-                parent, false);
-        return new BoxScoreCellViewHolder(layout);
+        if (viewType == EDITABLE) {
+            View layout = LayoutInflater.from(context).inflate(R.layout.editable_stat_item,
+                    parent, false);
+            return new MyCellViewHolder(layout);
+        } else {
+            View layout = LayoutInflater.from(context).inflate(R.layout.non_editable_stat_item,
+                    parent, false);
+            return new BoxScoreCellViewHolder(layout);
+        }
     }
 
     /**
@@ -74,10 +116,44 @@ public class PlayerStatsTableAdapter extends AbstractTableAdapter<String, Date, 
     public void onBindCellViewHolder(AbstractViewHolder holder, Object cellItemModel, int
             columnPosition, int rowPosition) {
 
-        String cell = (String) cellItemModel;
+        Stat cell = (Stat) cellItemModel;
 
-        BoxScoreCellViewHolder viewHolder = (BoxScoreCellViewHolder) holder;
-        viewHolder.textView.setText(cell);
+        if (holder instanceof MyCellViewHolder) {
+
+            // Get the holder to update cell item text
+            MyCellViewHolder viewHolder = (MyCellViewHolder) holder;
+
+            viewHolder.numberButton.setNumber(String.valueOf(cell.getValue()));
+
+            viewHolder.numberButton.setOnValueChangeListener(new ElegantNumberButton.OnValueChangeListener() {
+                @Override
+                public void onValueChange(ElegantNumberButton view, int oldValue, int newValue) {
+                    //TODO update gameRepo
+                    mPublishSubject.onNext(new DetailsChangedEvent(columnPosition, rowPosition, newValue));
+                }
+            });
+
+            if (cell.isTeamOne()) {
+                viewHolder.container.setBackgroundColor(Color.parseColor(TEAM_ONE_COLOR_STRING));
+            } else {
+                viewHolder.container.setBackgroundColor(Color.parseColor(TEAM_TWO_COLOR_STRING));
+            }
+
+            // If your TableView should have auto resize for cells & columns.
+            // Then you should consider the below lines. Otherwise, you can ignore them.
+
+            // It is necessary to remeasure itself.
+            viewHolder.itemView.getLayoutParams().width = LinearLayout.LayoutParams.WRAP_CONTENT;
+            viewHolder.numberButton.requestLayout();
+        } else if (holder instanceof BoxScoreCellViewHolder) {
+            BoxScoreCellViewHolder viewHolder = (BoxScoreCellViewHolder) holder;
+            viewHolder.textView.setText(String.valueOf(cell.getValue()));
+            if (cell.isTeamOne()) {
+                viewHolder.textView.setBackgroundColor(Color.parseColor(TEAM_ONE_COLOR_STRING));
+            } else {
+                viewHolder.textView.setBackgroundColor(Color.parseColor(TEAM_TWO_COLOR_STRING));
+            }
+        }
     }
 
 
@@ -134,11 +210,11 @@ public class PlayerStatsTableAdapter extends AbstractTableAdapter<String, Date, 
     @Override
     public void onBindColumnHeaderViewHolder(AbstractViewHolder holder, Object columnHeaderItemModel, int
             position) {
-        String columnHeader = (String) columnHeaderItemModel;
+        PlayerStatType columnHeader = (PlayerStatType) columnHeaderItemModel;
 
         // Get the holder to update cell item text
         MyColumnHeaderViewHolder columnHeaderViewHolder = (MyColumnHeaderViewHolder) holder;
-        columnHeaderViewHolder.cell_textview.setText(columnHeader);
+        columnHeaderViewHolder.cell_textview.setText(columnHeader.name());
 
         // If your TableView should have auto resize for cells & columns.
         // Then you should consider the below lines. Otherwise, you can ignore them.
@@ -156,19 +232,19 @@ public class PlayerStatsTableAdapter extends AbstractTableAdapter<String, Date, 
     public class MyRowHeaderViewHolder extends AbstractViewHolder {
 
         public final TextView cell_textview;
-        private Date date;
+        private NewGamePlayer player;
 
         public MyRowHeaderViewHolder(View itemView) {
             super(itemView);
             cell_textview = (TextView) itemView.findViewById(R.id.player_label);
         }
 
-        public void setDate(Date date) {
-            this.date = date;
+        public void setPlayer(NewGamePlayer player) {
+            this.player = player;
         }
 
-        public Date getDate() {
-            return date;
+        public NewGamePlayer getPlayer() {
+            return player;
         }
     }
 
@@ -210,15 +286,18 @@ public class PlayerStatsTableAdapter extends AbstractTableAdapter<String, Date, 
     @Override
     public void onBindRowHeaderViewHolder(AbstractViewHolder holder, Object rowHeaderItemModel, int
             position) {
-        Date rowHeader = (Date) rowHeaderItemModel;
+        NewGamePlayer rowHeader = (NewGamePlayer) rowHeaderItemModel;
 
         // Get the holder to update row header item text
         MyRowHeaderViewHolder rowHeaderViewHolder = (MyRowHeaderViewHolder) holder;
+        rowHeaderViewHolder.cell_textview.setText(rowHeader.getPlayer().firstName());
+        rowHeaderViewHolder.setPlayer(rowHeader);
 
-        String strDate = formatter.format(rowHeader);
-        rowHeaderViewHolder.cell_textview.setText(strDate);
-        rowHeaderViewHolder.setDate(rowHeader);
-
+        if (rowHeader.isTeamOne()) {
+            rowHeaderViewHolder.cell_textview.setBackgroundColor(Color.parseColor(TEAM_ONE_COLOR_STRING));
+        } else {
+            rowHeaderViewHolder.cell_textview.setBackgroundColor(Color.parseColor(TEAM_TWO_COLOR_STRING));
+        }
     }
 
 
@@ -248,6 +327,6 @@ public class PlayerStatsTableAdapter extends AbstractTableAdapter<String, Date, 
 
     @Override
     public int getCellItemViewType(int columnPosition) {
-        return 0;
+        return viewType;
     }
 }

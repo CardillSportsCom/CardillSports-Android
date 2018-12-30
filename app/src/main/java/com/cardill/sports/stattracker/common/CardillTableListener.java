@@ -12,6 +12,8 @@ import com.evrencoskun.tableview.sort.SortState;
 
 import androidx.navigation.Navigation;
 
+import static com.cardill.sports.stattracker.common.SortableCardillTableListener.PLAYER_ID_KEY;
+
 public class CardillTableListener implements ITableViewListener {
 
     public static final String PLAYER_NAME_KEY = "player-name-key";
@@ -47,7 +49,7 @@ public class CardillTableListener implements ITableViewListener {
         if (rowHeaderView instanceof StatsTableAdapter.MyRowHeaderViewHolder) {
             StatsTableAdapter.MyRowHeaderViewHolder holder = (StatsTableAdapter.MyRowHeaderViewHolder) rowHeaderView;
             Bundle params = new Bundle();
-            params.putString(PLAYER_NAME_KEY, holder.getPlayer().getPlayer().firstName());
+            params.putString(PLAYER_ID_KEY, holder.getPlayer().getPlayer().id());
             Navigation.findNavController(tableView).navigate(R.id.profileActivity, params);
         }
     }

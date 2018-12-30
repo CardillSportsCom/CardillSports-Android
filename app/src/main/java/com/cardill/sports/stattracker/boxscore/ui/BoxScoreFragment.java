@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.cardill.sports.stattracker.R;
 import com.cardill.sports.stattracker.common.CardillTableListener;
@@ -22,7 +21,7 @@ import com.cardill.sports.stattracker.common.ui.TableUtils;
 import com.cardill.sports.stattracker.details.businesslogic.StatsTableAdapter;
 import com.cardill.sports.stattracker.game.data.GameData;
 import com.cardill.sports.stattracker.game.data.Stat;
-import com.cardill.sports.stattracker.game.data.StatType;
+import com.cardill.sports.stattracker.game.data.GameStatType;
 import com.cardill.sports.stattracker.boxscore.businesslogic.BoxScorePresenter;
 import com.cardill.sports.stattracker.teamselection.data.NewGamePlayer;
 import com.evrencoskun.tableview.TableView;
@@ -30,11 +29,9 @@ import com.evrencoskun.tableview.TableView;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 import javax.inject.Inject;
 
-import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import static com.cardill.sports.stattracker.details.businesslogic.StatsTableAdapter.NON_EDITABLE;
@@ -149,7 +146,7 @@ public class BoxScoreFragment extends BaseFragment implements BoxScoreViewBinder
 
         tableView.setAdapter(adapter);
 
-        List<StatType> columnHeaderItems = Arrays.asList(StatType.values()).subList(2,9);
+        List<GameStatType> columnHeaderItems = Arrays.asList(GameStatType.values());
         List<List<Stat>> mCellList = TableUtils.generateTableCellList(teamOne, teamTwo);
 
         List<NewGamePlayer> players = new ArrayList<>();

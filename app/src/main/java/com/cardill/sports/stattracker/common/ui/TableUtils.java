@@ -2,7 +2,7 @@ package com.cardill.sports.stattracker.common.ui;
 
 import com.cardill.sports.stattracker.common.data.Player;
 import com.cardill.sports.stattracker.game.data.Stat;
-import com.cardill.sports.stattracker.game.data.StatType;
+import com.cardill.sports.stattracker.game.data.GameStatType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,25 +14,25 @@ public class TableUtils {
 
         for (Player player : teamOne) {
             List<Stat> statList = new ArrayList<>(8);
-            statList.add(new Stat(StatType.FGM, player.fieldGoalMade(), true));
-            statList.add(new Stat(StatType.MISSES, player.fieldGoalMissed(), true));
-            statList.add(new Stat(StatType.AST, player.assists(), true));
-            statList.add(new Stat(StatType.REB, player.rebounds(), true));
-            statList.add(new Stat(StatType.STL, player.steals(), true));
-            statList.add(new Stat(StatType.BLK, player.blocks(), true));
-            statList.add(new Stat(StatType.TO, player.turnovers(), true));
+            statList.add(new Stat(GameStatType.MAKES, player.fieldGoalMade(), true));
+            statList.add(new Stat(GameStatType.MISSES, player.fieldGoalMissed(), true));
+            statList.add(new Stat(GameStatType.AST, player.assists(), true));
+            statList.add(new Stat(GameStatType.REB, player.rebounds(), true));
+            statList.add(new Stat(GameStatType.STL, player.steals(), true));
+            statList.add(new Stat(GameStatType.BLK, player.blocks(), true));
+            statList.add(new Stat(GameStatType.TO, player.turnovers(), true));
             cellList.add(statList);
         }
 
         for (Player player : teamTwo) {
             List<Stat> statList = new ArrayList<>(8);
-            statList.add(new Stat(StatType.FGM, player.fieldGoalMade(), false));
-            statList.add(new Stat(StatType.MISSES, player.fieldGoalMissed(), false));
-            statList.add(new Stat(StatType.AST, player.assists(), false));
-            statList.add(new Stat(StatType.REB, player.rebounds(), false));
-            statList.add(new Stat(StatType.STL, player.steals(), false));
-            statList.add(new Stat(StatType.BLK, player.blocks(), false));
-            statList.add(new Stat(StatType.TO, player.turnovers(), false));
+            statList.add(new Stat(GameStatType.MAKES, player.fieldGoalMade(), false));
+            statList.add(new Stat(GameStatType.MISSES, player.fieldGoalMissed(), false));
+            statList.add(new Stat(GameStatType.AST, player.assists(), false));
+            statList.add(new Stat(GameStatType.REB, player.rebounds(), false));
+            statList.add(new Stat(GameStatType.STL, player.steals(), false));
+            statList.add(new Stat(GameStatType.BLK, player.blocks(), false));
+            statList.add(new Stat(GameStatType.TO, player.turnovers(), false));
             cellList.add(statList);
         }
 

@@ -13,7 +13,7 @@ import javax.inject.Singleton;
 public class GameRepository {
 
     private GameData gameData;
-    private LinkedList<PendingStat> queue;
+    private LinkedList<PendingGameStat> queue;
 
     @Inject
     public GameRepository() {
@@ -29,7 +29,7 @@ public class GameRepository {
         return gameData;
     }
 
-    public void updateStats(String playerId, StatType statKey, int newValue) {
+    public void updateStats(String playerId, GameStatType statKey, int newValue) {
         List<Player> teamOnePlayers = gameData.getTeamOnePlayers();
         updateTeamStats(playerId, statKey, newValue, teamOnePlayers);
 
@@ -37,7 +37,7 @@ public class GameRepository {
         updateTeamStats(playerId, statKey, newValue, teamTwoPlayers);
     }
 
-    public void incrementStat(String playerId, StatType statKey) {
+    public void incrementStat(String playerId, GameStatType statKey) {
         List<Player> teamOnePlayers = gameData.getTeamOnePlayers();
         incrementTeamStats(playerId, statKey, teamOnePlayers);
 
@@ -45,7 +45,7 @@ public class GameRepository {
         incrementTeamStats(playerId, statKey, teamTwoPlayers);
     }
 
-    private void updateTeamStats(String playerId, StatType statKey, int newValue, List<Player> playerList) {
+    private void updateTeamStats(String playerId, GameStatType statKey, int newValue, List<Player> playerList) {
         for (int i = 0; i < playerList.size(); i++) {
             Player player = playerList.get(i);
 
@@ -56,7 +56,7 @@ public class GameRepository {
         }
     }
 
-    private void incrementTeamStats(String playerId, StatType statKey, List<Player> playerList) {
+    private void incrementTeamStats(String playerId, GameStatType statKey, List<Player> playerList) {
         for (int i = 0; i < playerList.size(); i++) {
             Player player = playerList.get(i);
 
@@ -67,9 +67,9 @@ public class GameRepository {
         }
     }
 
-    private Player updatePlayerStat(StatType statKey, int newValue, Player player) {
+    private Player updatePlayerStat(GameStatType statKey, int newValue, Player player) {
         switch (statKey) {
-            case FGM:
+            case MAKES:
                 return player.toBuilder().fieldGoalMade(newValue).build();
             case MISSES:
                 return player.toBuilder().fieldGoalMissed(newValue).build();
@@ -89,9 +89,9 @@ public class GameRepository {
         }
     }
 
-    private Player incrementPlayerStat(StatType statKey, Player player) {
+    private Player incrementPlayerStat(GameStatType statKey, Player player) {
         switch (statKey) {
-            case FGM:
+            case MAKES:
                 return player.toBuilder().fieldGoalMade(player.fieldGoalMade() + 1).build();
             case MISSES:
                 return player.toBuilder().fieldGoalMissed(player.fieldGoalMissed() + 1).build();
@@ -111,15 +111,15 @@ public class GameRepository {
         }
     }
 
-    public void incrementPendingStat(Player player, StatType statType) {
-        queue.offer(new PendingStat(player, statType));
+    public void incrementPendingStat(Player player, GameStatType gameStatType) {
+        queue.offer(new PendingGameStat(player, gameStatType));
     }
 
-    public PendingStat getLatestPendingStat() {
+    public PendingGameStat getLatestPendingStat() {
         return queue.poll();
     }
 
-    public PendingStat removeFromQueue() {
+    public PendingGameStat removeFromQueue() {
         return queue.removeLast();
     }
 }

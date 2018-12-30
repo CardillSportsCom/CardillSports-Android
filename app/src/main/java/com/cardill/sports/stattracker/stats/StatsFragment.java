@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 
 import com.cardill.sports.stattracker.R;
 import com.cardill.sports.stattracker.common.SortableCardillTableListener;
+import com.cardill.sports.stattracker.details.businesslogic.PlayerStatsTableAdapter;
+import com.cardill.sports.stattracker.game.data.PlayerStatType;
 import com.cardill.sports.stattracker.league.LeagueRepository;
 import com.cardill.sports.stattracker.network.CardillService;
 import com.cardill.sports.stattracker.common.data.Player;
@@ -16,12 +18,13 @@ import com.cardill.sports.stattracker.common.ui.BaseFragment;
 import com.cardill.sports.stattracker.details.businesslogic.StatsTableAdapter;
 import com.cardill.sports.stattracker.game.data.GameData;
 import com.cardill.sports.stattracker.game.data.Stat;
-import com.cardill.sports.stattracker.game.data.StatType;
+import com.cardill.sports.stattracker.game.data.GameStatType;
 import com.cardill.sports.stattracker.stats.businesslogic.StatsPresenter;
 import com.cardill.sports.stattracker.stats.businesslogic.StatsViewBinder;
 import com.cardill.sports.stattracker.teamselection.data.NewGamePlayer;
 import com.evrencoskun.tableview.TableView;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -77,11 +80,11 @@ public class StatsFragment extends BaseFragment implements StatsViewBinder {
 
     private void initTableView(TableView tableView, List<Player> players) {
         tableView.getCellRecyclerView().setMotionEventSplittingEnabled(true);
-        StatsTableAdapter adapter = new StatsTableAdapter(getActivity(), NON_EDITABLE);
+        PlayerStatsTableAdapter adapter = new PlayerStatsTableAdapter(getActivity(), NON_EDITABLE);
 
         tableView.setAdapter(adapter);
 
-        List<StatType> columnHeaderItems = Arrays.asList(StatType.values());
+        List<PlayerStatType> columnHeaderItems = Arrays.asList(PlayerStatType.values());
         List<List<Stat>> mCellList = generateTableCellList(players);
 
         List<NewGamePlayer> newGamePlayers = new ArrayList<>();
@@ -111,15 +114,23 @@ public class StatsFragment extends BaseFragment implements StatsViewBinder {
 
         for (Player player : players) {
             List<Stat> statList = new ArrayList<>(8);
-            statList.add(new Stat(StatType.WINS, player.wins(), true));
-            statList.add(new Stat(StatType.GP, player.gamesPlayed(), true));
-            statList.add(new Stat(StatType.FGM, player.fieldGoalMade(), true));
-            statList.add(new Stat(StatType.MISSES, player.fieldGoalMissed(), true));
-            statList.add(new Stat(StatType.AST, player.assists(), true));
-            statList.add(new Stat(StatType.REB, player.rebounds(), true));
-            statList.add(new Stat(StatType.STL, player.steals(), true));
-            statList.add(new Stat(StatType.BLK, player.blocks(), true));
-            statList.add(new Stat(StatType.TO, player.turnovers(), true));
+            statList.add(new Stat(PlayerStatType.WINS, player.wins(), true));
+            statList.add(new Stat(PlayerStatType.GP, player.gamesPlayed(), true));
+            statList.add(new Stat(PlayerStatType.FGM, player.fieldGoalMade(), true));
+            statList.add(new Stat(PlayerStatType.FGA, player.fieldGoalMissed() + player.fieldGoalMade(), true));
+
+            double fg = 0;
+            if (player.fieldGoalMade() != 0) {
+                fg = player.fieldGoalMade() / (double) (player.fieldGoalMissed() + player.fieldGoalMade());
+            }
+            NumberFormat percentInstance = NumberFormat.getPercentInstance();
+
+            statList.add(new Stat(PlayerStatType.FG, percentInstance.format(fg), true));
+            statList.add(new Stat(PlayerStatType.AST, player.assists(), true));
+            statList.add(new Stat(PlayerStatType.REB, player.rebounds(), true));
+            statList.add(new Stat(PlayerStatType.STL, player.steals(), true));
+            statList.add(new Stat(PlayerStatType.BLK, player.blocks(), true));
+            statList.add(new Stat(PlayerStatType.TO, player.turnovers(), true));
             cellList.add(statList);
         }
 

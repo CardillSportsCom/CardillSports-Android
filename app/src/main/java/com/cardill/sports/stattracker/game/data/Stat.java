@@ -4,26 +4,30 @@ import com.evrencoskun.tableview.sort.ISortableModel;
 
 public class Stat implements ISortableModel {
 
-    private int count;
+    private String value;
     private final StatType statType;
     private boolean isTeamOne;
 
-    public Stat(StatType statType, int count, boolean isTeamOne) {
-        this.count = count;
+    public Stat(StatType statType, String value, boolean isTeamOne) {
+        this.value = value;
         this.statType = statType;
         this.isTeamOne = isTeamOne;
+    }
+
+    public Stat(StatType statType, int value, boolean isTeamOne) {
+        this(statType, String.valueOf(value), isTeamOne);
     }
 
     public StatType getStatType() {
         return statType;
     }
 
-    public int getCount() {
-        return count;
+    public String getValue() {
+        return value;
     }
 
-    public void setCount(int count) {
-        this.count = count;
+    public void setValue(String value) {
+        this.value = value;
     }
 
     public boolean isTeamOne() {
@@ -37,6 +41,10 @@ public class Stat implements ISortableModel {
 
     @Override
     public Object getContent() {
-        return count;
+        if (value.endsWith("%")) {
+            return Integer.valueOf(value.substring(0, value.length() - 1));
+        } else {
+            return Integer.valueOf(value);
+        }
     }
 }

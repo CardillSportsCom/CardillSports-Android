@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 
 import com.cardill.sports.stattracker.R;
+import com.cardill.sports.stattracker.details.businesslogic.PlayerStatsTableAdapter;
 import com.cardill.sports.stattracker.details.businesslogic.StatsTableAdapter;
 import com.evrencoskun.tableview.TableView;
 import com.evrencoskun.tableview.listener.ITableViewListener;
@@ -50,8 +51,8 @@ public class SortableCardillTableListener implements ITableViewListener {
 
     @Override
     public void onRowHeaderClicked(@NonNull RecyclerView.ViewHolder rowHeaderView, int row) {
-        if (rowHeaderView instanceof StatsTableAdapter.MyRowHeaderViewHolder) {
-            StatsTableAdapter.MyRowHeaderViewHolder holder = (StatsTableAdapter.MyRowHeaderViewHolder) rowHeaderView;
+        if (rowHeaderView instanceof PlayerStatsTableAdapter.MyRowHeaderViewHolder) {
+            PlayerStatsTableAdapter.MyRowHeaderViewHolder holder = (PlayerStatsTableAdapter.MyRowHeaderViewHolder) rowHeaderView;
             Bundle params = new Bundle();
             params.putString(PLAYER_ID_KEY, holder.getPlayer().getPlayer().id());
             Navigation.findNavController(tableView).navigate(R.id.profileActivity, params);
