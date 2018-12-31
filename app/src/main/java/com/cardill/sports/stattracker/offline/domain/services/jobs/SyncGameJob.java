@@ -85,7 +85,8 @@ public class SyncGameJob extends Job implements JobManagerInjectable {
     }
 
     @Override
-    public void inject(CardillService service) {
+    public void inject(CardillService service, LeagueRepository leagueRepository) {
         this.service = service;
+        this.leagueRepo = leagueRepository;
     }
 }

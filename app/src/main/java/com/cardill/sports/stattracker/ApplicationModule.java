@@ -93,12 +93,12 @@ public abstract class ApplicationModule {
 
     @Singleton
     @Provides
-    static JobManager provideJobManager(Application application, CardillService service) {
+    static JobManager provideJobManager(Application application, CardillService service, LeagueRepository leagueRepository) {
 
         Configuration config = new Configuration.Builder(application.getApplicationContext())
                 .injector(job -> {
                     if (job instanceof SyncGameJob) {
-                        ((JobManagerInjectable) job).inject(service);
+                        ((JobManagerInjectable) job).inject(service, leagueRepository);
                     }
                 })
                 .build();
