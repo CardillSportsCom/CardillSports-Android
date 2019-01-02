@@ -168,7 +168,7 @@ public class DetailsActivity extends AppCompatActivity implements DetailsViewBin
             gameRepository.subOut(subbedOut.id, teamOnePlayers);
             gameRepository.subIn(subbedIn, teamOnePlayers);
         } else if (teamTwoPlayers.contains(subbedOut)) {
-            gameRepository.subOut(subbedOut.id, teamOnePlayers);
+            gameRepository.subOut(subbedOut.id, teamTwoPlayers);
             gameRepository.subIn(subbedIn, teamTwoPlayers);
         }
 
