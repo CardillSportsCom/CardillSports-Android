@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
 apply plugin: 'com.google.firebase.firebase-perf'
 apply plugin: 'io.fabric'
 
@@ -14,8 +16,8 @@ android {
         minSdkVersion 16
         multiDexEnabled true
         targetSdkVersion 28
-        versionCode 7
-        versionName "2.2.3"
+        versionCode 8
+        versionName "2.2.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
@@ -162,7 +164,11 @@ dependencies {
     implementation 'com.jakewharton:butterknife:7.0.1'
 
     implementation 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
 }
 
 apply plugin: 'com.google.gms.google-services'
+repositories {
+    mavenCentral()
+}

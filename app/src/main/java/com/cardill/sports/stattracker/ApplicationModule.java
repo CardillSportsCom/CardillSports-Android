@@ -11,6 +11,7 @@ import com.cardill.sports.stattracker.game.ui.PlayerListActivity;
 import com.cardill.sports.stattracker.league.LeagueRepository;
 import com.cardill.sports.stattracker.network.CardillService;
 import com.cardill.sports.stattracker.network.MockCardillService;
+import com.cardill.sports.stattracker.network.NetworkUtils;
 import com.cardill.sports.stattracker.offline.domain.RemoteGameRepository;
 import com.cardill.sports.stattracker.game.di.GameActivityModule;
 import com.cardill.sports.stattracker.game.ui.GameRecapActivity;
@@ -33,6 +34,8 @@ import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.io.IOException;
+
 import javax.inject.Singleton;
 
 import dagger.Binds;
@@ -40,7 +43,12 @@ import dagger.Module;
 import dagger.Provides;
 import dagger.android.AndroidInjectionModule;
 import dagger.android.ContributesAndroidInjector;
+import okhttp3.Cache;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.internal.cache.CacheInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -142,7 +150,7 @@ public abstract class ApplicationModule {
 
     @Provides
     @Singleton
-    static CardillService provideCardillService(Session session, AuthService authService) {
+    static CardillService provideCardillService(Application application, Session session, AuthService authService) {
 
         //TODO (vithushan) make this a build config or something better than a local var
         boolean online = true;
@@ -151,8 +159,19 @@ public abstract class ApplicationModule {
             Gson gson = new GsonBuilder()
                     .setLenient()
                     .create();
-
+            long cacheSize = (5 * 1024 * 1024);
+            Cache cache = new Cache(application.getCacheDir(), cacheSize);
             OkHttpClient httpClient = new OkHttpClient.Builder()
+                    .cache(cache)
+                    .addNetworkInterceptor(chain -> {
+                        Request request = chain.request();
+                        if (NetworkUtils.Companion.hasNetwork(application)) {
+                            request.newBuilder().header("Cache-Control", "public, max-age=" + 5).build();
+                        } else {
+                            request.newBuilder().header("Cache-Control", "public, only-if-cached, max-stale=" + 60 * 60 * 24 * 7).build();
+                        }
+                        return chain.proceed(request);
+                    })
                     .addNetworkInterceptor(new StethoInterceptor())
                     .addInterceptor(new AuthorizationInterceptor(session))
                     .addInterceptor(new UnauthorizedInterceptor(session, authService))

@@ -1,5 +1,7 @@
 package com.cardill.sports.stattracker.profile;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.content.ContextCompat;
@@ -60,6 +62,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileViewBin
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_activity);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
 
         final Toolbar toolbar = findViewById(R.id.htab_toolbar);
         setSupportActionBar(toolbar);
