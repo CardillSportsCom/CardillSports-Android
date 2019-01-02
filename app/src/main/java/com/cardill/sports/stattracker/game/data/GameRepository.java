@@ -58,6 +58,25 @@ public class GameRepository {
         }
     }
 
+    public void subOut(String playerId, List<Player> playerList) {
+        for (int i = 0; i < playerList.size(); i++) {
+            Player player = playerList.get(i);
+
+            if (player.id().equals(playerId)) {
+                Player newPlayer = player.toBuilder().isActive(false).build();
+                playerList.set(i, newPlayer);
+            }
+        }
+    }
+
+    public void subIn(Player subbedIn, List<Player> playerList) {
+        Player player = subbedIn.toBuilder()
+                .isActive(true)
+                .shouldIgnoreStats(true)
+                .build();
+        playerList.add(player);
+    }
+
     private void incrementTeamStats(String playerId, GameStatType statKey, List<Player> playerList) {
         for (int i = 0; i < playerList.size(); i++) {
             Player player = playerList.get(i);

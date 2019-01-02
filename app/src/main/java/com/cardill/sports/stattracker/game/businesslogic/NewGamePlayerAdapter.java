@@ -1,5 +1,6 @@
 package com.cardill.sports.stattracker.game.businesslogic;
 
+import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -47,7 +48,13 @@ public class NewGamePlayerAdapter extends RecyclerView.Adapter<NewGamePlayerAdap
     @Override
     public void onBindViewHolder(@NonNull PlayerViewHolder holder, int position) {
         Player player = mPlayers.get(position);
+        holder.getNameTextView().setEnabled(player.isActive());
         holder.getNameTextView().setText(player.firstName());
+        if (player.isActive()) {
+            holder.getNameTextView().setBackgroundResource(R.color.colorPrimary);
+        } else {
+            holder.getNameTextView().setBackgroundResource(R.color.colorPrimaryTransparent);
+        }
         Disposable subscribe = RxView.clicks(holder.getNameTextView())
                 .subscribe(x -> mPublishSubject.onNext(new GameEvent.PlayerSelected(team, player)));
     }

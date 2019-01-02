@@ -44,7 +44,7 @@ import dagger.android.AndroidInjection;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 
-import static com.cardill.sports.stattracker.game.ui.PlayerListActivity.PLAYER_EXTRA_KEY;
+import static com.cardill.sports.stattracker.game.ui.PlayerListActivity.SUB_IN_PLAYER_EXTRA_KEY;
 import static com.cardill.sports.stattracker.teamselection.ui.TeamSelectionActivity.GAME_DATA;
 
 public class GameActivity extends AppCompatActivity implements GameViewBinder {
@@ -83,6 +83,8 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
     GameViewModelFactory gameViewModelFactory;
 
     private FirebaseAnalytics mFirebaseAnalytics;
+    private NewGamePlayerAdapter teamOneAdapter;
+    private NewGamePlayerAdapter teamTwoAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,13 +108,13 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
         teamOneRecyclerView = findViewById(R.id.team_1_recycler_view);
         teamOneRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         teamOneRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        NewGamePlayerAdapter teamOneAdapter = new NewGamePlayerAdapter(gameData.getTeamOnePlayers(), Team.TEAM_ONE);
+        teamOneAdapter = new NewGamePlayerAdapter(gameData.getTeamOnePlayers(), Team.TEAM_ONE);
         teamOneRecyclerView.setAdapter(teamOneAdapter);
 
         teamTwoRecyclerView = findViewById(R.id.team_2_recycler_view);
         teamTwoRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         teamTwoRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        NewGamePlayerAdapter teamTwoAdapter = new NewGamePlayerAdapter(gameData.getTeamTwoPlayers(), Team.TEAM_TWO);
+        teamTwoAdapter = new NewGamePlayerAdapter(gameData.getTeamTwoPlayers(), Team.TEAM_TWO);
         teamTwoRecyclerView.setAdapter(teamTwoAdapter);
 
         makeButton = findViewById(R.id.make);
@@ -361,6 +363,15 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
     protected void onResume() {
         super.onResume();
         gameViewModel.updateScore(gameRepository.getGameStats()); //when you come back from details, update score
+
+        //TODO instead of this we should be listening for changes in the gameRepo game stats
+        if (teamOneAdapter != null) {
+            teamOneAdapter.notifyDataSetChanged();
+        }
+        if (teamTwoAdapter != null) {
+            teamTwoAdapter.notifyDataSetChanged();
+        }
+
     }
 
     @Override
@@ -421,7 +432,7 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (resultCode == RESULT_OK) {
             if (requestCode == NEW_PLAYER_REQUEST_CODE) {
-                Player player = data.getParcelableExtra(PLAYER_EXTRA_KEY);
+                Player player =  data.getParcelableExtra(SUB_IN_PLAYER_EXTRA_KEY);;
                 mPresenter.addPlayer(player);
             }
         }

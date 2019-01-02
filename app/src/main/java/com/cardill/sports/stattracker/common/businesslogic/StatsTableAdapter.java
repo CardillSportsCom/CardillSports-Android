@@ -21,6 +21,7 @@ import com.evrencoskun.tableview.adapter.recyclerview.holder.AbstractViewHolder;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 
+//TODO split up all the table adapters
 public class StatsTableAdapter extends AbstractTableAdapter<GameStatType, GamePlayer, Stat> {
 
     public static final int EDITABLE = 0;

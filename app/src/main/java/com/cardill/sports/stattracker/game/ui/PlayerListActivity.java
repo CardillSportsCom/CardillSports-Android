@@ -3,6 +3,7 @@ package com.cardill.sports.stattracker.game.ui;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -22,7 +23,8 @@ import dagger.android.AndroidInjection;
 
 public class PlayerListActivity extends AppCompatActivity {
     public static final String GAME_DATA = "game-data-key";
-    public static final String PLAYER_EXTRA_KEY = "player-extra-key";
+    public static final String SUB_IN_PLAYER_EXTRA_KEY = "sub-in-player-extra-key";
+    public static final String SUB_OUT_PLAYER_EXTRA_KEY = "sub-out-player-extra-key";
 
     private PlayerListPresenter mPresenter;
     private View mProgress;
@@ -44,6 +46,8 @@ public class PlayerListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_team_creation);
 
+        Player subbedOutPlayer = getIntent().getParcelableExtra(SUB_OUT_PLAYER_EXTRA_KEY);
+
         viewModel = ViewModelProviders.of(this).get(PlayersViewModel.class);
         viewModel.getPlayers().observe(this, this::renderUI);
         viewModel.isLoading().observe(this, this::renderLoading);
@@ -56,7 +60,8 @@ public class PlayerListActivity extends AppCompatActivity {
             Player player = (Player) parent.getAdapter().getItem(position);
             Intent data = new Intent();
             Bundle bundle = new Bundle();
-            bundle.putParcelable(PLAYER_EXTRA_KEY, player);
+            bundle.putParcelable(SUB_OUT_PLAYER_EXTRA_KEY, subbedOutPlayer);
+            bundle.putParcelable(SUB_IN_PLAYER_EXTRA_KEY, player);
             data.putExtras(bundle);
             setResult(RESULT_OK, data);
             finish();

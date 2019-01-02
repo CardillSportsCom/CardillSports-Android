@@ -1,11 +1,14 @@
 package com.cardill.sports.stattracker.details.ui;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.cardill.sports.stattracker.R;
 import com.cardill.sports.stattracker.common.data.Player;
@@ -16,6 +19,7 @@ import com.cardill.sports.stattracker.game.data.GameRepository;
 import com.cardill.sports.stattracker.common.data.Stat;
 import com.cardill.sports.stattracker.common.data.GameStatType;
 import com.cardill.sports.stattracker.common.data.GamePlayer;
+import com.cardill.sports.stattracker.game.ui.PlayerListActivity;
 import com.evrencoskun.tableview.TableView;
 
 import java.util.ArrayList;
@@ -27,9 +31,15 @@ import javax.inject.Inject;
 import dagger.android.AndroidInjection;
 import io.reactivex.disposables.Disposable;
 
-public class DetailsActivity extends AppCompatActivity {
+import static com.cardill.sports.stattracker.game.ui.PlayerListActivity.SUB_IN_PLAYER_EXTRA_KEY;
+import static com.cardill.sports.stattracker.game.ui.PlayerListActivity.SUB_OUT_PLAYER_EXTRA_KEY;
+
+public class DetailsActivity extends AppCompatActivity implements DetailsViewBinder {
+
+    private static final int NEW_PLAYER_REQUEST_CODE = 2;
 
     @Inject GameRepository gameRepository;
+    private TableView tableView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +51,7 @@ public class DetailsActivity extends AppCompatActivity {
 
         GameData gameData = gameRepository.getGameStats();
 
-        TableView tableView = findViewById(R.id.team_1_table_view);
+        tableView = findViewById(R.id.team_1_table_view);
 
 
         initTableView(tableView, gameData.getTeamOnePlayers(), gameData.getTeamTwoPlayers(), StatsTableAdapter.EDITABLE);
@@ -52,6 +62,7 @@ public class DetailsActivity extends AppCompatActivity {
         StatsTableAdapter adapter = new StatsTableAdapter(this, viewType);
 
         tableView.setAdapter(adapter);
+        tableView.setTableViewListener(new DetailsTableListener(tableView, this));
 
         List<GameStatType> columnHeaderItems = Arrays.asList(GameStatType.values());
         List<List<Stat>> mCellList = TableUtils.generateTableCellList(teamOne, teamTwo);
@@ -124,5 +135,46 @@ public class DetailsActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void showPlayerList(Player subbedOutPlayer) {
+        Intent intent = new Intent(this, PlayerListActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(SUB_OUT_PLAYER_EXTRA_KEY, subbedOutPlayer);
+        intent.putExtras(bundle);
+        startActivityForResult(intent, NEW_PLAYER_REQUEST_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == NEW_PLAYER_REQUEST_CODE) {
+                Player subbedOut = data.getParcelableExtra(SUB_OUT_PLAYER_EXTRA_KEY);
+                Player subbedIn = data.getParcelableExtra(SUB_IN_PLAYER_EXTRA_KEY);
+
+                String str = "SUB OUT: " + subbedOut.firstName + " :: SUB IN: " + subbedIn.firstName;
+                Toast.makeText(this, str, Toast.LENGTH_LONG).show();
+                performSubstition(subbedOut, subbedIn);
+            }
+        }
+    }
+
+    //TODO move this to presenter class
+    private void performSubstition(Player subbedOut, Player subbedIn) {
+        List<Player> teamOnePlayers = gameRepository.getGameStats().getTeamOnePlayers();
+        List<Player> teamTwoPlayers = gameRepository.getGameStats().getTeamTwoPlayers();
+
+        if (teamOnePlayers.contains(subbedOut)) {
+            gameRepository.subOut(subbedOut.id, teamOnePlayers);
+            gameRepository.subIn(subbedIn, teamOnePlayers);
+        } else if (teamTwoPlayers.contains(subbedOut)) {
+            gameRepository.subOut(subbedOut.id, teamOnePlayers);
+            gameRepository.subIn(subbedIn, teamTwoPlayers);
+        }
+
+        initTableView(tableView, teamOnePlayers, teamTwoPlayers, StatsTableAdapter.EDITABLE);
+
+    }
+
 }
 

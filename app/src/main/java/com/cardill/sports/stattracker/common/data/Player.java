@@ -3,8 +3,6 @@ package com.cardill.sports.stattracker.common.data;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.auto.value.AutoValue;
-
 import java.io.Serializable;
 
 public class Player implements Parcelable, Serializable {
@@ -22,6 +20,8 @@ public class Player implements Parcelable, Serializable {
     public int turnovers;
     public int wins;
     public int gamesPlayed;
+    private boolean isActive;
+    private boolean shouldIgnoreStats;
 
     protected Player(Parcel in) {
         id = in.readString();
@@ -36,10 +36,12 @@ public class Player implements Parcelable, Serializable {
         turnovers = in.readInt();
         wins = in.readInt();
         gamesPlayed = in.readInt();
-
+        isActive = in.readByte() != 0;
+        shouldIgnoreStats = in.readByte() != 0;
     }
 
-    public Player(String id, String firstName, String lastName, int fgm, int fga, int assists, int rebounds, int blocks, int steals, int turnovers) {
+    public Player(String id, String firstName, String lastName, int fgm, int fga, int assists,
+                  int rebounds, int blocks, int steals, int turnovers) {
 
         this.id = id;
         this.firstName = firstName;
@@ -51,9 +53,12 @@ public class Player implements Parcelable, Serializable {
         this.blocks = blocks;
         this.steals = steals;
         this.turnovers = turnovers;
+        this.isActive = true;
+        this.shouldIgnoreStats = false;
     }
 
-    public Player(String id, String firstName, String lastName, int fgm, int fga, int assists, int rebounds, int blocks, int steals, int turnovers, int wins, int gamesPlayed) {
+    public Player(String id, String firstName, String lastName, int fgm, int fga, int assists,
+                  int rebounds, int blocks, int steals, int turnovers, int wins, int gamesPlayed) {
 
         this.id = id;
         this.firstName = firstName;
@@ -67,6 +72,9 @@ public class Player implements Parcelable, Serializable {
         this.turnovers = turnovers;
         this.wins = wins;
         this.gamesPlayed = gamesPlayed;
+        this.isActive = true;
+        this.shouldIgnoreStats = false;
+
     }
 
     public Builder toBuilder() {
@@ -97,7 +105,9 @@ public class Player implements Parcelable, Serializable {
             Integer steals,
             Integer turnovers,
             Integer wins,
-            Integer gamesPlayed) {
+            Integer gamesPlayed,
+            Boolean isActive,
+            Boolean shouldIgnoreStats) {
 
         this.id = id;
         this.firstName = firstName;
@@ -111,6 +121,8 @@ public class Player implements Parcelable, Serializable {
         this.turnovers = turnovers;
         this.wins = wins;
         this.gamesPlayed = gamesPlayed;
+        this.isActive = isActive;
+        this.shouldIgnoreStats = shouldIgnoreStats;
     }
 
     public String id() {
@@ -161,6 +173,14 @@ public class Player implements Parcelable, Serializable {
         return gamesPlayed;
     }
 
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public boolean shouldIgnoreStats() {
+        return shouldIgnoreStats;
+    }
+
     public static Player create(String id, String firstName, String lastName) {
         return builder()
                 .id(id)
@@ -175,6 +195,8 @@ public class Player implements Parcelable, Serializable {
                 .turnovers(0)
                 .wins(0)
                 .gamesPlayed(0)
+                .isActive(true)
+                .shouldIgnoreStats(false)
                 .build();
     }
 
@@ -188,7 +210,9 @@ public class Player implements Parcelable, Serializable {
                 .steals(0)
                 .turnovers(0)
                 .wins(0)
-                .gamesPlayed(0);
+                .gamesPlayed(0)
+                .isActive(false)
+                .shouldIgnoreStats(false);
     }
 
     @Override
@@ -210,6 +234,8 @@ public class Player implements Parcelable, Serializable {
         dest.writeInt(turnovers);
         dest.writeInt(wins);
         dest.writeInt(gamesPlayed);
+        dest.writeByte((byte) (isActive ? 1 : 0));
+        dest.writeByte((byte) (shouldIgnoreStats ? 1 : 0));
     }
 
     public static final class Builder {
@@ -225,6 +251,9 @@ public class Player implements Parcelable, Serializable {
         private Integer turnovers;
         private Integer wins;
         private Integer gamesPlayed;
+        private Boolean isActive;
+        private Boolean shouldIgnoreStats;
+
         Builder() {
         }
         private Builder(Player source) {
@@ -240,6 +269,8 @@ public class Player implements Parcelable, Serializable {
             this.turnovers = source.turnovers();
             this.wins = source.wins();
             this.gamesPlayed = source.gamesPlayed();
+            this.isActive = source.isActive();
+            this.shouldIgnoreStats = source.shouldIgnoreStats();
         }
 
         public Player.Builder id(String id) {
@@ -311,6 +342,16 @@ public class Player implements Parcelable, Serializable {
             return this;
         }
 
+        public Player.Builder isActive(boolean isActive) {
+            this.isActive = isActive;
+            return this;
+        }
+
+        public Player.Builder shouldIgnoreStats(boolean shouldIgnoreStats) {
+            this.shouldIgnoreStats = shouldIgnoreStats;
+            return this;
+        }
+
         public Player build() {
             String missing = "";
             if (this.id == null) {
@@ -349,6 +390,13 @@ public class Player implements Parcelable, Serializable {
             if (this.gamesPlayed == null) {
                 missing += " gamesPlayed";
             }
+            if (this.isActive == null) {
+                missing += " isActive";
+            }
+
+            if (this.shouldIgnoreStats == null) {
+                missing += " shouldIgnoreStats";
+            }
             if (!missing.isEmpty()) {
                 throw new IllegalStateException("Missing required properties:" + missing);
             }
@@ -364,8 +412,17 @@ public class Player implements Parcelable, Serializable {
                     this.steals,
                     this.turnovers,
                     this.wins,
-                    this.gamesPlayed);
+                    this.gamesPlayed,
+                    this.isActive,
+                    this.shouldIgnoreStats);
         }
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) return false;
+        if (!(obj instanceof Player)) return false;
+        Player player = (Player) obj;
+        return this.id.equals(player.id);
+    }
 }
