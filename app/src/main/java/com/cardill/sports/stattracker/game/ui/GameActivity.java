@@ -432,15 +432,21 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (resultCode == RESULT_OK) {
             if (requestCode == NEW_PLAYER_REQUEST_CODE) {
-                Player player =  data.getParcelableExtra(SUB_IN_PLAYER_EXTRA_KEY);
+                Player player = data.getParcelableExtra(SUB_IN_PLAYER_EXTRA_KEY);
                 new AlertDialog.Builder(this)
                         .setTitle("Select Team")
                         .setMessage("Which team should this new player be added to?")
                         .setIcon(android.R.drawable.ic_dialog_info)
                         .setPositiveButton(R.string.team_1,
-                                (dialog, whichButton) -> mPresenter.addPlayer(player, true))
+                                (dialog, whichButton) -> {
+                                    mPresenter.addPlayer(player, true);
+                                    teamOneAdapter.notifyDataSetChanged();
+                                })
                         .setNegativeButton(R.string.team_2,
-                                (dialog, whichButton) -> mPresenter.addPlayer(player, false))
+                                (dialog, whichButton) -> {
+                                    mPresenter.addPlayer(player, false);
+                                    teamTwoAdapter.notifyDataSetChanged();
+                                })
                         .setNeutralButton(android.R.string.cancel, null).show();
             }
         }

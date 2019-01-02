@@ -2,6 +2,8 @@ package com.cardill.sports.stattracker.game.ui;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
@@ -45,6 +47,7 @@ public class PlayerListActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_team_creation);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
 
         Player subbedOutPlayer = getIntent().getParcelableExtra(SUB_OUT_PLAYER_EXTRA_KEY);
 
