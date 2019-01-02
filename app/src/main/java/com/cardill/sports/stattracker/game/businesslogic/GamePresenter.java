@@ -208,10 +208,15 @@ public class GamePresenter {
         viewBinder.showGameOverConfirmation();
     }
 
-    public void addPlayer(Player player) {
+    public void addPlayer(Player player, boolean isTeamOne) {
         GameData gameStats = gameRepository.getGameStats();
-        List<Player> teamOnePlayers = gameStats.getTeamOnePlayers();
-        teamOnePlayers.add(player);
+        if (isTeamOne) {
+            List<Player> teamOnePlayers = gameStats.getTeamOnePlayers();
+            teamOnePlayers.add(player);
+        } else {
+            List<Player> teamTwoPlayers = gameStats.getTeamTwoPlayers();
+            teamTwoPlayers.add(player);
+        }
     }
 
     public void addPlayerRequested() {
