@@ -62,17 +62,17 @@ public class ProfileActivity extends AppCompatActivity implements ProfileViewBin
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_activity);
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
 
         final Toolbar toolbar = findViewById(R.id.htab_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
         toolbar.setNavigationOnClickListener(v -> finish());
 
         final CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.htab_collapse_toolbar);
 
         collapsingToolbarLayout.setContentScrimColor(
-                ContextCompat.getColor(this, R.color.colorPrimary)
+                ContextCompat.getColor(this, R.color.black)
         );
         collapsingToolbarLayout.setStatusBarScrimColor(
                 ContextCompat.getColor(this, R.color.colorPrimaryDark)
