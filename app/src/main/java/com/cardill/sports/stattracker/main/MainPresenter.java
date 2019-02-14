@@ -63,7 +63,14 @@ class MainPresenter {
         if (activeLeague.isEmpty()) {
             leagueRepository.saveActiveLeaguekey(leagueList.get(0).getID());
         }
-        viewModel.setTitle(leagueList.get(0).getName());
+
+        for (League league : leagueList) {
+            if (leagueRepository.getActiveLeagueKey().equals(league.getID())) {
+                viewModel.setTitle(league.getName());
+                break;
+            }
+        }
+
         viewBinder.setLeagues(leagueList);
     }
 

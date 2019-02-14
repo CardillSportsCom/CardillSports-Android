@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import com.cardill.sports.stattracker.AuthService;
 import com.cardill.sports.stattracker.R;
@@ -73,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
     private NavController navController;
     private BottomNavigationView bottomNavigationView;
     private MainPresenter mPresenter;
+    private ProgressBar mProgressBar;
 
     @Override
     public AndroidInjector<Fragment> supportFragmentInjector() {
@@ -127,8 +129,9 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
 
     private void initLeaguePickerDialog() {
         View view = getLayoutInflater().inflate(R.layout.custom_bottom_sheet, null);
-        recyclerView = view.findViewById(R.id.rclItems);
+        mProgressBar = view.findViewById(R.id.progress_bar);
 
+        recyclerView = view.findViewById(R.id.rclItems);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         List<League> data = new ArrayList<>();
@@ -257,6 +260,7 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
 
     @Override
     public void setLeagues(List<League> leagueList) {
+        mProgressBar.setVisibility(View.GONE);
         adapter.setLeagues(leagueList);
     }
 }
