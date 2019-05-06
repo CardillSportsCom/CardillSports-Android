@@ -7,6 +7,8 @@ public class PlayerStat {
     private String game;
     private long FGM;
     private long FGA;
+    private long onePointFieldGoalsMade;
+    private long twoPointFieldGoalsMade;
     private long rebounds;
     private long assists;
     private long steals;
@@ -50,6 +52,14 @@ public class PlayerStat {
 
     public String getDateCreated() { return dateCreated; }
     public void setDateCreated(String value) { this.dateCreated = value; }
+
+    public long getOnePointFieldGoalsMade() {
+        return onePointFieldGoalsMade;
+    }
+
+    public long getTwoPointFieldGoalsMade() {
+        return twoPointFieldGoalsMade;
+    }
 
     public long getV() { return v; }
     public void setV(long value) { this.v = value; }

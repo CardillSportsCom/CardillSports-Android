@@ -79,13 +79,15 @@ public class GameViewModel extends ViewModel {
         int team1 = 0;
 
         for (Player p : gameStats.getTeamOnePlayers()) {
-            team1 += p.fieldGoalMade();
+            team1 += p.getOnePointFieldGoalMade();
+            team1 += 2 * p.getTwoPointFieldGoalMade();
         }
 
         int team2 = 0;
 
         for (Player p : gameStats.getTeamTwoPlayers()) {
-            team2 += p.fieldGoalMade();
+            team2 += p.getOnePointFieldGoalMade();
+            team2 += 2 * p.getTwoPointFieldGoalMade();
         }
 
         scoreString.setValue(team1 + " - "  + team2);

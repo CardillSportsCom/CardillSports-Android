@@ -54,7 +54,8 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
     private static final int NEW_PLAYER_REQUEST_CODE = 2;
 
     private GamePresenter mPresenter;
-    private Button makeButton;
+    private Button makeOnePointButton;
+    private Button makeTwoPointButton;
     private Button missButton;
     private Button turnoverButton;
     private RecyclerView teamTwoRecyclerView;
@@ -117,7 +118,8 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
         teamTwoAdapter = new NewGamePlayerAdapter(gameData.getTeamTwoPlayers(), Team.TEAM_TWO);
         teamTwoRecyclerView.setAdapter(teamTwoAdapter);
 
-        makeButton = findViewById(R.id.make);
+        makeOnePointButton = findViewById(R.id.make_one_point);
+        makeTwoPointButton = findViewById(R.id.make_two_point);
         missButton = findViewById(R.id.misses);
         turnoverButton = findViewById(R.id.turnover);
         assistButton = findViewById(R.id.assist);
@@ -149,7 +151,8 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
     }
 
     private Observable<GameEvent> getGameEventObservable() {
-        Observable<GameEvent> makeClicks = RxView.clicks(makeButton).map(x -> new GameEvent.MakeRequested());
+        Observable<GameEvent> makeOnePointClicks = RxView.clicks(makeOnePointButton).map(x -> new GameEvent.MakeOnePointRequested());
+        Observable<GameEvent> makeTwoPointClicks = RxView.clicks(makeTwoPointButton).map(x -> new GameEvent.MakeTwoPointRequested());
         Observable<GameEvent> missClicks = RxView.clicks(missButton).map(x -> new GameEvent.MissRequested());
         Observable<GameEvent> turnoverClicks = RxView.clicks(turnoverButton).map(x -> new GameEvent.TurnoverRequested());
         Observable<GameEvent> assistClicks = RxView.clicks(assistButton).map(x -> new GameEvent.AssistRequested());
@@ -163,7 +166,8 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
         Observable<GameEvent> noReboundFromBlockClicks = RxView.clicks(noReboundFromBlockButton).map(x -> new GameEvent.NoReboundFromBlockRequested());
 
         Observable<GameEvent> mainButtonClicks = Observable.merge(
-                makeClicks,
+                makeOnePointClicks,
+                makeTwoPointClicks,
                 missClicks,
                 turnoverClicks
         );
@@ -207,7 +211,8 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
     }
 
     private void setMainButtonsVisibility(int visibility) {
-        makeButton.setVisibility(visibility);
+        makeOnePointButton.setVisibility(visibility);
+        makeTwoPointButton.setVisibility(visibility);
         missButton.setVisibility(visibility);
         turnoverButton.setVisibility(visibility);
     }
@@ -259,7 +264,8 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
 
     private void renderUI(GameState gameState) {
         switch (gameState) {
-            case MAKE_REQUESTED:
+            case MAKE_ONE_POINT_REQUESTED:
+            case MAKE_TWO_POINT_REQUESTED:
             case MISS_REQUESTED:
             case REBOUND_REQUESTED:
             case TURNOVER_REQUESTED:

@@ -90,8 +90,10 @@ public class GameRepository {
 
     private Player updatePlayerStat(GameStatType statKey, int newValue, Player player) {
         switch (statKey) {
-            case MAKES:
-                return player.toBuilder().fieldGoalMade(newValue).build();
+            case MAKE_ONE_POINT:
+                return player.toBuilder().onePointFieldGoalMade(newValue).build();
+            case MAKE_TWO_POINT:
+                return player.toBuilder().twoPointFieldGoalMade(newValue).build();
             case MISSES:
                 return player.toBuilder().fieldGoalMissed(newValue).build();
             case AST:
@@ -112,8 +114,10 @@ public class GameRepository {
 
     private Player incrementPlayerStat(GameStatType statKey, Player player) {
         switch (statKey) {
-            case MAKES:
-                return player.toBuilder().fieldGoalMade(player.fieldGoalMade() + 1).build();
+            case MAKE_ONE_POINT:
+                return player.toBuilder().onePointFieldGoalMade(player.getOnePointFieldGoalMade() + 1).build();
+            case MAKE_TWO_POINT:
+                return player.toBuilder().twoPointFieldGoalMade(player.getTwoPointFieldGoalMade() + 1).build();
             case MISSES:
                 return player.toBuilder().fieldGoalMissed(player.fieldGoalMissed() + 1).build();
             case AST:

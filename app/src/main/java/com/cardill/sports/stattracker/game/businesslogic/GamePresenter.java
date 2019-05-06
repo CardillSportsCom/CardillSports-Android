@@ -31,8 +31,10 @@ public class GamePresenter {
     private void init(GameViewModel viewModel, Observable<GameEvent> eventObservable) {
         Disposable subscribe = eventObservable
                 .subscribe(gameEvent -> {
-                    if (gameEvent instanceof GameEvent.MakeRequested) {
-                        viewModel.setGameState(GameState.MAKE_REQUESTED);
+                    if (gameEvent instanceof GameEvent.MakeOnePointRequested) {
+                        viewModel.setGameState(GameState.MAKE_ONE_POINT_REQUESTED);
+                    } else if (gameEvent instanceof GameEvent.MakeTwoPointRequested) {
+                        viewModel.setGameState(GameState.MAKE_TWO_POINT_REQUESTED);
                     } else if (gameEvent instanceof GameEvent.PlayerSelected) {
                         GameEvent.PlayerSelected playerSelectedEvent = (GameEvent.PlayerSelected) gameEvent;
 
@@ -83,7 +85,8 @@ public class GamePresenter {
                             if (gameState != GameState.BLOCK_REQUESTED) {
                                 viewModel.setGameState(GameState.MAIN);
                             }
-                        } else if (gameState == GameState.MAKE_REQUESTED) {
+                        } else if (gameState == GameState.MAKE_ONE_POINT_REQUESTED ||
+                                gameState == GameState.MAKE_TWO_POINT_REQUESTED) {
                             gameRepository.incrementPendingStat(player, gameStatType);
                             viewModel.setGameState(GameState.DETERMINE_MAKE_EXTRAS);
                         } else if (gameState == GameState.MISS_REQUESTED) {
@@ -133,11 +136,16 @@ public class GamePresenter {
 
                         viewModel.setGameState(GameState.MAIN);
                     } else if (gameEvent instanceof GameEvent.BackRequested) {
-                        if (viewModel.getGameState().getValue() == GameState.MAKE_REQUESTED) {
+                        if (viewModel.getGameState().getValue() == GameState.MAKE_ONE_POINT_REQUESTED ||
+                                viewModel.getGameState().getValue() == GameState.MAKE_TWO_POINT_REQUESTED) {
                             viewModel.setGameState(GameState.MAIN);
                         } else if (viewModel.getGameState().getValue() == GameState.DETERMINE_MAKE_EXTRAS) {
-                            gameRepository.removeFromQueue();
-                            viewModel.setGameState(GameState.MAKE_REQUESTED);
+                            PendingGameStat pendingGameStat = gameRepository.removeFromQueue();
+                            if (pendingGameStat.getGameStatType() == GameStatType.MAKE_ONE_POINT) {
+                                viewModel.setGameState(GameState.MAKE_ONE_POINT_REQUESTED);
+                            } else if (pendingGameStat.getGameStatType() == GameStatType.MAKE_TWO_POINT) {
+                                viewModel.setGameState(GameState.MAKE_TWO_POINT_REQUESTED);
+                            }
                         } else if (viewModel.getGameState().getValue() == GameState.ASSIST_REQUESTED) {
                             viewModel.setGameState(GameState.DETERMINE_MAKE_EXTRAS);
                         } else if (viewModel.getGameState().getValue() == GameState.MISS_REQUESTED) {
@@ -171,8 +179,10 @@ public class GamePresenter {
         switch (value) {
             case ASSIST_REQUESTED:
                 return GameStatType.AST;
-            case MAKE_REQUESTED:
-                return GameStatType.MAKES;
+            case MAKE_ONE_POINT_REQUESTED:
+                return GameStatType.MAKE_ONE_POINT;
+            case MAKE_TWO_POINT_REQUESTED:
+                return GameStatType.MAKE_TWO_POINT;
             case MISS_REQUESTED:
                 return GameStatType.MISSES;
             case BLOCK_REQUESTED:
