@@ -87,8 +87,8 @@ public class ProfileActivity extends AppCompatActivity implements ProfileViewBin
     @Override
     public void onResume() {
         super.onResume();
-        String playerId = getIntent().getExtras().getString(PLAYER_ID_KEY);
-        mPresenter.onLoad(playerId);
+        //String playerId = getIntent().getExtras().getString(PLAYER_ID_KEY);
+        mPresenter.onLoad("d");
     }
 
     @Override
@@ -177,12 +177,10 @@ public class ProfileActivity extends AppCompatActivity implements ProfileViewBin
 
         for (PlayerStat playerStat : playerStats) {
             List<String> statList = new ArrayList<>(8);
-            statList.add(String.valueOf(playerStat.getFGM()));
-            statList.add(String.valueOf(playerStat.getFGA()));
 
-            double fg = playerStat.getFGM() / (double) playerStat.getFGA();
-            statList.add(percentInstance.format(fg));
-
+            statList.add(playerStat.getFieldGoalPercentage(percentInstance));
+            statList.add(String.valueOf(playerStat.getPoints()));
+            statList.add(String.valueOf(playerStat.getTwoPointersMade()));
             statList.add(String.valueOf(playerStat.getAssists()));
             statList.add(String.valueOf(playerStat.getRebounds()));
             statList.add(String.valueOf(playerStat.getSteals()));

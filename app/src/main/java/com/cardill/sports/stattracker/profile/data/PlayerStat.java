@@ -3,6 +3,12 @@ package com.cardill.sports.stattracker.profile.data;
 import com.cardill.sports.stattracker.common.data.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.text.NumberFormat;
+import java.util.logging.Formatter;
+
+/**
+ * The data object that comes back from the backend
+ */
 public class PlayerStat {
     private String id;
     private User player;
@@ -11,6 +17,8 @@ public class PlayerStat {
     private String league;
     private long FGM;
     private long FGA;
+    private long points;
+    private long twoPointersMade;
     private long rebounds;
     private long assists;
     private long steals;
@@ -54,6 +62,21 @@ public class PlayerStat {
     public long getFGA() { return FGA; }
     @JsonProperty("FGA")
     public void setFGA(long value) { this.FGA = value; }
+
+    public String getFieldGoalPercentage(NumberFormat numberFormat) {
+        float fgPercent = ((float) FGM / FGA);
+        return numberFormat.format(fgPercent);
+    }
+
+    @JsonProperty("points")
+    public long getPoints() { return points; }
+    @JsonProperty("points")
+    public void setPoints(long value) { this.points = value; }
+
+    @JsonProperty("twoPointersMade")
+    public long getTwoPointersMade() { return twoPointersMade; }
+    @JsonProperty("twoPointersMade")
+    public void setTwoPointersMade(long value) { this.twoPointersMade = value; }
 
     @JsonProperty("rebounds")
     public long getRebounds() { return rebounds; }

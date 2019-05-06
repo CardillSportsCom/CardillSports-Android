@@ -1,7 +1,10 @@
 package com.cardill.sports.stattracker.network;
 
+import com.cardill.sports.stattracker.boxscore.data.Player;
+import com.cardill.sports.stattracker.common.data.User;
 import com.cardill.sports.stattracker.game.data.JSONGameStats;
 import com.cardill.sports.stattracker.league.PlayerLeaguesResponse;
+import com.cardill.sports.stattracker.profile.data.PlayerStat;
 import com.cardill.sports.stattracker.profile.data.PlayerStatResponse;
 import com.cardill.sports.stattracker.teamcreation.data.AddPlayerToLeagueRequestBody;
 import com.cardill.sports.stattracker.teamcreation.data.AddTeamRequestBody;
@@ -122,7 +125,26 @@ public class MockCardillService implements CardillService {
 
     @Override
     public Observable<PlayerStatResponse> getPlayerStats(String playerId) {
-        return Observable.empty();
+        PlayerStatResponse playerStatResponse = new PlayerStatResponse();
+        PlayerStat playerStat = new PlayerStat();
+        User player = new User();
+        player.setFirstName("VITHUSHAN");
+        player.setLastName("NAMA");
+        playerStat.setDateCreated("05/06/2019");
+        playerStat.setPlayer(player);
+        playerStat.setFGM(1);
+        playerStat.setFGA(2);
+        playerStat.setPoints(3);
+        playerStat.setTwoPointersMade(4);
+        playerStat.setAssists(5);
+        playerStat.setRebounds(6);
+        playerStat.setSteals(7);
+        playerStat.setBlocks(8);
+        playerStat.setTurnovers(9);
+
+        PlayerStat[] playerStats = {playerStat};
+        playerStatResponse.setPlayerStats(playerStats);
+        return Observable.just(playerStatResponse);
     }
 
     @Override
