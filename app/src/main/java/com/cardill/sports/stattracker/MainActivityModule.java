@@ -1,10 +1,10 @@
 package com.cardill.sports.stattracker;
 
-import com.cardill.sports.stattracker.boxscore.ui.BoxScoreFragment;
-import com.cardill.sports.stattracker.gamedays.ui.DailyStatsFragment;
-import com.cardill.sports.stattracker.gamedays.ui.GameDayFragment;
-import com.cardill.sports.stattracker.scores.ScoresFragment;
-import com.cardill.sports.stattracker.stats.StatsFragment;
+import com.cardill.sports.stattracker.consumer.boxscore.ui.BoxScoreFragment;
+import com.cardill.sports.stattracker.consumer.gamedays.ui.DailyStatsFragment;
+import com.cardill.sports.stattracker.consumer.gamedays.ui.GameDayFragment;
+import com.cardill.sports.stattracker.consumer.scores.ScoresFragment;
+import com.cardill.sports.stattracker.consumer.stats.StatsFragment;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;

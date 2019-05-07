@@ -11,7 +11,6 @@ import android.view.View;
 
 import com.cardill.sports.stattracker.creator.R;
 import com.cardill.sports.stattracker.common.data.GameData;
-import com.cardill.sports.stattracker.common.network.MockData;
 import com.cardill.sports.stattracker.creator.offline.domain.LocalGameRepository;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.gson.Gson;
@@ -50,11 +49,7 @@ public class RoomActivity extends AppCompatActivity {
         View writeButton = findViewById(R.id.write);
 
         writeButton.setOnClickListener(v -> {
-            GameData gameData = MockData.mockGameData();
-            gameDataStore.add(gameData)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe();
+            // No op
         });
 
         readButton.setOnClickListener(v -> {

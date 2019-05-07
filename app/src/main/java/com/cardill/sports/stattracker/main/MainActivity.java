@@ -22,7 +22,7 @@ import com.cardill.sports.stattracker.R;
 import com.cardill.sports.stattracker.common.league.LeagueAdapter;
 import com.cardill.sports.stattracker.common.league.LeagueRepository;
 import com.cardill.sports.stattracker.common.league.League;
-import com.cardill.sports.stattracker.network.CardillService;
+import com.cardill.sports.stattracker.consumer.network.CardillService;
 import com.cardill.sports.stattracker.user.Session;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;

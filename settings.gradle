@@ -1,1 +1,1 @@
-include ':app', ':common', ':creator'
+include ':app', ':common', ':creator', ':consumer'
