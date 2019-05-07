@@ -3,8 +3,8 @@ package com.cardill.sports.stattracker;
 import android.app.Activity;
 import android.app.Application;
 
-import com.cardill.sports.stattracker.game.data.GameRepository;
-import com.cardill.sports.stattracker.offline.domain.services.jobs.JobManagerFactory;
+import com.cardill.sports.stattracker.creator.game.data.GameRepository;
+import com.cardill.sports.stattracker.creator.offline.domain.services.jobs.JobManagerFactory;
 import com.cardill.sports.stattracker.user.Session;
 import com.facebook.stetho.Stetho;
 

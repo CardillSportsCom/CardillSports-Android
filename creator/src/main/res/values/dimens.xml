@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="team_selection_padding">16dp</dimen>
+    <dimen name="game_stat_button_size">24dp</dimen>
+    <dimen name="column_header_height">64dp</dimen>
+    <dimen name="row_header_width">96dp</dimen>
+</resources>

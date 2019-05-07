@@ -6,27 +6,28 @@ import android.content.SharedPreferences;
 
 import com.birbit.android.jobqueue.JobManager;
 import com.birbit.android.jobqueue.config.Configuration;
-import com.cardill.sports.stattracker.debug.RoomActivity;
-import com.cardill.sports.stattracker.game.ui.PlayerListActivity;
+import com.cardill.sports.stattracker.creator.game.ui.PlayerListActivity;
 import com.cardill.sports.stattracker.common.league.LeagueRepository;
+import com.cardill.sports.stattracker.creator.network.CreatorCardillService;
+import com.cardill.sports.stattracker.creator.offline.domain.services.jobs.JobManagerInjectable;
 import com.cardill.sports.stattracker.network.CardillService;
 import com.cardill.sports.stattracker.network.MockCardillService;
 import com.cardill.sports.stattracker.network.NetworkUtils;
-import com.cardill.sports.stattracker.offline.domain.RemoteGameRepository;
-import com.cardill.sports.stattracker.game.di.GameActivityModule;
-import com.cardill.sports.stattracker.game.ui.GameRecapActivity;
-import com.cardill.sports.stattracker.details.ui.DetailsActivity;
-import com.cardill.sports.stattracker.game.ui.GameActivity;
-import com.cardill.sports.stattracker.offline.data.GameDataDao;
-import com.cardill.sports.stattracker.offline.data.GameDatabase;
-import com.cardill.sports.stattracker.offline.data.LocalGameDataStore;
-import com.cardill.sports.stattracker.offline.data.RemoteGameDataStore;
-import com.cardill.sports.stattracker.offline.domain.LocalGameRepository;
-import com.cardill.sports.stattracker.offline.domain.services.jobs.SyncGameJob;
+import com.cardill.sports.stattracker.creator.offline.domain.RemoteGameRepository;
+import com.cardill.sports.stattracker.creator.game.di.GameActivityModule;
+import com.cardill.sports.stattracker.creator.game.ui.GameRecapActivity;
+import com.cardill.sports.stattracker.creator.details.ui.DetailsActivity;
+import com.cardill.sports.stattracker.creator.game.ui.GameActivity;
+import com.cardill.sports.stattracker.creator.offline.data.GameDataDao;
+import com.cardill.sports.stattracker.creator.offline.data.GameDatabase;
+import com.cardill.sports.stattracker.creator.offline.data.LocalGameDataStore;
+import com.cardill.sports.stattracker.creator.offline.data.RemoteGameDataStore;
+import com.cardill.sports.stattracker.creator.offline.domain.LocalGameRepository;
+import com.cardill.sports.stattracker.creator.offline.domain.services.jobs.SyncGameJob;
 import com.cardill.sports.stattracker.profile.ProfileActivity;
-import com.cardill.sports.stattracker.teamcreation.ui.TeamCreationActivity;
+import com.cardill.sports.stattracker.creator.teamcreation.ui.TeamCreationActivity;
 import com.cardill.sports.stattracker.main.MainActivity;
-import com.cardill.sports.stattracker.teamselection.ui.TeamSelectionActivity;
+import com.cardill.sports.stattracker.creator.teamselection.ui.TeamSelectionActivity;
 import com.cardill.sports.stattracker.user.AuthorizationInterceptor;
 import com.cardill.sports.stattracker.user.UnauthorizedInterceptor;
 import com.cardill.sports.stattracker.user.Session;
@@ -73,9 +74,6 @@ public abstract class ApplicationModule {
     abstract GameRecapActivity contributeBoxScoreActivityInjector();
 
     @ContributesAndroidInjector
-    abstract RoomActivity contributeRoomActivityInjector();
-
-    @ContributesAndroidInjector
     abstract ProfileActivity contributeProfileActivityInjector();
 
     @ContributesAndroidInjector(modules = MainActivityModule.class)
@@ -96,7 +94,7 @@ public abstract class ApplicationModule {
 
     @Singleton
     @Provides
-    static JobManager provideJobManager(Application application, CardillService service, LeagueRepository leagueRepository) {
+    static JobManager provideJobManager(Application application, CreatorCardillService service, LeagueRepository leagueRepository) {
 
         Configuration config = new Configuration.Builder(application.getApplicationContext())
                 .injector(job -> {
@@ -111,7 +109,7 @@ public abstract class ApplicationModule {
 
     @Singleton
     @Provides
-    static RemoteGameRepository provideRemoteGameRepository(JobManager jobManager, CardillService service) {
+    static RemoteGameRepository provideRemoteGameRepository(JobManager jobManager, CreatorCardillService service) {
         return new RemoteGameDataStore(jobManager, service);
     }
 
@@ -145,43 +143,54 @@ public abstract class ApplicationModule {
 
     @Provides
     @Singleton
-    static CardillService provideCardillService(Application application, Session session, AuthService authService) {
+    static Retrofit provideRetrofit(Application application, Session session, AuthService authService) {
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+        long cacheSize = (5 * 1024 * 1024);
+        Cache cache = new Cache(application.getCacheDir(), cacheSize);
+        OkHttpClient httpClient = new OkHttpClient.Builder()
+                .cache(cache)
+                .addNetworkInterceptor(chain -> {
+                    Request request = chain.request();
+                    if (NetworkUtils.Companion.hasNetwork(application)) {
+                        request.newBuilder().header("Cache-Control", "public, max-age=" + 5).build();
+                    } else {
+                        request.newBuilder().header("Cache-Control", "public, only-if-cached, max-stale=" + 60 * 60 * 24 * 7).build();
+                    }
+                    return chain.proceed(request);
+                })
+                .addNetworkInterceptor(new StethoInterceptor())
+                .addInterceptor(new AuthorizationInterceptor(session))
+                .addInterceptor(new UnauthorizedInterceptor(session, authService))
+                .build();
+        return new Retrofit.Builder()
+                .baseUrl(BuildConfig.API_BASE_URL)
+                .client(httpClient)
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+    }
+
+    @Provides
+    @Singleton
+    static CardillService provideCardillService(Retrofit retrofit) {
 
         //TODO (vithushan) make this a build config or something better than a local var
         boolean online = true;
 
         if (online) {
-            Gson gson = new GsonBuilder()
-                    .setLenient()
-                    .create();
-            long cacheSize = (5 * 1024 * 1024);
-            Cache cache = new Cache(application.getCacheDir(), cacheSize);
-            OkHttpClient httpClient = new OkHttpClient.Builder()
-                    .cache(cache)
-                    .addNetworkInterceptor(chain -> {
-                        Request request = chain.request();
-                        if (NetworkUtils.Companion.hasNetwork(application)) {
-                            request.newBuilder().header("Cache-Control", "public, max-age=" + 5).build();
-                        } else {
-                            request.newBuilder().header("Cache-Control", "public, only-if-cached, max-stale=" + 60 * 60 * 24 * 7).build();
-                        }
-                        return chain.proceed(request);
-                    })
-                    .addNetworkInterceptor(new StethoInterceptor())
-                    .addInterceptor(new AuthorizationInterceptor(session))
-                    .addInterceptor(new UnauthorizedInterceptor(session, authService))
-                    .build();
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(BuildConfig.API_BASE_URL)
-                    .client(httpClient)
-                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                    .addConverterFactory(GsonConverterFactory.create(gson))
-                    .build();
-
             return retrofit.create(CardillService.class);
         } else {
             return new MockCardillService();
         }
+    }
+
+
+    @Provides
+    @Singleton
+    static CreatorCardillService provideCreatorCardillService(Retrofit retrofit) {
+        return retrofit.create(CreatorCardillService.class);
     }
 
     @Provides

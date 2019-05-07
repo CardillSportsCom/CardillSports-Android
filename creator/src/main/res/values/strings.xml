@@ -1,0 +1,9 @@
+<resources>
+    <string name="team_1">Team One</string>
+    <string name="team_2">Team Two</string>
+    <string name="select_team_1">Select Team One</string>
+    <string name="select_team_2">Select Team Two</string>
+    <string name="yes_create_another">Yes, I want to create another team</string>
+    <string name="no_im_finished">No, I\'m finished creating teams</string>
+
+</resources>

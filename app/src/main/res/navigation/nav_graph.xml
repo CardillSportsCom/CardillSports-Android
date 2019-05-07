@@ -72,17 +72,17 @@
 
     <activity
         android:id="@+id/teamSelectionActivity"
-        android:name="com.cardill.sports.stattracker.teamselection.ui.TeamSelectionActivity"
+        android:name="com.cardill.sports.stattracker.creator.teamselection.ui.TeamSelectionActivity"
         android:label="activity_team_selection"
         tools:layout="@layout/activity_team_selection" />
     <activity
         android:id="@+id/teamCreationActivity"
-        android:name="com.cardill.sports.stattracker.teamcreation.ui.TeamCreationActivity"
+        android:name="com.cardill.sports.stattracker.creator.teamcreation.ui.TeamCreationActivity"
         android:label="activity_team_creation"
         tools:layout="@layout/activity_team_creation" />
     <activity
         android:id="@+id/roomActivity"
-        android:name="com.cardill.sports.stattracker.debug.RoomActivity"
+        android:name="com.cardill.sports.stattracker.creator.debug.RoomActivity"
         android:label="activity_room"
         tools:layout="@layout/activity_room" />
     <activity

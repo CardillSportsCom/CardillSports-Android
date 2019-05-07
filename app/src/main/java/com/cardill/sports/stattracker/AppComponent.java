@@ -1,6 +1,6 @@
 package com.cardill.sports.stattracker;
 
-import com.cardill.sports.stattracker.offline.domain.services.jobs.SyncGameJob;
+import com.cardill.sports.stattracker.creator.offline.domain.services.jobs.SyncGameJob;
 
 import javax.inject.Singleton;
 

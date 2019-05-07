@@ -31,19 +31,19 @@
         </activity>
         <activity android:name="com.cardill.sports.stattracker.profile.ProfileActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name="com.cardill.sports.stattracker.game.ui.GameActivity"/>
-        <activity android:name="com.cardill.sports.stattracker.details.ui.DetailsActivity"/>
-        <activity android:name="com.cardill.sports.stattracker.game.ui.GameRecapActivity"/>
-        <activity android:name="com.cardill.sports.stattracker.teamselection.ui.TeamSelectionActivity"/>
-        <activity android:name="com.cardill.sports.stattracker.teamcreation.ui.TeamCreationActivity"/>
-        <activity android:name=".game.ui.PlayerListActivity"/>
-        <activity android:name=".debug.RoomActivity"/>
+        <activity android:name="com.cardill.sports.stattracker.creator.game.ui.GameActivity"/>
+        <activity android:name="com.cardill.sports.stattracker.creator.details.ui.DetailsActivity"/>
+        <activity android:name="com.cardill.sports.stattracker.creator.game.ui.GameRecapActivity"/>
+        <activity android:name="com.cardill.sports.stattracker.creator.teamselection.ui.TeamSelectionActivity"/>
+        <activity android:name="com.cardill.sports.stattracker.creator.teamcreation.ui.TeamCreationActivity"/>
+        <activity android:name="com.cardill.sports.stattracker.creator.game.ui.PlayerListActivity"/>
+        <activity android:name="com.cardill.sports.stattracker.creator.debug.RoomActivity"/>
 
-        <service android:name="com.cardill.sports.stattracker.offline.domain.services.jobs.SchedulerJobService"
+        <service android:name="com.cardill.sports.stattracker.creator.offline.domain.services.jobs.SchedulerJobService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
         <service
-            android:name="com.cardill.sports.stattracker.offline.domain.services.jobs.GcmJobService"
+            android:name="com.cardill.sports.stattracker.creator.offline.domain.services.jobs.GcmJobService"
             android:exported="true"
             android:permission="com.google.android.gms.permission.BIND_NETWORK_TASK_SERVICE">
             <intent-filter>
