@@ -41,6 +41,8 @@ import javax.inject.Inject;
 import dagger.android.AndroidInjection;
 import timber.log.Timber;
 
+import static com.cardill.sports.stattracker.common.businesslogic.SortableCardillTableListener.PLAYER_ID_KEY;
+
 public class ProfileActivity extends AppCompatActivity implements ProfileViewBinder {
     public static final String SOURCE_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 
@@ -84,8 +86,8 @@ public class ProfileActivity extends AppCompatActivity implements ProfileViewBin
     @Override
     public void onResume() {
         super.onResume();
-        //String playerId = getIntent().getExtras().getString(PLAYER_ID_KEY);
-        mPresenter.onLoad("d");
+        String playerId = getIntent().getExtras().getString(PLAYER_ID_KEY);
+        mPresenter.onLoad(playerId);
     }
 
     @Override

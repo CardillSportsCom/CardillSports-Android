@@ -1,4 +1,4 @@
-package com.cardill.sports.stattracker.user;
+package com.cardill.sports.stattracker.common.auth;
 
 /**
  * Created by vithushan on 10/13/18.

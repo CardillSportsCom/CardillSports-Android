@@ -9,7 +9,9 @@ import com.evrencoskun.tableview.listener.ITableViewListener;
 
 import static com.cardill.sports.stattracker.common.businesslogic.SortableCardillTableListener.PLAYER_ID_KEY;
 
-//import androidx.navigation.Navigation;
+import androidx.navigation.Navigation;
+
+import com.cardill.sports.stattracker.common.R;
 
 public class CardillTableListener implements ITableViewListener {
 
@@ -48,7 +50,7 @@ public class CardillTableListener implements ITableViewListener {
             Bundle params = new Bundle();
             params.putString(PLAYER_ID_KEY, holder.getPlayer().getPlayer().id());
             //TODO nav to profile after consumer module
-            //Navigation.findNavController(tableView).navigate(R.id.profileActivity, params);
+            Navigation.findNavController(tableView).navigate(R.id.profileActivity, params);
         }
     }
 

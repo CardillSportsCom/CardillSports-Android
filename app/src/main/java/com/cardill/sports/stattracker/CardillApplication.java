@@ -5,7 +5,7 @@ import android.app.Application;
 
 import com.cardill.sports.stattracker.creator.game.data.GameRepository;
 import com.cardill.sports.stattracker.creator.offline.domain.services.jobs.JobManagerFactory;
-import com.cardill.sports.stattracker.user.Session;
+import com.cardill.sports.stattracker.common.auth.Session;
 import com.facebook.stetho.Stetho;
 
 import javax.inject.Inject;

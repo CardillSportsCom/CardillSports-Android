@@ -1,7 +1,4 @@
-package com.cardill.sports.stattracker;
-
-import com.cardill.sports.stattracker.user.AuthRequestBody;
-import com.cardill.sports.stattracker.user.AuthResponseBody;
+package com.cardill.sports.stattracker.common.auth;
 
 import io.reactivex.Observable;
 import retrofit2.http.Body;

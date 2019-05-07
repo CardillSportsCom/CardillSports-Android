@@ -29,7 +29,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.cardill.sports.stattracker.profile.ProfileActivity"
+        <activity android:name="com.cardill.sports.stattracker.consumer.profile.ProfileActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name="com.cardill.sports.stattracker.creator.game.ui.GameActivity"/>
         <activity android:name="com.cardill.sports.stattracker.creator.details.ui.DetailsActivity"/>

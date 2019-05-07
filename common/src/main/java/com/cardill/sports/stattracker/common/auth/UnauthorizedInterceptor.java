@@ -1,6 +1,5 @@
-package com.cardill.sports.stattracker.user;
+package com.cardill.sports.stattracker.common.auth;
 
-import com.cardill.sports.stattracker.AuthService;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.IOException;

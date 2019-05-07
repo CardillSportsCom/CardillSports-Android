@@ -1,4 +1,4 @@
-package com.cardill.sports.stattracker.user;
+package com.cardill.sports.stattracker.common.auth;
 
 import java.io.IOException;
 

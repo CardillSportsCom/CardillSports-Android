@@ -1,13 +1,13 @@
 package com.cardill.sports.stattracker.main;
 
-import com.cardill.sports.stattracker.AuthService;
+import com.cardill.sports.stattracker.common.auth.AuthService;
 import com.cardill.sports.stattracker.common.league.League;
 import com.cardill.sports.stattracker.common.league.LeagueRepository;
 import com.cardill.sports.stattracker.common.league.LeagueResponse;
 import com.cardill.sports.stattracker.common.league.PlayerLeaguesResponse;
 import com.cardill.sports.stattracker.consumer.network.CardillService;
-import com.cardill.sports.stattracker.user.AuthRequestBody;
-import com.cardill.sports.stattracker.user.Session;
+import com.cardill.sports.stattracker.common.auth.AuthRequestBody;
+import com.cardill.sports.stattracker.common.auth.Session;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.List;

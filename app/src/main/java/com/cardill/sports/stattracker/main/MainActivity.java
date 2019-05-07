@@ -17,13 +17,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import com.cardill.sports.stattracker.AuthService;
+import com.cardill.sports.stattracker.common.auth.AuthService;
 import com.cardill.sports.stattracker.R;
 import com.cardill.sports.stattracker.common.league.LeagueAdapter;
 import com.cardill.sports.stattracker.common.league.LeagueRepository;
 import com.cardill.sports.stattracker.common.league.League;
 import com.cardill.sports.stattracker.consumer.network.CardillService;
-import com.cardill.sports.stattracker.user.Session;
+import com.cardill.sports.stattracker.common.auth.Session;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.firebase.auth.FirebaseAuth;

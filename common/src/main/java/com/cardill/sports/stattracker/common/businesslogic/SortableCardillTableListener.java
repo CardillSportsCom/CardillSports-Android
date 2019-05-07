@@ -8,7 +8,9 @@ import com.evrencoskun.tableview.TableView;
 import com.evrencoskun.tableview.listener.ITableViewListener;
 import com.evrencoskun.tableview.sort.SortState;
 
-//import androidx.navigation.Navigation;
+import androidx.navigation.Navigation;
+
+import com.cardill.sports.stattracker.common.R;
 
 public class SortableCardillTableListener implements ITableViewListener {
 
@@ -53,7 +55,7 @@ public class SortableCardillTableListener implements ITableViewListener {
             Bundle params = new Bundle();
             params.putString(PLAYER_ID_KEY, holder.getPlayer().getPlayer().id());
             //TODO navigate to profile once profile is in a consumer module
-            //Navigation.findNavController(tableView).navigate(R.id.profileActivity, params);
+            Navigation.findNavController(tableView).navigate(R.id.profileActivity, params);
         }
     }
 

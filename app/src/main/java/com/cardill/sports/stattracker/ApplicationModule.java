@@ -28,9 +28,10 @@ import com.cardill.sports.stattracker.creator.teamcreation.ui.TeamCreationActivi
 import com.cardill.sports.stattracker.main.MainActivity;
 import com.cardill.sports.stattracker.creator.teamselection.ui.TeamSelectionActivity;
 import com.cardill.sports.stattracker.network.NetworkUtils;
-import com.cardill.sports.stattracker.user.AuthorizationInterceptor;
-import com.cardill.sports.stattracker.user.UnauthorizedInterceptor;
-import com.cardill.sports.stattracker.user.Session;
+import com.cardill.sports.stattracker.common.auth.AuthService;
+import com.cardill.sports.stattracker.common.auth.AuthorizationInterceptor;
+import com.cardill.sports.stattracker.common.auth.UnauthorizedInterceptor;
+import com.cardill.sports.stattracker.common.auth.Session;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
