@@ -12,6 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.cardill.sports.stattracker.common.data.ConsumerGameData;
+import com.cardill.sports.stattracker.common.data.ConsumerGamePlayer;
+import com.cardill.sports.stattracker.common.data.ConsumerPlayer;
 import com.cardill.sports.stattracker.consumer.R;
 import com.cardill.sports.stattracker.consumer.boxscore.businesslogic.BoxScorePresenter;
 import com.cardill.sports.stattracker.common.businesslogic.CardillTableListener;
@@ -23,9 +26,13 @@ import com.cardill.sports.stattracker.common.data.Player;
 import com.cardill.sports.stattracker.common.data.Stat;
 import com.cardill.sports.stattracker.common.ui.BaseFragment;
 import com.cardill.sports.stattracker.common.ui.TableUtils;
+import com.cardill.sports.stattracker.consumer.common.data.ConsumerStatsTableAdapter;
+import com.cardill.sports.stattracker.consumer.common.data.ConsumerTableUtils;
 import com.cardill.sports.stattracker.consumer.network.CardillService;
+import com.cardill.sports.stattracker.consumer.profile.data.HistoricalStatType;
 import com.evrencoskun.tableview.TableView;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -94,17 +101,19 @@ public class BoxScoreFragment extends BaseFragment implements BoxScoreViewBinder
     }
 
     @Override
-    public void showBoxScore(GameData gameData) {
+    public void showBoxScore(ConsumerGameData gameData) {
         progress.setVisibility(View.GONE);
 
         int team1 = 0;
-        for (Player player : gameData.getTeamOnePlayers()) {
-            team1 += player.fieldGoalMade();
+        for (ConsumerPlayer player : gameData.getTeamOnePlayers()) {
+            team1 += player.getThreePointersMade() * 2;
+            team1 += player.fieldGoalMade() - player.getThreePointersMade();
         }
 
         int team2 = 0;
-        for (Player player : gameData.getTeamTwoPlayers()) {
-            team2 += player.fieldGoalMade();
+        for (ConsumerPlayer player : gameData.getTeamTwoPlayers()) {
+            team2 += player.getThreePointersMade();
+            team2 += player.fieldGoalMade() - player.getThreePointersMade();
         }
 
         String scoreText = team1 + " - " + team2;
@@ -140,22 +149,22 @@ public class BoxScoreFragment extends BaseFragment implements BoxScoreViewBinder
         Navigation.findNavController(tableView).navigate(R.id.scoresFragment);
     }
 
-    private void initTableView(TableView tableView, List<Player> teamOne, List<Player> teamTwo) {
+    private void initTableView(TableView tableView, List<ConsumerPlayer> teamOne, List<ConsumerPlayer> teamTwo) {
         tableView.getCellRecyclerView().setMotionEventSplittingEnabled(true);
-        StatsTableAdapter adapter = new StatsTableAdapter(getActivity(), NON_EDITABLE);
+        ConsumerStatsTableAdapter adapter = new ConsumerStatsTableAdapter(getActivity(), NON_EDITABLE);
 
         tableView.setAdapter(adapter);
 
-        List<InGameStatType> columnHeaderItems = Arrays.asList(InGameStatType.values());
-        List<List<Stat>> mCellList = TableUtils.generateTableCellList(teamOne, teamTwo);
+        List<HistoricalStatType> columnHeaderItems = Arrays.asList(HistoricalStatType.values());
+        List<List<Stat>> mCellList = ConsumerTableUtils.generateConsumerTableCellList(teamOne, teamTwo, NumberFormat.getPercentInstance());
 
-        List<GamePlayer> players = new ArrayList<>();
+        List<ConsumerGamePlayer> players = new ArrayList<>();
 
-        for (Player player : teamOne) {
-            players.add(new GamePlayer(player, true, false));
+        for (ConsumerPlayer player : teamOne) {
+            players.add(new ConsumerGamePlayer(player, true, false));
         }
-        for (Player player : teamTwo) {
-            players.add(new GamePlayer(player, false, true));
+        for (ConsumerPlayer player : teamTwo) {
+            players.add(new ConsumerGamePlayer(player, false, true));
         }
 
         adapter.setAllItems(columnHeaderItems, players, mCellList);

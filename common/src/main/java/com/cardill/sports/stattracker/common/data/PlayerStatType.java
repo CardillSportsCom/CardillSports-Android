@@ -3,9 +3,9 @@ package com.cardill.sports.stattracker.common.data;
 public enum PlayerStatType implements StatType {
     WINS,
     GP,
-    FGM,
-    FGA,
-    FG,
+    FG_PERCENT,
+    POINTS,
+    THREES,
     AST,
     REB,
     STL,

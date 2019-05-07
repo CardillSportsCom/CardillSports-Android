@@ -28,8 +28,11 @@ public class GameStatsMapper {
     private static String calculateTeamScore(List<Player> teamOnePlayers) {
         int result = 0;
 
-        for (Player player : teamOnePlayers) {
-            result += player.fieldGoalMade();
+        for (int i=0; i<teamOnePlayers.size(); i++) {
+            Player player = teamOnePlayers.get(i);
+
+            result += player.getOnePointFieldGoalMade();
+            result += player.getTwoPointFieldGoalMade() * 2;
         }
 
         return String.valueOf(result);
@@ -64,8 +67,13 @@ public class GameStatsMapper {
             JSONPlayerStats jsonPlayerStats = new JSONPlayerStats();
             jsonPlayerStats.assists = player.assists();
             jsonPlayerStats.blocks = player.blocks();
-            jsonPlayerStats.fga = player.fieldGoalMissed() + player.fieldGoalMade();
-            jsonPlayerStats.fgm = player.fieldGoalMade();
+            jsonPlayerStats.fga = player.fieldGoalMissed() +
+                    player.getOnePointFieldGoalMade() +
+                    player.getTwoPointFieldGoalMade();
+            jsonPlayerStats.fgm = player.getOnePointFieldGoalMade() +
+                    player.getTwoPointFieldGoalMade();
+            jsonPlayerStats.threePointersMade = player.getTwoPointFieldGoalMade();
+            jsonPlayerStats.threePointersAttempted = 0;
             jsonPlayerStats.playerId = player.id();
             jsonPlayerStats.rebounds = player.rebounds();
             jsonPlayerStats.steals = player.steals();

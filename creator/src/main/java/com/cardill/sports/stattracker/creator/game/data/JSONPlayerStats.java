@@ -4,6 +4,8 @@ public class JSONPlayerStats {
     public String playerId;
     public int fgm;
     public int fga;
+    public int threePointersMade;
+    public int threePointersAttempted;
     public int rebounds;
     public int assists;
     public int steals;

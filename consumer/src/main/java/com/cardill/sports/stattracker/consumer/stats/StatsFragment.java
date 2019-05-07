@@ -114,16 +114,18 @@ public class StatsFragment extends BaseFragment implements StatsViewBinder {
             List<Stat> statList = new ArrayList<>(8);
             statList.add(new Stat(PlayerStatType.WINS, player.wins(), true));
             statList.add(new Stat(PlayerStatType.GP, player.gamesPlayed(), true));
-            statList.add(new Stat(PlayerStatType.FGM, player.fieldGoalMade(), true));
-            statList.add(new Stat(PlayerStatType.FGA, player.fieldGoalMissed() + player.fieldGoalMade(), true));
 
             double fg = 0;
             if (player.fieldGoalMade() != 0) {
                 fg = player.fieldGoalMade() / (double) (player.fieldGoalMissed() + player.fieldGoalMade());
             }
             NumberFormat percentInstance = NumberFormat.getPercentInstance();
+            statList.add(new Stat(PlayerStatType.FG_PERCENT, percentInstance.format(fg), true));
 
-            statList.add(new Stat(PlayerStatType.FG, percentInstance.format(fg), true));
+            int points = player.getTwoPointFieldGoalMade() * 2 + player.getOnePointFieldGoalMade();
+            statList.add(new Stat(PlayerStatType.POINTS, points, true));
+
+            statList.add(new Stat(PlayerStatType.THREES, player.getTwoPointFieldGoalMade(), true));
             statList.add(new Stat(PlayerStatType.AST, player.assists(), true));
             statList.add(new Stat(PlayerStatType.REB, player.rebounds(), true));
             statList.add(new Stat(PlayerStatType.STL, player.steals(), true));

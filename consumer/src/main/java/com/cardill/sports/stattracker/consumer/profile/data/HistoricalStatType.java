@@ -1,12 +1,14 @@
 package com.cardill.sports.stattracker.consumer.profile.data;
 
+import com.cardill.sports.stattracker.common.data.StatType;
+
 /**
  * The stats we display on the player profiles
  */
-public enum HistoricalStatType {
+public enum HistoricalStatType implements StatType {
     FG_PERCENT,
     POINTS,
-    TWO_PTRS,
+    THREES,
     AST,
     REB,
     STL,

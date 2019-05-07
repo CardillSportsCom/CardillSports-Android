@@ -31,6 +31,7 @@ public class RemoteGameService {
 
     public void saveGameStats(JSONGameStats gameStatscomment) throws IOException, RemoteException {
 
+        Timber.tag("SAVE GAME").d("trying to save game: " + gameStatscomment);
         // Remote call can be executed synchronously since the job calling it is already backgrounded.
         Response response = service.saveGameStats(gameStatscomment).execute();
 
