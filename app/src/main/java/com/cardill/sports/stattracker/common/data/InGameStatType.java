@@ -1,6 +1,6 @@
 package com.cardill.sports.stattracker.common.data;
 
-public enum GameStatType implements StatType {
+public enum InGameStatType implements StatType {
     MAKE_ONE_POINT,
     MAKE_TWO_POINT,
     MISSES,

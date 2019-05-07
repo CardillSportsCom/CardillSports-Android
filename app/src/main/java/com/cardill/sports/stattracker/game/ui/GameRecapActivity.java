@@ -13,7 +13,7 @@ import com.cardill.sports.stattracker.common.businesslogic.StatsTableAdapter;
 import com.cardill.sports.stattracker.common.data.GameData;
 import com.cardill.sports.stattracker.game.data.GameRepository;
 import com.cardill.sports.stattracker.common.data.Stat;
-import com.cardill.sports.stattracker.common.data.GameStatType;
+import com.cardill.sports.stattracker.common.data.InGameStatType;
 import com.cardill.sports.stattracker.common.data.GamePlayer;
 import com.evrencoskun.tableview.TableView;
 
@@ -54,7 +54,7 @@ public class GameRecapActivity extends AppCompatActivity {
         StatsTableAdapter adapter = new StatsTableAdapter(this, NON_EDITABLE);
         tableView.setAdapter(adapter);
 
-        List<GameStatType> columnHeaderItems = Arrays.asList(GameStatType.values());
+        List<InGameStatType> columnHeaderItems = Arrays.asList(InGameStatType.values());
 
         List<List<Stat>> cellList = TableUtils.generateTableCellList(team1,team2);
 

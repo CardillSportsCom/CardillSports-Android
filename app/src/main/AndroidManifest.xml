@@ -23,16 +23,14 @@
             android:value="@integer/google_play_services_version" />
 
         <activity android:name=".main.MainActivity">
-
-        </activity>
-        <activity android:name="com.cardill.sports.stattracker.profile.ProfileActivity"
-            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="com.cardill.sports.stattracker.profile.ProfileActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name="com.cardill.sports.stattracker.game.ui.GameActivity"/>
         <activity android:name="com.cardill.sports.stattracker.details.ui.DetailsActivity"/>
         <activity android:name="com.cardill.sports.stattracker.game.ui.GameRecapActivity"/>
