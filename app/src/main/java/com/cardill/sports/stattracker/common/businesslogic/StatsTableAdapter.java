@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.cardill.sports.stattracker.R;
 import com.cardill.sports.stattracker.details.businesslogic.DetailsChangedEvent;
 import com.cardill.sports.stattracker.common.data.Stat;
-import com.cardill.sports.stattracker.common.data.GameStatType;
+import com.cardill.sports.stattracker.common.data.InGameStatType;
 import com.cardill.sports.stattracker.common.data.GamePlayer;
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.evrencoskun.tableview.adapter.AbstractTableAdapter;
@@ -22,7 +22,7 @@ import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 
 //TODO split up all the table adapters
-public class StatsTableAdapter extends AbstractTableAdapter<GameStatType, GamePlayer, Stat> {
+public class StatsTableAdapter extends AbstractTableAdapter<InGameStatType, GamePlayer, Stat> {
 
     public static final int EDITABLE = 0;
     public static final int NON_EDITABLE = 1;
@@ -211,7 +211,7 @@ public class StatsTableAdapter extends AbstractTableAdapter<GameStatType, GamePl
     @Override
     public void onBindColumnHeaderViewHolder(AbstractViewHolder holder, Object columnHeaderItemModel, int
             position) {
-        GameStatType columnHeader = (GameStatType) columnHeaderItemModel;
+        InGameStatType columnHeader = (InGameStatType) columnHeaderItemModel;
 
         // Get the holder to update cell item text
         MyColumnHeaderViewHolder columnHeaderViewHolder = (MyColumnHeaderViewHolder) holder;

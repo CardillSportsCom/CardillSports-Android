@@ -1,22 +1,22 @@
 package com.cardill.sports.stattracker.game.data;
 
-import com.cardill.sports.stattracker.common.data.GameStatType;
+import com.cardill.sports.stattracker.common.data.InGameStatType;
 import com.cardill.sports.stattracker.common.data.Player;
 
 public class PendingGameStat implements GameCommand {
     private final Player player;
-    private final GameStatType gameStatType;
+    private final InGameStatType inGameStatType;
 
-    public PendingGameStat(Player player, GameStatType gameStatType) {
+    public PendingGameStat(Player player, InGameStatType inGameStatType) {
         this.player = player;
-        this.gameStatType = gameStatType;
+        this.inGameStatType = inGameStatType;
     }
 
     public Player getPlayer() {
         return player;
     }
 
-    public GameStatType getGameStatType() {
-        return gameStatType;
+    public InGameStatType getInGameStatType() {
+        return inGameStatType;
     }
 }

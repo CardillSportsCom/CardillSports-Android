@@ -21,7 +21,7 @@ import com.cardill.sports.stattracker.profile.businesslogic.ProfilePresenter;
 import com.cardill.sports.stattracker.profile.businesslogic.ProfileViewBinder;
 import com.cardill.sports.stattracker.profile.data.PlayerStat;
 import com.cardill.sports.stattracker.profile.data.PlayerStatResponse;
-import com.cardill.sports.stattracker.profile.data.PlayerStatType;
+import com.cardill.sports.stattracker.profile.data.HistoricalStatType;
 import com.cardill.sports.stattracker.common.data.User;
 import com.evrencoskun.tableview.TableView;
 import com.google.common.collect.Lists;
@@ -41,8 +41,6 @@ import javax.inject.Inject;
 
 import dagger.android.AndroidInjection;
 import timber.log.Timber;
-
-import static com.cardill.sports.stattracker.common.businesslogic.SortableCardillTableListener.PLAYER_ID_KEY;
 
 public class ProfileActivity extends AppCompatActivity implements ProfileViewBinder {
     public static final String SOURCE_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
@@ -137,7 +135,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileViewBin
 
         List<String> columnHeaderItems =
                 Lists.transform(
-                        Arrays.asList(PlayerStatType.values()),
+                        Arrays.asList(HistoricalStatType.values()),
                         Enum::name);
 
         List<List<String>> mCellList = generateTableCellList(playerStats);

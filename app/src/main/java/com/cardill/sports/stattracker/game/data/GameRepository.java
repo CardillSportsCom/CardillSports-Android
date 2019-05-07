@@ -1,7 +1,7 @@
 package com.cardill.sports.stattracker.game.data;
 
 import com.cardill.sports.stattracker.common.data.GameData;
-import com.cardill.sports.stattracker.common.data.GameStatType;
+import com.cardill.sports.stattracker.common.data.InGameStatType;
 import com.cardill.sports.stattracker.common.data.Player;
 
 import java.util.LinkedList;
@@ -31,7 +31,7 @@ public class GameRepository {
         return gameData;
     }
 
-    public void updateStats(String playerId, GameStatType statKey, int newValue) {
+    public void updateStats(String playerId, InGameStatType statKey, int newValue) {
         List<Player> teamOnePlayers = gameData.getTeamOnePlayers();
         updateTeamStats(playerId, statKey, newValue, teamOnePlayers);
 
@@ -39,7 +39,7 @@ public class GameRepository {
         updateTeamStats(playerId, statKey, newValue, teamTwoPlayers);
     }
 
-    public void incrementStat(String playerId, GameStatType statKey) {
+    public void incrementStat(String playerId, InGameStatType statKey) {
         List<Player> teamOnePlayers = gameData.getTeamOnePlayers();
         incrementTeamStats(playerId, statKey, teamOnePlayers);
 
@@ -47,7 +47,7 @@ public class GameRepository {
         incrementTeamStats(playerId, statKey, teamTwoPlayers);
     }
 
-    private void updateTeamStats(String playerId, GameStatType statKey, int newValue, List<Player> playerList) {
+    private void updateTeamStats(String playerId, InGameStatType statKey, int newValue, List<Player> playerList) {
         for (int i = 0; i < playerList.size(); i++) {
             Player player = playerList.get(i);
 
@@ -77,7 +77,7 @@ public class GameRepository {
         playerList.add(player);
     }
 
-    private void incrementTeamStats(String playerId, GameStatType statKey, List<Player> playerList) {
+    private void incrementTeamStats(String playerId, InGameStatType statKey, List<Player> playerList) {
         for (int i = 0; i < playerList.size(); i++) {
             Player player = playerList.get(i);
 
@@ -88,7 +88,7 @@ public class GameRepository {
         }
     }
 
-    private Player updatePlayerStat(GameStatType statKey, int newValue, Player player) {
+    private Player updatePlayerStat(InGameStatType statKey, int newValue, Player player) {
         switch (statKey) {
             case MAKE_ONE_POINT:
                 return player.toBuilder().onePointFieldGoalMade(newValue).build();
@@ -112,7 +112,7 @@ public class GameRepository {
         }
     }
 
-    private Player incrementPlayerStat(GameStatType statKey, Player player) {
+    private Player incrementPlayerStat(InGameStatType statKey, Player player) {
         switch (statKey) {
             case MAKE_ONE_POINT:
                 return player.toBuilder().onePointFieldGoalMade(player.getOnePointFieldGoalMade() + 1).build();
@@ -136,8 +136,8 @@ public class GameRepository {
         }
     }
 
-    public void incrementPendingStat(Player player, GameStatType gameStatType) {
-        queue.offer(new PendingGameStat(player, gameStatType));
+    public void incrementPendingStat(Player player, InGameStatType inGameStatType) {
+        queue.offer(new PendingGameStat(player, inGameStatType));
     }
 
     public PendingGameStat getLatestPendingStat() {
