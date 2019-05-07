@@ -1,0 +1,59 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 28
+
+
+
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+    buildTypes {
+        debug {
+            buildConfigField "String", 'API_BASE_URL', "\"https://test-cardillsports-stattracker.herokuapp.com\""
+            resValue "string", "app_name", "Stat Tracker Debug"
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "String", 'API_BASE_URL', "\"https://api-cardillsports-st.herokuapp.com\""
+            resValue "string", "app_name", "Stat Tracker"
+        }
+        staging {
+            initWith release
+            buildConfigField "String", 'API_BASE_URL', "\"https://test-cardillsports-stattracker.herokuapp.com\""
+            resValue "string", "app_name", "Stat Tracker Staging"
+        }
+    }
+
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    implementation 'com.google.dagger:dagger-android:2.11'
+    implementation 'com.google.dagger:dagger-android-support:2.11'
+    // if you use the support libraries
+    annotationProcessor 'com.google.dagger:dagger-android-processor:2.11'
+
+    implementation 'com.evrencoskun.library:tableview:0.8.8'
+
+    // https://mvnrepository.com/artifact/android.arch.persistence.room/runtime
+    implementation group: 'android.arch.persistence.room', name: 'runtime', version: '1.1.1'
+    annotationProcessor 'android.arch.persistence.room:compiler:1.1.1'
+
+    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
+}

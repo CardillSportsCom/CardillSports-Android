@@ -1,18 +1,13 @@
 package com.cardill.sports.stattracker.details.ui;
 
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.widget.Toast;
 
 import com.cardill.sports.stattracker.R;
-import com.cardill.sports.stattracker.common.businesslogic.PlayerStatsTableAdapter;
 import com.cardill.sports.stattracker.common.businesslogic.StatsTableAdapter;
 import com.cardill.sports.stattracker.common.data.Player;
 import com.evrencoskun.tableview.TableView;
 import com.evrencoskun.tableview.listener.ITableViewListener;
-
-import androidx.navigation.Navigation;
 
 class DetailsTableListener implements ITableViewListener {
     private TableView tableView;

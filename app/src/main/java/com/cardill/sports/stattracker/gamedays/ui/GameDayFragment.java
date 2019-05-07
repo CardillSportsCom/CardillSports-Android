@@ -13,8 +13,8 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.cardill.sports.stattracker.R;
-import com.cardill.sports.stattracker.network.CardillService;
 import com.cardill.sports.stattracker.common.ui.BaseFragment;
+import com.cardill.sports.stattracker.network.CardillService;
 import com.cardill.sports.stattracker.gamedays.data.Game;
 import com.cardill.sports.stattracker.gamedays.data.GameDay;
 import com.cardill.sports.stattracker.gamedays.data.GameDayStatTotal;

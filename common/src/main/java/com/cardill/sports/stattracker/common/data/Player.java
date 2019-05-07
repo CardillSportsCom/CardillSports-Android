@@ -218,7 +218,7 @@ public class Player implements Parcelable, Serializable {
                 .build();
     }
 
-    public static Player.Builder builder() {
+    public static Builder builder() {
         return new Builder()
                 .fieldGoalMade(0)
                 .fieldGoalMissed(0)
@@ -299,7 +299,7 @@ public class Player implements Parcelable, Serializable {
             this.shouldIgnoreStats = source.shouldIgnoreStats();
         }
 
-        public Player.Builder id(String id) {
+        public Builder id(String id) {
             if (id == null) {
                 throw new NullPointerException("Null id");
             }
@@ -307,7 +307,7 @@ public class Player implements Parcelable, Serializable {
             return this;
         }
 
-        public Player.Builder firstName(String firstName) {
+        public Builder firstName(String firstName) {
             if (firstName == null) {
                 throw new NullPointerException("Null firstName");
             }
@@ -315,7 +315,7 @@ public class Player implements Parcelable, Serializable {
             return this;
         }
 
-        public Player.Builder lastName(String lastName) {
+        public Builder lastName(String lastName) {
             if (lastName == null) {
                 throw new NullPointerException("Null lastName");
             }
@@ -323,67 +323,67 @@ public class Player implements Parcelable, Serializable {
             return this;
         }
 
-        public Player.Builder fieldGoalMade(int fieldGoalMade) {
+        public Builder fieldGoalMade(int fieldGoalMade) {
             this.fieldGoalMade = fieldGoalMade;
             return this;
         }
 
-        public Player.Builder fieldGoalMissed(int fieldGoalMissed) {
+        public Builder fieldGoalMissed(int fieldGoalMissed) {
             this.fieldGoalMissed = fieldGoalMissed;
             return this;
         }
 
-        public Player.Builder onePointFieldGoalMade(int onePointFieldGoalMade) {
+        public Builder onePointFieldGoalMade(int onePointFieldGoalMade) {
             this.onePointFieldGoalMade = onePointFieldGoalMade;
             return this;
         }
 
-        public Player.Builder twoPointFieldGoalMade(int twoPointFieldGoalMade) {
+        public Builder twoPointFieldGoalMade(int twoPointFieldGoalMade) {
             this.twoPointFieldGoalMade = twoPointFieldGoalMade;
             return this;
         }
 
-        public Player.Builder assists(int assists) {
+        public Builder assists(int assists) {
             this.assists = assists;
             return this;
         }
 
-        public Player.Builder rebounds(int rebounds) {
+        public Builder rebounds(int rebounds) {
             this.rebounds = rebounds;
             return this;
         }
 
-        public Player.Builder blocks(int blocks) {
+        public Builder blocks(int blocks) {
             this.blocks = blocks;
             return this;
         }
 
-        public Player.Builder steals(int steals) {
+        public Builder steals(int steals) {
             this.steals = steals;
             return this;
         }
 
-        public Player.Builder turnovers(int turnovers) {
+        public Builder turnovers(int turnovers) {
             this.turnovers = turnovers;
             return this;
         }
 
-        public Player.Builder wins(int wins) {
+        public Builder wins(int wins) {
             this.wins = wins;
             return this;
         }
 
-        public Player.Builder gamesPlayed(int gamesPlayed) {
+        public Builder gamesPlayed(int gamesPlayed) {
             this.gamesPlayed = gamesPlayed;
             return this;
         }
 
-        public Player.Builder isActive(boolean isActive) {
+        public Builder isActive(boolean isActive) {
             this.isActive = isActive;
             return this;
         }
 
-        public Player.Builder shouldIgnoreStats(boolean shouldIgnoreStats) {
+        public Builder shouldIgnoreStats(boolean shouldIgnoreStats) {
             this.shouldIgnoreStats = shouldIgnoreStats;
             return this;
         }

@@ -1,8 +1,8 @@
 package com.cardill.sports.stattracker.common.ui;
 
+import com.cardill.sports.stattracker.common.data.InGameStatType;
 import com.cardill.sports.stattracker.common.data.Player;
 import com.cardill.sports.stattracker.common.data.Stat;
-import com.cardill.sports.stattracker.common.data.InGameStatType;
 
 import java.util.ArrayList;
 import java.util.List;

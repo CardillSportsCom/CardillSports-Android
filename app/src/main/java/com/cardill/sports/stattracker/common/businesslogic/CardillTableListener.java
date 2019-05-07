@@ -4,13 +4,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 
-import com.cardill.sports.stattracker.R;
 import com.evrencoskun.tableview.TableView;
 import com.evrencoskun.tableview.listener.ITableViewListener;
 
-import androidx.navigation.Navigation;
-
 import static com.cardill.sports.stattracker.common.businesslogic.SortableCardillTableListener.PLAYER_ID_KEY;
+
+//import androidx.navigation.Navigation;
 
 public class CardillTableListener implements ITableViewListener {
 
@@ -48,7 +47,8 @@ public class CardillTableListener implements ITableViewListener {
             StatsTableAdapter.MyRowHeaderViewHolder holder = (StatsTableAdapter.MyRowHeaderViewHolder) rowHeaderView;
             Bundle params = new Bundle();
             params.putString(PLAYER_ID_KEY, holder.getPlayer().getPlayer().id());
-            Navigation.findNavController(tableView).navigate(R.id.profileActivity, params);
+            //TODO nav to profile after consumer module
+            //Navigation.findNavController(tableView).navigate(R.id.profileActivity, params);
         }
     }
 

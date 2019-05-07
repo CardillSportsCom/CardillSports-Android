@@ -7,9 +7,9 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.cardill.sports.stattracker.R;
+import com.cardill.sports.stattracker.common.businesslogic.StatsTableAdapter;
 import com.cardill.sports.stattracker.common.data.Player;
 import com.cardill.sports.stattracker.common.ui.TableUtils;
-import com.cardill.sports.stattracker.common.businesslogic.StatsTableAdapter;
 import com.cardill.sports.stattracker.common.data.GameData;
 import com.cardill.sports.stattracker.game.data.GameRepository;
 import com.cardill.sports.stattracker.common.data.Stat;

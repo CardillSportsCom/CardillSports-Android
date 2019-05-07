@@ -2,7 +2,6 @@ package com.cardill.sports.stattracker.common.data;
 
 import android.arch.persistence.room.TypeConverter;
 
-import com.cardill.sports.stattracker.common.data.Player;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 

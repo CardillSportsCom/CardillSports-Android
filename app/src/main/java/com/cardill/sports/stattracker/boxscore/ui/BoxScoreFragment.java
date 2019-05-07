@@ -14,11 +14,11 @@ import android.widget.TextView;
 
 import com.cardill.sports.stattracker.R;
 import com.cardill.sports.stattracker.common.businesslogic.CardillTableListener;
+import com.cardill.sports.stattracker.common.businesslogic.StatsTableAdapter;
 import com.cardill.sports.stattracker.network.CardillService;
 import com.cardill.sports.stattracker.common.data.Player;
 import com.cardill.sports.stattracker.common.ui.BaseFragment;
 import com.cardill.sports.stattracker.common.ui.TableUtils;
-import com.cardill.sports.stattracker.common.businesslogic.StatsTableAdapter;
 import com.cardill.sports.stattracker.common.data.GameData;
 import com.cardill.sports.stattracker.common.data.Stat;
 import com.cardill.sports.stattracker.common.data.InGameStatType;

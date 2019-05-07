@@ -8,8 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.cardill.sports.stattracker.R;
-import com.cardill.sports.stattracker.common.businesslogic.SortableCardillTableListener;
 import com.cardill.sports.stattracker.common.businesslogic.PlayerStatsTableAdapter;
+import com.cardill.sports.stattracker.common.businesslogic.SortableCardillTableListener;
 import com.cardill.sports.stattracker.common.data.PlayerStatType;
 import com.cardill.sports.stattracker.league.LeagueRepository;
 import com.cardill.sports.stattracker.network.CardillService;

@@ -9,10 +9,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.cardill.sports.stattracker.R;
-import com.cardill.sports.stattracker.details.businesslogic.DetailsChangedEvent;
+import com.cardill.sports.stattracker.common.data.GamePlayer;
 import com.cardill.sports.stattracker.common.data.PlayerStatType;
 import com.cardill.sports.stattracker.common.data.Stat;
-import com.cardill.sports.stattracker.common.data.GamePlayer;
+import com.cardill.sports.stattracker.details.businesslogic.DetailsChangedEvent;
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.evrencoskun.tableview.adapter.AbstractTableAdapter;
 import com.evrencoskun.tableview.adapter.recyclerview.holder.AbstractSorterViewHolder;
