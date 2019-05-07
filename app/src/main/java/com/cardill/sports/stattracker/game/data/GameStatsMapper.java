@@ -2,14 +2,11 @@ package com.cardill.sports.stattracker.game.data;
 
 import com.cardill.sports.stattracker.common.data.GameData;
 import com.cardill.sports.stattracker.common.data.Player;
-import com.cardill.sports.stattracker.league.LeagueRepository;
-import com.google.common.base.Predicate;
+import com.cardill.sports.stattracker.common.league.LeagueRepository;
 import com.google.common.collect.Collections2;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.annotation.Nullable;
 
 public class GameStatsMapper {
 

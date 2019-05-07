@@ -11,7 +11,7 @@ import com.cardill.sports.stattracker.R;
 import com.cardill.sports.stattracker.common.businesslogic.PlayerStatsTableAdapter;
 import com.cardill.sports.stattracker.common.businesslogic.SortableCardillTableListener;
 import com.cardill.sports.stattracker.common.data.PlayerStatType;
-import com.cardill.sports.stattracker.league.LeagueRepository;
+import com.cardill.sports.stattracker.common.league.LeagueRepository;
 import com.cardill.sports.stattracker.network.CardillService;
 import com.cardill.sports.stattracker.common.data.Player;
 import com.cardill.sports.stattracker.common.ui.BaseFragment;

@@ -17,7 +17,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.cardill.sports.stattracker.R;
-import com.cardill.sports.stattracker.league.LeagueRepository;
+import com.cardill.sports.stattracker.common.league.LeagueRepository;
 import com.cardill.sports.stattracker.network.CardillService;
 import com.cardill.sports.stattracker.common.data.Player;
 import com.cardill.sports.stattracker.teamcreation.businesslogic.TeamCreationPresenter;

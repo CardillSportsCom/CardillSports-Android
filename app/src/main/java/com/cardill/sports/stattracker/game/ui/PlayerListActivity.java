@@ -5,15 +5,13 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.cardill.sports.stattracker.R;
 import com.cardill.sports.stattracker.common.data.Player;
-import com.cardill.sports.stattracker.league.LeagueRepository;
+import com.cardill.sports.stattracker.common.league.LeagueRepository;
 import com.cardill.sports.stattracker.network.CardillService;
 import com.cardill.sports.stattracker.teamcreation.businesslogic.PlayersViewModel;
 

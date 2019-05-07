@@ -1,6 +1,6 @@
 package com.cardill.sports.stattracker.teamcreation.businesslogic;
 
-import com.cardill.sports.stattracker.league.LeagueRepository;
+import com.cardill.sports.stattracker.common.league.LeagueRepository;
 import com.cardill.sports.stattracker.teamcreation.data.AddPlayerToLeagueRequestBody;
 import com.cardill.sports.stattracker.teamcreation.data.AddTeamRequestBody;
 import com.cardill.sports.stattracker.network.CardillService;

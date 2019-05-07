@@ -10,7 +10,7 @@ import com.cardill.sports.stattracker.JobManagerInjectable;
 import com.cardill.sports.stattracker.common.data.GameData;
 import com.cardill.sports.stattracker.game.data.GameStatsMapper;
 import com.cardill.sports.stattracker.game.data.JSONGameStats;
-import com.cardill.sports.stattracker.league.LeagueRepository;
+import com.cardill.sports.stattracker.common.league.LeagueRepository;
 import com.cardill.sports.stattracker.network.CardillService;
 import com.cardill.sports.stattracker.offline.domain.services.SyncGameRxBus;
 import com.cardill.sports.stattracker.offline.domain.services.SyncResponseEventType;

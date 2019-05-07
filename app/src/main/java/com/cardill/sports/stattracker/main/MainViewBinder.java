@@ -1,6 +1,6 @@
 package com.cardill.sports.stattracker.main;
 
-import com.cardill.sports.stattracker.league.League;
+import com.cardill.sports.stattracker.common.league.League;
 
 import java.util.List;
 

@@ -1,10 +1,10 @@
 package com.cardill.sports.stattracker.main;
 
 import com.cardill.sports.stattracker.AuthService;
-import com.cardill.sports.stattracker.league.League;
-import com.cardill.sports.stattracker.league.LeagueRepository;
-import com.cardill.sports.stattracker.league.LeagueResponse;
-import com.cardill.sports.stattracker.league.PlayerLeaguesResponse;
+import com.cardill.sports.stattracker.common.league.League;
+import com.cardill.sports.stattracker.common.league.LeagueRepository;
+import com.cardill.sports.stattracker.common.league.LeagueResponse;
+import com.cardill.sports.stattracker.common.league.PlayerLeaguesResponse;
 import com.cardill.sports.stattracker.network.CardillService;
 import com.cardill.sports.stattracker.user.AuthRequestBody;
 import com.cardill.sports.stattracker.user.Session;

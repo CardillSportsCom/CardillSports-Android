@@ -1,4 +1,4 @@
-package com.cardill.sports.stattracker.league;
+package com.cardill.sports.stattracker.common.league;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.cardill.sports.stattracker.R;
+import com.cardill.sports.stattracker.common.R;
 
 import java.util.List;
 
@@ -35,7 +35,7 @@ public class LeagueAdapter extends RecyclerView.Adapter<LeagueAdapter.LeagueView
     }
 
     @Override
-    public void onBindViewHolder(@NonNull LeagueViewHolder leagueViewHolder, int i) {
+    public void onBindViewHolder(@NonNull LeagueViewHolder leagueViewHolder, final int i) {
         String name = mData.get(i).getName();
         leagueViewHolder.setText(name);
         leagueViewHolder.mTextView.setOnClickListener(new View.OnClickListener() {

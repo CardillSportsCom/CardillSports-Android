@@ -1,7 +1,7 @@
 package com.cardill.sports.stattracker.game.ui;
 
 import com.cardill.sports.stattracker.common.data.Player;
-import com.cardill.sports.stattracker.league.LeagueRepository;
+import com.cardill.sports.stattracker.common.league.LeagueRepository;
 import com.cardill.sports.stattracker.network.CardillService;
 import com.cardill.sports.stattracker.teamcreation.businesslogic.PlayerComparator;
 import com.cardill.sports.stattracker.teamcreation.businesslogic.PlayersViewModel;

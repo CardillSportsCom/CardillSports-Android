@@ -1,7 +1,7 @@
 package com.cardill.sports.stattracker.network;
 
 import com.cardill.sports.stattracker.game.data.JSONGameStats;
-import com.cardill.sports.stattracker.league.PlayerLeaguesResponse;
+import com.cardill.sports.stattracker.common.league.PlayerLeaguesResponse;
 import com.cardill.sports.stattracker.profile.data.PlayerStatResponse;
 import com.cardill.sports.stattracker.teamcreation.data.AddPlayerToLeagueRequestBody;
 import com.cardill.sports.stattracker.teamcreation.data.AddTeamRequestBody;

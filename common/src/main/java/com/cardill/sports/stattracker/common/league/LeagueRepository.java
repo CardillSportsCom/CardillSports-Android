@@ -1,4 +1,4 @@
-package com.cardill.sports.stattracker.league;
+package com.cardill.sports.stattracker.common.league;
 
 import android.app.Activity;
 import android.content.Context;

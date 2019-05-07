@@ -14,7 +14,7 @@ import android.widget.ProgressBar;
 import com.cardill.sports.stattracker.R;
 import com.cardill.sports.stattracker.common.data.ScoreEvent;
 import com.cardill.sports.stattracker.common.ui.BaseFragment;
-import com.cardill.sports.stattracker.league.LeagueRepository;
+import com.cardill.sports.stattracker.common.league.LeagueRepository;
 import com.cardill.sports.stattracker.network.CardillService;
 import com.cardill.sports.stattracker.gamedays.data.GameDays;
 

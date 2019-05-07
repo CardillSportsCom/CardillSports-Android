@@ -1,6 +1,6 @@
 package com.cardill.sports.stattracker.scores;
 
-import com.cardill.sports.stattracker.league.LeagueRepository;
+import com.cardill.sports.stattracker.common.league.LeagueRepository;
 import com.cardill.sports.stattracker.network.CardillService;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;

@@ -1,6 +1,6 @@
 package com.cardill.sports.stattracker.teamselection.businesslogic;
 
-import com.cardill.sports.stattracker.league.LeagueRepository;
+import com.cardill.sports.stattracker.common.league.LeagueRepository;
 import com.cardill.sports.stattracker.network.CardillService;
 import com.cardill.sports.stattracker.common.data.User;
 import com.cardill.sports.stattracker.teamselection.data.Team;
