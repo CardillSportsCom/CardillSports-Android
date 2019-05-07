@@ -3,7 +3,8 @@ package com.cardill.sports.stattracker.game.businesslogic;
 import com.cardill.sports.stattracker.common.data.Player;
 
 public interface GameEvent {
-    class MakeRequested implements GameEvent {}
+    class MakeOnePointRequested implements GameEvent {}
+    class MakeTwoPointRequested implements GameEvent {}
 
     class PlayerSelected implements GameEvent {
         private final Player player;

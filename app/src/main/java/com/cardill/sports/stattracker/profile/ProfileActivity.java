@@ -21,7 +21,7 @@ import com.cardill.sports.stattracker.profile.businesslogic.ProfilePresenter;
 import com.cardill.sports.stattracker.profile.businesslogic.ProfileViewBinder;
 import com.cardill.sports.stattracker.profile.data.PlayerStat;
 import com.cardill.sports.stattracker.profile.data.PlayerStatResponse;
-import com.cardill.sports.stattracker.profile.data.PlayerStatType;
+import com.cardill.sports.stattracker.profile.data.HistoricalStatType;
 import com.cardill.sports.stattracker.common.data.User;
 import com.evrencoskun.tableview.TableView;
 import com.google.common.collect.Lists;
@@ -41,8 +41,6 @@ import javax.inject.Inject;
 
 import dagger.android.AndroidInjection;
 import timber.log.Timber;
-
-import static com.cardill.sports.stattracker.common.businesslogic.SortableCardillTableListener.PLAYER_ID_KEY;
 
 public class ProfileActivity extends AppCompatActivity implements ProfileViewBinder {
     public static final String SOURCE_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
@@ -87,8 +85,8 @@ public class ProfileActivity extends AppCompatActivity implements ProfileViewBin
     @Override
     public void onResume() {
         super.onResume();
-        String playerId = getIntent().getExtras().getString(PLAYER_ID_KEY);
-        mPresenter.onLoad(playerId);
+        //String playerId = getIntent().getExtras().getString(PLAYER_ID_KEY);
+        mPresenter.onLoad("d");
     }
 
     @Override
@@ -137,7 +135,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileViewBin
 
         List<String> columnHeaderItems =
                 Lists.transform(
-                        Arrays.asList(PlayerStatType.values()),
+                        Arrays.asList(HistoricalStatType.values()),
                         Enum::name);
 
         List<List<String>> mCellList = generateTableCellList(playerStats);
@@ -177,12 +175,10 @@ public class ProfileActivity extends AppCompatActivity implements ProfileViewBin
 
         for (PlayerStat playerStat : playerStats) {
             List<String> statList = new ArrayList<>(8);
-            statList.add(String.valueOf(playerStat.getFGM()));
-            statList.add(String.valueOf(playerStat.getFGA()));
 
-            double fg = playerStat.getFGM() / (double) playerStat.getFGA();
-            statList.add(percentInstance.format(fg));
-
+            statList.add(playerStat.getFieldGoalPercentage(percentInstance));
+            statList.add(String.valueOf(playerStat.getPoints()));
+            statList.add(String.valueOf(playerStat.getTwoPointersMade()));
             statList.add(String.valueOf(playerStat.getAssists()));
             statList.add(String.valueOf(playerStat.getRebounds()));
             statList.add(String.valueOf(playerStat.getSteals()));

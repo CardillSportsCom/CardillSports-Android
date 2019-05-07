@@ -13,6 +13,8 @@ public class Player implements Parcelable, Serializable {
     public String lastName;
     public int fieldGoalMade;
     public int fieldGoalMissed;
+    public int onePointFieldGoalMade;
+    public int twoPointFieldGoalMade;
     public int assists;
     public int rebounds;
     public int blocks;
@@ -29,6 +31,8 @@ public class Player implements Parcelable, Serializable {
         lastName = in.readString();
         fieldGoalMade = in.readInt();
         fieldGoalMissed = in.readInt();
+        onePointFieldGoalMade = in.readInt();
+        twoPointFieldGoalMade = in.readInt();
         assists = in.readInt();
         rebounds = in.readInt();
         blocks = in.readInt();
@@ -40,7 +44,7 @@ public class Player implements Parcelable, Serializable {
         shouldIgnoreStats = in.readByte() != 0;
     }
 
-    public Player(String id, String firstName, String lastName, int fgm, int fga, int assists,
+    public Player(String id, String firstName, String lastName, int fgm, int fga, int onePointFieldGoalMade, int twoPointFieldGoalMade, int assists,
                   int rebounds, int blocks, int steals, int turnovers) {
 
         this.id = id;
@@ -48,6 +52,8 @@ public class Player implements Parcelable, Serializable {
         this.lastName = lastName;
         this.fieldGoalMade = fgm;
         this.fieldGoalMissed = fga;
+        this.onePointFieldGoalMade = onePointFieldGoalMade;
+        this.twoPointFieldGoalMade = twoPointFieldGoalMade;
         this.assists = assists;
         this.rebounds = rebounds;
         this.blocks = blocks;
@@ -57,7 +63,7 @@ public class Player implements Parcelable, Serializable {
         this.shouldIgnoreStats = false;
     }
 
-    public Player(String id, String firstName, String lastName, int fgm, int fga, int assists,
+    public Player(String id, String firstName, String lastName, int fgm, int fga, int onePointFieldGoalMade, int twoPointFieldGoalMade, int assists,
                   int rebounds, int blocks, int steals, int turnovers, int wins, int gamesPlayed) {
 
         this.id = id;
@@ -65,6 +71,8 @@ public class Player implements Parcelable, Serializable {
         this.lastName = lastName;
         this.fieldGoalMade = fgm;
         this.fieldGoalMissed = fga;
+        this.onePointFieldGoalMade = onePointFieldGoalMade;
+        this.twoPointFieldGoalMade = twoPointFieldGoalMade;
         this.assists = assists;
         this.rebounds = rebounds;
         this.blocks = blocks;
@@ -99,6 +107,8 @@ public class Player implements Parcelable, Serializable {
             String lastName,
             Integer fieldGoalMade,
             Integer fieldGoalMissed,
+            Integer onePointFieldGoalMade,
+            Integer twoPointFieldGoalMade,
             Integer assists,
             Integer rebounds,
             Integer blocks,
@@ -114,6 +124,8 @@ public class Player implements Parcelable, Serializable {
         this.lastName = lastName;
         this.fieldGoalMade = fieldGoalMade;
         this.fieldGoalMissed = fieldGoalMissed;
+        this.onePointFieldGoalMade = onePointFieldGoalMade;
+        this.twoPointFieldGoalMade = twoPointFieldGoalMade;
         this.assists = assists;
         this.rebounds = rebounds;
         this.blocks = blocks;
@@ -144,6 +156,10 @@ public class Player implements Parcelable, Serializable {
     public int fieldGoalMissed() {
         return fieldGoalMissed;
     }
+
+    public int getOnePointFieldGoalMade() {return  onePointFieldGoalMade;}
+
+    public int getTwoPointFieldGoalMade() {return  twoPointFieldGoalMade;}
 
     public int assists() {
         return assists;
@@ -188,6 +204,8 @@ public class Player implements Parcelable, Serializable {
                 .lastName(lastName)
                 .fieldGoalMade(0)
                 .fieldGoalMissed(0)
+                .onePointFieldGoalMade(0)
+                .twoPointFieldGoalMade(0)
                 .assists(0)
                 .rebounds(0)
                 .blocks(0)
@@ -204,6 +222,8 @@ public class Player implements Parcelable, Serializable {
         return new Builder()
                 .fieldGoalMade(0)
                 .fieldGoalMissed(0)
+                .onePointFieldGoalMade(0)
+                .twoPointFieldGoalMade(0)
                 .assists(0)
                 .rebounds(0)
                 .blocks(0)
@@ -227,6 +247,8 @@ public class Player implements Parcelable, Serializable {
         dest.writeString(lastName);
         dest.writeInt(fieldGoalMade);
         dest.writeInt(fieldGoalMissed);
+        dest.writeInt(onePointFieldGoalMade);
+        dest.writeInt(twoPointFieldGoalMade);
         dest.writeInt(assists);
         dest.writeInt(rebounds);
         dest.writeInt(blocks);
@@ -244,6 +266,8 @@ public class Player implements Parcelable, Serializable {
         private String lastName;
         private Integer fieldGoalMade;
         private Integer fieldGoalMissed;
+        private Integer onePointFieldGoalMade;
+        private Integer twoPointFieldGoalMade;
         private Integer assists;
         private Integer rebounds;
         private Integer blocks;
@@ -262,6 +286,8 @@ public class Player implements Parcelable, Serializable {
             this.lastName = source.lastName();
             this.fieldGoalMade = source.fieldGoalMade();
             this.fieldGoalMissed = source.fieldGoalMissed();
+            this.onePointFieldGoalMade = source.getOnePointFieldGoalMade();
+            this.twoPointFieldGoalMade = source.getTwoPointFieldGoalMade();
             this.assists = source.assists();
             this.rebounds = source.rebounds();
             this.blocks = source.blocks();
@@ -304,6 +330,16 @@ public class Player implements Parcelable, Serializable {
 
         public Player.Builder fieldGoalMissed(int fieldGoalMissed) {
             this.fieldGoalMissed = fieldGoalMissed;
+            return this;
+        }
+
+        public Player.Builder onePointFieldGoalMade(int onePointFieldGoalMade) {
+            this.onePointFieldGoalMade = onePointFieldGoalMade;
+            return this;
+        }
+
+        public Player.Builder twoPointFieldGoalMade(int twoPointFieldGoalMade) {
+            this.twoPointFieldGoalMade = twoPointFieldGoalMade;
             return this;
         }
 
@@ -369,6 +405,12 @@ public class Player implements Parcelable, Serializable {
             if (this.fieldGoalMissed == null) {
                 missing += " fieldGoalMissed";
             }
+            if (this.onePointFieldGoalMade == null) {
+                missing += " onePointFieldGoalMade";
+            }
+            if (this.twoPointFieldGoalMade == null) {
+                missing += " twoPointFieldGoalMade";
+            }
             if (this.assists == null) {
                 missing += " assists";
             }
@@ -406,6 +448,8 @@ public class Player implements Parcelable, Serializable {
                     this.lastName,
                     this.fieldGoalMade,
                     this.fieldGoalMissed,
+                    this.onePointFieldGoalMade,
+                    this.twoPointFieldGoalMade,
                     this.assists,
                     this.rebounds,
                     this.blocks,

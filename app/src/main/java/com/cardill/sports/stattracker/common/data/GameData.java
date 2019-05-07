@@ -9,10 +9,23 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 public class GameData implements Parcelable, Serializable {
+
+    public static GameData getExample() {
+        Player player = Player.create("dfs", "VITHU", "NAMA");;
+
+        List<Player> team1 = new ArrayList<Player>();
+        team1.add(player);
+        Player player2 = Player.create("hgh", "ANU", "Ranjan");
+        List<Player> team2 = new ArrayList<Player>();
+        team2.add(player2);
+        GameData gameData = new GameData(1, team1, team2, false);
+        return gameData;
+    }
 
     @PrimaryKey(autoGenerate = true)
     private long id;

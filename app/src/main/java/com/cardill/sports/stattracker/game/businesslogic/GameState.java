@@ -2,7 +2,8 @@ package com.cardill.sports.stattracker.game.businesslogic;
 
 public enum GameState {
     MAIN,
-    MAKE_REQUESTED,
+    MAKE_ONE_POINT_REQUESTED,
+    MAKE_TWO_POINT_REQUESTED,
     DETERMINE_MAKE_EXTRAS,
     ASSIST_REQUESTED,
     MISS_REQUESTED,

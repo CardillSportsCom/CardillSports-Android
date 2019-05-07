@@ -21,7 +21,7 @@ import com.cardill.sports.stattracker.common.ui.TableUtils;
 import com.cardill.sports.stattracker.common.businesslogic.StatsTableAdapter;
 import com.cardill.sports.stattracker.common.data.GameData;
 import com.cardill.sports.stattracker.common.data.Stat;
-import com.cardill.sports.stattracker.common.data.GameStatType;
+import com.cardill.sports.stattracker.common.data.InGameStatType;
 import com.cardill.sports.stattracker.boxscore.businesslogic.BoxScorePresenter;
 import com.cardill.sports.stattracker.common.data.GamePlayer;
 import com.evrencoskun.tableview.TableView;
@@ -146,7 +146,7 @@ public class BoxScoreFragment extends BaseFragment implements BoxScoreViewBinder
 
         tableView.setAdapter(adapter);
 
-        List<GameStatType> columnHeaderItems = Arrays.asList(GameStatType.values());
+        List<InGameStatType> columnHeaderItems = Arrays.asList(InGameStatType.values());
         List<List<Stat>> mCellList = TableUtils.generateTableCellList(teamOne, teamTwo);
 
         List<GamePlayer> players = new ArrayList<>();
