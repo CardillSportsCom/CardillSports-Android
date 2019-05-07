@@ -1,4 +1,4 @@
-package com.cardill.sports.stattracker.article.data;
+package com.cardill.sports.stattracker.consumer.article.data;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -10,7 +10,7 @@ public class CardillContent implements Parcelable {
     public String createdAt;
     public String Name;
     public String Image;
-    public com.cardill.sports.stattracker.article.data.Creator Creator;
+    public com.cardill.sports.stattracker.consumer.article.data.Creator Creator;
     public String Body;
     public List<Comment> Comments;
     public float Rating;

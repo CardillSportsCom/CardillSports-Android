@@ -5,5 +5,7 @@
     <string name="select_team_2">Select Team Two</string>
     <string name="yes_create_another">Yes, I want to create another team</string>
     <string name="no_im_finished">No, I\'m finished creating teams</string>
+    <string name="start_new_game">Start New Game</string>
+    <string name="create_new_team">Create New Team</string>
 
 </resources>

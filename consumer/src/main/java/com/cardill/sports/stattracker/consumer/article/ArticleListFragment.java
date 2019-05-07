@@ -1,4 +1,4 @@
-package com.cardill.sports.stattracker.article;
+package com.cardill.sports.stattracker.consumer.article;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,18 +9,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.cardill.sports.stattracker.R;
-import com.cardill.sports.stattracker.article.businesslogic.AbstractViewBinder;
-import com.cardill.sports.stattracker.article.businesslogic.ArticleAdapter;
-import com.cardill.sports.stattracker.article.businesslogic.ArticlePresenter;
-import com.cardill.sports.stattracker.article.data.CardillContent;
+import com.cardill.sports.stattracker.consumer.R;
+import com.cardill.sports.stattracker.consumer.article.businesslogic.AbstractViewBinder;
+import com.cardill.sports.stattracker.consumer.article.businesslogic.ArticleAdapter;
+import com.cardill.sports.stattracker.consumer.article.businesslogic.ArticlePresenter;
+import com.cardill.sports.stattracker.consumer.article.data.CardillContent;
 import com.squareup.okhttp.OkHttpClient;
-import com.squareup.picasso.OkHttpDownloader;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
-
-import androidx.navigation.fragment.NavHostFragment;
 
 public class ArticleListFragment extends Fragment implements AbstractViewBinder<List<CardillContent>> {
 

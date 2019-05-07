@@ -5,4 +5,15 @@
     <string name="ok">Ok</string>
     <string name="cancel">Cancel</string>
     <string name="change_picture">Change Picture</string>
+
+    <string name="wins">WINS</string>
+    <string name="games_played">GP</string>
+    <string name="fg_percent">FG% (FGM / FGA)</string>
+    <string name="points">PTS</string>
+    <string name="threes">2PT</string>
+    <string name="assists">AST</string>
+    <string name="rebounds">REB</string>
+    <string name="steals">STL</string>
+    <string name="blocks">BLK</string>
+    <string name="turnovers">TO</string>
 </resources>

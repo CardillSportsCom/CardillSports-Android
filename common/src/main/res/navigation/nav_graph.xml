@@ -41,20 +41,19 @@
     </fragment>
     <fragment
         android:id="@+id/articleDetailFragment"
-        android:name="com.cardill.sports.stattracker.article.ArticleDetailFragment"
-        android:label="ArticleDetailFragment"
-        tools:layout="@layout/article_detail">
+        android:name="com.cardill.sports.stattracker.consumer.article.ArticleDetailFragment"
+        android:label="ArticleDetailFragment">
         <argument android:name="game-id-key" />
     </fragment>
 
     <fragment
         android:id="@+id/articleListFragment"
-        android:name="com.cardill.sports.stattracker.article.ArticleListFragment"
+        android:name="com.cardill.sports.stattracker.consumer.article.ArticleListFragment"
         android:label="ArticleListFragment">
     </fragment>
     <fragment
         android:id="@+id/newGameFragment"
-        android:name="com.cardill.sports.stattracker.home.NewGameFragment"
+        android:name="com.cardill.sports.stattracker.creator.home.NewGameFragment"
         android:label="NewGameFragment">
     </fragment>
     <activity

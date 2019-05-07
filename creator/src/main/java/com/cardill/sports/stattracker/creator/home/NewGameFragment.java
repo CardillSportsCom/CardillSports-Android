@@ -1,4 +1,4 @@
-package com.cardill.sports.stattracker.home;
+package com.cardill.sports.stattracker.creator.home;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.cardill.sports.stattracker.R;
+import com.cardill.sports.stattracker.creator.R;
 
 import androidx.navigation.fragment.NavHostFragment;
 

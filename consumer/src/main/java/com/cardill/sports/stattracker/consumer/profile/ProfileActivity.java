@@ -21,6 +21,7 @@ import com.cardill.sports.stattracker.consumer.profile.businesslogic.PlayerStats
 import com.cardill.sports.stattracker.consumer.profile.businesslogic.ProfilePresenter;
 import com.cardill.sports.stattracker.consumer.profile.businesslogic.ProfileViewBinder;
 import com.cardill.sports.stattracker.consumer.profile.data.HistoricalStatType;
+import com.cardill.sports.stattracker.consumer.profile.data.HistoricalStatTypeTitleProvider;
 import com.cardill.sports.stattracker.consumer.profile.data.PlayerStat;
 import com.cardill.sports.stattracker.consumer.profile.data.PlayerStatResponse;
 import com.evrencoskun.tableview.TableView;
@@ -135,7 +136,8 @@ public class ProfileActivity extends AppCompatActivity implements ProfileViewBin
 
         List<String> columnHeaderItems = new ArrayList<>();
         for (HistoricalStatType historicalStatType : HistoricalStatType.values()) {
-            columnHeaderItems.add(historicalStatType.name());
+            String title = getString(HistoricalStatTypeTitleProvider.getTitle(historicalStatType));
+            columnHeaderItems.add(title);
         }
 
         List<List<String>> mCellList = generateTableCellList(playerStats);

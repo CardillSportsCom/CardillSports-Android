@@ -83,6 +83,12 @@ dependencies {
     //GCM Network Manager
     implementation "com.google.android.gms:play-services-gcm:16.0.0"
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    def nav_version = "1.0.0-alpha05"
+
+    implementation "android.arch.navigation:navigation-fragment:$nav_version" // use -ktx for Kotlin
+    implementation "android.arch.navigation:navigation-ui:$nav_version" // use -ktx for Kotlin
+
 }
 repositories {
     mavenCentral()

@@ -1,7 +1,6 @@
-package com.cardill.sports.stattracker.article.businesslogic;
+package com.cardill.sports.stattracker.consumer.article.businesslogic;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
@@ -12,16 +11,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.cardill.sports.stattracker.R;
-import com.cardill.sports.stattracker.article.data.CardillContent;
+import com.cardill.sports.stattracker.consumer.R;
+import com.cardill.sports.stattracker.consumer.article.data.CardillContent;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 
-import static com.cardill.sports.stattracker.article.ArticleDetailFragment.ARTICLE;
+import static com.cardill.sports.stattracker.consumer.article.ArticleDetailFragment.ARTICLE;
 
 public class ArticleAdapter extends RecyclerView.Adapter<ContentViewHolder> {
 

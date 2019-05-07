@@ -1,4 +1,4 @@
-package com.cardill.sports.stattracker.article.data;
+package com.cardill.sports.stattracker.consumer.article.data;
 
 import android.os.Parcel;
 import android.os.Parcelable;

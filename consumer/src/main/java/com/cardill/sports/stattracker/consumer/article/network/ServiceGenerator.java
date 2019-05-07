@@ -1,4 +1,4 @@
-package com.cardill.sports.stattracker.article.network;
+package com.cardill.sports.stattracker.consumer.article.network;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;

@@ -1,7 +1,7 @@
-package com.cardill.sports.stattracker.article.network;
+package com.cardill.sports.stattracker.consumer.article.network;
 
-import com.cardill.sports.stattracker.article.data.CardillContent;
-import com.cardill.sports.stattracker.article.data.CreatorModel;
+import com.cardill.sports.stattracker.consumer.article.data.CardillContent;
+import com.cardill.sports.stattracker.consumer.article.data.CreatorModel;
 
 import java.util.List;
 

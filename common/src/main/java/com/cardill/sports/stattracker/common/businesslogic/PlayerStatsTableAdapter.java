@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.cardill.sports.stattracker.common.R;
 import com.cardill.sports.stattracker.common.data.GamePlayer;
 import com.cardill.sports.stattracker.common.data.PlayerStatType;
+import com.cardill.sports.stattracker.common.data.PlayerStatTypeTitleProvider;
 import com.cardill.sports.stattracker.common.data.Stat;
 import com.evrencoskun.tableview.adapter.AbstractTableAdapter;
 import com.evrencoskun.tableview.adapter.recyclerview.holder.AbstractSorterViewHolder;
@@ -21,11 +22,8 @@ import io.reactivex.subjects.PublishSubject;
 
 public class PlayerStatsTableAdapter extends AbstractTableAdapter<PlayerStatType, GamePlayer, Stat> {
 
-    public static final int EDITABLE = 0;
-    public static final int NON_EDITABLE = 1;
     private static final String TEAM_ONE_COLOR_STRING = "#50ffffff";
     private static final String TEAM_TWO_COLOR_STRING = "#50fbc02d";
-
 
     private final Context context;
     private int viewType;
@@ -34,7 +32,6 @@ public class PlayerStatsTableAdapter extends AbstractTableAdapter<PlayerStatType
     public PlayerStatsTableAdapter(Context context, int viewType) {
         super(context);
         this.viewType = viewType;
-
         this.context = context;
     }
 
@@ -88,14 +85,12 @@ public class PlayerStatsTableAdapter extends AbstractTableAdapter<PlayerStatType
 
         Stat cell = (Stat) cellItemModel;
 
-        if (holder instanceof BoxScoreCellViewHolder) {
-            BoxScoreCellViewHolder viewHolder = (BoxScoreCellViewHolder) holder;
-            viewHolder.textView.setText(String.valueOf(cell.getValue()));
-            if (cell.isTeamOne()) {
-                viewHolder.textView.setBackgroundColor(Color.parseColor(TEAM_ONE_COLOR_STRING));
-            } else {
-                viewHolder.textView.setBackgroundColor(Color.parseColor(TEAM_TWO_COLOR_STRING));
-            }
+        BoxScoreCellViewHolder viewHolder = (BoxScoreCellViewHolder) holder;
+        viewHolder.textView.setText(String.valueOf(cell.getValue()));
+        if (cell.isTeamOne()) {
+            viewHolder.textView.setBackgroundColor(Color.parseColor(TEAM_ONE_COLOR_STRING));
+        } else {
+            viewHolder.textView.setBackgroundColor(Color.parseColor(TEAM_TWO_COLOR_STRING));
         }
     }
 
@@ -157,7 +152,7 @@ public class PlayerStatsTableAdapter extends AbstractTableAdapter<PlayerStatType
 
         // Get the holder to update cell item text
         MyColumnHeaderViewHolder columnHeaderViewHolder = (MyColumnHeaderViewHolder) holder;
-        columnHeaderViewHolder.cell_textview.setText(columnHeader.name());
+        columnHeaderViewHolder.cell_textview.setText(PlayerStatTypeTitleProvider.getTitle(columnHeader));
 
         // If your TableView should have auto resize for cells & columns.
         // Then you should consider the below lines. Otherwise, you can ignore them.

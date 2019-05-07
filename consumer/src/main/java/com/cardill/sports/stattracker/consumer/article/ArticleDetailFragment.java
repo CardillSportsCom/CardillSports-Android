@@ -1,4 +1,4 @@
-package com.cardill.sports.stattracker.article;
+package com.cardill.sports.stattracker.consumer.article;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,13 +11,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
-import android.widget.Toast;
 
-import com.cardill.sports.stattracker.R;
-import com.cardill.sports.stattracker.article.data.CardillContent;
+import com.cardill.sports.stattracker.consumer.R;
+import com.cardill.sports.stattracker.consumer.article.data.CardillContent;
 import com.squareup.picasso.Picasso;
-
-import static java.security.AccessController.getContext;
 
 public class ArticleDetailFragment extends Fragment {
     /**

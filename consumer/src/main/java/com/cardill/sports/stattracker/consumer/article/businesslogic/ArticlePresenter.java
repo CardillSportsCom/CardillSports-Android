@@ -1,10 +1,10 @@
-package com.cardill.sports.stattracker.article.businesslogic;
+package com.cardill.sports.stattracker.consumer.article.businesslogic;
 
 import android.util.Log;
 
-import com.cardill.sports.stattracker.article.data.CardillContent;
-import com.cardill.sports.stattracker.article.network.CardillSportsClient;
-import com.cardill.sports.stattracker.article.network.ServiceGenerator;
+import com.cardill.sports.stattracker.consumer.article.data.CardillContent;
+import com.cardill.sports.stattracker.consumer.article.network.CardillSportsClient;
+import com.cardill.sports.stattracker.consumer.article.network.ServiceGenerator;
 
 import java.util.List;
 
