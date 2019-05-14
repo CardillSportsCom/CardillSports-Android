@@ -170,8 +170,8 @@ public class BoxScoreFragment extends BaseFragment implements BoxScoreViewBinder
         adapter.setAllItems(columnHeaderItems, players, mCellList);
         tableView.setTableViewListener(new CardillTableListener(tableView));
 
-        tableView.setColumnWidth(0, 200);
-        tableView.setColumnWidth(1, 250);
+        tableView.setColumnWidth(0, 400);
+        tableView.setColumnWidth(1, 200);
         tableView.setColumnWidth(2, 200);
         tableView.setColumnWidth(3, 200);
         tableView.setColumnWidth(4, 200);

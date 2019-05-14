@@ -13,6 +13,7 @@ import com.cardill.sports.stattracker.common.data.ConsumerGameData;
 import com.cardill.sports.stattracker.common.data.ConsumerGamePlayer;
 import com.cardill.sports.stattracker.common.data.Stat;
 import com.cardill.sports.stattracker.consumer.profile.data.HistoricalStatType;
+import com.cardill.sports.stattracker.consumer.profile.data.HistoricalStatTypeTitleProvider;
 import com.evrencoskun.tableview.adapter.AbstractTableAdapter;
 import com.evrencoskun.tableview.adapter.recyclerview.holder.AbstractSorterViewHolder;
 import com.evrencoskun.tableview.adapter.recyclerview.holder.AbstractViewHolder;
@@ -156,7 +157,7 @@ public class ConsumerStatsTableAdapter extends AbstractTableAdapter<HistoricalSt
 
         // Get the holder to update cell item text
         MyColumnHeaderViewHolder columnHeaderViewHolder = (MyColumnHeaderViewHolder) holder;
-        columnHeaderViewHolder.cell_textview.setText(columnHeader.name());
+        columnHeaderViewHolder.cell_textview.setText(HistoricalStatTypeTitleProvider.getTitle(columnHeader));
 
         // If your TableView should have auto resize for cells & columns.
         // Then you should consider the below lines. Otherwise, you can ignore them.
