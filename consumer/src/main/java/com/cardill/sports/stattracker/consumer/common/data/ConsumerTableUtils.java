@@ -29,8 +29,8 @@ public class ConsumerTableUtils {
         for (ConsumerPlayer player : teamTwo) {
             List<Stat> statList = new ArrayList<>(8);
             statList.add(new Stat(HistoricalStatType.FG_PERCENT, player.getFieldGoaldPercentage(numberFormat), false));
-            statList.add(new Stat(HistoricalStatType.POINTS, player.getThreePointersMade(), false));
-            statList.add(new Stat(HistoricalStatType.THREES, player.fieldGoalMissed(), false));
+            statList.add(new Stat(HistoricalStatType.POINTS, player.points(), false));
+            statList.add(new Stat(HistoricalStatType.THREES, player.getThreePointersMade(), false));
             statList.add(new Stat(HistoricalStatType.AST, player.assists(), false));
             statList.add(new Stat(HistoricalStatType.REB, player.rebounds(), false));
             statList.add(new Stat(HistoricalStatType.STL, player.steals(), false));

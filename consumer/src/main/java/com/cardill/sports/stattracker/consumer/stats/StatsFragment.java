@@ -7,6 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.cardill.sports.stattracker.common.businesslogic.ConsumerPlayerStatsTableAdapter;
+import com.cardill.sports.stattracker.common.data.ConsumerGamePlayer;
+import com.cardill.sports.stattracker.common.data.ConsumerPlayer;
 import com.cardill.sports.stattracker.consumer.R;
 import com.cardill.sports.stattracker.common.businesslogic.PlayerStatsTableAdapter;
 import com.cardill.sports.stattracker.common.businesslogic.SortableCardillTableListener;
@@ -66,29 +69,25 @@ public class StatsFragment extends BaseFragment implements StatsViewBinder {
     }
 
     @Override
-    public void showStats(GameData gameData) {
+    public void showStats(List<ConsumerPlayer> team) {
         progress.setVisibility(View.GONE);
 
-        List<Player> players = new ArrayList<>();
-        players.addAll(gameData.getTeamOnePlayers());
-        players.addAll(gameData.getTeamTwoPlayers());
-
-        initTableView(tableView, players);
+        initTableView(tableView, team);
     }
 
-    private void initTableView(TableView tableView, List<Player> players) {
+    private void initTableView(TableView tableView, List<ConsumerPlayer> players) {
         tableView.getCellRecyclerView().setMotionEventSplittingEnabled(true);
-        PlayerStatsTableAdapter adapter = new PlayerStatsTableAdapter(getActivity(), NON_EDITABLE);
+        ConsumerPlayerStatsTableAdapter adapter = new ConsumerPlayerStatsTableAdapter(getActivity(), NON_EDITABLE);
 
         tableView.setAdapter(adapter);
 
         List<PlayerStatType> columnHeaderItems = Arrays.asList(PlayerStatType.values());
         List<List<Stat>> mCellList = generateTableCellList(players);
 
-        List<GamePlayer> gamePlayers = new ArrayList<>();
+        List<ConsumerGamePlayer> gamePlayers = new ArrayList<>();
 
-        for (Player player : players) {
-            gamePlayers.add(new GamePlayer(player, true, false));
+        for (ConsumerPlayer player : players) {
+            gamePlayers.add(new ConsumerGamePlayer(player, true, false));
         }
         adapter.setAllItems(columnHeaderItems, gamePlayers, mCellList);
 
@@ -96,8 +95,8 @@ public class StatsFragment extends BaseFragment implements StatsViewBinder {
 
         tableView.setColumnWidth(0, 200);
         tableView.setColumnWidth(1, 200);
-        tableView.setColumnWidth(2, 200);
-        tableView.setColumnWidth(3, 250);
+        tableView.setColumnWidth(2, 400);
+        tableView.setColumnWidth(3, 200);
         tableView.setColumnWidth(4, 200);
         tableView.setColumnWidth(5, 200);
         tableView.setColumnWidth(6, 200);
@@ -107,10 +106,10 @@ public class StatsFragment extends BaseFragment implements StatsViewBinder {
         tableView.setColumnWidth(10,200);
     }
 
-    private List<List<Stat>> generateTableCellList(List<Player> players) {
+    private List<List<Stat>> generateTableCellList(List<ConsumerPlayer> players) {
         List<List<Stat>> cellList = new ArrayList<>();
 
-        for (Player player : players) {
+        for (ConsumerPlayer player : players) {
             List<Stat> statList = new ArrayList<>(8);
             statList.add(new Stat(PlayerStatType.WINS, player.wins(), true));
             statList.add(new Stat(PlayerStatType.GP, player.gamesPlayed(), true));
@@ -120,12 +119,12 @@ public class StatsFragment extends BaseFragment implements StatsViewBinder {
                 fg = player.fieldGoalMade() / (double) (player.fieldGoalMissed() + player.fieldGoalMade());
             }
             NumberFormat percentInstance = NumberFormat.getPercentInstance();
-            statList.add(new Stat(PlayerStatType.FG_PERCENT, percentInstance.format(fg), true));
+            String fieldGoalString = percentInstance.format(fg) +
+                    " (" + player.fieldGoalMade() + " / " + player.fieldGoalMissed() + ") ";
+            statList.add(new Stat(PlayerStatType.FG_PERCENT, fieldGoalString, true));
 
-            int points = player.getTwoPointFieldGoalMade() * 2 + player.getOnePointFieldGoalMade();
-            statList.add(new Stat(PlayerStatType.POINTS, points, true));
-
-            statList.add(new Stat(PlayerStatType.THREES, player.getTwoPointFieldGoalMade(), true));
+            statList.add(new Stat(PlayerStatType.POINTS, player.points(), true));
+            statList.add(new Stat(PlayerStatType.THREES, player.getThreePointersMade(), true));
             statList.add(new Stat(PlayerStatType.AST, player.assists(), true));
             statList.add(new Stat(PlayerStatType.REB, player.rebounds(), true));
             statList.add(new Stat(PlayerStatType.STL, player.steals(), true));

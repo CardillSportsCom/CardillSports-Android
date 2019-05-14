@@ -63,12 +63,15 @@ public class Player implements Parcelable, Serializable {
         this.shouldIgnoreStats = false;
     }
 
-    public Player(String id, String firstName, String lastName, int fgm, int fga, int onePointFieldGoalMade, int twoPointFieldGoalMade, int assists,
-                  int rebounds, int blocks, int steals, int turnovers, int wins, int gamesPlayed) {
+    public Player(String id, String firstName, String lastName, int wins, int gamesPlayed,
+                  int fgm, int fga, int onePointFieldGoalMade, int twoPointFieldGoalMade, int assists,
+                  int rebounds, int blocks, int steals, int turnovers) {
 
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.wins = wins;
+        this.gamesPlayed = gamesPlayed;
         this.fieldGoalMade = fgm;
         this.fieldGoalMissed = fga;
         this.onePointFieldGoalMade = onePointFieldGoalMade;
@@ -78,8 +81,6 @@ public class Player implements Parcelable, Serializable {
         this.blocks = blocks;
         this.steals = steals;
         this.turnovers = turnovers;
-        this.wins = wins;
-        this.gamesPlayed = gamesPlayed;
         this.isActive = true;
         this.shouldIgnoreStats = false;
 
@@ -105,6 +106,8 @@ public class Player implements Parcelable, Serializable {
             String id,
             String firstName,
             String lastName,
+            Integer wins,
+            Integer gamesPlayed,
             Integer fieldGoalMade,
             Integer fieldGoalMissed,
             Integer onePointFieldGoalMade,
@@ -114,14 +117,14 @@ public class Player implements Parcelable, Serializable {
             Integer blocks,
             Integer steals,
             Integer turnovers,
-            Integer wins,
-            Integer gamesPlayed,
             Boolean isActive,
             Boolean shouldIgnoreStats) {
 
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.wins = wins;
+        this.gamesPlayed = gamesPlayed;
         this.fieldGoalMade = fieldGoalMade;
         this.fieldGoalMissed = fieldGoalMissed;
         this.onePointFieldGoalMade = onePointFieldGoalMade;
@@ -131,8 +134,6 @@ public class Player implements Parcelable, Serializable {
         this.blocks = blocks;
         this.steals = steals;
         this.turnovers = turnovers;
-        this.wins = wins;
-        this.gamesPlayed = gamesPlayed;
         this.isActive = isActive;
         this.shouldIgnoreStats = shouldIgnoreStats;
     }
@@ -202,6 +203,8 @@ public class Player implements Parcelable, Serializable {
                 .id(id)
                 .firstName(firstName)
                 .lastName(lastName)
+                .wins(0)
+                .gamesPlayed(0)
                 .fieldGoalMade(0)
                 .fieldGoalMissed(0)
                 .onePointFieldGoalMade(0)
@@ -211,8 +214,6 @@ public class Player implements Parcelable, Serializable {
                 .blocks(0)
                 .steals(0)
                 .turnovers(0)
-                .wins(0)
-                .gamesPlayed(0)
                 .isActive(true)
                 .shouldIgnoreStats(false)
                 .build();
@@ -220,6 +221,8 @@ public class Player implements Parcelable, Serializable {
 
     public static Builder builder() {
         return new Builder()
+                .wins(0)
+                .gamesPlayed(0)
                 .fieldGoalMade(0)
                 .fieldGoalMissed(0)
                 .onePointFieldGoalMade(0)
@@ -229,8 +232,6 @@ public class Player implements Parcelable, Serializable {
                 .blocks(0)
                 .steals(0)
                 .turnovers(0)
-                .wins(0)
-                .gamesPlayed(0)
                 .isActive(false)
                 .shouldIgnoreStats(false);
     }
@@ -245,6 +246,8 @@ public class Player implements Parcelable, Serializable {
         dest.writeString(id);
         dest.writeString(firstName);
         dest.writeString(lastName);
+        dest.writeInt(wins);
+        dest.writeInt(gamesPlayed);
         dest.writeInt(fieldGoalMade);
         dest.writeInt(fieldGoalMissed);
         dest.writeInt(onePointFieldGoalMade);
@@ -254,8 +257,6 @@ public class Player implements Parcelable, Serializable {
         dest.writeInt(blocks);
         dest.writeInt(steals);
         dest.writeInt(turnovers);
-        dest.writeInt(wins);
-        dest.writeInt(gamesPlayed);
         dest.writeByte((byte) (isActive ? 1 : 0));
         dest.writeByte((byte) (shouldIgnoreStats ? 1 : 0));
     }
@@ -264,6 +265,8 @@ public class Player implements Parcelable, Serializable {
         private String id;
         private String firstName;
         private String lastName;
+        private Integer wins;
+        private Integer gamesPlayed;
         private Integer fieldGoalMade;
         private Integer fieldGoalMissed;
         private Integer onePointFieldGoalMade;
@@ -273,8 +276,6 @@ public class Player implements Parcelable, Serializable {
         private Integer blocks;
         private Integer steals;
         private Integer turnovers;
-        private Integer wins;
-        private Integer gamesPlayed;
         private Boolean isActive;
         private Boolean shouldIgnoreStats;
 
@@ -284,6 +285,8 @@ public class Player implements Parcelable, Serializable {
             this.id = source.id();
             this.firstName = source.firstName();
             this.lastName = source.lastName();
+            this.wins = source.wins();
+            this.gamesPlayed = source.gamesPlayed();
             this.fieldGoalMade = source.fieldGoalMade();
             this.fieldGoalMissed = source.fieldGoalMissed();
             this.onePointFieldGoalMade = source.getOnePointFieldGoalMade();
@@ -293,8 +296,6 @@ public class Player implements Parcelable, Serializable {
             this.blocks = source.blocks();
             this.steals = source.steals();
             this.turnovers = source.turnovers();
-            this.wins = source.wins();
-            this.gamesPlayed = source.gamesPlayed();
             this.isActive = source.isActive();
             this.shouldIgnoreStats = source.shouldIgnoreStats();
         }
@@ -320,6 +321,16 @@ public class Player implements Parcelable, Serializable {
                 throw new NullPointerException("Null lastName");
             }
             this.lastName = lastName;
+            return this;
+        }
+
+        public Builder wins(int wins) {
+            this.wins = wins;
+            return this;
+        }
+
+        public Builder gamesPlayed(int gamesPlayed) {
+            this.gamesPlayed = gamesPlayed;
             return this;
         }
 
@@ -368,16 +379,6 @@ public class Player implements Parcelable, Serializable {
             return this;
         }
 
-        public Builder wins(int wins) {
-            this.wins = wins;
-            return this;
-        }
-
-        public Builder gamesPlayed(int gamesPlayed) {
-            this.gamesPlayed = gamesPlayed;
-            return this;
-        }
-
         public Builder isActive(boolean isActive) {
             this.isActive = isActive;
             return this;
@@ -398,6 +399,12 @@ public class Player implements Parcelable, Serializable {
             }
             if (this.lastName == null) {
                 missing += " lastName";
+            }
+            if (this.wins == null) {
+                missing += " wins";
+            }
+            if (this.gamesPlayed == null) {
+                missing += " gamesPlayed";
             }
             if (this.fieldGoalMade == null) {
                 missing += " fieldGoalMade";
@@ -426,12 +433,6 @@ public class Player implements Parcelable, Serializable {
             if (this.turnovers == null) {
                 missing += " turnovers";
             }
-            if (this.wins == null) {
-                missing += " wins";
-            }
-            if (this.gamesPlayed == null) {
-                missing += " gamesPlayed";
-            }
             if (this.isActive == null) {
                 missing += " isActive";
             }
@@ -446,6 +447,8 @@ public class Player implements Parcelable, Serializable {
                     this.id,
                     this.firstName,
                     this.lastName,
+                    this.wins,
+                    this.gamesPlayed,
                     this.fieldGoalMade,
                     this.fieldGoalMissed,
                     this.onePointFieldGoalMade,
@@ -455,8 +458,6 @@ public class Player implements Parcelable, Serializable {
                     this.blocks,
                     this.steals,
                     this.turnovers,
-                    this.wins,
-                    this.gamesPlayed,
                     this.isActive,
                     this.shouldIgnoreStats);
         }

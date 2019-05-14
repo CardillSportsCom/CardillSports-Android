@@ -78,6 +78,10 @@ dependencies {
     // https://mvnrepository.com/artifact/com.squareup.okhttp/okhttp
     compile group: 'com.squareup.okhttp', name: 'okhttp', version: '2.7.5'
 
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.9.7'
+
+
 }
 repositories {
     mavenCentral()

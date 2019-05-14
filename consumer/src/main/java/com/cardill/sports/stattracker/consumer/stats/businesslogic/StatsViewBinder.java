@@ -1,7 +1,9 @@
 package com.cardill.sports.stattracker.consumer.stats.businesslogic;
 
-import com.cardill.sports.stattracker.common.data.GameData;
+import com.cardill.sports.stattracker.common.data.ConsumerPlayer;
+
+import java.util.List;
 
 public interface StatsViewBinder {
-    void showStats(GameData gameData);
+    void showStats(List<ConsumerPlayer> team);
 }

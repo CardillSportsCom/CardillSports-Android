@@ -3,6 +3,8 @@ package com.cardill.sports.stattracker.consumer.stats.data;
 public class PlayerTotalStats {
     private long FGM;
     private long FGA;
+    private long points;
+    private long threePointersMade;
     private long rebounds;
     private long assists;
     private long steals;
@@ -16,6 +18,20 @@ public class PlayerTotalStats {
 
     public long getFGA() { return FGA; }
     public void setFGA(long value) { this.FGA = value; }
+
+    public long getPoints() {
+        return points;
+    }
+    public void setPoints(long points) {
+        this.points = points;
+    }
+
+    public long getThreePointersMade() {
+        return threePointersMade;
+    }
+    public void setThreePointersMade(long threePointersMade) {
+        this.threePointersMade = threePointersMade;
+    }
 
     public long getRebounds() { return rebounds; }
     public void setRebounds(long value) { this.rebounds = value; }

@@ -1,5 +1,6 @@
 package com.cardill.sports.stattracker.common.data;
 
+//TODO why cant this be a field inside player
 public class GamePlayer {
 
     Player player;

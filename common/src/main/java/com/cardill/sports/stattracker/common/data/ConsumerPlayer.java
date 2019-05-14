@@ -64,8 +64,9 @@ public class ConsumerPlayer implements Parcelable, Serializable {
         this.shouldIgnoreStats = false;
     }
 
-    public ConsumerPlayer(String id, String firstName, String lastName, int fgm, int fga, int points, int threePointersMade, int assists,
-                          int rebounds, int blocks, int steals, int turnovers, int wins, int gamesPlayed) {
+    public ConsumerPlayer(String id, String firstName, String lastName, int wins, int gamesPlayed,
+                          int fgm, int fga, int points, int threePointersMade, int assists,
+                          int rebounds, int blocks, int steals, int turnovers) {
 
         this.id = id;
         this.firstName = firstName;
