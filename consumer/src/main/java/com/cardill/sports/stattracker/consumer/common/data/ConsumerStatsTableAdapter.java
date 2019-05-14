@@ -9,8 +9,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.cardill.sports.stattracker.common.R;
-import com.cardill.sports.stattracker.common.data.ConsumerGameData;
-import com.cardill.sports.stattracker.common.data.ConsumerGamePlayer;
 import com.cardill.sports.stattracker.common.data.Stat;
 import com.cardill.sports.stattracker.consumer.profile.data.HistoricalStatType;
 import com.cardill.sports.stattracker.consumer.profile.data.HistoricalStatTypeTitleProvider;

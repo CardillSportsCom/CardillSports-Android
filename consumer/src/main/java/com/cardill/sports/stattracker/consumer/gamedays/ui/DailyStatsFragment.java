@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import com.cardill.sports.stattracker.consumer.R;
 import com.cardill.sports.stattracker.common.businesslogic.PlayerStatsTableAdapter;
-import com.cardill.sports.stattracker.common.businesslogic.SortableCardillTableListener;
+import com.cardill.sports.stattracker.consumer.common.businesslogic.SortableCardillTableListener;
 import com.cardill.sports.stattracker.common.data.GamePlayer;
 import com.cardill.sports.stattracker.common.data.Player;
 import com.cardill.sports.stattracker.common.data.PlayerStatType;

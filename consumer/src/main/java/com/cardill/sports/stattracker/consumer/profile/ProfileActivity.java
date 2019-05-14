@@ -14,38 +14,23 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.cardill.sports.stattracker.consumer.R;
-import com.cardill.sports.stattracker.common.businesslogic.CardillTableListener;
 import com.cardill.sports.stattracker.common.data.User;
+import com.cardill.sports.stattracker.consumer.common.data.ConsumerTableUtils;
 import com.cardill.sports.stattracker.consumer.network.CardillService;
-import com.cardill.sports.stattracker.consumer.profile.businesslogic.PlayerStatsTableAdapter;
 import com.cardill.sports.stattracker.consumer.profile.businesslogic.ProfilePresenter;
 import com.cardill.sports.stattracker.consumer.profile.businesslogic.ProfileViewBinder;
-import com.cardill.sports.stattracker.consumer.profile.data.HistoricalStatType;
-import com.cardill.sports.stattracker.consumer.profile.data.HistoricalStatTypeTitleProvider;
-import com.cardill.sports.stattracker.consumer.profile.data.PlayerStat;
 import com.cardill.sports.stattracker.consumer.profile.data.PlayerStatResponse;
 import com.evrencoskun.tableview.TableView;
 import com.squareup.picasso.Picasso;
-
-import java.text.NumberFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.TimeZone;
 
 import javax.inject.Inject;
 
 import dagger.android.AndroidInjection;
 import timber.log.Timber;
 
-import static com.cardill.sports.stattracker.common.businesslogic.SortableCardillTableListener.PLAYER_ID_KEY;
+import static com.cardill.sports.stattracker.consumer.common.businesslogic.SortableCardillTableListener.PLAYER_ID_KEY;
 
 public class ProfileActivity extends AppCompatActivity implements ProfileViewBinder {
-    public static final String SOURCE_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 
     private static final String TAG = ProfileActivity.class.getSimpleName();
     private ProfilePresenter mPresenter;
@@ -122,88 +107,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileViewBin
         builder.listener((picasso, uri, exception) -> Timber.e(exception));
         builder.build().load(player.getImageUri()).into(image);
 
-        initTableView(tableView, playerStatResponse.getPlayerStats());
-    }
-
-    private void initTableView(TableView tableView, PlayerStat[] playerStats) {
-        tableView.getCellRecyclerView().setMotionEventSplittingEnabled(true);
-        PlayerStatsTableAdapter adapter = new PlayerStatsTableAdapter(this);
-        SimpleDateFormat sdf = new SimpleDateFormat(
-                SOURCE_PATTERN, Locale.US);
-        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-
-        tableView.setAdapter(adapter);
-
-        List<String> columnHeaderItems = new ArrayList<>();
-        for (HistoricalStatType historicalStatType : HistoricalStatType.values()) {
-            String title = getString(HistoricalStatTypeTitleProvider.getTitle(historicalStatType));
-            columnHeaderItems.add(title);
-        }
-
-        List<List<String>> mCellList = generateTableCellList(playerStats);
-
-        List<Date> gameDates = new ArrayList<>();
-
-        for (PlayerStat playerStat : playerStats) {
-
-            try {
-                Date date = sdf.parse(playerStat.getDateCreated());
-                gameDates.add(date);
-            } catch (ParseException e) {
-                Timber.e(e);
-            }
-
-        }
-        adapter.setAllItems(columnHeaderItems, gameDates, mCellList);
-
-        tableView.setTableViewListener(new CardillTableListener(tableView));
-
-        tableView.setColumnWidth(0, 200);
-        tableView.setColumnWidth(1, 200);
-        tableView.setColumnWidth(2, 200);
-        tableView.setColumnWidth(3, 250);
-        tableView.setColumnWidth(4, 200);
-        tableView.setColumnWidth(5, 200);
-        tableView.setColumnWidth(6, 200);
-        tableView.setColumnWidth(7, 200);
-        tableView.setColumnWidth(8, 200);
-        tableView.setColumnWidth(9, 200);
-        tableView.setColumnWidth(10, 200);
-    }
-
-    private List<List<String>> generateTableCellList(PlayerStat[] playerStats) {
-        List<List<String>> cellList = new ArrayList<>();
-        NumberFormat percentInstance = NumberFormat.getPercentInstance();
-
-        for (PlayerStat playerStat : playerStats) {
-            List<String> statList = new ArrayList<>(8);
-
-            double fg = 0;
-            if (playerStat.getFGM() != 0) {
-                fg = playerStat.getFGM() / (double) (playerStat.getFGA());
-            }
-            String fieldGoalString = percentInstance.format(fg) +
-                    " (" + playerStat.getFGM() + " / " + playerStat.getFGA() + ") ";
-
-            statList.add(fieldGoalString);
-            statList.add(String.valueOf(playerStat.getPoints()));
-            statList.add(String.valueOf(playerStat.getTwoPointersMade()));
-            statList.add(String.valueOf(playerStat.getAssists()));
-            statList.add(String.valueOf(playerStat.getRebounds()));
-            statList.add(String.valueOf(playerStat.getSteals()));
-            statList.add(String.valueOf(playerStat.getBlocks()));
-            statList.add(String.valueOf(playerStat.getTurnovers()));
-
-            List<String> stringList = new ArrayList<>();
-
-            for (String stat : statList) {
-                stringList.add(String.valueOf(stat));
-            }
-
-            cellList.add(stringList);
-        }
-
-        return cellList;
+        ConsumerTableUtils.initProfileTable(this, tableView, playerStatResponse.getPlayerStats());
     }
 }
 

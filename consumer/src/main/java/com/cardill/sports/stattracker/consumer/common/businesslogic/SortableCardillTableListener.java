@@ -1,4 +1,4 @@
-package com.cardill.sports.stattracker.common.businesslogic;
+package com.cardill.sports.stattracker.consumer.common.businesslogic;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;

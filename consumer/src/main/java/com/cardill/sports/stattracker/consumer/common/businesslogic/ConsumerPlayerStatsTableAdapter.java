@@ -1,4 +1,4 @@
-package com.cardill.sports.stattracker.common.businesslogic;
+package com.cardill.sports.stattracker.consumer.common.businesslogic;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -9,11 +9,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.cardill.sports.stattracker.common.R;
-import com.cardill.sports.stattracker.common.data.ConsumerGamePlayer;
-import com.cardill.sports.stattracker.common.data.GamePlayer;
 import com.cardill.sports.stattracker.common.data.PlayerStatType;
 import com.cardill.sports.stattracker.common.data.PlayerStatTypeTitleProvider;
 import com.cardill.sports.stattracker.common.data.Stat;
+import com.cardill.sports.stattracker.consumer.common.data.ConsumerGamePlayer;
 import com.evrencoskun.tableview.adapter.AbstractTableAdapter;
 import com.evrencoskun.tableview.adapter.recyclerview.holder.AbstractSorterViewHolder;
 import com.evrencoskun.tableview.adapter.recyclerview.holder.AbstractViewHolder;

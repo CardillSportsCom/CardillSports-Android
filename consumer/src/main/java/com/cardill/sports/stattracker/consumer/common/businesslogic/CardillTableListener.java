@@ -8,7 +8,7 @@ import com.cardill.sports.stattracker.common.businesslogic.StatsTableAdapter;
 import com.evrencoskun.tableview.TableView;
 import com.evrencoskun.tableview.listener.ITableViewListener;
 
-import static com.cardill.sports.stattracker.common.businesslogic.SortableCardillTableListener.PLAYER_ID_KEY;
+import static com.cardill.sports.stattracker.consumer.common.businesslogic.SortableCardillTableListener.PLAYER_ID_KEY;
 
 //import androidx.navigation.Navigation;
 

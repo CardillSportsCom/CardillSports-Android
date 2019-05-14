@@ -7,14 +7,13 @@ import android.support.v7.widget.RecyclerView;
 import com.evrencoskun.tableview.TableView;
 import com.evrencoskun.tableview.listener.ITableViewListener;
 
-import static com.cardill.sports.stattracker.common.businesslogic.SortableCardillTableListener.PLAYER_ID_KEY;
-
 import androidx.navigation.Navigation;
 
 import com.cardill.sports.stattracker.common.R;
 
 public class CardillTableListener implements ITableViewListener {
 
+    public static final String PLAYER_ID_KEY = "player-id-key";
     public static final String PLAYER_NAME_KEY = "player-name-key";
 
     TableView tableView; //Be careful of the listener and table holding references to each other

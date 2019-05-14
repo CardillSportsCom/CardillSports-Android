@@ -1,4 +1,4 @@
-package com.cardill.sports.stattracker.common.data;
+package com.cardill.sports.stattracker.consumer.common.data;
 
 public class ConsumerGamePlayer {
 

@@ -1,6 +1,6 @@
 package com.cardill.sports.stattracker.consumer.stats.businesslogic;
 
-import com.cardill.sports.stattracker.common.data.ConsumerPlayer;
+import com.cardill.sports.stattracker.consumer.common.data.ConsumerPlayer;
 import com.cardill.sports.stattracker.consumer.stats.data.LeagueStat;
 import com.cardill.sports.stattracker.consumer.stats.data.LeagueTotalsResponse;
 

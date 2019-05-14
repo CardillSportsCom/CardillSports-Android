@@ -1,4 +1,4 @@
-package com.cardill.sports.stattracker.common.data;
+package com.cardill.sports.stattracker.consumer.common.data;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -10,7 +10,7 @@ public class ConsumerPlayer implements Parcelable, Serializable {
 
     public String id;
 
-    public String firstName;
+    private String firstName;
     public String lastName;
     public int fieldGoalMade;
     public int fieldGoalMissed;

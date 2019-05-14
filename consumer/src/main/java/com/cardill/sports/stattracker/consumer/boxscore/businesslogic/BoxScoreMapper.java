@@ -1,11 +1,10 @@
 package com.cardill.sports.stattracker.consumer.boxscore.businesslogic;
 
-import com.cardill.sports.stattracker.common.data.ConsumerGameData;
-import com.cardill.sports.stattracker.common.data.ConsumerPlayer;
+import com.cardill.sports.stattracker.consumer.common.data.ConsumerGameData;
+import com.cardill.sports.stattracker.consumer.common.data.ConsumerPlayer;
 import com.cardill.sports.stattracker.consumer.boxscore.data.BoxScoreResponse;
 import com.cardill.sports.stattracker.consumer.boxscore.data.PlayerStat;
 import com.cardill.sports.stattracker.common.data.GameData;
-import com.cardill.sports.stattracker.common.data.Player;
 
 import java.util.ArrayList;
 import java.util.List;
