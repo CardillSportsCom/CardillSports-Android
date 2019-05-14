@@ -50,8 +50,9 @@ public class SortableCardillTableListener implements ITableViewListener {
 
     @Override
     public void onRowHeaderClicked(@NonNull RecyclerView.ViewHolder rowHeaderView, int row) {
-        if (rowHeaderView instanceof PlayerStatsTableAdapter.MyRowHeaderViewHolder) {
-            PlayerStatsTableAdapter.MyRowHeaderViewHolder holder = (PlayerStatsTableAdapter.MyRowHeaderViewHolder) rowHeaderView;
+        if (rowHeaderView instanceof ConsumerPlayerStatsTableAdapter.MyRowHeaderViewHolder) {
+            ConsumerPlayerStatsTableAdapter.MyRowHeaderViewHolder holder =
+                    (ConsumerPlayerStatsTableAdapter.MyRowHeaderViewHolder) rowHeaderView;
             Bundle params = new Bundle();
             params.putString(PLAYER_ID_KEY, holder.getPlayer().getPlayer().id());
             //TODO navigate to profile once profile is in a consumer module

@@ -17,7 +17,7 @@ public class PlayerStat {
     private long FGM;
     private long FGA;
     private long points;
-    private long twoPointersMade;
+    private long threePointersMade;
     private long rebounds;
     private long assists;
     private long steals;
@@ -72,10 +72,10 @@ public class PlayerStat {
     @JsonProperty("points")
     public void setPoints(long value) { this.points = value; }
 
-    @JsonProperty("twoPointersMade")
-    public long getTwoPointersMade() { return twoPointersMade; }
-    @JsonProperty("twoPointersMade")
-    public void setTwoPointersMade(long value) { this.twoPointersMade = value; }
+    @JsonProperty("threePointersMade")
+    public long getTwoPointersMade() { return threePointersMade; }
+    @JsonProperty("threePointersMade")
+    public void setTwoPointersMade(long value) { this.threePointersMade = value; }
 
     @JsonProperty("rebounds")
     public long getRebounds() { return rebounds; }

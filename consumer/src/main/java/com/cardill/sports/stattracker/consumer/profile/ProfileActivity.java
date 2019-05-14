@@ -178,7 +178,14 @@ public class ProfileActivity extends AppCompatActivity implements ProfileViewBin
         for (PlayerStat playerStat : playerStats) {
             List<String> statList = new ArrayList<>(8);
 
-            statList.add(playerStat.getFieldGoalPercentage(percentInstance));
+            double fg = 0;
+            if (playerStat.getFGM() != 0) {
+                fg = playerStat.getFGM() / (double) (playerStat.getFGA());
+            }
+            String fieldGoalString = percentInstance.format(fg) +
+                    " (" + playerStat.getFGM() + " / " + playerStat.getFGA() + ") ";
+
+            statList.add(fieldGoalString);
             statList.add(String.valueOf(playerStat.getPoints()));
             statList.add(String.valueOf(playerStat.getTwoPointersMade()));
             statList.add(String.valueOf(playerStat.getAssists()));
