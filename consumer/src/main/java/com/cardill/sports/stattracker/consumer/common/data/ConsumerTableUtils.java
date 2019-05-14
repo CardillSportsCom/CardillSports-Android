@@ -1,7 +1,6 @@
 package com.cardill.sports.stattracker.consumer.common.data;
 
 import com.cardill.sports.stattracker.common.data.ConsumerPlayer;
-import com.cardill.sports.stattracker.common.data.InGameStatType;
 import com.cardill.sports.stattracker.common.data.Stat;
 import com.cardill.sports.stattracker.consumer.profile.data.HistoricalStatType;
 
@@ -14,31 +13,36 @@ public class ConsumerTableUtils {
         List<List<Stat>> cellList = new ArrayList<>();
 
         for (ConsumerPlayer player : teamOne) {
-            List<Stat> statList = new ArrayList<>(8);
-            statList.add(new Stat(HistoricalStatType.FG_PERCENT, player.getFieldGoaldPercentage(numberFormat), true));
-            statList.add(new Stat(HistoricalStatType.POINTS, player.points(), true));
-            statList.add(new Stat(HistoricalStatType.THREES, player.getThreePointersMade(), true));
-            statList.add(new Stat(HistoricalStatType.AST, player.assists(), true));
-            statList.add(new Stat(HistoricalStatType.REB, player.rebounds(), true));
-            statList.add(new Stat(HistoricalStatType.STL, player.steals(), true));
-            statList.add(new Stat(HistoricalStatType.BLK, player.blocks(), true));
-            statList.add(new Stat(HistoricalStatType.TO, player.turnovers(), true));
-            cellList.add(statList);
+            cellList.add(createStatList(player, true));
         }
 
         for (ConsumerPlayer player : teamTwo) {
-            List<Stat> statList = new ArrayList<>(8);
-            statList.add(new Stat(HistoricalStatType.FG_PERCENT, player.getFieldGoaldPercentage(numberFormat), false));
-            statList.add(new Stat(HistoricalStatType.POINTS, player.points(), false));
-            statList.add(new Stat(HistoricalStatType.THREES, player.getThreePointersMade(), false));
-            statList.add(new Stat(HistoricalStatType.AST, player.assists(), false));
-            statList.add(new Stat(HistoricalStatType.REB, player.rebounds(), false));
-            statList.add(new Stat(HistoricalStatType.STL, player.steals(), false));
-            statList.add(new Stat(HistoricalStatType.BLK, player.blocks(), false));
-            statList.add(new Stat(HistoricalStatType.TO, player.turnovers(), false));
-            cellList.add(statList);
+            cellList.add(createStatList(player, false));
         }
 
         return cellList;
+    }
+
+    private static List<Stat> createStatList(ConsumerPlayer player, boolean isTeamOne) {
+        List<Stat> statList = new ArrayList<>(8);
+
+        double fg = 0;
+        if (player.fieldGoalMade() != 0) {
+            fg = player.fieldGoalMade() / (double) (player.fieldGoalMissed());
+        }
+        NumberFormat percentInstance = NumberFormat.getPercentInstance();
+        String fieldGoalString = percentInstance.format(fg) +
+                " (" + player.fieldGoalMade() + " / " + player.fieldGoalMissed() + ") ";
+        statList.add(new Stat(HistoricalStatType.FG_PERCENT, fieldGoalString, isTeamOne));
+
+        statList.add(new Stat(HistoricalStatType.POINTS, player.points(), isTeamOne));
+        statList.add(new Stat(HistoricalStatType.THREES, player.getThreePointersMade(), isTeamOne));
+        statList.add(new Stat(HistoricalStatType.AST, player.assists(), isTeamOne));
+        statList.add(new Stat(HistoricalStatType.REB, player.rebounds(), isTeamOne));
+        statList.add(new Stat(HistoricalStatType.STL, player.steals(), isTeamOne));
+        statList.add(new Stat(HistoricalStatType.BLK, player.blocks(), isTeamOne));
+        statList.add(new Stat(HistoricalStatType.TO, player.turnovers(), isTeamOne));
+
+        return statList;
     }
 }

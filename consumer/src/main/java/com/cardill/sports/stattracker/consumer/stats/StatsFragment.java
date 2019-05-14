@@ -116,7 +116,7 @@ public class StatsFragment extends BaseFragment implements StatsViewBinder {
 
             double fg = 0;
             if (player.fieldGoalMade() != 0) {
-                fg = player.fieldGoalMade() / (double) (player.fieldGoalMissed() + player.fieldGoalMade());
+                fg = player.fieldGoalMade() / (double) player.fieldGoalMissed();
             }
             NumberFormat percentInstance = NumberFormat.getPercentInstance();
             String fieldGoalString = percentInstance.format(fg) +
