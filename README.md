@@ -1,4 +1,4 @@
-# CardillSports-Android
+# StatTracker-Android
 
 An app for recording and displaying basketball stats at a pick up game
 
