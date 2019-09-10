@@ -17,8 +17,6 @@ public class PlayerStatTypeTitleProvider {
                 return R.string.fg_percent;
             case POINTS:
                 return R.string.points;
-            case THREES:
-                return R.string.threes;
             case AST:
                 return R.string.assists;
             case REB:

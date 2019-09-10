@@ -84,7 +84,7 @@ public class DailyStatsFragment extends BaseFragment {
         tableView.setColumnWidth(7, 200);
         tableView.setColumnWidth(8, 200);
         tableView.setColumnWidth(9, 200);
-        tableView.setColumnWidth(10,200);
+        //tableView.setColumnWidth(10, 200);
     }
 
     private List<List<Stat>> generateTableCellList(GameDayStatTotal[] gameDayStatTotals) {
@@ -107,7 +107,7 @@ public class DailyStatsFragment extends BaseFragment {
             statList.add(new Stat(PlayerStatType.GP, playerTotalStats.get("gamesPlayed"), true));
             statList.add(new Stat(PlayerStatType.FG_PERCENT, percentInstance.format(fg), true));
             statList.add(new Stat(PlayerStatType.POINTS, playerTotalStats.get("FGM"), true));
-            statList.add(new Stat(PlayerStatType.THREES, 0, true));
+            //statList.add(new Stat(PlayerStatType.THREES, 0, true));
             statList.add(new Stat(PlayerStatType.AST, playerTotalStats.get("assists"), true));
             statList.add(new Stat(PlayerStatType.REB, playerTotalStats.get("rebounds"), true));
             statList.add(new Stat(PlayerStatType.STL, playerTotalStats.get("steals"), true));

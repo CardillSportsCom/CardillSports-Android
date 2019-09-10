@@ -137,7 +137,7 @@ public class ConsumerTableUtils {
         tableView.setColumnWidth(7, 200);
         tableView.setColumnWidth(8, 200);
         tableView.setColumnWidth(9, 200);
-        tableView.setColumnWidth(10,200);
+        //tableView.setColumnWidth(10,200);
     }
 
     private static List<List<Stat>> generateStatsTableCellList(List<ConsumerPlayer> players) {
@@ -158,7 +158,7 @@ public class ConsumerTableUtils {
             statList.add(new Stat(PlayerStatType.FG_PERCENT, fieldGoalString, true));
 
             statList.add(new Stat(PlayerStatType.POINTS, player.points(), true));
-            statList.add(new Stat(PlayerStatType.THREES, player.getThreePointersMade(), true));
+            //threes
             statList.add(new Stat(PlayerStatType.AST, player.assists(), true));
             statList.add(new Stat(PlayerStatType.REB, player.rebounds(), true));
             statList.add(new Stat(PlayerStatType.STL, player.steals(), true));

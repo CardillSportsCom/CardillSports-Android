@@ -5,7 +5,6 @@ public enum PlayerStatType implements StatType {
     GP,
     FG_PERCENT,
     POINTS,
-    THREES,
     AST,
     REB,
     STL,
