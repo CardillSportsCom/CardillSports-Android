@@ -106,8 +106,8 @@ public class DailyStatsFragment extends BaseFragment {
             statList.add(new Stat(PlayerStatType.WINS, playerTotalStats.get("gamesWon"), true));
             statList.add(new Stat(PlayerStatType.GP, playerTotalStats.get("gamesPlayed"), true));
             statList.add(new Stat(PlayerStatType.FG_PERCENT, percentInstance.format(fg), true));
-           // statList.add(new Stat(PlayerStatType.POINTS, playerTotalStats.get("points"), true));
-            statList.add(new Stat(PlayerStatType.THREES, playerTotalStats.get("threePointersMade"), true));
+            statList.add(new Stat(PlayerStatType.POINTS, playerTotalStats.get("FGM"), true));
+            statList.add(new Stat(PlayerStatType.THREES, 0, true));
             statList.add(new Stat(PlayerStatType.AST, playerTotalStats.get("assists"), true));
             statList.add(new Stat(PlayerStatType.REB, playerTotalStats.get("rebounds"), true));
             statList.add(new Stat(PlayerStatType.STL, playerTotalStats.get("steals"), true));
