@@ -52,6 +52,7 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
     private static final String IS_ONLINE_KEY = "is-online-key";
     private static final String TAG = GameActivity.class.getName();
     private static final int NEW_PLAYER_REQUEST_CODE = 2;
+    public static final boolean TWO_POINTERS_ENABLED = false;
 
     private GamePresenter mPresenter;
     private Button makeOnePointButton;
@@ -212,7 +213,11 @@ public class GameActivity extends AppCompatActivity implements GameViewBinder {
 
     private void setMainButtonsVisibility(int visibility) {
         makeOnePointButton.setVisibility(visibility);
-        makeTwoPointButton.setVisibility(visibility);
+        if (TWO_POINTERS_ENABLED) {
+            makeTwoPointButton.setVisibility(visibility);
+        } else {
+            makeTwoPointButton.setVisibility(View.GONE);
+        }
         missButton.setVisibility(visibility);
         turnoverButton.setVisibility(visibility);
     }

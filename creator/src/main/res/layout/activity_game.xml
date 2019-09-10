@@ -24,49 +24,35 @@
         android:background="@color/default_background_color"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/team_1_textview"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:padding="16dp"
-            android:text="@string/team_1"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
-
-
-        <TextView
-            android:id="@+id/team_2_textview"
-            android:layout_width="wrap_content"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:gravity="right"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:padding="16dp"
-            android:text="@string/team_2"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <TextView
+        android:id="@+id/team_1_textview"
         android:layout_weight="1"
-        android:orientation="horizontal"
-        >
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:padding="16dp"
+        android:text="@string/team_1"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+
+    <TextView
+        android:id="@+id/team_2_textview"
+        android:layout_width="wrap_content"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:padding="16dp"
+        android:text="@string/team_2"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+
 
     <Button
         android:id="@+id/make_one_point"
@@ -96,12 +82,12 @@
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_weight="1"
         android:padding="@dimen/game_stat_button_size"
         android:textColor="#000000"
+        android:visibility="gone"
         android:text="2 PT"
         android:textSize="24sp" />
-    </LinearLayout>
+
 
     <Button
         android:id="@+id/misses"
@@ -308,7 +294,6 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp" />
 
-
         <android.support.v7.widget.RecyclerView
             android:id="@+id/team_2_recycler_view"
             android:layout_width="match_parent"
@@ -321,7 +306,5 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp" />
     </LinearLayout>
-
-
 
 </LinearLayout>
