@@ -157,7 +157,7 @@ public class ConsumerTableUtils {
                     " (" + player.fieldGoalMade() + " / " + player.fieldGoalMissed() + ") ";
             statList.add(new Stat(PlayerStatType.FG_PERCENT, fieldGoalString, true));
 
-            statList.add(new Stat(PlayerStatType.POINTS, player.points(), true));
+            statList.add(new Stat(PlayerStatType.POINTS, player.fieldGoalMade(), true));
             //threes
             statList.add(new Stat(PlayerStatType.AST, player.assists(), true));
             statList.add(new Stat(PlayerStatType.REB, player.rebounds(), true));

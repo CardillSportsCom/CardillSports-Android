@@ -41,8 +41,9 @@ public class Stat implements ISortableModel {
 
     @Override
     public Object getContent() {
-        if (value.endsWith("%")) {
-            return Integer.valueOf(value.substring(0, value.length() - 1));
+        if (value.contains("%")) {
+            int i = value.indexOf("%");
+            return Integer.valueOf(value.substring(0, i));
         } else {
             return Integer.valueOf(value);
         }
